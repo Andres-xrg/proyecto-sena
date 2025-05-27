@@ -1,0 +1,215 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    padding: 20px;
+}
+
+/* Header */
+.titulo {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.title {
+    font-size: 18px;
+    font-weight: normal;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.header-line {
+    border: none;
+    border-top: 1px solid #ccc;
+    margin: 0;
+}
+
+/* Controls */
+.controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 30px;
+    margin-top: 20px;
+}
+
+/* Search Box */
+.search-box {
+    position: relative;
+    width: 150px;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 6px 30px 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background-color: #f0f0f0;
+    font-size: 12px;
+}
+
+.search-icon {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 12px;
+    color: #666;
+}
+
+/* Dropdown */
+.dropdown-container {
+    position: relative;
+    width: 200px;
+}
+
+.dropdown {
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    font-size: 12px;
+    color: #666;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dropdown-options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #ccc;
+    border-top: none;
+    display: block;
+    z-index: 1000;
+}
+
+.option {
+    padding: 8px 10px;
+    font-size: 12px;
+    background-color: #f0f0f0;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+}
+
+.option:hover {
+    background-color: #e0e0e0;
+}
+
+.option:last-child {
+    border-bottom: none;
+}
+
+/* Grid de Fichas */
+.fichas-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.ficha-card {
+    border: 2px solid #90EE90;
+    border-radius: 5px;
+    padding: 15px;
+    background: white;
+    text-align: center;
+}
+
+.ficha-card.disabled {
+    background-color: #f8f8f8;
+    border-color: #ccc;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.numero {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+}
+
+.ficha-card.disabled .numero {
+    color: #999;
+}
+
+.sena-logo {
+    font-size: 20px;
+    color: #999;
+}
+
+/* Botones */
+.btn-ver-ficha {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 5px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.btn-ver-ficha.disabled {
+    background-color: #999;
+    cursor: not-allowed;
+}
+
+.btn-deshabilitar {
+    width: 100%;
+    padding: 5px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.btn-habilitar {
+    width: 100%;
+    padding: 5px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .fichas-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .controls {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .search-box, .dropdown-container {
+        width: 100%;
+    }
+}
