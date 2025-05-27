@@ -11,15 +11,14 @@
 <body>
 
     <?php include '../../includes/header.php'; ?>
-    <!-- Main Content -->
+    
     <main class="main-content">
         <h1 class="page-title">Juicios Evaluativos (Nombre Aprendiz)</h1>
 
-        <!-- Search Section -->
         <div class="search-section">
             <div class="search-container">
                 <input type="text" placeholder="Buscar..." class="search-input">
-                <img src="../assets/img/search.png" alt="Search" class="search-icon">
+                <img src="/proyecto-sena/assets/img/search.png" alt="Search" class="search-icon">
             </div>
             <button class="generate-report-btn">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -194,7 +193,6 @@
                     </div>
                 </div>
 
-                <!-- Ética y Valores -->
                 <div class="card">
                     <div class="card-header" onclick="toggleCard('etica')">
                         <span class="card-title">ETICA Y VALORES</span>
@@ -209,7 +207,7 @@
             </div>
         </div>
     </main>
-    <script src="../assets/js/competencias.js"></script>
+    <script src="../../assets/js/competencias.js"></script>
     <?php include '../../includes/footer.php'; ?>
 </body>
 </html>
