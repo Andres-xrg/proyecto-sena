@@ -6,9 +6,9 @@
 </head>
 <body>
 
-    <?php include 'header.php'; ?>
+    <?php include 'header-secundario.php'; ?>
 
-    <?php include 'footer.php'; ?>
+    <!-- <?php include 'footer.php'; ?> -->
 
 </body>
 </html>
