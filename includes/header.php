@@ -9,9 +9,9 @@
 <body>
 
 <div class="header-container">
-    <img src="../assets/img/JKE.png" alt="JKE Logo" class="logo-jke">
+    <img src="/proyecto-sena/assets/img/JKE.png" alt="JKE Logo" class="logo-jke">
     <h1 class="titulo-header">Nombre</h1>
-    <img src="../assets/img/logo-sena.png" alt="SENA Logo" class="logo-sena">
+    <img src="/proyecto-sena/assets/img/logo-sena.png" alt="SENA Logo" class="logo-sena">
 </div>
 
 <nav class="nav-header">

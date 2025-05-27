@@ -5,15 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fichas - Tecnólogo/Técnico</title>
      <link rel="stylesheet" href="../../assets/css/listar_fichas.css">
+     <link rel="stylesheet" href="../../assets/css/header.css">
+     <link rel="stylesheet" href="../../assets/css/footer.css">
 </head>
 <body>
 
+    <?php include '../../includes/header.php'; ?>
 
     <div class="container">
-       
         <div class="titulo">
             <h1 class="title">Fichas ( Tecnólogo/ Técnico)</h1>
-            
         </div>
 
         <!-- Controls -->
@@ -98,11 +99,7 @@
         </div>
     </div>
 
-    <script>
-        function toggleDropdown() {
-            const options = document.getElementById('dropdownOptions');
-            options.style.display = options.style.display === 'block' ? 'none' : 'block';
-        }
-    </script>
+    <script src="../../assets/js/listar_fichas.js"></script>
 </body>
+    <?php include '../../includes/footer.php'; ?>
 </html>

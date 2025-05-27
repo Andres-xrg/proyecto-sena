@@ -12,7 +12,7 @@
 </head>
 <body>
 
-    <?php include '../../includes/header.php'; ?>
+<?php include '../../includes/header.php'; ?>
 
     <div class="container">
         <div class="main-card">
@@ -216,6 +216,6 @@
 
 </body>
 
-<?php include '../../includes/footer.php'; ?>
+    <?php include '../../includes/footer.php'; ?>
 
 </html>

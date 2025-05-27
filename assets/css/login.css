@@ -1,0 +1,245 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    transition: all 0.3s ease;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    overflow: hidden;
+    animation: fadeInBody 0.6s ease-in;
+}
+
+@keyframes fadeInBody {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.left-panel {
+    width: 40%;
+    background-color: #39a900;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    color: white;
+    animation: slideInLeft 0.8s ease-out;
+}
+
+@keyframes slideInLeft {
+    from { transform: translateX(-100px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+.wave-top {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100px;
+    background-color: white;
+    border-radius: 0 0 0 100%;
+}
+
+.wave-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background-color: white;
+    border-radius: 100% 0 0 0;
+}
+
+.welcome-text {
+    font-size: 2.5rem;
+    font-weight: bold;
+    z-index: 1;
+    animation: fadeInText 0.7s ease-in-out;
+}
+
+@keyframes fadeInText {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.right-panel {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    position: relative;
+    animation: slideInRight 0.8s ease-out;
+}
+
+@keyframes slideInRight {
+    from { transform: translateX(100px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+.login-title {
+    color: #39a900;
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    align-self: flex-start;
+    margin-left: 45%;
+    text-align: center;
+}
+
+.login-subtitle {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 30px;
+    align-self: flex-start;
+    margin-left: 38%;
+    max-width: 60%;
+}
+
+.user-icon {
+    display: flex;
+    justify-content: center;
+    margin-bottom: -30px;
+    z-index: 2;
+    animation: fadeInIcon 0.7s ease;
+}
+
+@keyframes fadeInIcon {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.user-icon img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+}
+
+.login-container {
+    margin-top: 5%;
+    width: 60%;
+    padding: 30px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    animation: fadeInForm 0.8s ease;
+}
+
+@keyframes fadeInForm {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.form-group {
+    margin-bottom: 20px;
+    animation: fadeInField 0.5s ease;
+}
+
+@keyframes fadeInField {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+    font-size: 0.9rem;
+}
+
+.form-input {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: #f1eaff;
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.form-input:focus {
+    outline: none;
+    box-shadow: 0 0 6px rgba(144, 248, 0, 0.6);
+    transform: scale(1.02);
+}
+
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+    border: none;
+}
+
+.register-link {
+    color: #333;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.register-link:hover {
+    text-decoration: underline;
+}
+
+.continue-button {
+    background-color: #39a900;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.continue-button:hover {
+    background-color: #39a900;
+    transform: scale(1.05);
+}
+
+.continue-button:active {
+    transform: scale(0.95);
+}
+
+@media (max-width: 768px) {
+    body {
+        flex-direction: column;
+    }
+    
+    .left-panel {
+        width: 100%;
+        height: 30%;
+    }
+    
+    .right-panel {
+        width: 100%;
+        height: 70%;
+    }
+    
+    .wave-top {
+        display: none;
+    }
+    
+    .wave-bottom {
+        display: none;
+    }
+    
+    .login-container {
+        width: 90%;
+    }
+    
+    .login-title,
+    .login-subtitle {
+        margin-left: 5%;
+    }
+    
+    .login-subtitle {
+        max-width: 90%;
+    }
+}

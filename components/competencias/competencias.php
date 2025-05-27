@@ -2,13 +2,15 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="../assets/css/competencias.css">
+    <link rel="stylesheet" href="../../assets/css/competencias.css">
+    <link rel="stylesheet" href="../../assets/css/header.css">
+    <link rel="stylesheet" href="../../assets/css/footer.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plataforma Educativa SENA</title>
 </head>
 <body>
 
-    <?php include '../includes/header.php'; ?>
+    <?php include '../../includes/header.php'; ?>
     <!-- Main Content -->
     <main class="main-content">
         <h1 class="page-title">Juicios Evaluativos (Nombre Aprendiz)</h1>
@@ -208,6 +210,6 @@
         </div>
     </main>
     <script src="../assets/js/competencias.js"></script>
-    <?php include '../includes/footer.php'; ?>
+    <?php include '../../includes/footer.php'; ?>
 </body>
 </html>

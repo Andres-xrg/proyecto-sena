@@ -11,10 +11,12 @@ body {
 }
 
 .container {
-    max-width: 800px;
+    width: 750px;
     margin: 0 auto;
-    background: white;
-    padding: 20px;
+    background: #F5F5F5;
+    align-items: center;
+    margin-top: 45px;
+    height: 400px;
 }
 
 /* Header */
