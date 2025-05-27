@@ -12,7 +12,7 @@ body {
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap; /* permite que el contenido se acomode */
-    padding: 10px;
+    padding:6px;
 }
 
 .logo-jke, .logo-sena {
