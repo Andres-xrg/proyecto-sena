@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../../assets/css/programas_formacion.css">
+    <link rel="stylesheet" href="../../assets/css/header.css">
+    <link rel="stylesheet" href="../../assets/css/footer.css">
+    <title>SENA - Plataforma Educativa</title>
+
+</head>
+<?php include '../../includes/header.php'; ?>
+<body>
+    <main class="main-content">
+        <div class="content-area">
+            <div class="programs-grid">
+                <!-- Tecnólogo Card -->
+                <div class="program-card">
+                    <!-- Rectángulo superior con contenido -->
+                    <div>
+                        <div class="card-header">
+                            <div class="card-icon"></div>
+                            <div>
+                                <div class="card-title">TECNÓLOGO</div>
+                                <div class="card-subtitle">Análisis y Desarrollo de Software</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Rectángulo inferior separado para imágenes -->
+                    <div class="image-section">
+                        <div class="photos-grid">
+                            <div class="photo-placeholder">Foto 1</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Técnico Card -->
+                <div class="program-card">
+                    <!-- Rectángulo superior con contenido -->
+                    <div>
+                        <div class="card-header">
+                            <div class="card-icon"></div>
+                            <div>
+                                <div class="card-title">Técnico</div>
+                                <div class="card-subtitle">Programación de Software</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Rectángulo inferior separado para imágenes -->
+                    <div class="image-section">
+                        <div class="photos-grid">
+                            <div class="photo-placeholder">Foto 2</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <button class="sidebar-button">
+                <div class="button-icon"></div>
+                Registrar Ficha
+            </button>
+            <button class="sidebar-button">
+                <div class="button-icon"></div>
+                Registrar Instructor
+            </button>
+            <button class="sidebar-button">
+                <div class="button-icon"></div>
+                Registrar Aprendiz
+            </button>
+        </aside>
+    </main>
+</body>
+
+    <!-- Footer -->
+    <?php include '../../includes/footer.php'; ?>
+</html>
