@@ -7,7 +7,6 @@
     <title>Document</title>
 </head>
 <body>
-<link rel="stylesheet" href="../assets/css/header.css">
 
 <div class="header-container">
     <img src="../assets/img/JKE.png" alt="JKE Logo" class="logo-jke">
