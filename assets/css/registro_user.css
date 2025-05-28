@@ -1,0 +1,235 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #f5f5f5;
+}
+
+.header {
+    background-color: #39A900;
+    padding: 0.94rem 1.25rem;
+    display: flex;
+    align-items: center;
+    color: white;
+}
+
+.jke-logo {
+    background-color: white;
+    color: #39A900;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
+    font-weight: bold;
+    font-size: 0.875rem;
+    margin-right: 0.94rem;
+}
+
+.header-title {
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.sena-header-logo {
+    margin-left: auto;
+    font-weight: bold;
+    font-size: 1rem;
+    color: white;
+}
+
+.main-container {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+.form-section {
+    flex: 1;
+    background-color: white;
+    padding: 1.25rem 2.5rem;
+    overflow-y: auto;
+}
+
+.form-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.88rem;
+}
+
+.back-arrow {
+    width: 2.2rem;
+    height: 2.2rem;
+    cursor: pointer;
+    margin-right: 0.94rem;
+    transition: opacity 0.2s ease;
+}
+
+.back-arrow:hover {
+    opacity: 0.7;
+}
+
+.section-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.section-subtitle {
+    font-size: 0.75rem;
+    color: #666;
+    margin-bottom: 1.25rem;
+}
+
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-group label {
+    display: block;
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 0.31rem;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+    background-color: #f9f9f9;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #39A900;
+    background-color: white;
+}
+
+.form-group input::placeholder {
+    color: #999;
+    font-size: 0.75rem;
+}
+
+.form-group select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+    background-color: #f9f9f9;
+    color: #333;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    transition: border-color 0.2s, background-color 0.2s;
+}
+
+.form-group select:focus {
+    outline: none;
+    border-color: #39A900;
+    background-color: white;
+}
+
+.form-group select:disabled {
+    color: #999;
+    background-color: #f0f0f0;
+}
+
+.register-btn {
+    background-color: #39A900;
+    color: white;
+    padding: 0.75rem 1.88rem;
+    border: none;
+    border-radius: 1.25rem;
+    font-size: 0.875rem;
+    cursor: pointer;
+    margin-top: 1.25rem;
+}
+
+.register-btn:hover {
+    background-color: #2d7a00;
+}
+
+.green-section {
+    flex: 1;
+    background-color: #39A900;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.green-section::before {
+    content: '';
+    position: absolute;
+    top: -3.13rem;
+    left: -3.13rem;
+    right: -3.13rem;
+    height: 9.38rem;
+    background-color: white;
+    border-radius: 0 0 50% 50%;
+    transform: rotate(-5deg);
+}
+
+.green-section::after {
+    content: '';
+    position: absolute;
+    bottom: -3.13rem;
+    left: -3.13rem;
+    right: -3.13rem;
+    height: 9.38rem;
+    background-color: white;
+    border-radius: 50% 50% 0 0;
+    transform: rotate(-5deg);
+}
+
+.registro-title {
+    color: white;
+    font-size: 3rem;
+    font-weight: bold;
+    z-index: 1;
+}
+
+.footer {
+    background-color: #39A900;
+    color: white;
+    text-align: center;
+    padding: 0.94rem;
+    font-size: 0.75rem;
+}
+
+@media (max-width: 768px) {
+    .main-container {
+        flex-direction: column;
+    }
+    
+    .form-section {
+        padding: 1.25rem;
+    }
+    
+    .green-section {
+        min-height: 12.5rem;
+    }
+    
+    .registro-title {
+        font-size: 2rem;
+    }
+
+    .header {
+        flex-wrap: wrap;
+    }
+
+    .sena-header-logo {
+        margin-left: 0;
+        margin-top: 0.63rem;
+        width: 100%;
+    }
+}
