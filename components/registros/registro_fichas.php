@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="../../assets/css/footer.css">
     <title>Registrar Ficha - SENA</title>
 </head>
-<?php include '../../includes/header-secundario.php'; ?>
+<?php include '../../includes/header.php'; ?>
 <body>
     <!-- Contenido Principal -->
     <main class="contenido-principal">

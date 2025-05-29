@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="../../assets/css/footer.css">
     <title>Registrar Instructor - SENA</title>
 </head>
-<?php include '../../includes/header-secundario.php'; ?>
+<?php include '../../includes/header.php'; ?>
 <body>
     <!-- Main Content -->
     <main class="main-content">

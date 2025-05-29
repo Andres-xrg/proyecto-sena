@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="../../assets/css/header.css">
     <link rel="stylesheet" href="../../assets/css/footer.css">
 </head>
-<?php include '../../includes/header-secundario.php'; ?>
+<?php include '../../includes/header.php'; ?>
 <body>
 
     <div class="main-container">
@@ -80,5 +80,6 @@
     </div>
 
 </body>
+<script src="../../assets/js/goBack.js"></script>
     <?php include '../../includes/footer.php'; ?>
 </html>
