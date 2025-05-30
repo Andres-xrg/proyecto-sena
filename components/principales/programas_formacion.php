@@ -18,10 +18,10 @@
                 <div class="program-card">
                     <!-- Rectángulo superior con contenido -->
                     <div>
-                        <div class="card-header">
-                            <div class="card-icon"></div>
+                        <div class="card-header" onclick="tecnologo()">
+                            <div class="card-icon" ></div>
                             <div>
-                                <div class="card-title">TECNÓLOGO</div>
+                                <div class="card-title" >TECNÓLOGO</div>
                                 <div class="card-subtitle">Análisis y Desarrollo de Software</div>
                             </div>
                         </div>
@@ -30,7 +30,7 @@
                     <!-- Rectángulo inferior separado para imágenes -->
                     <div class="image-section">
                         <div class="photos-grid">
-                            <div class="photo-placeholder">Foto 1</div>
+                            <img class="photo-placeholder" src="../../assets/img/tecnologo.jpg" alt="">
                         </div>
                     </div>
                 </div>
@@ -39,7 +39,7 @@
                 <div class="program-card">
                     <!-- Rectángulo superior con contenido -->
                     <div>
-                        <div class="card-header">
+                        <div class="card-header" onclick="tecnico()">
                             <div class="card-icon"></div>
                             <div>
                                 <div class="card-title">Técnico</div>
@@ -51,7 +51,7 @@
                     <!-- Rectángulo inferior separado para imágenes -->
                     <div class="image-section">
                         <div class="photos-grid">
-                            <div class="photo-placeholder">Foto 2</div>
+                            <img class="photo-placeholder" src="../../assets/img/tecnico.jpg" alt="">
                         </div>
                     </div>
                 </div>
@@ -60,22 +60,22 @@
 
         <!-- Sidebar -->
         <aside class="sidebar">
-            <button class="sidebar-button">
-                <div class="button-icon"></div>
+            <button class="sidebar-button" onclick="registrarFicha()">
+                <div class="button-icon" ></div>
                 Registrar Ficha
             </button>
-            <button class="sidebar-button">
-                <div class="button-icon"></div>
+            <button class="sidebar-button" onclick="registrarInstructor()">
+                <div class="button-icon" ></div>
                 Registrar Instructor
             </button>
-            <button class="sidebar-button">
+            <button class="sidebar-button" onclick="registrarAprendiz()">
                 <div class="button-icon"></div>
                 Registrar Aprendiz
             </button>
         </aside>
     </main>
 </body>
-
+    <script src="../../assets/js/registros.js"></script>
     <!-- Footer -->
     <?php include '../../includes/footer.php'; ?>
 </html>

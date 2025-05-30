@@ -15,10 +15,10 @@
 </div>
 
 <nav class="nav-header">
-    <a href="index.php">Inicio</a>
-    <a href="programas.php">Programas de formación</a>
-    <a href="instructores.php">Instructores</a>
-    <a href="registro.php">Registro Usuarios</a>
+    <a href="/proyecto-sena/components/principales/welcome.php">Inicio</a>
+    <a href="/proyecto-sena/components/principales/programas_formacion.php">Programas de formación</a>
+    <a href="/proyecto-sena/components/instructores/instructores.php">Instructores</a>
+    <a href="/proyecto-sena/components/registros/registro_user.php">Registro Usuarios</a>
 </nav>
 
 </body>

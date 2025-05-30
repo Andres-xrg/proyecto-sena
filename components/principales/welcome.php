@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="../../assets/css/footer.css">
     <title>Welcome</title>
 </head>
-<?php include '../../includes/header-secundario.php'; ?>
+<?php include '../../includes/header.php'; ?>
 <body>
 <div class="welcome-container">
     <h1 class="welcome-title">Bienvenido</h1>
