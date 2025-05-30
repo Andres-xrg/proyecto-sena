@@ -22,7 +22,7 @@ window.onload = function() {
         options.style.display = 'none';
     }
 }
- 
+
 function verFicha() {
             window.location.href = '../Fichas/ficha_vista.php';
-        }   
+        }    
