@@ -4,6 +4,9 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Rubik', sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 .header-container {
@@ -11,8 +14,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    flex-wrap: wrap; /* permite que el contenido se acomode */
-    padding:6px;
+    flex-wrap: wrap;
+    padding: 6px; 
 }
 
 .logo-jke, .logo-sena {
@@ -34,7 +37,7 @@ body {
 .nav-header {
     display: flex;
     background-color: #e0e0e0;
-    border-bottom: 4px solid #003366; /* línea azul inferior */
+    border-bottom: 4px solid #003366;
     justify-content: center;
 }
 
@@ -63,16 +66,16 @@ body {
     color: #003366;
 }
 
-body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-
+/* FOOTER */
 footer {
     margin-top: auto;
+    background-color: #f1f1f1;
+    text-align: center;
+    padding: 15px;
+    color: #333;
 }
 
+/* RESPONSIVE */
 @media (max-width: 600px) {
     .header-container {
         flex-direction: column;
@@ -87,4 +90,32 @@ footer {
     .titulo-header {
         margin: 10px 0;
     }
+}
+
+/* MODO OSCURO */
+body.dark {
+    background-color: #242424;
+    color: #fff;
+}
+
+body.dark .header-container {
+    background-color: #1B5074;
+}
+
+body.dark .nav-header {
+    background-color: white;
+}
+
+body.dark .nav-header a {
+    color: #242424;
+}
+
+body.dark .nav-header a:hover {
+    background-color: #f0f0f0;
+    color: #1B5074;
+}
+
+body.dark footer {
+    background-color: #1B5074;
+    color: white;
 }

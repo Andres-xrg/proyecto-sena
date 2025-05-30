@@ -1,3 +1,36 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -47,7 +80,7 @@
                     <span class="numero">2845655</span>
                     <div class="sena-logo">⚙</div>
                 </div>
-                <button class="btn-ver-ficha">Ver ficha</button>
+                <button class="btn-ver-ficha" onclick="verFicha()">Ver ficha</button>
                 <button class="btn-deshabilitar">Deshabilitar</button>
             </div>
 
@@ -56,7 +89,7 @@
                     <span class="numero">2845655</span>
                     <div class="sena-logo">⚙</div>
                 </div>
-                <button class="btn-ver-ficha">Ver ficha</button>
+                <button class="btn-ver-ficha" onclick="verFicha()">Ver ficha</button>
                 <button class="btn-deshabilitar">Deshabilitar</button>
             </div>
 
@@ -65,7 +98,7 @@
                     <span class="numero">2845655</span>
                     <div class="sena-logo">⚙</div>
                 </div>
-                <button class="btn-ver-ficha">Ver ficha</button>
+                <button class="btn-ver-ficha"  onclick="verFicha()">Ver ficha</button>
                 <button class="btn-deshabilitar">Deshabilitar</button>
             </div>
 
@@ -75,7 +108,7 @@
                     <span class="numero">2845655</span>
                     <div class="sena-logo">⚙</div>
                 </div>
-                <button class="btn-ver-ficha">Ver ficha</button>
+                <button class="btn-ver-ficha"  onclick="verFicha()">Ver ficha</button>
                 <button class="btn-deshabilitar">Deshabilitar</button>
             </div>
 
@@ -84,7 +117,7 @@
                     <span class="numero">2845655</span>
                     <div class="sena-logo">⚙</div>
                 </div>
-                <button class="btn-ver-ficha disabled">Ver ficha</button>
+                <button class="btn-ver-ficha disabled" onclick="verFicha()">Ver ficha</button>
                 <button class="btn-habilitar">Habilitar</button>
             </div>
 
@@ -93,7 +126,7 @@
                     <span class="numero">2845655</span>
                     <div class="sena-logo">⚙</div>
                 </div>
-                <button class="btn-ver-ficha disabled">Ver ficha</button>
+                <button class="btn-ver-ficha disabled" onclick="verFicha()">Ver ficha</button>
                 <button class="btn-habilitar">Habilitar</button>
             </div>
         </div>

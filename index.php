@@ -5,9 +5,7 @@
     <title>Prueba Header</title>
 </head>
 <body>
-    <?php include 'header-secundario.php'; ?>
-
-    <?php include "includes/main.php"; ?>
+    <?php include 'header.php'; ?>
 
     <?php include 'footer.php'; ?>
 

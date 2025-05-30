@@ -230,6 +230,8 @@ body {
 }
 
 .percentage-btn {
+    position: relative;
+    top: 1.3rem;
     padding: 0.5rem 1rem;
     background-color: #4b5563;
     color: white;
