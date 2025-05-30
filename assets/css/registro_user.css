@@ -97,16 +97,19 @@ body {
     margin-bottom: 0.31rem;
 }
 
-.form-group input {
+.form-group input,
+.form-group select {
     width: 100%;
     padding: 0.75rem;
     border: 1px solid #ddd;
     border-radius: 0.25rem;
     font-size: 0.875rem;
     background-color: #f9f9f9;
+    transition: border-color 0.2s, background-color 0.2s;
 }
 
-.form-group input:focus {
+.form-group input:focus,
+.form-group select:focus {
     outline: none;
     border-color: #39A900;
     background-color: white;
@@ -115,26 +118,6 @@ body {
 .form-group input::placeholder {
     color: #999;
     font-size: 0.75rem;
-}
-
-.form-group select {
-    width: 100%;
-    padding: 0.75rem;
-    border: 1px solid #ddd;
-    border-radius: 0.25rem;
-    font-size: 0.875rem;
-    background-color: #f9f9f9;
-    color: #333;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    transition: border-color 0.2s, background-color 0.2s;
-}
-
-.form-group select:focus {
-    outline: none;
-    border-color: #39A900;
-    background-color: white;
 }
 
 .form-group select:disabled {
@@ -167,28 +150,25 @@ body {
     overflow: hidden;
 }
 
-.green-section::before {
-    content: '';
-    position: absolute;
-    top: -3.13rem;
-    left: -3.13rem;
-    right: -3.13rem;
-    height: 9.38rem;
-    background-color: white;
-    border-radius: 0 0 50% 50%;
-    transform: rotate(-5deg);
-}
-
+.green-section::before,
 .green-section::after {
     content: '';
     position: absolute;
-    bottom: -3.13rem;
     left: -3.13rem;
     right: -3.13rem;
     height: 9.38rem;
     background-color: white;
-    border-radius: 50% 50% 0 0;
     transform: rotate(-5deg);
+}
+
+.green-section::before {
+    top: -3.13rem;
+    border-radius: 0 0 50% 50%;
+}
+
+.green-section::after {
+    bottom: -3.13rem;
+    border-radius: 50% 50% 0 0;
 }
 
 .registro-title {
@@ -210,15 +190,15 @@ body {
     .main-container {
         flex-direction: column;
     }
-    
+
     .form-section {
         padding: 1.25rem;
     }
-    
+
     .green-section {
         min-height: 12.5rem;
     }
-    
+
     .registro-title {
         font-size: 2rem;
     }
