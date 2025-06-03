@@ -3,9 +3,9 @@ const totalSlides = 3;
 
 // Cambia las rutas de las imágenes según tus archivos reales
 const slideData = [
-    { name: 'Foto 1', img: 'assets/img/prueba.jpg' },
-    { name: 'Foto 2', img: 'assets/img/luna 2.png' },
-    { name: 'Foto 3', img: 'assets/img/JKE.png' }
+    { name: 'Foto 1', img: 'assets/img/software_1.jpeg' },
+    { name: 'Foto 2', img: 'assets/img/software_2.jpeg' },
+    { name: 'Foto 3', img: 'assets/img/software_3.jpeg' }
 ];
 
 const sideImages = document.querySelectorAll('.side-image');

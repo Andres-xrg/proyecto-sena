@@ -66,7 +66,7 @@
                                     <div class="student-header">
                                         <h3 class="student-name">Pepito Perez</h3>
                                         <div class="badges">
-                                            <span class="badge badge-green" >Competencias</span>
+                                           <button class="badge badge-green" onclick = "competencias_aprendiz()">Competencias</button>
                                             <span class="badge badge-blue">Traslado</span>
                                         </div>
                                     </div>
@@ -158,7 +158,8 @@
                                     <div class="student-header">
                                         <h3 class="student-name">Pepito Perez</h3>
                                         <div class="badges">
-                                            <span class="badge badge-green">Competencias</span>
+                                            <button class="badge badge-green" onclick = "competencias_aprendiz()">Competencias</button>
+                                            <span class="badge badge-blue">Traslado</span>
                                         </div>
                                     </div>
 
