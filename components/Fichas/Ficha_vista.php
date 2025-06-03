@@ -56,48 +56,28 @@
                     </div>
 
                     <!-- Students List -->
-                    <div class="students-list">
-                        <!-- Estudiante 1 -->
+                    <!-- Estudiante 1 -->
                         <div class="student-card">
                             <div class="student-content">
-                                <!-- Avatar -->
                                 <div class="avatar">PP</div>
-
-                                <!-- Student Info -->
                                 <div class="student-info">
                                     <div class="student-header">
                                         <h3 class="student-name">Pepito Perez</h3>
                                         <div class="badges">
-                                           <button class="badge badge-green" onclick = "competencias_aprendiz()">Competencias</button>
-                                            <span class="badge badge-blue">Traslado</span>
+                                            <button class="badge badge-green" onclick="competencias_aprendiz()">Competencias</button>
+                                            <button class="badge badge-blue traslado-btn" onclick="cambiarEstadoTraslado(this)">Traslado</button>
                                         </div>
                                     </div>
-
-                                    <!-- Student Details Grid -->
                                     <div class="student-details">
-                                        <div class="detail-item">
-                                            <label>T. Documento</label>
-                                            <p>C.C</p>
-                                        </div>
-                                        <div class="detail-item">
-                                            <label>Num. Documento</label>
-                                            <p>1234567890</p>
-                                        </div>
-                                        <div class="detail-item">
-                                            <label>Correo Aprendiz</label>
-                                            <p class="email">pepito.perez@email.com</p>
-                                        </div>
-                                        <div class="detail-item">
-                                            <label>N° Teléfono</label>
-                                            <p>3001234567</p>
-                                        </div>
+                                        <div class="detail-item"><label>T. Documento</label><p>C.C</p></div>
+                                        <div class="detail-item"><label>Num. Documento</label><p>1234567890</p></div>
+                                        <div class="detail-item"><label>Correo Aprendiz</label><p class="email">pepito.perez@email.com</p></div>
+                                        <div class="detail-item"><label>N° Teléfono</label><p>3001234567</p></div>
                                         <div class="detail-item">
                                             <label>Estado</label>
-                                            <span class="badge badge-green">Activo</span>
+                                            <button class="badge badge-green estado-btn" onclick="cambiarEstadoActivo(this)">Activo</button>
                                         </div>
-                                        <div class="detail-item">
-                                            <button class="percentage-btn">Porcentaje 85%</button>
-                                        </div>
+                                        <div class="detail-item"><button class="percentage-btn">Porcentaje 85%</button></div>
                                     </div>
                                 </div>
                             </div>
@@ -105,97 +85,58 @@
 
                         <!-- Estudiante 2 -->
                         <div class="student-card">
-                            <div class="student-content">
-                                <!-- Avatar -->
-                                <div class="avatar">PP</div>
-
-                                <!-- Student Info -->
-                                <div class="student-info">
-                                    <div class="student-header">
-                                        <h3 class="student-name">Pepito Perez</h3>
-                                        <div class="badges">
-                                            <button class="badge badge-green" onclick = "competencias_aprendiz()">Competencias</button>
-                                            <span class="badge badge-red">Trasladado</span>
+                                <div class="student-content">
+                                    <div class="avatar">PP</div>
+                                    <div class="student-info">
+                                        <div class="student-header">
+                                            <h3 class="student-name">Pepito Perez</h3>
+                                            <div class="badges">
+                                                <button class="badge badge-green" onclick="competencias_aprendiz()">Competencias</button>
+                                                <button class="badge badge-red traslado-btn" onclick="cambiarEstadoTraslado(this)">Trasladado</button>
+                                            </div>
                                         </div>
-                                    </div>
-
-                                    <!-- Student Details Grid -->
-                                    <div class="student-details">
-                                        <div class="detail-item">
-                                            <label>T. Documento</label>
-                                            <p>C.C</p>
-                                        </div>
-                                        <div class="detail-item">
-                                            <label>Num. Documento</label>
-                                            <p>1234567891</p>
-                                        </div>
-                                        <div class="detail-item">
-                                            <label>Correo Aprendiz</label>
-                                            <p class="email">pepito.perez2@email.com</p>
-                                        </div>
-                                        <div class="detail-item">
-                                            <label>N° Teléfono</label>
-                                            <p>3001234568</p>
-                                        </div>
-                                        <div class="detail-item">
-                                            <label>Estado</label>
-                                            <span class="badge badge-gray">Inactivo</span>
-                                        </div>
-                                        <div class="detail-item">
-                                            <button class="percentage-btn">Porcentaje 72%</button>
+                                        <div class="student-details">
+                                            <div class="detail-item"><label>T. Documento</label><p>C.C</p></div>
+                                            <div class="detail-item"><label>Num. Documento</label><p>1234567891</p></div>
+                                            <div class="detail-item"><label>Correo Aprendiz</label><p class="email">pepito.perez2@email.com</p></div>
+                                            <div class="detail-item"><label>N° Teléfono</label><p>3001234568</p></div>
+                                            <div class="detail-item">
+                                                <label>Estado</label>
+                                            <button class="badge badge-gray estado-btn" onclick="cambiarEstadoActivo(this)">Inactivo</button>
+                                            </div>
+                                            <div class="detail-item"><button class="percentage-btn">Porcentaje 72%</button></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
                         <!-- Estudiante 3 -->
                         <div class="student-card">
                             <div class="student-content">
-                                <!-- Avatar -->
                                 <div class="avatar">PP</div>
-
-                                <!-- Student Info -->
                                 <div class="student-info">
                                     <div class="student-header">
                                         <h3 class="student-name">Pepito Perez</h3>
                                         <div class="badges">
-                                            <button class="badge badge-green" onclick = "competencias_aprendiz()">Competencias</button>
-                                            <span class="badge badge-blue">Traslado</span>
+                                            <button class="badge badge-green" onclick="competencias_aprendiz()">Competencias</button>
+                                            <button class="badge badge-blue traslado-btn" onclick="cambiarEstadoTraslado(this)">Traslado</button>
                                         </div>
                                     </div>
-
-                                    <!-- Student Details Grid -->
                                     <div class="student-details">
-                                        <div class="detail-item">
-                                            <label>T. Documento</label>
-                                            <p>C.C</p>
-                                        </div>
-                                        <div class="detail-item">
-                                            <label>Num. Documento</label>
-                                            <p>1234567892</p>
-                                        </div>
-                                        <div class="detail-item">
-                                            <label>Correo Aprendiz</label>
-                                            <p class="email">pepito.perez3@email.com</p>
-                                        </div>
-                                        <div class="detail-item">
-                                            <label>N° Teléfono</label>
-                                            <p>3001234569</p>
-                                        </div>
+                                        <div class="detail-item"><label>T. Documento</label><p>C.C</p></div>
+                                        <div class="detail-item"><label>Num. Documento</label><p>1234567892</p></div>
+                                        <div class="detail-item"><label>Correo Aprendiz</label><p class="email">pepito.perez3@email.com</p></div>
+                                        <div class="detail-item"><label>N° Teléfono</label><p>3001234569</p></div>
                                         <div class="detail-item">
                                             <label>Estado</label>
-                                            <span class="badge badge-green">Activo</span>
+                                            <button class="badge badge-green estado-btn" onclick="cambiarEstadoActivo(this)">Activo</button>
                                         </div>
-                                        <div class="detail-item">
-                                            <button class="percentage-btn">Porcentaje 90%</button>
-                                        </div>
+                                        <div class="detail-item"><button class="percentage-btn">Porcentaje 90%</button></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
                 <!-- Tab Content: Trimestre -->
                 <div id="trimestre" class="tab-content">

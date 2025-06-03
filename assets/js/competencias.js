@@ -24,3 +24,28 @@
     function competencias_generales() {
     window.location.href = 'index.php?page=components/competencias/juicios-evaluativos-comp';
 }
+
+
+function cambiarEstadoTraslado(btn) {
+    if (btn.textContent.trim() === "Traslado") {
+        btn.textContent = "Trasladado";
+        btn.classList.remove("badge-blue");
+        btn.classList.add("badge-red");
+    } else {
+        btn.textContent = "Traslado";
+        btn.classList.remove("badge-red");
+        btn.classList.add("badge-blue");
+    }
+}
+
+function cambiarEstadoActivo(btn) {
+    if (btn.textContent.trim() === "Activo") {
+        btn.textContent = "Inactivo";
+        btn.classList.remove("badge-green");
+        btn.classList.add("badge-gray");
+    } else {
+        btn.textContent = "Activo";
+        btn.classList.remove("badge-gray");
+        btn.classList.add("badge-green");
+    }
+}
