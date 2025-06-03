@@ -2,10 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="../assets/css/header.css">
+    <link rel="stylesheet" href="assets/css/header.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Font Awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <title>Document</title>
 </head>
 <body>
@@ -16,11 +17,11 @@
         <img src="/proyecto-sena/assets/img/logo-sena.png" alt="SENA Logo" class="logo-sena">
     </div>
 
-    <nav class="nav-header">
-        <a href="/proyecto-sena/components/principales/welcome.php">Inicio</a>
-        <a href="/proyecto-sena/components/principales/programas_formacion.php">Programas de formación</a>
-        <a href="/proyecto-sena/components/instructores/instructores.php">Instructores</a>
-        <a href="/proyecto-sena/components/registros/registro_user.php">Registro Usuarios</a>
+<nav class="nav-header">
+        <a href="index.php?page=components/principales/welcome">Inicio</a>
+        <a href="index.php?page=components/principales/programas_formacion">Programas de formación</a>
+        <a href="index.php?page=components/instructores/instructores">Instructores</a>
+        <a href="index.php?page=components/registros/registro_user">Registro Usuarios</a>
     </nav>
 
     <!-- BOTÓN MODO OSCURO -->
@@ -29,6 +30,6 @@
             <i class="fas fa-moon"></i>
         </div>
     </div>
-    <script src="../../assets/js/main.js"></script>
+    <script src="assets/js/main.js"></script>
 </body>
 </html>

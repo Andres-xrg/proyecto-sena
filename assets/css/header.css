@@ -94,6 +94,21 @@ footer {
     }
 }
 
+.style-switcher {
+    position: fixed;
+    top: 73%;
+    padding: 1%;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Estilos para el ícono de la luna */
+.day-night i {
+    color: black; /* en modo claro */
+    font-size: 20px;
+    transition: color 0.3s;
+}
+
 /* MODO OSCURO */
 body.dark {
     background-color: #242424;
@@ -120,4 +135,8 @@ body.dark .nav-header a:hover {
 body.dark footer {
     background-color: #1B5074;
     color: white;
+}
+
+body.dark .day-night i {
+    color: white; /* en modo oscuro */
 }

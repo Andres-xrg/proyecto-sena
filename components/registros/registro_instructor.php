@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../assets/css/registro_instructor.css">
-    <link rel="stylesheet" href="../../assets/css/header.css">
-    <link rel="stylesheet" href="../../assets/css/footer.css">
+    <link rel="stylesheet" href="assets/css/registro_instructor.css">
+    <link rel="stylesheet" href="assets/css/header.css">
+    <link rel="stylesheet" href="assets/css/footer.css">
     <title>Registrar Instructor - SENA</title>
 </head>
-<?php include '../../includes/header.php'; ?>
+
 <body>
     <!-- Main Content -->
     <main class="main-content">
@@ -75,5 +75,5 @@
         </div>
     </main>
 </body>
-<?php include '../../includes/footer.php'; ?>
+
 </html>

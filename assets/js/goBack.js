@@ -1,3 +1,3 @@
 function goBack() {
-            window.location.href = '/proyecto-sena/components/principales/programas_formacion.php';
+            window.location.href = 'index.php?page=components/principales/programas_formacion';
         }

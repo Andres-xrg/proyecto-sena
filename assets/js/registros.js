@@ -1,15 +1,15 @@
 function registrarFicha() {
-        window.location.href = '../registros/registro_fichas.php';
+        window.location.href = 'index.php?page=components/registros/registro_fichas';
     }
 function registrarInstructor() {
-        window.location.href = '../registros/registro_instructor.php';
+        window.location.href = 'index.php?page=components/registros/registro_instructor';
     }
 function registrarAprendiz() {
-    window.location.href = '../registros/registro_aprendices.php';
+    window.location.href = 'index.php?page=components/registros/registro_aprendices';
 }
 function tecnologo() {
-    window.location.href = '../Fichas/listar_fichas.php';
+    window.location.href = 'index.php?page=components/Fichas/listar_fichas';
 }
 function tecnico() {
-    window.location.href = '../Fichas/listar_fichas.php';
+    window.location.href = 'index.php?page=components/Fichas/listar_fichas';
 }

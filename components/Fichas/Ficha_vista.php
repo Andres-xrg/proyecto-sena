@@ -5,14 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Fichas de Estudiantes</title>
-    <link rel="stylesheet" href="../../assets/css/fichas.css">
-    <link rel="stylesheet" href="../../assets/css/header.css">
-    <link rel="stylesheet" href="../../assets/css/footer.css">
+    <link rel="stylesheet" href="assets/css/fichas.css">
+     <link rel="stylesheet" href="assets/css/footer.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-
-<?php include '../../includes/header.php'; ?>
 
     <div class="container">
         <div class="main-card">
@@ -22,7 +19,7 @@
             <!-- Tabs -->
             <div class="tabs">
                 <div class="tab-list">
-                    <button class="tab-button active" onclick="openTab(event, 'competencias')">
+                    <button class="tab-button active" onclick="competencias_generales()">
                         Competencias General
                     </button>
                     <button class="tab-button" onclick="openTab(event, 'trimestre')">
@@ -115,7 +112,7 @@
                                     <div class="student-header">
                                         <h3 class="student-name">Pepito Perez</h3>
                                         <div class="badges">
-                                            <span class="badge badge-green">Competencias</span>
+                                            <button class="badge badge-green" onclick = "competencias_aprendiz()">Competencias</button>
                                             <span class="badge badge-red">Trasladado</span>
                                         </div>
                                     </div>
@@ -215,7 +212,5 @@
     </div>
 
 </body>
-
-    <?php include '../../includes/footer.php'; ?>
-
+    <script src="assets/js/competencias.js"></script>
 </html>

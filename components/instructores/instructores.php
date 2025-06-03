@@ -4,18 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Instructores</title>
-    <link rel="stylesheet" href="../../assets/css/instructores.css">
-    <link rel="stylesheet" href="../../assets/css/header.css">
-    <link rel="stylesheet" href="../../assets/css/footer.css">
+    <link rel="stylesheet" href="assets/css/instructores.css">
+    <link rel="stylesheet" href="assets/css/header.css">
+    <link rel="stylesheet" href="assets/css/footer.css">
 </head>
 <body>
-    
-    <?php include '../../includes/header.php'; ?>
     <div class="container">
         
         <div class="titulo">
             <h1 class="title">Instructores</h1>
-            <button class="btn-registrar" onclick="registrarInstructor()">Registrar Instructor</button>
         </div>
 
         <!-- Lista de Instructores -->
@@ -167,6 +164,4 @@
     </div>
     <script src="../../assets/js/instructores.js"></script>
 </body>
-    <?php include '../../includes/footer.php'; ?>
-
 </html>

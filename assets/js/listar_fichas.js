@@ -24,5 +24,5 @@ window.onload = function() {
 }
 
 function verFicha() {
-            window.location.href = '../Fichas/ficha_vista.php';
+            window.location.href = 'index.php?page=components/Fichas/Ficha_vista';
         }    

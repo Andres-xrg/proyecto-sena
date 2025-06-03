@@ -4,17 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro - SENA</title>
-    <link rel="stylesheet" href="../../assets/css/registro_user.css">
-    <link rel="stylesheet" href="../../assets/css/header.css">
-    <link rel="stylesheet" href="../../assets/css/footer.css">
+    <link rel="stylesheet" href="assets/css/registro_user.css">
+    <link rel="stylesheet" href="assets/css/header.css">
+    <link rel="stylesheet" href="assets/css/footer.css">
 </head>
-<?php include '../../includes/header.php'; ?>
 <body>
 
     <div class="main-container">
         <div class="form-section">
             <div class="form-header">
-                <img src="../../assets/img/back-arrow.png" alt="Regresar" class="back-arrow" onclick="goBack()">
+                <img src="assets/img/back-arrow.png" alt="Regresar" class="back-arrow" onclick="goBack()">
             </div>
 
             <div class="section-title">Información</div>
@@ -80,6 +79,5 @@
     </div>
 
 </body>
-<script src="../../assets/js/goBack.js"></script>
-    <?php include '../../includes/footer.php'; ?>
+<script src="assets/js/goBack.js"></script>
 </html>

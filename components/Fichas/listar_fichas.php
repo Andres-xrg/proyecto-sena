@@ -1,49 +1,14 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fichas - Tecnólogo/Técnico</title>
-     <link rel="stylesheet" href="../../assets/css/listar_fichas.css">
-     <link rel="stylesheet" href="../../assets/css/header.css">
-     <link rel="stylesheet" href="../../assets/css/footer.css">
+     <link rel="stylesheet" href="assets/css/listar_fichas.css">
+     <link rel="stylesheet" href="assets/css/header.css">
+     <link rel="stylesheet" href="assets/css/footer.css">
 </head>
 <body>
-
-    <?php include '../../includes/header.php'; ?>
 
     <div class="container">
         <div class="titulo">
@@ -132,7 +97,6 @@
         </div>
     </div>
 
-    <script src="../../assets/js/listar_fichas.js"></script>
+    <script src="assets/js/listar_fichas.js"></script>
 </body>
-    <?php include '../../includes/footer.php'; ?>
 </html>

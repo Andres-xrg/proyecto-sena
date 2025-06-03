@@ -1,16 +1,32 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const body = document.body;
-    const btnModoOscuro = document.getElementById("modoOscuroBtn");
+const btnModoOscuro = document.getElementById('modoOscuroBtn');
+const icono = btnModoOscuro.querySelector('i');
 
-    // Aplica el modo oscuro si ya está activado en localStorage
-    if (localStorage.getItem("modoOscuro") === "true") {
-        body.classList.add("dark");
-    }
+// Aplicar modo guardado al cargar la página
+window.addEventListener('DOMContentLoaded', () => {
+  const modoGuardado = localStorage.getItem('modo');
+  if (modoGuardado === 'oscuro') {
+    document.body.classList.add('dark');
+    icono.classList.remove('fa-moon');
+    icono.classList.add('fa-sun');
+  } else {
+    document.body.classList.remove('dark');
+    icono.classList.remove('fa-sun');
+    icono.classList.add('fa-moon');
+  }
+});
 
-    // Evento del botón
-    btnModoOscuro.addEventListener("click", () => {
-        body.classList.toggle("dark");
-        const modoActivo = body.classList.contains("dark");
-        localStorage.setItem("modoOscuro", modoActivo);
-    });
+btnModoOscuro.addEventListener('click', function () {
+  document.body.classList.toggle('dark');
+
+  const esOscuro = document.body.classList.contains('dark');
+
+  if (esOscuro) {
+    icono.classList.remove('fa-moon');
+    icono.classList.add('fa-sun');
+    localStorage.setItem('modo', 'oscuro');
+  } else {
+    icono.classList.remove('fa-sun');
+    icono.classList.add('fa-moon');
+    localStorage.setItem('modo', 'claro');
+  }
 });

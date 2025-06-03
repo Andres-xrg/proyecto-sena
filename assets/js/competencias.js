@@ -16,3 +16,11 @@
             document.getElementById('chevron-competencias').classList.add('rotated');
             document.getElementById('chevron-transversales').classList.add('rotated');
         });
+
+    function competencias_aprendiz() {
+    window.location.href = 'index.php?page=components/competencias/competencias';
+}
+
+    function competencias_generales() {
+    window.location.href = 'index.php?page=components/competencias/juicios-evaluativos-comp';
+}
