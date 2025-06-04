@@ -10,13 +10,16 @@ body {
     padding: 20px;
 }
 
+/* Contenedor principal */
 .container {
-    width: 750px;
+    width: 100%;
+    max-width: 750px;
     margin: 0 auto;
     background: #FFFFFF;
     align-items: center;
     margin-top: 45px;
-    height: 400px;
+    height: auto;
+    padding: 20px;
 }
 
 /* Header */
@@ -38,19 +41,24 @@ body {
     margin: 0;
 }
 
-/* Controls */
+/* Controles */
 .controls {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     margin-bottom: 30px;
     margin-top: 20px;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
-/* Search Box */
+/* Caja de búsqueda */
 .search-box {
     position: relative;
     width: 150px;
+    flex-grow: 1;
+    min-width: 140px;
+    max-width: 180px;
 }
 
 .search-box input {
@@ -75,6 +83,9 @@ body {
 .dropdown-container {
     position: relative;
     width: 200px;
+    flex-grow: 1;
+    min-width: 160px;
+    max-width: 220px;
 }
 
 .dropdown {
@@ -121,7 +132,7 @@ body {
 /* Grid de Fichas */
 .fichas-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 15px;
 }
 
@@ -200,18 +211,15 @@ body {
     cursor: pointer;
 }
 
-/* Responsive */
+/* Responsive extra */
 @media (max-width: 600px) {
-    .fichas-grid {
-        grid-template-columns: 1fr;
-    }
-    
     .controls {
         flex-direction: column;
-        gap: 10px;
+        align-items: stretch;
     }
-    
-    .search-box, .dropdown-container {
+
+    .search-box,
+    .dropdown-container {
         width: 100%;
     }
 }

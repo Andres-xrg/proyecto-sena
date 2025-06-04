@@ -21,3 +21,24 @@ function registrarInstructor() {
                 console.log('Instructor ' + nombreInstructor + ' habilitado');
             }
         }
+
+        function toggleInstructor(button) {
+    const card = button.closest('.instructor-card');
+    const estadoSpan = card.querySelector('.estado-item span');
+
+    if (card.classList.contains('disabled')) {
+        // Habilitar
+        card.classList.remove('disabled');
+        button.textContent = 'Deshabilitar';
+        button.classList.remove('btn-habilitar');
+        button.classList.add('btn-deshabilitar');
+        estadoSpan.textContent = 'Activo';
+    } else {
+        // Deshabilitar
+        card.classList.add('disabled');
+        button.textContent = 'Habilitar';
+        button.classList.remove('btn-deshabilitar');
+        button.classList.add('btn-habilitar');
+        estadoSpan.textContent = 'Inactivo';
+    }
+}
