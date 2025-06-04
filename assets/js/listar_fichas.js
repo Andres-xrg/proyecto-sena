@@ -50,6 +50,4 @@ function verFicha() {
         }
     }
 
-    function verFicha() {
-        alert("Ver ficha clickeado");
-    }
+ 
