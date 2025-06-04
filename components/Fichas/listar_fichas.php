@@ -37,64 +37,37 @@
             </div>
         </div>
 
-        <!-- Grid de Fichas -->
-        <div class="fichas-grid">
-            <!-- Fila 1 -->
-            <div class="ficha-card">
-                <div class="card-header">
-                    <span class="numero">2845655</span>
-                    <div class="sena-logo">⚙</div>
+                    <!-- Grid de Fichas -->
+            <div class="fichas-grid">
+                <!-- Ejemplo de varias fichas -->
+                <div class="ficha-card">
+                    <div class="card-header">
+                        <span class="numero">2845655</span>
+                        <div class="sena-logo">⚙</div>
+                    </div>
+                    <button class="btn-ver-ficha" onclick="verFicha()">Ver ficha</button>
+                    <button class="btn-deshabilitar" onclick="toggleFicha(this)">Deshabilitar</button>
                 </div>
-                <button class="btn-ver-ficha" onclick="verFicha()">Ver ficha</button>
-                <button class="btn-deshabilitar">Deshabilitar</button>
-            </div>
 
-            <div class="ficha-card">
-                <div class="card-header">
-                    <span class="numero">2845655</span>
-                    <div class="sena-logo">⚙</div>
+                <div class="ficha-card">
+                    <div class="card-header">
+                        <span class="numero">2845655</span>
+                        <div class="sena-logo">⚙</div>
+                    </div>
+                    <button class="btn-ver-ficha" onclick="verFicha()">Ver ficha</button>
+                    <button class="btn-deshabilitar" onclick="toggleFicha(this)">Deshabilitar</button>
                 </div>
-                <button class="btn-ver-ficha" onclick="verFicha()">Ver ficha</button>
-                <button class="btn-deshabilitar">Deshabilitar</button>
-            </div>
 
-            <div class="ficha-card">
-                <div class="card-header">
-                    <span class="numero">2845655</span>
-                    <div class="sena-logo">⚙</div>
+                <div class="ficha-card disabled">
+                    <div class="card-header">
+                        <span class="numero">2845655</span>
+                        <div class="sena-logo">⚙</div>
+                    </div>
+                    <button class="btn-ver-ficha disabled">Ver ficha</button>
+                    <button class="btn-habilitar" onclick="toggleFicha(this)">Habilitar</button>
                 </div>
-                <button class="btn-ver-ficha"  onclick="verFicha()">Ver ficha</button>
-                <button class="btn-deshabilitar">Deshabilitar</button>
             </div>
-
-            <!-- Fila 2 -->
-            <div class="ficha-card">
-                <div class="card-header">
-                    <span class="numero">2845655</span>
-                    <div class="sena-logo">⚙</div>
-                </div>
-                <button class="btn-ver-ficha"  onclick="verFicha()">Ver ficha</button>
-                <button class="btn-deshabilitar">Deshabilitar</button>
-            </div>
-
-            <div class="ficha-card disabled">
-                <div class="card-header">
-                    <span class="numero">2845655</span>
-                    <div class="sena-logo">⚙</div>
-                </div>
-                <button class="btn-ver-ficha disabled" onclick="verFicha()">Ver ficha</button>
-                <button class="btn-habilitar">Habilitar</button>
-            </div>
-
-            <div class="ficha-card disabled">
-                <div class="card-header">
-                    <span class="numero">2845655</span>
-                    <div class="sena-logo">⚙</div>
-                </div>
-                <button class="btn-ver-ficha disabled" onclick="verFicha()">Ver ficha</button>
-                <button class="btn-habilitar">Habilitar</button>
-            </div>
-        </div>
+            
     </div>
 
     <script src="assets/js/listar_fichas.js"></script>

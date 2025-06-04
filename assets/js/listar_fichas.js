@@ -11,7 +11,6 @@ function toggleDropdown() {
     }
 }
 
-// Ejecutar al cargar la página para recuperar el estado guardado
 window.onload = function() {
     const options = document.getElementById('dropdownOptions');
     const visible = localStorage.getItem('dropdownVisible');
@@ -26,3 +25,31 @@ window.onload = function() {
 function verFicha() {
             window.location.href = 'index.php?page=components/Fichas/Ficha_vista';
         }    
+
+ function toggleFicha(button) {
+        const fichaCard = button.closest(".ficha-card");
+
+        if (fichaCard.classList.contains("disabled")) {
+            fichaCard.classList.remove("disabled");
+            button.textContent = "Deshabilitar";
+            button.classList.remove("btn-habilitar");
+            button.classList.add("btn-deshabilitar");
+
+            const btnVer = fichaCard.querySelector(".btn-ver-ficha");
+            btnVer.classList.remove("disabled");
+            btnVer.disabled = false;
+        } else {
+            fichaCard.classList.add("disabled");
+            button.textContent = "Habilitar";
+            button.classList.remove("btn-deshabilitar");
+            button.classList.add("btn-habilitar");
+
+            const btnVer = fichaCard.querySelector(".btn-ver-ficha");
+            btnVer.classList.add("disabled");
+            btnVer.disabled = true;
+        }
+    }
+
+    function verFicha() {
+        alert("Ver ficha clickeado");
+    }
