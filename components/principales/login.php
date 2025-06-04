@@ -72,11 +72,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>          
     
     <div class="form-actions">
-        <a href="welcome.php" class="continue-button">Ingresa</a>
-        <a href="registrarse.php" class="register-link">Registrarse</a>
+        <a href="welcome.php" class="continue-button">Ingresar</a>
+        <!-- <a href="registrarse.php" class="register-link">Registrarse</a> -->
     </div>
 </form>
-  
         </div>
     </div>
 </body>
