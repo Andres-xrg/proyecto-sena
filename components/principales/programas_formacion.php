@@ -20,7 +20,7 @@
                         <div class="card-header" onclick="tecnologo()">
                             <div class="card-icon" ></div>
                             <div>
-                                <div class="card-title" >TECNÓLOGO</div>
+                                <div class="card-title" >Tecnólogo</div>
                                 <div class="card-subtitle">Análisis y Desarrollo de Software</div>
                             </div>
                         </div>
