@@ -35,7 +35,7 @@ body {
 }
 
 .btn-registrar {
-    background-color: #28a745;
+    background-color: #2a7f00;
     color: white;
     border: none;
     padding: 8px 16px;
@@ -46,7 +46,7 @@ body {
 }
 
 .btn-registrar:hover {
-    background-color: #218838;
+    background-color: #2a7f00;
 }
 
 /* Lista de Instructores */
@@ -142,12 +142,12 @@ body {
 }
 
 .btn-habilitar {
-    background-color: #28a745;
+    background-color: #2a7f00;
     color: white;
 }
 
 .btn-habilitar:hover {
-    background-color: #218838;
+    background-color: #2a7f00;
 }
 
 /* Detalles del Instructor */

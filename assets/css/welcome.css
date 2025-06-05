@@ -83,7 +83,7 @@ body {
 .nav-button {
     width: 60px;
     height: 60px;
-    background-color: #39A900;
+    background-color: #2a7f00;
     border: none;
     border-radius: 50%;
     cursor: pointer;
@@ -128,11 +128,11 @@ body {
 
 .pagination-dot:hover {
     transform: scale(1.2);
-    background-color: #39A900;
+    background-color: #2a7f00;
 }
 
 .pagination-dot:first-child {
-    background-color: #39A900;
+    background-color: #2a7f00;
 }
 
 .nav-button:focus {
@@ -165,7 +165,7 @@ body.dark-mode,
 
 .dark-mode .pagination-dot:hover,
 .dark-mode .pagination-dot:first-child {
-    background-color: #39A900;
+    background-color: #2a7f00;
 }
 
 .dark-mode .nav-button {
@@ -173,5 +173,5 @@ body.dark-mode,
 }
 
 .dark-mode .nav-button:hover {
-    background-color: #39A900;
+    background-color: #2a7f00;
 }

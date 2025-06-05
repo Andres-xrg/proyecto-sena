@@ -12,7 +12,7 @@
 
         /* Header Styles */
         .header {
-            background-color: #39a900;
+            background-color: #2a7f00;
             color: white;
             padding: 1rem;
         }
@@ -96,8 +96,8 @@
         }
 
         .nav-tab.active {
-            color: #39a900;
-            border-bottom-color: #39a900;
+            color: #2a7f00;
+            border-bottom-color: #2a7f00;
         }
 
         /* Main Content */
@@ -131,7 +131,7 @@
         .search-input {
             width: 16rem;
             padding: 0.5rem 0.75rem 0.5rem 2.5rem;
-            border: 1px solid #39a900;
+            border: 1px solid #2a7f00;
             border-radius: 0.375rem;
             font-size: 1.4rem;
         }
@@ -184,7 +184,7 @@
         }
 
         .card-header {
-            background-color: #39a900;
+            background-color: #2a7f00;
             color: white;
             padding: 0.75rem;
             display: flex;
@@ -248,7 +248,7 @@
         }
 
         .status-approved {
-            color: #39a900;
+            color: #2a7f00;
         }
 
         .status-rejected {

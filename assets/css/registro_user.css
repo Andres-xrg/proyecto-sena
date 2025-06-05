@@ -13,7 +13,7 @@ body {
 }
 
 .header {
-    background-color: #39A900;
+    background-color: #2a7f00;
     padding: 0.94rem 1.25rem;
     display: flex;
     align-items: center;
@@ -22,7 +22,7 @@ body {
 
 .jke-logo {
     background-color: white;
-    color: #39A900;
+    color: #2a7f00;
     padding: 0.5rem 0.75rem;
     border-radius: 0.5rem;
     font-weight: bold;
@@ -111,7 +111,7 @@ body {
 .form-group input:focus,
 .form-group select:focus {
     outline: none;
-    border-color: #39A900;
+    border-color: #2a7f00;
     background-color: white;
 }
 
@@ -126,7 +126,7 @@ body {
 }
 
 .register-btn {
-    background-color: #39A900;
+    background-color: #2a7f00;
     color: white;
     padding: 0.75rem 1.88rem;
     border: none;
@@ -142,7 +142,7 @@ body {
 
 .green-section {
     flex: 1;
-    background-color: #39A900;
+    background-color: #2a7f00;
     position: relative;
     display: flex;
     align-items: center;
@@ -179,7 +179,7 @@ body {
 }
 
 .footer {
-    background-color: #39A900;
+    background-color: #2a7f00;
     color: white;
     text-align: center;
     padding: 0.94rem;

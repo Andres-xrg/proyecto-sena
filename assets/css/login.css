@@ -187,7 +187,7 @@ body {
 }
 
 .continue-button {
-    background-color: #39a900;
+    background-color: #2a7f00;
     color: white;
     border: none;
     border-radius: 20px;
@@ -200,7 +200,7 @@ body {
 }
 
 .continue-button:hover {
-    background-color: #39a900;
+    background-color: #2a7f00;
     transform: scale(1.05);
 }
 
