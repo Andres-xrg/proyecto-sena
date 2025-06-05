@@ -46,7 +46,7 @@
         }
 
         .header-title {
-            font-size: 1.25rem;
+            font-size: 1.5rem;
             font-weight: 600;
         }
 
@@ -103,7 +103,7 @@
         /* Main Content */
         .main-content {
             padding: 2rem;
-            max-width: 1200px;
+            width: 90%;
             margin: 0 auto;
         }
 
@@ -133,7 +133,7 @@
             padding: 0.5rem 0.75rem 0.5rem 2.5rem;
             border: 1px solid #39a900;
             border-radius: 0.375rem;
-            font-size: 0.875rem;
+            font-size: 1.4rem;
         }
 
         .search-icon {
@@ -154,7 +154,7 @@
             background-color: white;
             border-radius: 0.375rem;
             cursor: pointer;
-            font-size: 0.875rem;
+            font-size: 1.4rem;
             transition: background-color 0.2s;
         }
 
@@ -219,6 +219,7 @@
         }
 
         .section-title {
+            font-size: 1.4rem;
             font-weight: 500;
             color: #374151;
             border-bottom: 1px solid #e5e7eb;
@@ -231,7 +232,7 @@
             grid-template-columns: 1fr 1fr 1fr;
             gap: 0.5rem;
             margin-bottom: 0.5rem;
-            font-size: 0.875rem;
+            font-size: 1.4rem;
         }
 
         .result-code {
@@ -257,4 +258,3 @@
         .status-pending {
             color: #ea580c;
         }
-

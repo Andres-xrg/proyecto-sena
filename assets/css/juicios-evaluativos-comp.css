@@ -6,8 +6,10 @@
 }
 
 .table th, .table td {
+  width: 100%;
+  height: 100%;
   vertical-align: middle;
   text-align: center;
   padding: 4rem; 
-  font-size: 0.9rem; 
+  font-size: 1.1rem; 
 }
