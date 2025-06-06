@@ -15,7 +15,7 @@
         <div class="form-container">
             <h1 class="form-title">Registrar Instructor</h1>
             
-            <form>
+            <form method="post" action="functions/functions_registro_instructor.php">
                 <!-- First Row -->
                 <div class="form-row">
                     <div class="form-group">
@@ -65,7 +65,7 @@
                     </div>
                     <div class="form-group">
                         <label for="correo">Correo Institucional</label>
-                        <input type="email" id="correo" name="correo" required placeholder="Ingrese el correo institucional">
+                        <input type="email" id="correo" name="Email" required placeholder="Ingrese el correo institucional">
                     </div>
                 </div>
 

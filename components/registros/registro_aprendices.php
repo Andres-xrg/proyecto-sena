@@ -6,16 +6,16 @@
     <link rel="stylesheet" href="assets/css/registro_aprendices.css">
     <link rel="stylesheet" href="assets/css/header.css">
     <link rel="stylesheet" href="assets/css/footer.css">
-    <title>Registrar Instructor - SENA</title>
+    <title>Registrar Aprendices - SENA</title>
 </head>
 
 <body>
     <!-- Main Content -->
     <main class="main-content">
         <div class="form-container">
-            <h1 class="form-title">Registrar Instructor</h1>
+            <h1 class="form-title">Registrar Aprendices</h1>
             
-            <form>
+            <form method="post" action="functions/functions_registro_aprendiz .php">
                 <!-- First Row -->
                 <div class="form-row">
                     <div class="form-group">
@@ -49,7 +49,7 @@
                     </div>
                     <div class="form-group">
                         <label for="correo">Correo Institucional</label>
-                        <input type="email" id="correo" name="correo" placeholder="Correo institucional del aprendiz" required>
+                        <input type="email" id="correo" name="Email" placeholder="Correo institucional del aprendiz" required>
                     </div>
                 </div>
                 
@@ -62,6 +62,7 @@
                     
                 </div>
 
+                
                 <!-- Submit Button -->
                 <button type="submit" class="register-btn">registrar</button>
             </form>
