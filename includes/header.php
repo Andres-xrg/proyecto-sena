@@ -25,11 +25,34 @@
     </nav>
 
     <!-- BOTÓN MODO OSCURO -->
-    <div class="style-switcher">
-        <div class="day-night s-icon" id="modoOscuroBtn">
-            <i class="fas fa-moon"></i>
-        </div>
+<!-- BOTÓN MODO OSCURO -->
+<div class="style-switcher">
+    <div class="day-night s-icon" id="modoOscuroBtn">
+        <i class="fas fa-moon"></i>
     </div>
+</div>
+
+<?php
+// Verifica si la sesión ya fue iniciada
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
+
+<!-- Ícono de login/logout -->
+<div class="login-icon">
+    <?php if (!isset($_SESSION['usuario'])): ?>
+        <!-- Ícono para iniciar sesión -->
+        <a href="components/principales/login.php" title="Iniciar sesión">
+            <i class="fas fa-arrow-right-to-bracket"></i>
+        </a>
+    <?php else: ?>
+        <!-- Ícono para cerrar sesión o ir al perfil -->
+        <a href="index.php?page=components/login/logout" title="Cerrar sesión">
+            <i class="fas fa-right-from-bracket"></i>
+        </a>
+    <?php endif; ?>
+</div>
     <script src="assets/js/main.js"></script>
 </body>
 </html>

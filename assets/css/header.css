@@ -140,3 +140,30 @@ body.dark footer {
 body.dark .day-night i {
     color: white; /* en modo oscuro */
 }
+
+.login-icon {
+    position: fixed;
+    top: 82%; /* justo debajo del botón de luna (que está en 73%) */
+    margin-left: 0.5%;
+    font-size: 24px;
+    z-index: 1000;
+}
+
+.login-icon a {
+    color: black; /* color negro */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.login-icon a:hover {
+    color: #2a7f00; /* verde oscuro */
+}
+
+/* En modo oscuro, que sea blanco */
+body.dark .login-icon a {
+    color: white;
+}
+
+body.dark .login-icon a:hover {
+    color: orange;
+}
