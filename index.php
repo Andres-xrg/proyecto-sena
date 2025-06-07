@@ -1,3 +1,7 @@
+<?php
+// session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -5,7 +9,7 @@
     <title>Prueba Header</title>
 </head>
 <body>
-    <?php include 'includes/header.php'; ?>
+    <!-- <?php include 'includes/header.php'; ?> -->
 
     <?php include 'includes/main.php'; ?>
 
