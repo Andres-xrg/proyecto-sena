@@ -8,15 +8,12 @@
     <link rel="stylesheet" href="assets/css/footer.css">
     <title>Registrar Instructor - SENA</title>
 </head>
-
 <body>
-    <!-- Main Content -->
     <main class="main-content">
         <div class="form-container">
             <h1 class="form-title">Registrar Instructor</h1>
-            
+
             <form method="post" action="functions/functions_registro_instructor.php">
-                <!-- First Row -->
                 <div class="form-row">
                     <div class="form-group">
                         <label for="nombre">Nombre</label>
@@ -29,38 +26,36 @@
                     <div class="form-group">
                         <label for="ficha">Ficha Instructor</label>
                         <input type="text" id="ficha" name="ficha" placeholder="Ingrese la ficha del instructor">
-                                                <div class="optional-note">(No es obligatorio)</div>
+                        <div class="optional-note">(No es obligatorio)</div>
                     </div>
                 </div>
 
-                <!-- Second Row -->
                 <div class="form-row">
                     <div class="form-group">
                         <label for="tipoDocumento">Tipo Documento</label>
                         <select id="tipoDocumento" name="tipoDocumento" required>
                             <option value="">Selecciona el tipo de documento</option>
-                            <option value="cedula-extranjera">Cedula Extranjera</option>
-                            <option value="cedula">Cedula</option>
+                            <option value="1">Cédula Extranjera</option>
+                            <option value="2">Cédula</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="numeroDocumento">Numero de Documento</label>
+                        <label for="numeroDocumento">Número de Documento</label>
                         <input type="text" id="numeroDocumento" name="numeroDocumento" required placeholder="Ingrese el número de documento">
                     </div>
                     <div class="form-group">
                         <label for="instructor">Instructor</label>
                         <select id="instructor" name="instructor" required>
                             <option value="">Seleccione el tipo de instructor</option>
-                            <option value="instructor-innovacional">Instructor Innovacional</option>
-                            <option value="instructor-normal">Instructor Normal</option>
+                            <option value="innovacional">Instructor Innovacional</option>
+                            <option value="normal">Instructor Normal</option>
                         </select>
                     </div>
                 </div>
 
-                <!-- Third Row -->
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="telefono">Numero de telefono</label>
+                        <label for="telefono">Número de teléfono</label>
                         <input type="tel" id="telefono" name="telefono" required placeholder="Ingrese el número de teléfono">
                     </div>
                     <div class="form-group">
@@ -69,11 +64,9 @@
                     </div>
                 </div>
 
-                <!-- Submit Button -->
-                <button type="submit" class="register-btn">registrar</button>
+                <button type="submit" class="register-btn">Registrar</button>
             </form>
         </div>
     </main>
 </body>
-
 </html>

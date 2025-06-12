@@ -1,16 +1,17 @@
 <?php
+// Mostrar errores para depuración
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 include('../db/conexion.php');
 
-// Verificar conexión a la base de datos
+// Verificar conexión
 if (!$conn) {
-    echo "<script>
-        alert('Error de conexión a la base de datos: " . mysqli_connect_error() . "');
-        window.history.back();
-    </script>";
-    exit();
+    die("❌ Error de conexión a la base de datos: " . mysqli_connect_error());
 }
 
-// Verificar si se envió el formulario
+// Verificar si se enviaron todos los campos requeridos
 if (
     isset($_POST['nombre']) &&
     isset($_POST['apellido']) &&
@@ -21,6 +22,7 @@ if (
     isset($_POST['telefono']) &&
     isset($_POST['Email'])
 ) {
+    // Capturar y limpiar los datos
     $nombre = trim($_POST['nombre']);
     $apellido = trim($_POST['apellido']);
     $ficha = trim($_POST['ficha']);
@@ -30,24 +32,31 @@ if (
     $telefono = trim($_POST['telefono']);
     $Email = trim($_POST['Email']);
 
+    // Consulta SQL con placeholders
     $query = "INSERT INTO instructores 
-        (nombre, apellido, Ficha, T_documento, N_documento, Tipo_instructor, N_Telefono, Email) 
-        VALUES 
-        ('$nombre', '$apellido', '$ficha', '$tipoDocumento', '$numeroDocumento', '$tipoInstructor', '$telefono', '$Email')";
+        (nombre, apellido, Ficha, T_documento, N_Documento, Tipo_instructor, N_Telefono, Email) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-    $insert = mysqli_query($conn, $query);
+    $stmt = $conn->prepare($query);
 
-    if ($insert) {
-        header("Location: ../index.php?page=components/principales/welcome&success=Registro+exitoso");
-        exit();
+    if ($stmt) {
+        $stmt->bind_param("ssssssss", $nombre, $apellido, $ficha, $tipoDocumento, $numeroDocumento, $tipoInstructor, $telefono, $Email);
+
+        if ($stmt->execute()) {
+            // Redirige si todo salió bien
+            header("Location: ../index.php?page=components/instructores/instructores&success=Registro+exitoso");
+            exit();
+        } else {
+            // Mostrar error de ejecución
+            die("❌ Error al ejecutar la consulta: " . $stmt->error);
+        }
+
+        $stmt->close();
     } else {
-        echo "<script>
-            alert('Error al enviar los datos: " . mysqli_error($conn) . "');
-            window.history.back();
-        </script>";
+        // Error al preparar la consulta
+        die("❌ Error al preparar la consulta: " . $conn->error);
     }
 } else {
-    header("Location: ../index.php?page=components/registros/registro_instructor&error=Faltan+campos");
-    exit();
+    die("❌ Faltan campos obligatorios en el formulario.");
 }
 ?>
