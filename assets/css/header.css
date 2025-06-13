@@ -20,13 +20,13 @@ body {
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
-    padding: 6px; 
+    padding: 13px; 
+    position: relative;
 }
 
 .titulo-header {
     color: white;
     margin: 5px;
-    margin-right: 78%;
     font-weight: bold;
 }
 
@@ -46,6 +46,7 @@ body {
     background-color: #e0e0e0;
     border-bottom: 4px solid #003366;
     justify-content: center;
+    position: relative;
 }
 
 .nav-header a {
@@ -73,6 +74,43 @@ body {
     color: #003366;
 }
 
+/* ===== MOBILE MENU TOGGLE ===== */
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1000;
+}
+
+.menu-toggle span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: white;
+    margin: 5px 0;
+    transition: all 0.3s ease;
+    border-radius: 2px;
+}
+
+/* Hamburger menu animation */
+.menu-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
 /* ===== FOOTER STYLES ===== */
 footer {
     margin-top: auto;
@@ -83,13 +121,32 @@ footer {
 }
 
 /* ===== UTILITY COMPONENTS ===== */
+/* Global icon */
+.global {
+    position: fixed;
+    top: 65%;
+    left: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+.global i {
+    color: black;
+    font-size: 20px;
+    transition: color 0.3s;
+}
+
 /* Theme switcher */
 .style-switcher {
     position: fixed;
     top: 73%;
-    padding: 1%;
+    left: 10px;
+    padding: 10px;
     border-radius: 5px;
     cursor: pointer;
+    z-index: 1000;
 }
 
 .day-night i {
@@ -102,7 +159,7 @@ footer {
 .login-icon {
     position: fixed;
     top: 82%;
-    margin-left: 0.5%;
+    left: 10px;
     font-size: 24px;
     z-index: 1000;
 }
@@ -162,19 +219,141 @@ body.dark .login-icon a:hover {
     color: orange;
 }
 
+body.dark .global i {
+    color: white;
+}
+
+body.dark .menu-toggle span {
+    background-color: white;
+}
+
 /* ===== RESPONSIVE STYLES ===== */
+@media (max-width: 1024px) {
+    .titulo-header {
+        margin-right: 0;
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .header-container {
+        padding: 10px;
+    }
+    
+    .titulo-header {
+        font-size: 1.1rem;
+        margin: 5px 0;
+    }
+    
+    .logo-jke, 
+    .logo-sena {
+        height: 50px;
+    }
+    
+    /* Show menu toggle button */
+    .menu-toggle {
+        display: block;
+    }
+    
+    /* Hide navigation by default */
+    .nav-header {
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease;
+        z-index: 999;
+        box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+    }
+    
+    /* Show navigation when active */
+    .nav-header.active {
+        max-height: 500px;
+    }
+    
+    .nav-header a {
+        border: none;
+        border-bottom: 1px solid #ccc;
+        padding: 15px;
+    }
+    
+    .nav-header a:last-child {
+        border-bottom: none;
+    }
+}
+
 @media (max-width: 600px) {
     .header-container {
         flex-direction: column;
         text-align: center;
+        padding: 10px 5px;
     }
-
-    .nav-header a {
-        font-size: 14px;
-        padding: 10px;
+    
+    .menu-toggle {
+        top: 15px;
+        right: 15px;
+        transform: none;
     }
-
+    
     .titulo-header {
         margin: 10px 0;
+        font-size: 1rem;
+    }
+    
+    .logo-jke, 
+    .logo-sena {
+        height: 40px;
+    }
+    
+    .nav-header a {
+        font-size: 14px;
+        padding: 12px;
+    }
+    
+    /* Adjust utility components for mobile */
+    .global,
+    .style-switcher,
+    .login-icon {
+        position: fixed;
+        left: auto;
+        right: 10px;
+    }
+    
+    .global {
+        top: auto;
+        bottom: 140px;
+    }
+    
+    .style-switcher {
+        top: auto;
+        bottom: 90px;
+    }
+    
+    .login-icon {
+        top: auto;
+        bottom: 40px;
+    }
+}
+
+@media (max-width: 400px) {
+    .header-container {
+        padding: 5px;
+    }
+    
+    .titulo-header {
+        font-size: 0.9rem;
+    }
+    
+    .logo-jke, 
+    .logo-sena {
+        height: 35px;
+    }
+    
+    .nav-header a {
+        font-size: 13px;
+        padding: 10px;
     }
 }
