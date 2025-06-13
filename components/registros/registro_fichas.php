@@ -9,17 +9,16 @@
     <title>Registrar Ficha - SENA</title>
 </head>
 <body>
-    <!-- Contenido Principal -->
     <main class="contenido-principal">
         <div class="contenedor-formulario">
             <h1 class="titulo-formulario">Registrar Ficha</h1>
-            
-            <form>
+
+            <form action="index.php?page=functions/functions_registros_fichas" method="POST">
                 <!-- Primera Fila -->
                 <div class="fila-formulario">
                     <div class="grupo-formulario">
-                        <label for="juicios">Impotar juicios evaluativos</label>
-                        <input type="file" id="juicios" name="juicios" required>
+                        <label for="juicios">Importar juicios evaluativos</label>
+                        <input type="file" id="juicios" name="juicios" disabled title="Funcionalidad pendiente">
                     </div>
 
                     <div class="grupo-formulario">
@@ -31,29 +30,42 @@
                 <!-- Segunda Fila -->
                 <div class="fila-formulario">
                     <div class="grupo-formulario">
-                        <label for="programa">Programa de formacion</label>
+                        <label for="programa">Programa de formación</label>
                         <select id="programa" name="programa" required>
-                            <option value="">Programa de formacion</option>
-                            <option value="analisis-y-Desarrollo-de-Software">Tecnologo de Analisis y Desarrollo de Software</option>
-                            <option value="tecnico-en-programacion">Tecnico en programación</option>
+                            <option value="">Selecciona un programa</option>
+                            <option value="Análisis y Desarrollo de Software">Tecnólogo en Análisis y Desarrollo de Software</option>
+                            <option value="Técnico en Programación">Técnico en Programación</option>
                         </select>
                     </div>
 
                     <div class="grupo-formulario">
                         <label for="Jornada">Jornada</label>
                         <select id="Jornada" name="Jornada" required>
-                            <option value="">Jornada</option>
-                            <option value="diurna">Diurna</option>
-                            <option value="nocturna">Nocturna</option>
-                            <option value="mixta">Mixta</option>
+                            <option value="">Selecciona la jornada</option>
+                            <option value="Diurna">Diurna</option>
+                            <option value="Nocturna">Nocturna</option>
+                            <option value="Mixta">Mixta</option>
                         </select>
                     </div>
                 </div>
 
-                <button type="submit" class="btn-registrar">registrar</button>
+                <!-- Tercera Fila -->
+                <div class="fila-formulario">
+                    <div class="grupo-formulario">
+                        <label for="numero_ficha">Número de ficha</label>
+                        <input type="number" id="numero_ficha" name="numero_ficha" placeholder="Ej: 2546889" required>
+                    </div>
+
+                    <div class="grupo-formulario">
+                        <label for="horas_totales">Horas Totales</label>
+                        <input type="number" id="horas_totales" name="horas_totales" placeholder="Ej: 2200" required>
+                    </div>
+                </div>
+
+                <!-- Botón -->
+                <button type="submit" class="btn-registrar">Registrar</button>
             </form>
         </div>
     </main>
 </body>
-
 </html>

@@ -85,6 +85,17 @@ body {
     margin-bottom: 1.375rem;
 }
 
+#numero-ficha {
+    padding: 8px 10px;
+    margin-left: 43%;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 13px;
+    background-color: white;
+    height: 45px;
+    transition: border-color 0.2s ease;
+}
+
 .grupo-formulario.full-width {
     flex: 100%;
 }

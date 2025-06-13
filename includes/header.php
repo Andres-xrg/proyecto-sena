@@ -15,6 +15,10 @@
     <a href="index.php?page=components/registros/registro_user">Registro Usuarios</a>
 </nav>
 
+<div class="global">
+    <i class="fas fa-globe"></i> 
+</div>
+
 <div class="style-switcher">
     <div class="day-night s-icon" id="modoOscuroBtn">
         <i class="fas fa-moon"></i>

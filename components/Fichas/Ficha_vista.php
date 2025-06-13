@@ -1,3 +1,34 @@
+<!-- <?php
+// require_once '../../db/conexion.php'; // ajusta la ruta según tu estructura
+
+// Obtener el ID de la ficha desde la URL
+$id_ficha = $_GET['id'] ?? null;
+
+if (!$id_ficha) {
+    echo "Ficha no especificada.";
+    exit;
+}
+
+// Obtener datos de la ficha
+$sql = "SELECT * FROM fichas WHERE Id_ficha = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $id_ficha);
+$stmt->execute();
+$resultado = $stmt->get_result();
+$ficha = $resultado->fetch_assoc();
+
+// Obtener aprendices asociados a esta ficha
+$sql_aprendices = "
+SELECT a.*, u.Email, u.N_Telefono
+FROM ficha_aprendiz fa
+JOIN aprendices a ON fa.Id_aprendiz = a.Id_aprendiz
+JOIN usuarios u ON a.Id_usuario = u.Id_usuario
+WHERE fa.Id_ficha = ?";
+$stmt2 = $conn->prepare($sql_aprendices);
+$stmt2->bind_param("i", $id_ficha);
+$stmt2->execute();
+$aprendices = $stmt2->get_result();
+?> -->
 
 <!DOCTYPE html>
 <html lang="es">
@@ -13,7 +44,7 @@
 
     <div class="container">
         <div class="main-card">
-            
+
             <h1 class="header-title">Ficha {{N° 123456}}</h1>
 
             <!-- Tabs -->

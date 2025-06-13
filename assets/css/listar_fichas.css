@@ -16,10 +16,11 @@ body {
     max-width: 100%;
     margin: 0 auto;
     background: #FFFFFF;
-    align-items: center;
     margin-top: 45px;
     height: auto;
     padding: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
 .titulo {
@@ -140,8 +141,8 @@ body {
 }
 
 .ficha-card {
-    width: 24rem;
-    height: 10rem;
+    width: 25rem;
+    height: 13rem;
     border: 2px solid #90EE90;
     border-radius: 5px;
     padding: 15px;
@@ -153,6 +154,7 @@ body {
     background-color: #f8f8f8;
     border-color: #ccc;
 }
+
 
 .card-header {
     display: flex;
