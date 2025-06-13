@@ -1,5 +1,7 @@
+/* ===== IMPORTS ===== */
 @import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
 
+/* ===== BASE STYLES ===== */
 body {
     margin: 0;
     padding: 0;
@@ -11,6 +13,7 @@ body {
     color: #242424;
 }
 
+/* ===== HEADER STYLES ===== */
 .header-container {
     background-color: #2a7f00;
     display: flex;
@@ -20,14 +23,6 @@ body {
     padding: 6px; 
 }
 
-.logo-jke, .logo-sena {
-    height: 60px;
-}
-
-.logo-jke {
-    border-radius: 15px;
-}
-
 .titulo-header {
     color: white;
     margin: 5px;
@@ -35,7 +30,17 @@ body {
     font-weight: bold;
 }
 
-/* MENÚ DE NAVEGACIÓN */
+/* Logo styles */
+.logo-jke, 
+.logo-sena {
+    height: 60px;
+}
+
+.logo-jke {
+    border-radius: 15px;
+}
+
+/* ===== NAVIGATION STYLES ===== */
 .nav-header {
     display: flex;
     background-color: #e0e0e0;
@@ -68,7 +73,7 @@ body {
     color: #003366;
 }
 
-/* FOOTER */
+/* ===== FOOTER STYLES ===== */
 footer {
     margin-top: auto;
     background-color: #f1f1f1;
@@ -77,7 +82,87 @@ footer {
     color: #333;
 }
 
-/* RESPONSIVE */
+/* ===== UTILITY COMPONENTS ===== */
+/* Theme switcher */
+.style-switcher {
+    position: fixed;
+    top: 73%;
+    padding: 1%;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.day-night i {
+    color: black; /* en modo claro */
+    font-size: 20px;
+    transition: color 0.3s;
+}
+
+/* Login icon */
+.login-icon {
+    position: fixed;
+    top: 82%;
+    margin-left: 0.5%;
+    font-size: 24px;
+    z-index: 1000;
+}
+
+.login-icon a {
+    color: black;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.login-icon a:hover {
+    color: #2a7f00;
+}
+
+/* ===== DARK MODE STYLES ===== */
+/* Base dark mode */
+body.dark {
+    background-color: #242424;
+    color: #fff;
+}
+
+/* Header dark mode */
+body.dark .header-container {
+    background-color: #1B5074;
+}
+
+/* Navigation dark mode */
+body.dark .nav-header {
+    background-color: white;
+}
+
+body.dark .nav-header a {
+    color: #242424;
+}
+
+body.dark .nav-header a:hover {
+    background-color: #f0f0f0;
+    color: #1B5074;
+}
+
+/* Footer dark mode */
+body.dark footer {
+    background-color: #1B5074;
+    color: white;
+}
+
+/* Utility components dark mode */
+body.dark .day-night i {
+    color: white;
+}
+
+body.dark .login-icon a {
+    color: white;
+}
+
+body.dark .login-icon a:hover {
+    color: orange;
+}
+
+/* ===== RESPONSIVE STYLES ===== */
 @media (max-width: 600px) {
     .header-container {
         flex-direction: column;
@@ -92,78 +177,4 @@ footer {
     .titulo-header {
         margin: 10px 0;
     }
-}
-
-.style-switcher {
-    position: fixed;
-    top: 73%;
-    padding: 1%;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-/* Estilos para el ícono de la luna */
-.day-night i {
-    color: black; /* en modo claro */
-    font-size: 20px;
-    transition: color 0.3s;
-}
-
-/* MODO OSCURO */
-body.dark {
-    background-color: #242424;
-    color: #fff;
-}
-
-body.dark .header-container {
-    background-color: #1B5074;
-}
-
-body.dark .nav-header {
-    background-color: white;
-}
-
-body.dark .nav-header a {
-    color: #242424;
-}
-
-body.dark .nav-header a:hover {
-    background-color: #f0f0f0;
-    color: #1B5074;
-}
-
-body.dark footer {
-    background-color: #1B5074;
-    color: white;
-}
-
-body.dark .day-night i {
-    color: white; /* en modo oscuro */
-}
-
-.login-icon {
-    position: fixed;
-    top: 82%; /* justo debajo del botón de luna (que está en 73%) */
-    margin-left: 0.5%;
-    font-size: 24px;
-    z-index: 1000;
-}
-
-.login-icon a {
-    color: black; /* color negro */
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-.login-icon a:hover {
-    color: #2a7f00; /* verde oscuro */
-}
-
-/* En modo oscuro, que sea blanco */
-body.dark .login-icon a {
-    color: white;
-}
-
-body.dark .login-icon a:hover {
-    color: orange;
 }
