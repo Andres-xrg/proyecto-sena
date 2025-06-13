@@ -68,6 +68,7 @@ body {
     border-radius: 3px;
     background-color: #f0f0f0;
     font-size: 16px;
+    margin-left: 14px;
 }
 
 .search-icon {
@@ -148,6 +149,7 @@ body {
     padding: 15px;
     background: white;
     text-align: center;
+    margin-left: 15px;
 }
 
 .ficha-card.disabled {
