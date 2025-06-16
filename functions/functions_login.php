@@ -1,15 +1,12 @@
 <?php
 session_start();
+require_once '../db/conexion.php';
+require_once '../functions/historial.php';
 
-// Conexión a la base de datos
-include '../db/conexion.php'; // Asegúrate de que esta ruta es correcta
-
-// Recibir datos del formulario
 $email = $_POST['email'];
 $password = $_POST['contraseña'];
 
-// Consulta SQL (ajusta a tu estructura de base de datos)
-$sql = "SELECT * FROM usuarios WHERE email = ? LIMIT 1";
+$sql = "SELECT * FROM usuarios WHERE Email = ? LIMIT 1";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $email);
 $stmt->execute();
@@ -17,19 +14,20 @@ $result = $stmt->get_result();
 
 if ($result->num_rows === 1) {
     $usuario = $result->fetch_assoc();
-    
-    if (password_verify($password, $usuario['contraseña'])) {
+
+    if (password_verify($password, $usuario['Contraseña'])) {
         $_SESSION['usuario'] = [
-            'id' => $usuario['id'],
+            'id'     => $usuario['Id_usuario'],
             'nombre' => $usuario['nombre'],
-            'email' => $usuario['email']
+            'email'  => $usuario['Email']
         ];
+
+        registrar_historial($conn, $usuario['Id_usuario'], 'Login', "El usuario inició sesión correctamente.");
+
         header("Location: /proyecto-sena/index.php?page=components/principales/welcome");
         exit;
     }
 }
 
-// Si llega aquí, el login falló
 header("Location: ../components/principales/login.php?status=1");
 exit;
-?>

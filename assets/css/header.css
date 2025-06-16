@@ -122,6 +122,31 @@ footer {
 
 /* ===== UTILITY COMPONENTS ===== */
 /* Global icon */
+
+.history {
+    position: fixed;
+    top: 58%;
+    left: 20px;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 1000;
+    background-color: transparent; 
+    border: none;                 
+    box-shadow: none;   
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border: none !important;      
+}
+
+
+.history i {
+    color: black;
+    font-size: 20px;
+    transition: 0.3s;
+    background: none;
+}
+
+
 .global {
     position: fixed;
     top: 65%;
@@ -159,7 +184,7 @@ footer {
 .login-icon {
     position: fixed;
     top: 82%;
-    left: 10px;
+    left: 15px;
     font-size: 24px;
     z-index: 1000;
 }

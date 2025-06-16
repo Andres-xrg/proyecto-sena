@@ -1,28 +1,13 @@
 <?php
-// Mostrar errores para depuración
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+require_once '../db/conexion.php';
+require_once '../functions/historial.php';
+session_start();
 
-include('../db/conexion.php');
-
-// Verificar conexión
-if (!$conn) {
-    die("❌ Error de conexión a la base de datos: " . mysqli_connect_error());
-}
-
-// Verificar si se enviaron todos los campos requeridos
+// Validar campos
 if (
-    isset($_POST['nombre']) &&
-    isset($_POST['apellido']) &&
-    isset($_POST['ficha']) &&
-    isset($_POST['tipoDocumento']) &&
-    isset($_POST['numeroDocumento']) &&
-    isset($_POST['instructor']) &&
-    isset($_POST['telefono']) &&
-    isset($_POST['Email'])
+    isset($_POST['nombre'], $_POST['apellido'], $_POST['ficha'], $_POST['tipoDocumento'],
+          $_POST['numeroDocumento'], $_POST['instructor'], $_POST['telefono'], $_POST['Email'])
 ) {
-    // Capturar y limpiar los datos
     $nombre = trim($_POST['nombre']);
     $apellido = trim($_POST['apellido']);
     $ficha = trim($_POST['ficha']);
@@ -32,31 +17,19 @@ if (
     $telefono = trim($_POST['telefono']);
     $Email = trim($_POST['Email']);
 
-    // Consulta SQL con placeholders
-    $query = "INSERT INTO instructores 
-        (nombre, apellido, Ficha, T_documento, N_Documento, Tipo_instructor, N_Telefono, Email) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-
+    $query = "INSERT INTO instructores (nombre, apellido, Ficha, T_documento, N_Documento, Tipo_instructor, N_Telefono, Email)
+              VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($query);
+    $stmt->bind_param("ssssssss", $nombre, $apellido, $ficha, $tipoDocumento, $numeroDocumento, $tipoInstructor, $telefono, $Email);
 
-    if ($stmt) {
-        $stmt->bind_param("ssssssss", $nombre, $apellido, $ficha, $tipoDocumento, $numeroDocumento, $tipoInstructor, $telefono, $Email);
+    if ($stmt->execute()) {
+        $usuario_id = $_SESSION['usuario']['id'] ?? null;
+        $descripcion = "Se registró el instructor $nombre $apellido, Documento: $numeroDocumento, Ficha: $ficha";
+        registrar_historial($conn, $usuario_id, 'Registro de instructor', $descripcion);
 
-        if ($stmt->execute()) {
-            // Redirige si todo salió bien
-            header("Location: ../index.php?page=components/instructores/instructores&success=Registro+exitoso");
-            exit();
-        } else {
-            // Mostrar error de ejecución
-            die("❌ Error al ejecutar la consulta: " . $stmt->error);
-        }
-
-        $stmt->close();
+        header("Location: ../index.php?page=components/instructores/instructores&success=Registro+exitoso");
+        exit;
     } else {
-        // Error al preparar la consulta
-        die("❌ Error al preparar la consulta: " . $conn->error);
+        die("Error al registrar: " . $stmt->error);
     }
-} else {
-    die("❌ Faltan campos obligatorios en el formulario.");
 }
-?>
