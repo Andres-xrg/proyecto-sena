@@ -29,7 +29,6 @@
         <i class="fas fa-moon"></i>
     </div>
 </div>
-
 <div class="login-icon">
     <a href="index.php?page=components/principales/logout" title="Cerrar sesión">
         <i class="fas fa-right-from-bracket"></i>
