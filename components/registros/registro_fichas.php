@@ -1,3 +1,8 @@
+<?php
+require_once 'db/conexion.php';
+$instructores = $conn->query("SELECT Id_instructor, nombre, apellido FROM instructores ORDER BY nombre ASC");
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -13,17 +18,24 @@
         <div class="contenedor-formulario">
             <h1 class="titulo-formulario">Registrar Ficha</h1>
 
-            <form action="index.php?page=functions/functions_registros_fichas" method="POST">
+          <form action="index.php?page=functions/functions_registros_fichas" method="POST" enctype="multipart/form-data">
                 <!-- Primera Fila -->
                 <div class="fila-formulario">
                     <div class="grupo-formulario">
                         <label for="juicios">Importar juicios evaluativos</label>
-                        <input type="file" id="juicios" name="juicios" disabled title="Funcionalidad pendiente">
+                        <input type="file" id="juicios" name="juicios" accept=".xlsx,.xls">
                     </div>
 
                     <div class="grupo-formulario">
                         <label for="jefeGrupo">Jefe de grupo</label>
-                        <input type="text" id="jefeGrupo" name="jefeGrupo" placeholder="Ingrese el nombre del jefe de grupo" required>
+                        <select id="jefeGrupo" name="jefeGrupo" required>
+                            <option value="">Selecciona un instructor</option>
+                            <?php while ($inst = $instructores->fetch_assoc()): ?>
+                                <option value="<?= $inst['Id_instructor'] ?>">
+                                    <?= htmlspecialchars($inst['nombre'] . ' ' . $inst['apellido']) ?>
+                                </option>
+                            <?php endwhile; ?>
+                        </select>
                     </div>
                 </div>
 
