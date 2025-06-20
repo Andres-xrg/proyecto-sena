@@ -1,7 +1,7 @@
 <?php
+require_once __DIR__ . '/../db/conexion.php';
+require_once __DIR__ . '/historial.php';
 require_once __DIR__ . '/../vendor/autoload.php';
-require_once 'db/conexion.php';
-require_once 'functions/historial.php';
 
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
@@ -9,12 +9,12 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $numero_ficha = $_POST["numero_ficha"];
     $programa     = $_POST["programa"];
     $horas        = $_POST["horas_totales"];
     $jornada      = $_POST["Jornada"];
-    $id_jefe      = intval($_POST["jefeGrupo"]);
+    $id_jefe      = $_POST["jefeGrupo"];
 
     $sql = "INSERT INTO fichas (numero_ficha, programa_formación, Horas_Totales, Jornada, Estado_ficha, Jefe_grupo)
             VALUES (?, ?, ?, ?, 'Activo', ?)";
@@ -23,10 +23,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($stmt->execute()) {
         $id_ficha_insertada = $conn->insert_id;
-
         $usuario_id = $_SESSION['usuario']['id'] ?? 0;
-        $desc = "Se creó la ficha $numero_ficha del programa '$programa' con jornada '$jornada' y jefe con ID $id_jefe.";
-        registrar_historial($conn, $usuario_id, 'Registro de ficha', $desc);
+        registrar_historial($conn, $usuario_id, 'Registro de ficha', "Ficha $numero_ficha creada");
 
         if (isset($_FILES['juicios']) && $_FILES['juicios']['error'] === UPLOAD_ERR_OK) {
             $archivoExcel = $_FILES['juicios']['tmp_name'];
@@ -35,77 +33,71 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $spreadsheet = IOFactory::load($archivoExcel);
                 $hoja = $spreadsheet->getActiveSheet();
 
-                foreach ($hoja->getRowIterator(2) as $fila) {
+                foreach ($hoja->getRowIterator(14) as $fila) {
                     $celdas = $fila->getCellIterator();
                     $celdas->setIterateOnlyExistingCells(false);
 
                     $filaDatos = [];
                     foreach ($celdas as $celda) {
-                        $filaDatos[] = $celda->getValue();
+                        $filaDatos[] = trim((string)$celda->getValue());
                     }
 
-                    if (count($filaDatos) >= 3) {
-                        $nombre    = trim($filaDatos[0]);
-                        $documento = trim($filaDatos[1]);
-                        $juicio    = trim($filaDatos[2]);
+                    if (count($filaDatos) < 11) continue;
 
-                        $apellido = '';
-                        $estado = 'En formación';
-                        $competencia = '';
-                        $resultado_aprendizaje = '';
-                        $tipo_doc = 'C.C';
-                        $id_usuario = 1; // ajustar si se desea vincular con usuarios reales
+                    list($_tipo_doc, $documento, $nombre, $apellido, $estado, $competencia, $resultado_aprendizaje, $juicio, $_omitido1, $fecha_juicio, $funcionario) = $filaDatos;
 
-                        // Insertar en juicios_evaluativos
-                        if (!empty($nombre) && !empty($documento) && !empty($juicio)) {
-                            $stmtJuicio = $conn->prepare("INSERT INTO juicios_evaluativos 
-                                (N_Documento, Nombre_aprendiz, Apellido_aprendiz, Estado_formacion, 
-                                 Competencia, Resultado_aprendizaje, Juicio, 
-                                 Numero_ficha, Programa_formacion, Fecha_registro)
-                                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())");
+                    if (!is_numeric($documento) || intval($documento) === 0) continue;
 
-                            $stmtJuicio->bind_param("issssssss", $documento, $nombre, $apellido, $estado,
-                                                      $competencia, $resultado_aprendizaje, $juicio,
-                                                      $numero_ficha, $programa);
-                            $stmtJuicio->execute();
-                        }
+                    $tipo_doc = "C.C";
+                    $email = strtolower(str_replace(' ', '', $nombre)) . "@sena.edu.co";
+                    $telefono = "No disponible";
 
-                        // Verificar si aprendiz ya existe
-                        $stmtCheck = $conn->prepare("SELECT Id_aprendiz FROM aprendices WHERE N_documento = ?");
-                        $stmtCheck->bind_param("s", $documento);
-                        $stmtCheck->execute();
-                        $resultCheck = $stmtCheck->get_result();
+                    // Verificar aprendiz
+                    $verificar = $conn->prepare("SELECT Id_aprendiz FROM aprendices WHERE N_Documento = ?");
+                    $verificar->bind_param("s", $documento);
+                    $verificar->execute();
+                    $res = $verificar->get_result();
 
-                        if ($row = $resultCheck->fetch_assoc()) {
-                            $id_aprendiz = $row['Id_aprendiz'];
-                        } else {
-                            // Insertar aprendiz
-                            $stmtInsertAprendiz = $conn->prepare("INSERT INTO aprendices (Id_usuario, Nombre, Apellido, T_documento, N_documento) VALUES (?, ?, ?, ?, ?)");
-                            $stmtInsertAprendiz->bind_param("issss", $id_usuario, $nombre, $apellido, $tipo_doc, $documento);
-                            $stmtInsertAprendiz->execute();
-                            $id_aprendiz = $conn->insert_id;
-                        }
-
-                        // Vincular aprendiz a la ficha
-                        $stmtVincular = $conn->prepare("INSERT IGNORE INTO ficha_aprendiz (Id_ficha, Id_aprendiz) VALUES (?, ?)");
-                        $stmtVincular->bind_param("ii", $id_ficha_insertada, $id_aprendiz);
-                        $stmtVincular->execute();
+                    if ($res->num_rows === 0) {
+                        $insert_ap = $conn->prepare("INSERT INTO aprendices (T_documento, N_Documento, nombre, apellido, Email, N_Telefono) VALUES (?, ?, ?, ?, ?, ?)");
+                        $insert_ap->bind_param("ssssss", $tipo_doc, $documento, $nombre, $apellido, $email, $telefono);
+                        $insert_ap->execute();
+                        $id_aprendiz = $insert_ap->insert_id;
+                    } else {
+                        $id_aprendiz = $res->fetch_assoc()['Id_aprendiz'];
                     }
+
+                    // Asociar aprendiz con ficha
+                    $asociar = $conn->prepare("INSERT IGNORE INTO ficha_aprendiz (Id_ficha, Id_aprendiz) VALUES (?, ?)");
+                    $asociar->bind_param("ii", $id_ficha_insertada, $id_aprendiz);
+                    $asociar->execute();
+
+                    // Insertar juicio
+                    $insert_juicio = $conn->prepare("INSERT INTO juicios_evaluativos (
+                        Numero_ficha, N_Documento, Nombre_aprendiz, Apellido_aprendiz,
+                        Estado_formacion, Competencia, Resultado_aprendizaje,
+                        Juicio, Fecha_registro, Funcionario_registro
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+                    $now = date('Y-m-d H:i:s');
+                    $insert_juicio->bind_param("ssssssssss", $numero_ficha, $documento, $nombre, $apellido, $estado, $competencia, $resultado_aprendizaje, $juicio, $now, $funcionario);
+                    $insert_juicio->execute();
                 }
+
             } catch (Exception $e) {
-                echo "⚠️ Error al procesar el archivo Excel: " . $e->getMessage();
+                echo "<p style='color:red;'>❌ Error al procesar el Excel: " . $e->getMessage() . "</p>";
                 exit;
             }
         }
 
+        // 🔁 Redirigir como antes
         header("Location: index.php?page=components/Fichas/Ficha_vista&id=" . $id_ficha_insertada);
         exit;
 
     } else {
-        echo "❌ Error al registrar la ficha: " . $stmt->error;
+        echo "<p style='color:red;'>❌ Error al registrar ficha: " . $stmt->error . "</p>";
     }
 
     $stmt->close();
     $conn->close();
 }
-?>
