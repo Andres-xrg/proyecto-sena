@@ -3,7 +3,7 @@ session_start();
 
 $page = $_GET['page'] ?? 'components/principales/welcome';
 $pagePath = __DIR__ . '/../' . $page . '.php';
-
+date_default_timezone_set('America/Bogota');
 // Lista de páginas que NO deben cargar ni header ni footer
 $sinHeaderFooter = [
     'components/principales/ver_historial'
@@ -15,6 +15,7 @@ $sinHeaderFooter = [
 <head>
     <meta charset="UTF-8" />
     <title>Mi Proyecto</title>
+<link rel="icon" href="/proyecto-sena/assets/img/favicon.png" type="image/png">
 
     <?php if (!in_array($page, $sinHeaderFooter)): ?>
         <link rel="stylesheet" href="/proyecto-sena/assets/css/header.css" />
@@ -49,9 +50,9 @@ if (!in_array($page, $sinHeaderFooter)) {
 
 <?php
 // Aquí puedes incluir footer si lo tuvieras, con la misma condición
-// if (!in_array($page, $sinHeaderFooter)) {
-//     include __DIR__ . '/footer.php';
-// }
+ if (!in_array($page, $sinHeaderFooter)) {
+     include __DIR__ . '/footer.php';
+ }
 ?>
 
 </body>

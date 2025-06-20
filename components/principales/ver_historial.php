@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../../db/conexion.php';
 require_once __DIR__ . '/../../functions/historial.php';
-
+date_default_timezone_set('America/Bogota'); // O la que aplique a tu país
 $sql = "SELECT h.*, u.nombre, u.apellido 
         FROM historial_usuarios h 
         LEFT JOIN usuarios u ON h.usuario_id = u.Id_usuario 

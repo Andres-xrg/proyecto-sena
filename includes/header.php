@@ -2,9 +2,10 @@
 <div class="header-container">
     <img src="/proyecto-sena/assets/img/JKE.png" alt="JKE Logo" class="logo-jke" />
 
-    <h1 class="titulo-header">
-        Bienvenido<?php echo isset($_SESSION['nombre']) ? ', ' . htmlspecialchars($_SESSION['nombre']) : ''; ?>
-    </h1>
+<h1 class="titulo-header">
+    Bienvenido<?php echo isset($_SESSION['usuario']['nombre']) ? ', ' . htmlspecialchars($_SESSION['usuario']['nombre']) : ''; ?>
+</h1>
+
 
     <img src="/proyecto-sena/assets/img/logo-sena.png" alt="SENA Logo" class="logo-sena" />
 </div>
