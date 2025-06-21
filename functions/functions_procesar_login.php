@@ -1,14 +1,14 @@
 <?php
 session_start();
 require_once("../db/conexion.php");
-require_once("../functions/historial.php"); // 👈 Asegúrate de que esta ruta sea válida
+require_once("../functions/historial.php");
 
 $email    = trim($_POST['email'] ?? '');
 $password = trim($_POST['contraseña'] ?? '');
 
 // Validación básica
 if (empty($email) || empty($password)) {
-    header("Location: /proyecto-sena/components/principales/login.php?status=1");
+    header("Location: /proyecto-sena/components/principales/login.php?status=vacio");
     exit;
 }
 
@@ -22,25 +22,26 @@ $result = $stmt->get_result();
 if ($result->num_rows === 1) {
     $usuario = $result->fetch_assoc();
 
-    // Verificar la contraseña
+    // Verificar contraseña
     if (password_verify($password, $usuario['Contraseña'])) {
-
-        // ✅ Guardar datos del usuario en sesión correctamente
         $_SESSION['usuario'] = [
-            'id'     => $usuario['Id_usuario'],  // ← importante para historial
+            'id'     => $usuario['Id_usuario'],
             'email'  => $usuario['Email'],
             'nombre' => $usuario['nombre']
         ];
 
-        // ✅ Registrar historial
         registrar_historial($conn, $usuario['Id_usuario'], 'Login', "El usuario inició sesión correctamente.");
 
         header("Location: /proyecto-sena/index.php?page=components/principales/welcome");
         exit;
+    } else {
+        // Contraseña incorrecta
+        header("Location: /proyecto-sena/components/principales/login.php?status=contrasena");
+        exit;
     }
+} else {
+    // Correo no registrado
+    header("Location: /proyecto-sena/components/principales/login.php?status=correo");
+    exit;
 }
-
-// ❌ Login fallido
-header("Location: /proyecto-sena/components/principales/login.php?status=1");
-exit;
 ?>

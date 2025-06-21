@@ -22,10 +22,18 @@
             <div class="user-icon">
                 <img src="/proyecto-sena/assets/img/logo-inicio.png" alt="User Icon">
             </div>
-            <?php if (isset($_GET['status']) && $_GET['status'] == 1): ?>
-                <p style="color: red; text-align: center;     animation: fadeInForm 0.8s ease;">Correo o contraseña incorrectos. Intenta de nuevo.</p>
+            <?php if (isset($_GET['status'])): ?>
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                <script>
+                    <?php if ($_GET['status'] == 'correo'): ?>
+                        Swal.fire('Correo no registrado', 'El correo ingresado no se encuentra en la base de datos.', 'warning');
+                    <?php elseif ($_GET['status'] == 'contrasena'): ?>
+                        Swal.fire('Contraseña incorrecta', 'La contraseña no coincide.', 'error');
+                    <?php elseif ($_GET['status'] == 'vacio'): ?>
+                        Swal.fire('Campos vacíos', 'Por favor completa todos los campos.', 'info');
+                    <?php endif; ?>
+                </script>
             <?php endif; ?>
-    
             <?php if (isset($_GET['logout']) && $_GET['logout'] == 1): ?>
                 <div style="display: flex;background-color: #d4edda;color: #155724;padding: 10px;border-radius: 5px;margin-bottom: 15px;text-align: center;fadeInForm 0.8s ease;align-items: center;justify-content: center;gap: 10px;">
                     <img src="/proyecto-sena/assets/img/alert.png" alt="img-alert" style="witdh: 25px; height:25px; margin-bottom: 1px;"> Sesión cerrada correctamente.
