@@ -32,8 +32,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             try {
                 $spreadsheet = IOFactory::load($archivoExcel);
                 $hoja = $spreadsheet->getActiveSheet();
+                $fila_inicio = 14;
 
-                foreach ($hoja->getRowIterator(14) as $fila) {
+                foreach ($hoja->getRowIterator($fila_inicio) as $fila) {
                     $celdas = $fila->getCellIterator();
                     $celdas->setIterateOnlyExistingCells(false);
 
@@ -46,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                     list($_tipo_doc, $documento, $nombre, $apellido, $estado, $competencia, $resultado_aprendizaje, $juicio, $_omitido1, $fecha_juicio, $funcionario) = $filaDatos;
 
-                    if (!is_numeric($documento) || intval($documento) === 0) continue;
+                    if (!isset($documento) || !is_numeric($documento)) continue;
 
                     $tipo_doc = "C.C";
                     $email = strtolower(str_replace(' ', '', $nombre)) . "@sena.edu.co";
@@ -59,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     $res = $verificar->get_result();
 
                     if ($res->num_rows === 0) {
-                        $insert_ap = $conn->prepare("INSERT INTO aprendices (T_documento, N_Documento, nombre, apellido, Email, N_Telefono) VALUES (?, ?, ?, ?, ?, ?)");
+                        $insert_ap = $conn->prepare("INSERT INTO aprendices (T_documento, N_documento, nombre, apellido, Email, N_Telefono) VALUES (?, ?, ?, ?, ?, ?)");
                         $insert_ap->bind_param("ssssss", $tipo_doc, $documento, $nombre, $apellido, $email, $telefono);
                         $insert_ap->execute();
                         $id_aprendiz = $insert_ap->insert_id;
@@ -67,33 +68,38 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         $id_aprendiz = $res->fetch_assoc()['Id_aprendiz'];
                     }
 
-                    // Asociar aprendiz con ficha
+                    // Asociar con ficha
                     $asociar = $conn->prepare("INSERT IGNORE INTO ficha_aprendiz (Id_ficha, Id_aprendiz) VALUES (?, ?)");
                     $asociar->bind_param("ii", $id_ficha_insertada, $id_aprendiz);
                     $asociar->execute();
 
-                    // Insertar juicio
-                    $insert_juicio = $conn->prepare("INSERT INTO juicios_evaluativos (
-                        Numero_ficha, N_Documento, Nombre_aprendiz, Apellido_aprendiz,
-                        Estado_formacion, Competencia, Resultado_aprendizaje,
-                        Juicio, Fecha_registro, Funcionario_registro
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                    // Insertar juicio si no existe
+                    $verifica_juicio = $conn->prepare("SELECT 1 FROM juicios_evaluativos WHERE Numero_ficha = ? AND N_Documento = ? AND Competencia = ?");
+                    $verifica_juicio->bind_param("sss", $numero_ficha, $documento, $competencia);
+                    $verifica_juicio->execute();
+                    $juicio_existe = $verifica_juicio->get_result();
 
-                    $now = date('Y-m-d H:i:s');
-                    $insert_juicio->bind_param("ssssssssss", $numero_ficha, $documento, $nombre, $apellido, $estado, $competencia, $resultado_aprendizaje, $juicio, $now, $funcionario);
-                    $insert_juicio->execute();
+                    if ($juicio_existe->num_rows === 0) {
+                        $insert_juicio = $conn->prepare("INSERT INTO juicios_evaluativos (
+                            Numero_ficha, N_Documento, Nombre_aprendiz, Apellido_aprendiz,
+                            Estado_formacion, Competencia, Resultado_aprendizaje,
+                            Juicio, Fecha_registro, Funcionario_registro
+                        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+                        $now = date('Y-m-d H:i:s');
+                        $insert_juicio->bind_param("ssssssssss", $numero_ficha, $documento, $nombre, $apellido, $estado, $competencia, $resultado_aprendizaje, $juicio, $now, $funcionario);
+                        $insert_juicio->execute();
+                    }
                 }
-
             } catch (Exception $e) {
-                echo "<p style='color:red;'>❌ Error al procesar el Excel: " . $e->getMessage() . "</p>";
+                echo "<p style='color:red;'>❌ Error al procesar el archivo Excel: " . $e->getMessage() . "</p>";
                 exit;
             }
         }
 
-        // 🔁 Redirigir como antes
+        // ✅ Redirige automáticamente
         header("Location: index.php?page=components/Fichas/Ficha_vista&id=" . $id_ficha_insertada);
         exit;
-
     } else {
         echo "<p style='color:red;'>❌ Error al registrar ficha: " . $stmt->error . "</p>";
     }

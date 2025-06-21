@@ -13,41 +13,25 @@ $sql = "SELECT * FROM fichas WHERE Id_ficha = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $id_ficha);
 $stmt->execute();
-$resultado = $stmt->get_result();
-$ficha = $resultado->fetch_assoc();
+$ficha = $stmt->get_result()->fetch_assoc();
 
 if (!$ficha) {
     echo "<p style='color:red;'>❌ No se encontró la ficha con ID $id_ficha.</p>";
     exit;
 }
 
-// Obtener aprendices de la ficha
+// Obtener aprendices asociados y ordenarlos por documento
 $sql_aprendices = "
     SELECT a.*
     FROM ficha_aprendiz fa
     JOIN aprendices a ON fa.Id_aprendiz = a.Id_aprendiz
-    WHERE fa.Id_ficha = ?";
+    WHERE fa.Id_ficha = ?
+    ORDER BY CAST(a.N_Documento AS UNSIGNED) ASC
+";
 $stmt2 = $conn->prepare($sql_aprendices);
 $stmt2->bind_param("i", $id_ficha);
 $stmt2->execute();
 $aprendices = $stmt2->get_result();
-
-// Obtener juicios por número de ficha
-$sql_juicios = "
-    SELECT *
-    FROM juicios_evaluativos
-    WHERE Numero_ficha = ?";
-$stmt3 = $conn->prepare($sql_juicios);
-
-if (!$stmt3) {
-    echo "<p style='color:red;'>❌ Error preparando stmt de juicios: " . $conn->error . "</p>";
-    exit;
-}
-
-$numero_ficha_consulta = $ficha['numero_ficha'];
-$stmt3->bind_param("s", $numero_ficha_consulta);
-$stmt3->execute();
-$juicios = $stmt3->get_result();
 ?>
 
 <!DOCTYPE html>
@@ -56,49 +40,87 @@ $juicios = $stmt3->get_result();
     <meta charset="UTF-8">
     <title>Ficha <?= htmlspecialchars($ficha['numero_ficha']) ?></title>
     <link rel="stylesheet" href="assets/css/fichas.css">
-    <link rel="stylesheet" href="assets/css/footer.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Ficha N° <?= htmlspecialchars($ficha['numero_ficha']) ?></h1>
-        <p><strong>Programa:</strong> <?= htmlspecialchars($ficha['programa_formación']) ?></p>
-        <p><strong>Jornada:</strong> <?= htmlspecialchars($ficha['Jornada']) ?></p>
-        <p><strong>Horas Totales:</strong> <?= htmlspecialchars($ficha['Horas_Totales']) ?></p>
+<div class="container">
+    <div class="main-card">
+        <h1 class="header-title">Ficha N° <?= htmlspecialchars($ficha['numero_ficha']) ?></h1>
 
-        <h2>Aprendices</h2>
-        <?php if ($aprendices->num_rows > 0): ?>
-            <?php while ($a = $aprendices->fetch_assoc()): ?>
-                <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
-                    <strong><?= htmlspecialchars($a['nombre'] ?? 'Sin nombre') ?> <?= htmlspecialchars($a['apellido'] ?? '') ?></strong><br>
-                    Documento: <?= htmlspecialchars($a['T_documento'] ?? '-') ?> - <?= htmlspecialchars($a['N_Documento'] ?? '-') ?><br>
-                    Correo: <?= htmlspecialchars($a['Email'] ?? 'No disponible') ?><br>
-                    Teléfono: <?= htmlspecialchars($a['N_Telefono'] ?? 'No disponible') ?><br>
+        <div class="form-controls">
+            <div class="form-group">
+                <label>Programa:</label>
+                <select disabled><option><?= htmlspecialchars($ficha['programa_formación']) ?></option></select>
+            </div>
+            <div class="form-group">
+                <label>Jornada:</label>
+                <select disabled><option><?= htmlspecialchars($ficha['Jornada']) ?></option></select>
+            </div>
+            <div class="form-group">
+                <label>Horas Totales:</label>
+                <select disabled><option><?= htmlspecialchars($ficha['Horas_Totales']) ?></option></select>
+            </div>
+        </div>
+
+        <h2 class="header-title">Aprendices</h2>
+
+        <div class="students-list">
+            <?php 
+            $documentos_vistos = [];
+
+            while ($a = $aprendices->fetch_assoc()):
+                if (in_array($a['N_Documento'], $documentos_vistos)) continue;
+                $documentos_vistos[] = $a['N_Documento'];
+
+                // Obtener estado de formación
+                $estado_stmt = $conn->prepare("SELECT Estado_formacion FROM juicios_evaluativos WHERE N_Documento = ? ORDER BY Fecha_registro DESC LIMIT 1");
+                $estado_stmt->bind_param("s", $a['N_Documento']);
+                $estado_stmt->execute();
+                $estado_data = $estado_stmt->get_result()->fetch_assoc();
+                $estado = strtolower($estado_data['Estado_formacion'] ?? 'sin estado');
+
+                // Asignar color de badge
+                $badge_color = 'badge-gray';
+                if ($estado === 'en formación') $badge_color = 'badge-green';
+                elseif ($estado === 'trasladado') $badge_color = 'badge-blue';
+                elseif ($estado === 'desertado') $badge_color = 'badge-red';
+            ?>
+                <div class="student-card">
+                    <div class="student-content">
+                        <div class="avatar">
+                            <?= strtoupper(substr($a['nombre'], 0, 1)) ?>
+                        </div>
+                        <div class="student-info">
+                            <div class="student-header">
+                                <span class="student-name"><?= htmlspecialchars($a['nombre']) ?> <?= htmlspecialchars($a['apellido']) ?></span>
+                                <div class="badges">
+                                    <span class="badge <?= $badge_color ?>"><?= ucfirst($estado) ?></span>
+                                </div>
+                            </div>
+                            <div class="student-details">
+                                <div class="detail-item">
+                                    <label>Documento</label>
+                                    <p><?= htmlspecialchars($a['T_documento']) ?> - <?= htmlspecialchars($a['N_Documento']) ?></p>
+                                </div>
+                                <div class="detail-item">
+                                    <label>Correo</label>
+                                    <p class="email"><?= htmlspecialchars($a['Email']) ?></p>
+                                </div>
+                                <div class="detail-item">
+                                    <label>Teléfono</label>
+                                    <p><?= htmlspecialchars($a['N_Telefono']) ?></p>
+                                </div>
+                            </div>
+                            <a class="percentage-btn" href="index.php?page=components/competencias/competencias&doc=<?= urlencode($a['N_Documento']) ?>">Ver Competencias</a>
+                        </div>
+                    </div>
                 </div>
             <?php endwhile; ?>
-        <?php else: ?>
-            <p>No hay aprendices asociados a esta ficha.</p>
-        <?php endif; ?>
 
-        <h2>Juicios Evaluativos (desde Excel)</h2>
-        <p style="color:blue;"><strong>Ficha buscada:</strong> <?= htmlspecialchars($numero_ficha_consulta) ?></p>
-        <p style="color:blue;"><strong>Total juicios encontrados:</strong> <?= $juicios->num_rows ?></p>
-
-        <?php if ($juicios->num_rows > 0): ?>
-            <?php while ($j = $juicios->fetch_assoc()): ?>
-                <div style="border: 1px solid #ddd; padding: 10px; margin-bottom: 10px;">
-                    <strong><?= htmlspecialchars($j['Nombre_aprendiz'] ?? '') ?> <?= htmlspecialchars($j['Apellido_aprendiz'] ?? '') ?></strong><br>
-                    Documento: <?= htmlspecialchars($j['N_Documento']) ?><br>
-                    Estado: <?= htmlspecialchars($j['Estado_formacion']) ?><br>
-                    Competencia: <?= htmlspecialchars($j['Competencia']) ?><br>
-                    Resultado de Aprendizaje: <?= htmlspecialchars($j['Resultado_aprendizaje']) ?><br>
-                    Juicio: <strong><?= htmlspecialchars($j['Juicio']) ?></strong><br>
-                    Funcionario que registró: <?= htmlspecialchars($j['Funcionario_registro'] ?? 'N/A') ?><br>
-                    Fecha Registro: <?= htmlspecialchars($j['Fecha_registro']) ?><br>
-                </div>
-            <?php endwhile; ?>
-        <?php else: ?>
-            <p>No hay juicios evaluativos registrados para esta ficha.</p>
-        <?php endif; ?>
+            <?php if ($aprendices->num_rows === 0): ?>
+                <div class="empty-content">No hay aprendices registrados en esta ficha.</div>
+            <?php endif; ?>
+        </div>
     </div>
+</div>
 </body>
 </html>
