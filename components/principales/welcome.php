@@ -11,7 +11,7 @@
 </head>
 <body>
 <div class="welcome-container">
-    <h1 class="welcome-title">Bienvenido</h1>
+    <h1 class="welcome-title"><?= $translations['welcome'] ?></h1>
     
     <div class="carousel-container">
         <button class="nav-button prev">
@@ -35,6 +35,7 @@
         <div class="pagination-dot"></div>
     </div>
 </div>
+
 
 <script src="assets/js/welcome.js"></script>
 </body>

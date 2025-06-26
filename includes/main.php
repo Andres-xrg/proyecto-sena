@@ -1,5 +1,5 @@
 <?php
-session_start();
+// session_start();
 
 $page = $_GET['page'] ?? 'components/principales/welcome';
 $pagePath = __DIR__ . '/../' . $page . '.php';

@@ -16,20 +16,20 @@ $instructores = $conn->query("SELECT Id_instructor, nombre, apellido FROM instru
 <body>
     <main class="contenido-principal">
         <div class="contenedor-formulario">
-            <h1 class="titulo-formulario">Registrar Ficha</h1>
+            <h1 class="titulo-formulario"><?= $translations['register_ficha'] ?></h1>
 
-          <form action="index.php?page=functions/functions_registros_fichas" method="POST" enctype="multipart/form-data">
+            <form action="index.php?page=functions/functions_registros_fichas" method="POST" enctype="multipart/form-data">
                 <!-- Primera Fila -->
                 <div class="fila-formulario">
                     <div class="grupo-formulario">
-                        <label for="juicios">Importar juicios evaluativos</label>
+                        <label for="juicios"><?= $translations['import_judgments'] ?></label>
                         <input type="file" id="juicios" name="juicios" accept=".xlsx,.xls">
                     </div>
 
                     <div class="grupo-formulario">
-                        <label for="jefeGrupo">Jefe de grupo</label>
+                        <label for="jefeGrupo"><?= $translations['group_leader'] ?></label>
                         <select id="jefeGrupo" name="jefeGrupo" required>
-                            <option value="">Selecciona un instructor</option>
+                            <option value=""><?= $translations['select_doc_type'] ?></option>
                             <?php while ($inst = $instructores->fetch_assoc()): ?>
                                 <option value="<?= $inst['Id_instructor'] ?>">
                                     <?= htmlspecialchars($inst['nombre'] . ' ' . $inst['apellido']) ?>
@@ -42,21 +42,21 @@ $instructores = $conn->query("SELECT Id_instructor, nombre, apellido FROM instru
                 <!-- Segunda Fila -->
                 <div class="fila-formulario">
                     <div class="grupo-formulario">
-                        <label for="programa">Programa de formación</label>
+                        <label for="programa"><?= $translations['training_programs'] ?></label>
                         <select id="programa" name="programa" required>
-                            <option value="">Selecciona un programa</option>
-                            <option value="Análisis y Desarrollo de Software">Tecnólogo en Análisis y Desarrollo de Software</option>
-                            <option value="Técnico en Programación">Técnico en Programación</option>
+                            <option value=""><?= $translations['select_doc_type'] ?></option>
+                            <option value="Análisis y Desarrollo de Software"><?= $translations['technologist'] . ' ' . $translations['software_dev'] ?></option>
+                            <option value="Técnico en Programación"><?= $translations['technician'] . ' ' . $translations['software_programming'] ?></option>
                         </select>
                     </div>
 
                     <div class="grupo-formulario">
-                        <label for="Jornada">Jornada</label>
+                        <label for="Jornada"><?= $translations['document_type'] ?></label>
                         <select id="Jornada" name="Jornada" required>
-                            <option value="">Selecciona la jornada</option>
-                            <option value="Diurna">Diurna</option>
-                            <option value="Nocturna">Nocturna</option>
-                            <option value="Mixta">Mixta</option>
+                            <option value=""><?= $translations['select_doc_type'] ?></option>
+                            <option value="Diurna"><?= $translations['daytime'] ?></option>
+                            <option value="Nocturna"><?= $translations['nighttime'] ?></option>
+                            <option value="Mixta"><?= $translations['mixed'] ?></option>
                         </select>
                     </div>
                 </div>
@@ -64,18 +64,18 @@ $instructores = $conn->query("SELECT Id_instructor, nombre, apellido FROM instru
                 <!-- Tercera Fila -->
                 <div class="fila-formulario">
                     <div class="grupo-formulario">
-                        <label for="numero_ficha">Número de ficha</label>
+                        <label for="numero_ficha"><?= $translations['ficha_number'] ?></label>
                         <input type="number" id="numero_ficha" name="numero_ficha" placeholder="Ej: 2546889" required>
                     </div>
 
                     <div class="grupo-formulario">
-                        <label for="horas_totales">Horas Totales</label>
+                        <label for="horas_totales"><?= $translations['total_hours'] ?></label>
                         <input type="number" id="horas_totales" name="horas_totales" placeholder="Ej: 2200" required>
                     </div>
                 </div>
 
                 <!-- Botón -->
-                <button type="submit" class="btn-registrar">Registrar</button>
+                <button type="submit" class="btn-registrar"><?= $translations['submit'] ?></button>
             </form>
         </div>
     </main>

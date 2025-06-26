@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="assets/css/header.css">
     <link rel="stylesheet" href="assets/css/footer.css">
     <title>SENA - Plataforma Educativa</title>
-
 </head>
 <body>
     <main class="main-content">
@@ -20,8 +19,8 @@
                         <div class="card-header" onclick="tecnologo()">
                             <div class="card-icon" ></div>
                             <div>
-                                <div class="card-title" >Tecnólogo</div>
-                                <div class="card-subtitle">Análisis y Desarrollo de Software</div>
+                                <div class="card-title"><?= $translations['technologist'] ?></div>
+                                <div class="card-subtitle"><?= $translations['software_dev'] ?></div>
                             </div>
                         </div>
                     </div>
@@ -41,8 +40,8 @@
                         <div class="card-header" onclick="tecnico()">
                             <div class="card-icon"></div>
                             <div>
-                                <div class="card-title">Técnico</div>
-                                <div class="card-subtitle">Programación de Software</div>
+                                <div class="card-title"><?= $translations['technician'] ?></div>
+                                <div class="card-subtitle"><?= $translations['software_programming'] ?></div>
                             </div>
                         </div>
                     </div>
@@ -61,15 +60,15 @@
         <aside class="sidebar">
             <button class="sidebar-button" onclick="registrarFicha()">
                 <div class="button-icon" ></div>
-                Registrar Ficha
+                <?= $translations['register_ficha'] ?>
             </button>
             <button class="sidebar-button" onclick="registrarInstructor()">
                 <div class="button-icon" ></div>
-                Registrar Instructor
+                <?= $translations['register_instructor'] ?>
             </button>
             <button class="sidebar-button" onclick="registrarAprendiz()">
                 <div class="button-icon"></div>
-                Registrar Aprendiz
+                <?= $translations['register_apprentices'] ?>
             </button>
         </aside>
     </main>

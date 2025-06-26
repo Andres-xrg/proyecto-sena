@@ -1,9 +1,10 @@
+<?php require_once 'functions/lang.php'; ?>
 <!DOCTYPE html>
-<html lang="es">
+<html lang="<?= $_SESSION['lang'] ?? 'es' ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro - SENA</title>
+    <title><?= $translations['register_users'] ?> - SENA</title>
     <link rel="stylesheet" href="assets/css/registro_user.css">
     <link rel="stylesheet" href="assets/css/header.css">
     <link rel="stylesheet" href="assets/css/footer.css">
@@ -16,46 +17,46 @@
         </div>
 
         <form action="functions/functions_registro_user.php" method="POST">
-            <div class="section-title">Información</div>
-            <div class="section-subtitle">Todos los campos deben ser obligatorios</div>
+            <div class="section-title"><?= $translations['register_users'] ?></div>
+            <div class="section-subtitle"><?= $translations['all_fields_required'] ?></div>
 
-            <div class="section-title" style="margin-top: 20px;">Usuario</div>
+            <div class="section-title" style="margin-top: 20px;"><?= $translations['users'] ?></div>
 
             <div class="form-group">
-                <label>Nombre</label>
-                <input type="text" name="nombre" required placeholder="Ingrese sus nombres">
+                <label><?= $translations['user_name'] ?></label>
+                <input type="text" name="nombre" required placeholder="<?= $translations['user_name'] ?>">
             </div>
 
             <div class="form-group">
-                <label>Apellidos</label>
-                <input type="text" name="apellidos" required placeholder="Ingrese sus apellidos">
+                <label><?= $translations['user_lastname'] ?></label>
+                <input type="text" name="apellidos" required placeholder="<?= $translations['user_lastname'] ?>">
             </div>
 
             <div class="form-group">
-                <label>N° teléfono</label>
-                <input type="tel" name="telefono" required placeholder="Ingrese su N° teléfono">
+                <label><?= $translations['user_phone'] ?></label>
+                <input type="tel" name="telefono" required placeholder="<?= $translations['user_phone'] ?>">
             </div>
 
             <div class="form-group">
-                <label>Tipo Documento</label>
+                <label><?= $translations['document_type'] ?></label>
                 <select name="tipo_documento" required>
-                    <option value="" disabled selected>Seleccione su tipo de documento</option>
+                    <option value="" disabled selected><?= $translations['select_doc_type'] ?></option>
                     <option value="TI">TI</option>
                     <option value="CC">CC</option>
                 </select>
             </div>
 
             <div class="form-group">
-                <label>N° Documento</label>
-                <input type="text" name="documento" required placeholder="Ingrese su N° de documento">
+                <label><?= $translations['document_number'] ?></label>
+                <input type="text" name="documento" required placeholder="<?= $translations['document_number'] ?>">
             </div>
 
-            <div class="section-title" style="margin-top: 30px;">Correo</div>
-            <div class="section-subtitle">Para realizar el acceso, su Email será su usuario</div>
+            <div class="section-title" style="margin-top: 30px;"><?= $translations['email'] ?></div>
+            <div class="section-subtitle"><?= $translations['access_email'] ?></div>
 
             <div class="form-group">
-                <label>Email</label>
-                <input type="email" name="email" required placeholder="Ingrese su correo">
+                <label><?= $translations['email'] ?></label>
+                <input type="email" name="email" required placeholder="<?= $translations['email'] ?>">
             </div>
 
             <div class="section-title" style="margin-top: 30px;">Contraseña</div>
@@ -66,16 +67,16 @@
             </div>
 
             <div class="form-group">
-                <label>Confirmar contraseña</label>
-                <input type="password" name="confirmar_contrasena" required placeholder="Confirme su nueva contraseña">
+                <label><?= $translations['confirm_password'] ?></label>
+                <input type="password" name="confirmar_contrasena" required placeholder="<?= $translations['confirm_password'] ?>">
             </div>
 
-            <button type="submit" class="register-btn">Registrar</button>
+            <button type="submit" class="register-btn"><?= $translations['submit'] ?></button>
         </form>
     </div>
 
     <div class="green-section">
-        <h1 class="registro-title">Registro</h1>
+        <h1 class="registro-title"><?= $translations['register_users'] ?></h1>
     </div>
 </div>
 

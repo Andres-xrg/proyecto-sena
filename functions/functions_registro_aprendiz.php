@@ -1,71 +1,59 @@
 <?php
 require_once '../db/conexion.php';
-require_once '../functions/historial.php';
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $nombre         = trim($_POST['nombre'] ?? '');
+    $apellido       = trim($_POST['apellido'] ?? '');
+    $telefono       = trim($_POST['telefono'] ?? '');
+    $documento      = trim($_POST['numeroDocumento'] ?? '');
+    $tipoDocumento  = trim($_POST['tipoDocumento'] ?? '');
+    $correo         = trim($_POST['Email'] ?? '');
+    $numeroFicha    = trim($_POST['ficha'] ?? '');
 
-// Verificar conexión
-if (!$conn) {
-    die("<script>
-        alert('❌ Error de conexión: " . mysqli_connect_error() . "');
-        window.history.back();
-    </script>");
-}
-
-// Validar que se envíen todos los campos requeridos
-if (
-    isset($_POST['nombre']) &&
-    isset($_POST['apellido']) &&
-    isset($_POST['tipoDocumento']) &&
-    isset($_POST['numeroDocumento']) &&
-    isset($_POST['telefono']) &&
-    isset($_POST['Email'])
-) {
-    // Limpiar datos
-    $nombre          = trim($_POST['nombre']);
-    $apellido        = trim($_POST['apellido']);
-    $tipoDocumento   = trim($_POST['tipoDocumento']);
-    $numeroDocumento = trim($_POST['numeroDocumento']);
-    $telefono        = trim($_POST['telefono']);
-    $email           = trim($_POST['Email']);
-
-    // Preparar consulta segura
-    $query = "INSERT INTO aprendices 
-        (nombre, apellido, T_documento, N_Documento, N_Telefono, Email) 
-        VALUES (?, ?, ?, ?, ?, ?)";
-
-    $stmt = $conn->prepare($query);
-
-    if (!$stmt) {
-        die("<script>alert('❌ Error al preparar consulta'); window.history.back();</script>");
+    // Validar que ningún campo esté vacío
+    if (empty($nombre) || empty($apellido) || empty($telefono) || empty($documento) || empty($tipoDocumento) || empty($correo) || empty($numeroFicha)) {
+        header("Location: ../components/registros/registro_aprendices.php?msg=campos_vacios");
+        exit;
     }
 
-    $stmt->bind_param("ssssss", $nombre, $apellido, $tipoDocumento, $numeroDocumento, $telefono, $email);
+    // Verificar si la ficha existe
+    $stmtFicha = $conn->prepare("SELECT Id_ficha FROM fichas WHERE numero_ficha = ?");
+    $stmtFicha->bind_param("s", $numeroFicha);
+    $stmtFicha->execute();
+    $resultFicha = $stmtFicha->get_result();
 
-    if ($stmt->execute()) {
-        // ✅ Registrar historial (con sesión o como usuario anónimo)
-        $usuario_id = $_SESSION['usuario']['id'] ?? 0;
-        $descripcion = "Se registró al aprendiz $nombre $apellido con documento $numeroDocumento.";
-        registrar_historial($conn, $usuario_id, 'Registro de aprendiz', $descripcion);
-
-        echo "<script>
-            alert('✅ Aprendiz registrado exitosamente.');
-            window.location.href = '../index.php?page=components/principales/welcome&success=Registro+exitoso';
-        </script>";
-    } else {
-        echo "<script>
-            alert('❌ Error al registrar aprendiz: " . $stmt->error . "');
-            window.history.back();
-        </script>";
+    if ($resultFicha->num_rows === 0) {
+        header("Location: ../components/registros/registro_aprendices.php?msg=ficha_no_encontrada");
+        exit;
     }
 
-    $stmt->close();
-} else {
-    echo "<script>
-        alert('⚠️ Por favor, completa todos los campos.');
-        window.history.back();
-    </script>";
+    $rowFicha = $resultFicha->fetch_assoc();
+    $idFicha = $rowFicha['Id_ficha'];
+
+    // Insertar aprendiz
+    $stmtAprendiz = $conn->prepare("INSERT INTO aprendices (Nombre, Apellido, T_documento, N_documento) VALUES (?, ?, ?, ?)");
+    $stmtAprendiz->bind_param("ssss", $nombre, $apellido, $tipoDocumento, $documento);
+
+    if (!$stmtAprendiz->execute()) {
+        header("Location: ../components/registros/registro_aprendices.php?msg=error_aprendiz");
+        exit;
+    }
+
+    $idAprendiz = $conn->insert_id;
+
+    // Insertar en ficha_aprendiz
+    $stmtRelacion = $conn->prepare("INSERT INTO ficha_aprendiz (Id_ficha, Id_aprendiz) VALUES (?, ?)");
+    $stmtRelacion->bind_param("ii", $idFicha, $idAprendiz);
+    $stmtRelacion->execute();
+
+
+    if ($resultUsuario->num_rows === 0) {
+        $stmtInsertUser = $conn->prepare("INSERT INTO usuarios (N_Documento, N_Telefono, Email, nombre) VALUES (?, ?, ?, ?)");
+        $stmtInsertUser->bind_param("ssss", $documento, $telefono, $correo, $nombre);
+        $stmtInsertUser->execute();
+    }
+
+    header("Location: ../components/registros/registro_aprendices.php?msg=registro_exitoso");
+    exit;
 }
 ?>
