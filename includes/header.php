@@ -7,24 +7,27 @@ require_once __DIR__ . '/../functions/lang.php'; // o ajusta la ruta según tu e
     <div class="header-container">
         <img src="/proyecto-sena/assets/img/JKE.png" alt="JKE Logo" class="logo-jke" />
 
-    <h1 class="titulo-header">
-        Bienvenido<?php echo isset($_SESSION['usuario']['nombre']) ? ', ' . htmlspecialchars($_SESSION['usuario']['nombre']) : ''; ?>
-    </h1>
+<h1 class="titulo-header">
+    <?= $translations['welcome'] ?><?php echo isset($_SESSION['usuario']['nombre']) ? ', ' . htmlspecialchars($_SESSION['usuario']['nombre']) : ''; ?>
+</h1>
+
 
 
         <img src="/proyecto-sena/assets/img/logo-sena.png" alt="SENA Logo" class="logo-sena" />
     </div>
 
-    <nav class="nav-header">
-        <a href="index.php?page=components/principales/welcome">Inicio</a>
-        <a href="index.php?page=components/principales/programas_formacion">Programas de formación</a>
-        <a href="index.php?page=components/instructores/instructores">Instructores</a>
-        <a href="index.php?page=components/registros/registro_user">Registro Usuarios</a>
-        
-        <a href="index.php?page=components/principales/ver_historial"  class="history">
-            <i class="fas fa-history"></i>
-        </a>
-    </nav>
+<?php require_once __DIR__ . '/../functions/lang.php'; ?>
+<nav class="nav-header">
+    <a href="index.php?page=components/principales/welcome"><?= $translations['home'] ?></a>
+    <a href="index.php?page=components/principales/programas_formacion"><?= $translations['training_programs'] ?></a>
+    <a href="index.php?page=components/instructores/instructores"><?= $translations['instructors'] ?></a>
+    <a href="index.php?page=components/registros/registro_user"><?= $translations['register_users'] ?></a>
+
+    <a href="index.php?page=components/principales/ver_historial" class="history">
+        <i class="fas fa-history"></i>
+    </a>
+</nav>
+
 
 <div class="global">
     <form id="langForm" method="GET">
