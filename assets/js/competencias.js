@@ -49,3 +49,50 @@ function cambiarEstadoActivo(btn) {
         btn.classList.add("badge-green");
     }
 }
+
+// Manejar iconos de colapso
+document.addEventListener('DOMContentLoaded', function() {
+    const collapseElements = document.querySelectorAll('.collapse');
+    collapseElements.forEach(function(collapseEl) {
+        collapseEl.addEventListener('show.bs.collapse', function() {
+            const icon = document.querySelector(`[data-bs-target="#${this.id}"] .collapse-icon`);
+            if (icon) {
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-up');
+            }
+        });
+        
+        collapseEl.addEventListener('hide.bs.collapse', function() {
+            const icon = document.querySelector(`[data-bs-target="#${this.id}"] .collapse-icon`);
+            if (icon) {
+                icon.classList.remove('fa-chevron-up');
+                icon.classList.add('fa-chevron-down');
+            }
+        });
+    });
+    
+    // Funcionalidad de búsqueda
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const resultItems = document.querySelectorAll('.result-item');
+            
+            resultItems.forEach(function(item) {
+                const competenciaText = item.getAttribute('data-competencia') || '';
+                if (competenciaText.includes(searchTerm)) {
+                    item.style.display = 'grid';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    }
+});
+
+// Función para generar reporte
+function generarReporte() {
+    const documento = '<?= $documento ?>';
+    window.open(`generar_reporte.php?doc=${documento}`, '_blank');
+}
+
