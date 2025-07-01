@@ -1,5 +1,5 @@
 <?php
-session_start(); // NECESARIO para acceder a $_SESSION
+session_start(); 
 require_once '../db/conexion.php';
 require_once '../functions/historial.php';
 
