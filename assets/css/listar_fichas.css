@@ -114,8 +114,12 @@ body {
     background: white;
     border: 1px solid #ccc;
     border-top: none;
-    display: block;
+    display: none; /* <-- Importante: oculto por defecto */
     z-index: 1000;
+}
+
+.dropdown-options.show {
+    display: block;
 }
 
 .option {
