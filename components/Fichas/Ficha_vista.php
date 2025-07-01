@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../../db/conexion.php';
+require_once __DIR__ . '/../../functions/functions_porcentaje_competencia.php';
 
 $id_ficha = $_GET['id'] ?? null;
 
@@ -20,7 +21,7 @@ if (!$ficha) {
     exit;
 }
 
-// Obtener aprendices asociados y ordenarlos por documento
+// Obtener aprendices
 $sql_aprendices = "
     SELECT a.*
     FROM ficha_aprendiz fa
@@ -71,24 +72,25 @@ $aprendices = $stmt2->get_result();
                 if (in_array($a['N_Documento'], $documentos_vistos)) continue;
                 $documentos_vistos[] = $a['N_Documento'];
 
-                // Obtener estado de formación
+                // Estado formación
                 $estado_stmt = $conn->prepare("SELECT Estado_formacion FROM juicios_evaluativos WHERE N_Documento = ? ORDER BY Fecha_registro DESC LIMIT 1");
                 $estado_stmt->bind_param("s", $a['N_Documento']);
                 $estado_stmt->execute();
                 $estado_data = $estado_stmt->get_result()->fetch_assoc();
                 $estado = strtolower($estado_data['Estado_formacion'] ?? 'sin estado');
 
-                // Asignar color de badge
                 $badge_color = 'badge-gray';
                 if ($estado === 'en formación') $badge_color = 'badge-green';
                 elseif ($estado === 'trasladado') $badge_color = 'badge-blue';
                 elseif ($estado === 'desertado') $badge_color = 'badge-red';
+
+                // Porcentaje y detalle de competencias
+                $datos = obtener_porcentaje_aprobadas($a['N_Documento']);
+                $porcentaje = $datos['porcentaje'];
             ?>
                 <div class="student-card">
                     <div class="student-content">
-                        <div class="avatar">
-                            <?= strtoupper(substr($a['nombre'], 0, 1)) ?>
-                        </div>
+                        <div class="avatar"><?= strtoupper(substr($a['nombre'], 0, 1)) ?></div>
                         <div class="student-info">
                             <div class="student-header">
                                 <span class="student-name"><?= htmlspecialchars($a['nombre']) ?> <?= htmlspecialchars($a['apellido']) ?></span>
@@ -110,6 +112,16 @@ $aprendices = $stmt2->get_result();
                                     <p><?= htmlspecialchars($a['N_Telefono']) ?></p>
                                 </div>
                             </div>
+
+                            <div class="detail-item" style="margin-top: 1rem;">
+                                <label>Progreso de competencias aprobadas</label>
+                                <div class="progress-bar" style="background: #eee; border-radius: 8px; overflow: hidden; height: 20px; width: 100%;">
+                                    <div style="width: <?= $porcentaje ?>%; background: #2a7f00; height: 100%; text-align: center; color: white; font-size: 0.8rem;">
+                                        <?= $porcentaje ?>%
+                                    </div>
+                                </div>
+                            </div>
+
                             <a class="percentage-btn" href="index.php?page=components/competencias/competencias&doc=<?= urlencode($a['N_Documento']) ?>">Ver Competencias</a>
                         </div>
                     </div>

@@ -5,6 +5,12 @@ require '../libs/PhpSpreadsheet/IOFactory.php';
 
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
+function normalizar_juicio($texto) {
+    $texto = strtolower(trim($texto));
+    $texto = str_replace(['á','é','í','ó','ú'], ['a','e','i','o','u'], $texto);
+    return $texto;
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['juicios'])) {
     $archivo = $_FILES['juicios']['tmp_name'];
     $id_ficha = $_POST['id_ficha'] ?? null;
@@ -20,35 +26,67 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['juicios'])) {
         $hoja = $spreadsheet->getActiveSheet();
         $filas = $hoja->toArray();
 
-        foreach ($filas as $fila) {
-            $competencia = $fila[0] ?? null;
-            $resultado_aprendizaje = $fila[1] ?? null;
-            $juicio = $fila[2] ?? null;
-            $fecha = !empty($fila[3]) ? date('Y-m-d H:i:s', strtotime($fila[3])) : null;
-            $instructor = $fila[4] ?? null;
+        for ($i = 13; $i < count($filas); $i++) {
+            $fila = $filas[$i];
 
-            // Si tu Excel incluye nombre, apellido y documento, reemplaza estas líneas
-            $nombre = "Nombre";
-            $apellido = "Apellido";
-            $documento = 0;
+            $nombre = trim($fila[2] ?? '');
+            $apellido = trim($fila[3] ?? '');
+            $estado_formacion = trim($fila[4] ?? '');
+            $competencia = trim($fila[5] ?? '');
+            $resultado_aprendizaje = trim($fila[6] ?? '');
+            $juicio_raw = normalizar_juicio((string)($fila[7] ?? ''));
+            $fecha = !empty($fila[9]) ? date('Y-m-d H:i:s', strtotime($fila[9])) : null;
+            $funcionario = trim($fila[10] ?? '');
 
-            // Validación del juicio
-            if (strtoupper($juicio) === 'APROBADO' || strtoupper($juicio) === 'NO APROBADO' || strtoupper($juicio) === 'POR EVALUAR') {
-                $stmt = $conn->prepare("INSERT INTO juicios_evaluativos 
-                    (N_Documento, Nombre_aprendiz, Apellido_aprendiz, Estado_formacion, 
-                     Competencia, Resultado_aprendizaje, Juicio, 
-                     Numero_ficha, Programa_formacion, Fecha_registro)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            // Traducir juicio
+            $juicio = null;
+            if ($juicio_raw === 'aprobado') $juicio = 'cumple';
+            elseif ($juicio_raw === 'no aprobado') $juicio = 'no cumple';
+            elseif ($juicio_raw === 'por evaluar' || $juicio_raw === '') $juicio = null;
 
-                $estado = 'En formacion';
-                $stmt->bind_param("isssssssss", $documento, $nombre, $apellido, $estado,
-                                  $competencia, $resultado_aprendizaje, $juicio,
-                                  $numero_ficha, $programa, $fecha);
-                $stmt->execute();
-            }
+            // Buscar documento del aprendiz
+            $buscar = $conn->prepare("SELECT a.N_Documento FROM ficha_aprendiz fa
+                JOIN aprendices a ON fa.Id_aprendiz = a.Id_aprendiz
+                WHERE fa.Id_ficha = ? AND a.nombre = ? AND a.apellido = ?");
+            $buscar->bind_param("iss", $id_ficha, $nombre, $apellido);
+            $buscar->execute();
+            $res = $buscar->get_result();
+            if ($res->num_rows === 0) continue;
+
+            $documento = $res->fetch_assoc()['N_Documento'];
+            if (!$competencia || !$resultado_aprendizaje) continue;
+
+            // Evitar duplicados
+            $verifica = $conn->prepare("SELECT 1 FROM juicios_evaluativos WHERE Numero_ficha = ? AND N_Documento = ? AND Competencia = ?");
+            $verifica->bind_param("sss", $numero_ficha, $documento, $competencia);
+            $verifica->execute();
+            if ($verifica->get_result()->num_rows > 0) continue;
+
+            // Insertar
+            $stmt = $conn->prepare("INSERT INTO juicios_evaluativos 
+                (N_Documento, Nombre_aprendiz, Apellido_aprendiz, Estado_formacion, 
+                Competencia, Resultado_aprendizaje, Juicio, 
+                Numero_ficha, Programa_formacion, Fecha_registro, Funcionario_registro)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->bind_param(
+                "issssssssss",
+                $documento,
+                $nombre,
+                $apellido,
+                $estado_formacion,
+                $competencia,
+                $resultado_aprendizaje,
+                $juicio,
+                $numero_ficha,
+                $programa,
+                $fecha,
+                $funcionario
+            );
+
+            $stmt->execute();
         }
 
-        header("Location: ../index.php?page=components/ficha_detalle&id=$id_ficha&mensaje=importado");
+        echo "<p style='color:green;'>✅ Importación finalizada. Ya puedes ver los resultados en la ficha.</p>";
         exit;
     } catch (Exception $e) {
         die("❌ Error al leer el archivo: " . $e->getMessage());
@@ -56,4 +94,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['juicios'])) {
 } else {
     die("❌ Archivo no enviado.");
 }
-?>

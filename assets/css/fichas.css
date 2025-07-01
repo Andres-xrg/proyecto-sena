@@ -310,3 +310,34 @@ body {
         gap: 0.5rem;
     }
 }
+
+.progress-container {
+    width: 100%;
+    background-color: #9c9d9e;
+    border-radius: 8px;
+    overflow: hidden;
+    height: 20px;
+    margin-top: 1rem;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: #16a34a; /* verde aprobado */
+    transition: width 0.3s ease-in-out;
+    color: white;
+    text-align: center;
+    font-size: 0.875rem;
+    font-weight: bold;
+}
+
+.progress-bar.low {
+    background-color: #ef4444; /* rojo: menos del 40% */
+}
+
+.progress-bar.medium {
+    background-color: #facc15; /* amarillo: 40-70% */
+}
+
+.progress-bar.high {
+    background-color: #16a34a; /* verde: más de 70% */
+}
