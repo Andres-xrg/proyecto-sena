@@ -12,6 +12,8 @@ if (isset($_SESSION['usuario']['id'])) {
 }
 
 session_destroy();
+?>
 
-header("Location: /proyecto-sena/index.php?page=components/principales/login&logout=1");
-exit;
+<script>
+window.location.href = '/proyecto-sena/index.php?page=components/principales/login&logout=1';
+</script>
