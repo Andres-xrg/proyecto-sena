@@ -36,4 +36,7 @@ return [
     'select_doc_type' => 'Seleccione su tipo de documento',
     'access_email' => 'Correo - para realizar el acceso, su Email será el usuario',
     'confirm_password' => 'Confirmar contraseña',
+    'history' => 'Historial',
+    'dark_mode' => 'Modo Oscuro',
+    'logout' => 'Cerrar Sesión',
 ];

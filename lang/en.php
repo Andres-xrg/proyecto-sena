@@ -36,4 +36,7 @@ return [
     'select_doc_type' => 'Select your document type',
     'access_email' => 'Email - to login, your email will be your username',
     'confirm_password' => 'Confirm Password',
+    'history' => 'History',
+    'dark_mode' => 'Dark Mode',
+    'logout' => 'Logout',
 ];

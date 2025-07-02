@@ -3,8 +3,23 @@
     color: white;
     font-weight: bold;
     text-align: center;
-    padding: 10px;
+    padding: 15px;
     border-top: 2px solid #ffffff;
     font-size: 14px;
     word-wrap: break-word;
+    
+    /* Footer fijo */
+    position: fixed;
+    bottom: 0;
+    left: 280px; /* Empieza después del sidebar */
+    right: 0;
+    z-index: 100;
+}
+
+/* Responsive para móvil */
+@media (max-width: 768px) {
+    .footer {
+        left: 0;
+        right: 0;
+    }
 }

@@ -1,177 +1,271 @@
-@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap');
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
+@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap");
 
 .welcome-container {
-    font-family: 'Rubik', sans-serif;
-    background-color: #fff;
-    max-height: 70%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    transition: background-color 0.3s ease;
+  font-family: "Rubik", sans-serif;
+  min-height: calc(100vh - 120px);
+  margin: 0px 0px 0px 280px;
+  padding: 40px 20px;
+  transition: all 0.3s ease;
+}
+
+/* Header Section */
+.welcome-header {
+  text-align: center;
+  margin-bottom: 50px;
 }
 
 .welcome-title {
-    font-size: 2.5rem;
-    font-weight: 400;
-    color: #333;
-    margin-bottom: 30px;
-    text-align: center;
-    transition: color 0.3s ease;
+  font-size: 3rem;
+  font-weight: 700;
+  color: #2a7f00;
+  margin-bottom: 15px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.welcome-subtitle {
+  font-size: 1.2rem;
+  color: #666;
+  font-weight: 300;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Carousel */
 .carousel-container {
-    position: relative;
-    width: 100%;
-    max-width: 90%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 30px;
+  position: relative;
+  max-width: 1200px; /* Aumentado para dar espacio a los botones */
+  margin: 0 auto 50px;
+  display: flex;
+  align-items: center;
+  gap: 30px; /* Espacio entre botones y carrusel */
 }
 
 .carousel-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 30px;
-    width: 100%;
-    justify-content: center;
+  position: relative;
+  height: 400px;
+  overflow: hidden;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  flex: 1; /* Toma el espacio disponible */
 }
 
-.side-image {
-    width: 29rem;
-    height: 25rem;
-    background-size: cover;
-    background-position: center;
-    border: 2px solid #999;
-    border-radius: 8px;
-    opacity: 0.7;
-    transition: opacity 0.3s ease, transform 0.2s ease;
+.carousel-track {
+  display: flex;
+  transition: transform 0.5s ease;
+  height: 100%;
 }
 
-.side-image:hover {
-    opacity: 0.9;
-    transform: scale(1.02);
+.carousel-slide {
+  min-width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.main-image {
-    width: 34rem;
-    height: 32rem;
-    background-size: cover;
-    background-position: center;
-    border: 2px solid #999;
-    border-radius: 8px;
-    flex-shrink: 0;
-    transition: transform 0.2s ease;
+.carousel-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.main-image:hover {
-    transform: scale(1.02);
+.slide-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+  color: white;
+  padding: 40px 30px 30px;
+  text-align: center;
 }
 
+.slide-overlay h3 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.slide-overlay p {
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+/* Navigation Buttons - Ahora fuera del carrusel */
 .nav-button {
-    width: 60px;
-    height: 60px;
-    background-color: #2a7f00;
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    z-index: 10;
-    padding: 0;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.nav-button img {
-    width: 60px;
-    height: 60px;
+  position: static; /* Cambiado de absolute a static */
+  width: 60px;
+  height: 60px;
+  background: rgba(42, 127, 0, 0.9);
+  border: none;
+  border-radius: 50%;
+  color: white;
+  cursor: pointer;
+  font-size: 20px;
+  transition: all 0.3s ease;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0; /* No se encoge */
 }
 
 .nav-button:hover {
-    background-color: #2d8000;
-    transform: scale(1.05);
+  background: #2a7f00;
+  transform: scale(1.1);
 }
 
-.nav-button:active {
-    transform: scale(0.95);
+.nav-button.prev {
+  order: -1; /* Se coloca antes del carrusel */
 }
 
+.nav-button.next {
+  order: 1; /* Se coloca después del carrusel */
+}
+
+/* Pagination */
 .pagination {
-    display: flex;
-    gap: 12px;
-    margin-top: 40px;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 60px;
 }
 
 .pagination-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background-color: #999;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #ccc;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
+.pagination-dot.active,
 .pagination-dot:hover {
-    transform: scale(1.2);
-    background-color: #2a7f00;
+  background: #2a7f00;
+  transform: scale(1.3);
 }
 
-.pagination-dot:first-child {
-    background-color: #2a7f00;
+/* Features Grid */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
-.nav-button:focus {
-    outline: 3px solid rgba(57, 169, 0, 0.3);
+.feature-card {
+  background: white;
+  padding: 40px 30px;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border-top: 4px solid #2a7f00;
 }
 
-.pagination-dot:focus {
-    outline: 2px solid rgba(57, 169, 0, 0.5);
-    transform: scale(1.3);
+.feature-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 }
 
-/* MODO OSCURO */
-body.dark-mode,
-.dark-mode .welcome-container {
-    background-color: #1a1a1a;
+.feature-card i {
+  font-size: 3rem;
+  color: #2a7f00;
+  margin-bottom: 20px;
 }
 
-.dark-mode .welcome-title {
-    color: #f0f0f0;
+.feature-card h3 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 15px;
+  font-weight: 600;
 }
 
-.dark-mode .side-image,
-.dark-mode .main-image {
-    border-color: #555;
+.feature-card p {
+  color: #666;
+  line-height: 1.6;
 }
 
-.dark-mode .pagination-dot {
-    background-color: #555;
+/* Dark Mode */
+body.dark .welcome-container {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
 }
 
-.dark-mode .pagination-dot:hover,
-.dark-mode .pagination-dot:first-child {
-    background-color: #2a7f00;
+body.dark .welcome-title {
+  color: #4caf50;
 }
 
-.dark-mode .nav-button {
-    background-color: #2d8000;
+body.dark .welcome-subtitle {
+  color: #ccc;
 }
 
-.dark-mode .nav-button:hover {
-    background-color: #2a7f00;
+body.dark .feature-card {
+  background: #333;
+  color: white;
+}
+
+body.dark .feature-card h3 {
+  color: white;
+}
+
+body.dark .feature-card p {
+  color: #ccc;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .welcome-container {
+    margin: 0px;
+    padding: 20px 10px;
+  }
+
+  .welcome-title {
+    font-size: 2.2rem;
+  }
+
+  .carousel-container {
+    flex-direction: column;
+    gap: 20px;
+    margin: 0 auto 40px;
+  }
+
+  .carousel-wrapper {
+    border-radius: 0;
+    width: 100%;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .nav-button {
+    width: 50px;
+    height: 50px;
+    font-size: 18px;
+  }
+
+  .nav-button.prev,
+  .nav-button.next {
+    order: 0;
+  }
+
+  /* En móvil, crear una fila con los botones */
+  .carousel-container::after {
+    content: "";
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    order: 2;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-button {
+    width: 45px;
+    height: 45px;
+    font-size: 16px;
+  }
 }

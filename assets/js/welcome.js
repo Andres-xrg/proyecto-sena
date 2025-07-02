@@ -1,33 +1,26 @@
 let currentSlide = 0;
 const totalSlides = 3;
 
-// Cambia las rutas de las imágenes según tus archivos reales
-const slideData = [
-    { name: 'Foto 1', img: 'assets/img/software_1.jpeg' },
-    { name: 'Foto 2', img: 'assets/img/software_2.jpeg' },
-    { name: 'Foto 3', img: 'assets/img/software_3.jpeg' }
-];
-
-const sideImages = document.querySelectorAll('.side-image');
-const mainImage = document.querySelector('.main-image');
+// Elementos del DOM
+const carouselTrack = document.getElementById('carouselTrack');
 const dots = document.querySelectorAll('.pagination-dot');
-const prevBtn = document.querySelector('.nav-button.prev');
-const nextBtn = document.querySelector('.nav-button.next');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
 
 function updateCarousel() {
-    // Imagen principal
-    mainImage.style.backgroundImage = `url('${slideData[currentSlide].img}')`;
-    mainImage.title = slideData[currentSlide].name;
-
-    // Imágenes laterales
-    const prevIndex = (currentSlide - 1 + totalSlides) % totalSlides;
-    const nextIndex = (currentSlide + 1) % totalSlides;
-    sideImages[0].style.backgroundImage = `url('${slideData[prevIndex].img}')`;
-    sideImages[1].style.backgroundImage = `url('${slideData[nextIndex].img}')`;
-
-    // Puntos de paginación
-    dots.forEach((dot, idx) => {
-        dot.style.backgroundColor = idx === currentSlide ? '#39A900' : '#999';
+    // Mover el track
+    const translateX = -currentSlide * 100;
+    carouselTrack.style.transform = `translateX(${translateX}%)`;
+    
+    // Actualizar slides activos
+    const slides = document.querySelectorAll('.carousel-slide');
+    slides.forEach((slide, index) => {
+        slide.classList.toggle('active', index === currentSlide);
+    });
+    
+    // Actualizar puntos de paginación
+    dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentSlide);
     });
 }
 
@@ -41,17 +34,18 @@ function previousSlide() {
     updateCarousel();
 }
 
+// Event listeners
 prevBtn.addEventListener('click', previousSlide);
 nextBtn.addEventListener('click', nextSlide);
 
-dots.forEach((dot, idx) => {
+dots.forEach((dot, index) => {
     dot.addEventListener('click', () => {
-        currentSlide = idx;
+        currentSlide = index;
         updateCarousel();
     });
 });
 
-// Inicializa el carrusel
+// Inicializar carrusel
 updateCarousel();
 
 // Auto-play (opcional)
