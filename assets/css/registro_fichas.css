@@ -1,343 +1,303 @@
-/* ===== CSS VARIABLES ===== */
-:root {
-  /* Colors */
-  --color-primary: #2a7f00;
-  --color-primary-hover: #348c00;
-  --color-primary-light: rgba(42, 127, 0, 0.1);
-  --color-dark: #333;
-  --color-white: #fff;
-  --color-gray-100: #f0f0f0;
-  --color-gray-200: #e0e0e0;
-  --color-gray-300: #ccc;
-  --color-gray-400: #999;
-  --color-gray-500: #888;
-  
-  /* Typography */
-  --font-family: 'Arial', system-ui, -apple-system, sans-serif;
-  --font-size-xs: 0.6875rem;   /* 11px */
-  --font-size-sm: 0.75rem;     /* 12px */
-  --font-size-md: 0.875rem;    /* 14px */
-  --font-size-base: 1rem;      /* 16px */
-  --font-size-lg: 1.25rem;     /* 20px */
-  --font-size-xl: 1.5rem;      /* 24px */
-  --font-size-2xl: 2rem;       /* 32px */
-  --font-size-3xl: 2.4rem;     /* 38px */
-  
-  /* Spacing */
-  --space-1: 0.125rem;         /* 2px */
-  --space-2: 0.25rem;          /* 4px */
-  --space-3: 0.5rem;           /* 8px */
-  --space-4: 0.75rem;          /* 12px */
-  --space-5: 1rem;             /* 16px */
-  --space-6: 1.25rem;          /* 20px */
-  --space-8: 1.75rem;          /* 28px */
-  --space-10: 2rem;            /* 32px */
-  --space-12: 2.5rem;          /* 40px */
-  --space-14: 2.8rem;          /* 45px */
-  
-  /* Border Radius */
-  --radius-sm: 0.125rem;       /* 2px */
-  --radius-md: 0.25rem;        /* 4px */
-  --radius-lg: 0.375rem;       /* 6px */
-  
-  /* Shadows */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 1px 5px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.1);
-  
-  /* Transitions */
-  --transition-fast: 150ms ease;
-  --transition-normal: 250ms ease;
-}
-
-/* ===== RESET & BASE STYLES ===== */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-  font-family: var(--font-family);
-  background-color: var(--color-gray-100);
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  color: var(--color-dark);
-  line-height: 1.5;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    margin-left: 280px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    color: #333;
+    line-height: 1.5;
 }
 
-/* ===== HEADER STYLES ===== */
-.header {
-  background-color: var(--color-primary);
-  color: var(--color-white);
-  padding: var(--space-3) var(--space-6);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 3.125rem;
-  box-shadow: var(--shadow-sm);
-  position: sticky;
-  top: 0;
-  z-index: 10;
-}
-
-.logo-left {
-  background-color: var(--color-dark);
-  color: var(--color-white);
-  padding: var(--space-2) var(--space-3);
-  font-weight: bold;
-  border-radius: var(--radius-sm);
-  font-size: var(--font-size-sm);
-  transition: background-color var(--transition-fast);
-}
-
-.logo-left:hover {
-  background-color: #444;
-}
-
-.header-title {
-  font-size: var(--font-size-base);
-  font-weight: normal;
-}
-
-.logo-right {
-  background-color: var(--color-white);
-  color: var(--color-primary);
-  padding: var(--space-2) var(--space-4);
-  font-weight: bold;
-  border-radius: var(--radius-sm);
-  font-size: var(--font-size-sm);
-  transition: transform var(--transition-fast);
-}
-
-.logo-right:hover {
-  transform: translateY(-1px);
-}
-
-/* ===== MAIN CONTENT ===== */
+/* Contenido principal centrado */
 .contenido-principal {
-  flex: 1;
-  padding: clamp(var(--space-6), 5vw, var(--space-10));
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    flex: 1;
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 4rem);
 }
 
+/* Contenedor del formulario mejorado */
 .contenedor-formulario {
-  background-color: var(--color-white);
-  padding: clamp(var(--space-6), 4vw, var(--space-14)) clamp(var(--space-5), 3vw, var(--space-8));
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
-  width: 100%;
-  max-width: min(65vw, 1000px);
-  transition: box-shadow var(--transition-normal);
+    background: #ffffff;
+    padding: 2.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e2e8f0;
+    width: 100%;
+    max-width: 800px;
+    transition: all 0.3s ease;
+    position: relative;
 }
 
 .contenedor-formulario:hover {
-  box-shadow: var(--shadow-lg);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+    transform: translateY(-2px);
 }
 
+/* Título del formulario */
 .titulo-formulario {
-  text-align: center;
-  font-size: clamp(var(--font-size-xl), 5vw, var(--font-size-3xl));
-  font-weight: 600;
-  margin-bottom: var(--space-8);
-  color: var(--color-dark);
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    color: #1f2937;
+    position: relative;
 }
 
-/* ===== FORM LAYOUT ===== */
+.titulo-formulario::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+    border-radius: 2px;
+}
+
+/* Layout del formulario */
 .fila-formulario {
-  display: flex;
-  gap: var(--space-8);
-  margin-bottom: var(--space-8);
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
 }
 
 .grupo-formulario {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  margin-bottom: var(--space-6);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
 }
 
 .grupo-formulario.full-width {
-  flex: 100%;
+    flex: 100%;
 }
 
-/* ===== FORM ELEMENTS ===== */
+/* Labels mejorados */
 label {
-  font-weight: 600;
-  margin-bottom: var(--space-3);
-  color: var(--color-dark);
-  font-size: var(--font-size-base);
-  width: 100%;
-  display: block;
-  text-align: center;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #374151;
+    font-size: 0.95rem;
+    text-align: left;
+    display: block;
 }
 
-/* Common input styles */
+/* Inputs y selects mejorados */
 input[type="text"],
+input[type="number"],
 input[type="file"],
 select {
-  padding: var(--space-3) var(--space-4);
-  border: 1px solid var(--color-gray-300);
-  border-radius: var(--radius-md);
-  font-size: var(--font-size-md);
-  background-color: var(--color-white);
-  height: 35px;
-  transition: all var(--transition-normal);
-  width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 0.5rem;
+    font-size: 0.95rem;
+    background: #ffffff;
+    color: #1f2937;
+    transition: all 0.3s ease;
+    width: 100%;
 }
 
-/* Focus states for all inputs */
 input[type="text"]:focus,
+input[type="number"]:focus,
 input[type="file"]:focus,
 select:focus {
-  outline: none;
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 2px var(--color-primary-light);
+    outline: none;
+    border-color: #22c55e;
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+    transform: translateY(-1px);
 }
 
-/* Hover states */
 input[type="text"]:hover,
+input[type="number"]:hover,
 input[type="file"]:hover,
 select:hover {
-  border-color: var(--color-gray-400);
+    border-color: #cbd5e1;
 }
 
-/* Special styling for number input */
-#numero-ficha {
-  padding: var(--space-3) var(--space-4);
-  margin-left: auto;
-  margin-right: auto;
-  width: 60%;
-  border: 1px solid var(--color-gray-300);
-  border-radius: var(--radius-md);
-  font-size: var(--font-size-md);
-  background-color: var(--color-white);
-  height: 45px;
-  transition: all var(--transition-normal);
-  text-align: center;
-}
-
-/* Select element styling */
+/* Select personalizado */
 select {
-  cursor: pointer;
-  appearance: none;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
-  background-repeat: no-repeat;
-  background-position: right 0.625rem center;
-  background-size: 1rem;
-  padding-right: 2.2rem;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1rem;
+    padding-right: 2.5rem;
 }
 
-/* File input styling */
+/* Input de archivo personalizado */
 input[type="file"] {
-  width: 60%;
-  margin: 0 auto;
-  display: block;
-  text-align: center;
-  cursor: pointer;
+    cursor: pointer;
+    padding: 1rem;
+    border-style: dashed;
+    text-align: center;
+    background: #f8fafc;
+    position: relative;
 }
 
-/* Hide native file upload button */
-input[type="file"]::-webkit-file-upload-button,
-input[type="file"]::file-selector-button {
-  display: none;
+input[type="file"]:hover {
+    background: #f1f5f9;
+    border-color: #22c55e;
 }
 
-/* Optional note styling */
-.nota-opcional {
-  font-size: var(--font-size-xs);
-  color: var(--color-gray-500);
-  margin-top: var(--space-1);
-  font-style: italic;
-  text-align: center;
+/* Placeholders */
+input::placeholder {
+    color: #9ca3af;
+    font-style: italic;
 }
 
-/* ===== BUTTONS ===== */
+/* Botón de registro mejorado */
 .btn-registrar {
-  background-color: var(--color-primary);
-  color: var(--color-white);
-  padding: var(--space-4) var(--space-8);
-  border: none;
-  border-radius: var(--radius-md);
-  font-size: var(--font-size-md);
-  font-weight: 600;
-  cursor: pointer;
-  display: block;
-  margin: var(--space-8) auto 0;
-  text-transform: lowercase;
-  min-width: 6.25rem;
-  transition: all var(--transition-normal);
+    background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+    color: white;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 0.75rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: block;
+    margin: 2rem auto 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    min-width: 200px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 16px rgba(34, 197, 94, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-registrar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.btn-registrar:hover::before {
+    left: 100%;
 }
 
 .btn-registrar:hover {
-  background-color: var(--color-primary-hover);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-sm);
+    background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(34, 197, 94, 0.4);
 }
 
 .btn-registrar:active {
-  transform: translateY(1px);
+    transform: translateY(-1px);
 }
 
 .btn-registrar:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px var(--color-primary-light);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2);
 }
 
-/* ===== RESPONSIVE STYLES ===== */
-@media (max-width: 992px) {
-  .contenedor-formulario {
-    max-width: 85vw;
-  }
+/* Responsive Design */
+@media (max-width: 1200px) {
+    body {
+        margin-left: 0;
+    }
+    
+    .contenido-principal {
+        padding: 1.5rem;
+    }
+    
+    .contenedor-formulario {
+        max-width: 90%;
+    }
 }
 
 @media (max-width: 768px) {
-  .fila-formulario {
-    flex-direction: column;
-    gap: var(--space-4);
-  }
-  
-  .contenido-principal {
-    padding: var(--space-5);
-  }
-  
-  .contenedor-formulario {
-    padding: var(--space-6);
-    max-width: 95vw;
-  }
-  
-  #numero-ficha {
-    width: 80%;
-  }
-  
-  input[type="file"] {
-    width: 80%;
-  }
+    .contenido-principal {
+        padding: 1rem;
+        align-items: flex-start;
+        padding-top: 2rem;
+    }
+    
+    .contenedor-formulario {
+        padding: 2rem;
+        max-width: 95%;
+    }
+    
+    .fila-formulario {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .titulo-formulario {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .btn-registrar {
+        width: 100%;
+        margin-top: 1.5rem;
+    }
 }
 
 @media (max-width: 480px) {
-  .titulo-formulario {
-    font-size: var(--font-size-lg);
-    margin-bottom: var(--space-5);
-  }
-  
-  .header {
-    padding: var(--space-2) var(--space-4);
-  }
-  
-  .logo-left, .logo-right {
-    font-size: 0.7rem;
-    padding: var(--space-1) var(--space-2);
-  }
-  
-  .header-title {
-    font-size: 0.9rem;
-  }
-  
-  .btn-registrar {
-    width: 100%;
-  }
+    .contenedor-formulario {
+        padding: 1.5rem;
+        border-radius: 0.75rem;
+    }
+    
+    .titulo-formulario {
+        font-size: 1.25rem;
+        margin-bottom: 1.25rem;
+    }
+    
+    input[type="text"],
+    input[type="number"],
+    input[type="file"],
+    select {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.9rem;
+    }
+    
+    .btn-registrar {
+        padding: 0.8rem 1.5rem;
+        font-size: 0.9rem;
+        min-width: auto;
+    }
+}
+
+/* Estados de validación */
+input:invalid {
+    border-color: #ef4444;
+}
+
+input:valid {
+    border-color: #22c55e;
+}
+
+/* Animación sutil para el formulario */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.contenedor-formulario {
+    animation: fadeInUp 0.6s ease-out;
 }
