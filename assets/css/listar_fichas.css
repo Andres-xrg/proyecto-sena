@@ -5,133 +5,198 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background-color: #FFFFFF;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    margin-left: 280px;
     padding: 20px;
+    min-height: 100vh;
 }
 
 /* Contenedor principal */
 .container {
     width: 100%;
-    max-width: 100%;
+    max-width: calc(100% - 40px);
     margin: 0 auto;
-    background: #FFFFFF;
-    margin-top: 45px;
-    height: auto;
-    padding: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    margin-top: 20px;
+    border-radius: 1rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(226, 232, 240, 0.3);
+    padding: 2rem;
     display: flex;
     flex-direction: column;
 }
 
 .titulo {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 2rem;
+    position: relative;
 }
 
 .title {
-    font-size: 26px;
-    font-weight: normal;
-    color: #333;
-    margin-bottom: 10px;
+    font-size: 2rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+    border-radius: 2px;
 }
 
 .header-line {
-    border: none;
-    border-top: 1px solid #ccc;
-    margin: 0;
+    display: none;
 }
 
-/* Controles */
+/* Controles con fondos blancos */
 .controls {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 30px;
-    margin-top: 20px;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: #ffffff;
+    border-radius: 1rem;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e2e8f0;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 1rem;
 }
 
-/* Caja de búsqueda */
+/* Caja de búsqueda con fondos blancos */
 .search-box {
     position: relative;
-    width: 150px;
     flex-grow: 1;
-    min-width: 140px;
-    max-width: 180px;
+    min-width: 200px;
+    max-width: 300px;
 }
 
 .search-box input {
     width: 100%;
-    padding: 6px 30px 6px 10px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    background-color: #f0f0f0;
-    font-size: 16px;
-    margin-left: 14px;
+    padding: 0.75rem 2.5rem 0.75rem 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 0.75rem;
+    background: #ffffff;
+    font-size: 0.95rem;
+    color: #1f2937;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.search-box input:focus {
+    outline: none;
+    border-color: #94a3b8;
+    box-shadow: 0 0 0 3px rgba(148, 163, 184, 0.1);
+    transform: translateY(-1px);
+}
+
+.search-box input::placeholder {
+    color: #6b7280;
 }
 
 .search-icon {
     position: absolute;
-    right: 8px;
+    right: 1rem;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 12px;
-    color: #666;
+    font-size: 1rem;
+    color: #6b7280;
+    pointer-events: none;
 }
 
-/* Dropdown */
+/* Dropdown con fondos blancos */
 .dropdown-container {
     position: relative;
-    width: 200px;
     flex-grow: 1;
-    min-width: 160px;
-    max-width: 220px;
+    min-width: 250px;
+    max-width: 350px;
 }
 
 .dropdown {
     position: relative;
-    right: 7.8rem;
-    padding: 6px 10px;
-    width: 20rem;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    background-color: #f0f0f0;
+    padding: 0.75rem 1rem;
+    width: 100%;
+    border: 2px solid #e2e8f0;
+    border-radius: 0.75rem;
+    background: #ffffff;
     cursor: pointer;
-    font-size: 16px;
-    color: #666;
+    font-size: 0.95rem;
+    color: #1f2937;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.dropdown:hover {
+    border-color: #94a3b8;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.dropdown .arrow {
+    transition: transform 0.3s ease;
+    color: #6b7280;
+}
+
+.dropdown.active .arrow {
+    transform: rotate(180deg);
 }
 
 .dropdown-options {
     position: absolute;
-    right: 1.5rem;
-    width: 20rem;
-    font-size: 16px;
-    top: 100%;
+    top: calc(100% + 0.5rem);
+    left: 0;
+    right: 0;
     background: white;
-    border: 1px solid #ccc;
-    border-top: none;
-    display: none; /* <-- Importante: oculto por defecto */
+    border: 2px solid #e2e8f0;
+    border-radius: 0.75rem;
+    display: none;
     z-index: 1000;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
 }
 
 .dropdown-options.show {
     display: block;
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .option {
-    padding: 8px 10px;
-    font-size: 12px;
-    background-color: #f0f0f0;
-    border-bottom: 1px solid #ddd;
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+    background: white;
+    border-bottom: 1px solid #f1f5f9;
     cursor: pointer;
+    transition: all 0.2s ease;
+    color: #1f2937;
 }
 
 .option:hover {
-    background-color: #e0e0e0;
+    background: #f8fafc;
+    color: #1f2937;
 }
 
 .option:last-child {
@@ -141,101 +206,275 @@ body {
 /* Grid de Fichas */
 .fichas-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(370px, 1fr));
-    gap: 15px;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem 0;
 }
 
+/* Tarjetas con fondos blancos y SIN línea verde */
 .ficha-card {
-    width: 25rem;
-    height: 13rem;
-    border: 2px solid #90EE90;
-    border-radius: 5px;
-    padding: 15px;
-    background: white;
+    background: #ffffff;
+    border: 2px solid #e2e8f0;
+    border-radius: 1rem;
+    padding: 1.5rem;
     text-align: center;
-    margin-left: 15px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+    position: relative;
+    overflow: hidden;
+    height: auto;
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* LÍNEA VERDE ELIMINADA - Sin ::before */
+
+.ficha-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+    border-color: #cbd5e1;
 }
 
 .ficha-card.disabled {
-    background-color: #f8f8f8;
-    border-color: #ccc;
+    background: #f8fafc;
+    border-color: #d1d5db;
+    opacity: 0.7;
 }
 
-
+/* Header de la tarjeta */
 .card-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 15px;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e2e8f0;
 }
 
 .numero {
-    font-size: 20px;
-    font-weight: bold;
-    color: #333;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #1f2937;
 }
 
 .ficha-card.disabled .numero {
-    color: #999;
+    color: #9ca3af;
 }
 
 .sena-logo {
-    font-size: 28px;
-    color: #999;
+    font-size: 2rem;
+    color: #6b7280;
+    background: #f8fafc;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #e2e8f0;
 }
 
-/* Botones */
-.btn-ver-ficha {
+/* Contenido de la tarjeta */
+.ficha-card p {
+    margin-bottom: 0.75rem;
+    color: #374151;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.ficha-card p strong {
+    color: #1f2937;
+    font-weight: 600;
+}
+
+.estado-text {
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    background: #f1f5f9;
+    color: #374151;
+    border: 1px solid #e2e8f0;
+}
+
+/* Botones - SOLO el de ver ficha es verde */
+.btn-ver-ficha,
+.btn-deshabilitar,
+.btn-habilitar {
     width: 100%;
-    height: 2rem;
-    padding: 5px;
-    margin-bottom: 10px;
-    background-color: #2a7f00;
-    color: white;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.5rem;
     border: none;
-    border-radius: 3px;
-    font-size: 12px;
+    border-radius: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 600;
     cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* SOLO el botón Ver ficha es verde */
+.btn-ver-ficha {
+    background: linear-gradient(135deg, #22c55e 0%, #2a7f00 100%);
+    color: white;
+    box-shadow: 0 4px 16px rgba(34, 197, 94, 0.3);
+}
+
+.btn-ver-ficha:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(34, 197, 94, 0.4);
+    background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
 }
 
 .btn-ver-ficha.disabled {
-    background-color: #999;
+    background: linear-gradient(135deg, #9ca3af 0%, #6b7280 100%);
     cursor: not-allowed;
+    box-shadow: none;
 }
 
+/* Botón deshabilitar en gris */
 .btn-deshabilitar {
-    width: 100%;
-    height: 2rem;
-    padding: 5px;
-    background-color: #dc3545;
+    background: linear-gradient(135deg, #6b7280 0%, #dc2626 100%);
     color: white;
-    border: none;
-    border-radius: 3px;
-    font-size: 12px;
-    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(107, 114, 128, 0.3);
 }
 
+.btn-deshabilitar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(107, 114, 128, 0.4);
+    background: linear-gradient(135deg, #4b5563 0%, #dc2626 100%);
+}
+
+/* Botón habilitar en gris también */
 .btn-habilitar {
-    width: 100%;
-    height: 2rem;
-    padding: 5px;
-    background-color: #2a7f00;
+    background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
     color: white;
-    border: none;
-    border-radius: 3px;
-    font-size: 12px;
-    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(107, 114, 128, 0.3);
 }
 
-/* Responsive extra */
-@media (max-width: 600px) {
+.btn-habilitar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(107, 114, 128, 0.4);
+    background: linear-gradient(135deg, #4b5563 0%, #2a7f00 100%);
+}
+
+/* Efecto de brillo en botones */
+.btn-ver-ficha::before,
+.btn-deshabilitar::before,
+.btn-habilitar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.btn-ver-ficha:hover::before,
+.btn-deshabilitar:hover::before,
+.btn-habilitar:hover::before {
+    left: 100%;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    body {
+        margin-left: 0;
+        padding: 15px;
+    }
+    
+    .container {
+        padding: 1.5rem;
+    }
+    
+    .fichas-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.25rem;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+    
+    .container {
+        padding: 1rem;
+        margin-top: 10px;
+    }
+    
+    .title {
+        font-size: 1.5rem;
+    }
+    
     .controls {
         flex-direction: column;
         align-items: stretch;
+        gap: 1rem;
+        padding: 1rem;
     }
 
     .search-box,
     .dropdown-container {
-        width: 100%;
+        max-width: 100%;
+    }
+    
+    .fichas-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .ficha-card {
+        min-height: 260px;
+        padding: 1.25rem;
+    }
+    
+    .numero {
+        font-size: 1.5rem;
+    }
+    
+    .sena-logo {
+        font-size: 1.5rem;
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0.75rem;
+    }
+    
+    .title {
+        font-size: 1.25rem;
+    }
+    
+    .controls {
+        padding: 0.75rem;
+    }
+    
+    .ficha-card {
+        min-height: 240px;
+        padding: 1rem;
+    }
+    
+    .card-header {
+        margin-bottom: 0.75rem;
+        padding-bottom: 0.75rem;
+    }
+    
+    .btn-ver-ficha,
+    .btn-deshabilitar,
+    .btn-habilitar {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.8rem;
+        margin-bottom: 0.4rem;
     }
 }

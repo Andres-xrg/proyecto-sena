@@ -84,7 +84,9 @@ $titulo = match ($tipoSeleccionado) {
       <div class="ficha-card" data-jornada="<?= strtolower($row['Jornada']) ?>">
         <div class="card-header">
           <span class="numero"><?= $row['numero_ficha'] ?></span>
-          <div class="sena-logo">⚙</div>
+          <div class="sena-logo">
+            <img src="/" alt="Logo SENA" style="height:28px;">
+          </div>
         </div>
         <p><strong>Jefe:</strong> <?= $row['jefe_nombre'] . ' ' . $row['jefe_apellido'] ?></p>
         <p><strong>Programa:</strong> <?= $row['programa_formación'] ?></p>
