@@ -1,3 +1,17 @@
+<?php
+require_once 'db/conexion.php';
+
+// Obtener todas las fichas registradas
+$fichas = [];
+$sql = "SELECT Id_ficha, Numero_ficha FROM fichas ORDER BY Numero_ficha ASC";
+$resultado = $conn->query($sql);
+while ($row = $resultado->fetch_assoc()) {
+    $fichas[] = $row;
+}
+
+// Idioma traducido si ya lo estás usando
+// require_once 'translations/es.php'; // o en.php si tienes multiidioma
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -42,8 +56,9 @@
                         <label for="tipoDocumento"><?= $translations['document_type'] ?></label>
                         <select id="tipoDocumento" name="tipoDocumento" required>
                             <option value=""><?= $translations['select_doc_type'] ?></option>
-                            <option value="cedula-extranjera">Cédula Extranjera</option>
-                            <option value="cedula">Cédula</option>
+                            <option value="CC">C.C</option>
+                            <option value="CE">C.E</option>
+                            <option value="TI">T.I</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -52,14 +67,22 @@
                     </div>
                 </div>
                 
-                <!-- Third Row -->
+                <!-- Ficha Row Actualizado -->
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="ficha"><?= $translations['ficha_number'] ?> <?= $translations['ficha_technician'] ?></label>
-                        <input type="number" id="ficha" name="ficha" placeholder="<?= $translations['ficha_number'] ?> <?= $translations['ficha_technician'] ?>" required>
+                        <label for="ficha">Número de Ficha</label>
+                        <select id="ficha" name="ficha" required>
+                            <option value="">Seleccione una ficha</option>
+                            <?php foreach ($fichas as $ficha): ?>
+                                <option value="<?= $ficha['Id_ficha'] ?>">
+                                    <?= htmlspecialchars($ficha['Numero_ficha']) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
                     </div>
                 </div>
 
+                <!-- Mensajes -->
                 <?php if (isset($_GET['msg'])): ?>
                     <div style="color: red; font-weight: bold; margin: 10px 0;">
                         <?php
@@ -68,20 +91,20 @@
                                     echo '⚠️ ' . $translations['all_fields_required'];
                                     break;
                                 case 'ficha_no_encontrada':
-                                    echo '❌ La ficha ingresada no existe.'; // este texto no está en es.php/en.php aún
+                                    echo '❌ La ficha ingresada no existe.';
                                     break;
                                 case 'error_aprendiz':
-                                    echo '❌ Error al registrar el aprendiz.'; // tampoco está
+                                    echo '❌ Error al registrar el aprendiz.';
                                     break;
                                 case 'registro_exitoso':
-                                    echo '✅ Aprendiz registrado correctamente.'; // tampoco
+                                    echo '✅ Aprendiz registrado correctamente.';
                                     break;
                             }
                         ?>
                     </div>
-                <?php endif; ?>                    
+                <?php endif; ?>
 
-                <!-- Submit Button -->
+                <!-- Submit -->
                 <button type="submit" class="register-btn"><?= $translations['submit'] ?></button>
             </form>
         </div>

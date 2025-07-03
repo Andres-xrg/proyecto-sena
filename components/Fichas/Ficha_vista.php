@@ -43,7 +43,6 @@ $aprendices = $stmt2->get_result();
     <link rel="stylesheet" href="assets/css/fichas.css">
     <link rel="stylesheet" href="assets/css/header.css">
     <link rel="stylesheet" href="assets/css/footer.css">
-
 </head>
 <body>
 <div class="container">
@@ -90,6 +89,14 @@ $aprendices = $stmt2->get_result();
                 // Porcentaje y detalle de competencias
                 $datos = obtener_porcentaje_aprobadas($a['N_Documento']);
                 $porcentaje = $datos['porcentaje'];
+
+                // Color dinámico para barra de progreso
+                $color_barra = '#e53935'; // Rojo por defecto
+                if ($porcentaje >= 70) {
+                    $color_barra = '#2a7f00'; // Verde
+                } elseif ($porcentaje >= 50) {
+                    $color_barra = '#fbc02d'; // Amarillo
+                }
             ?>
                 <div class="student-card">
                     <div class="student-content">
@@ -119,7 +126,7 @@ $aprendices = $stmt2->get_result();
                             <div class="detail-item" style="margin-top: 1rem;">
                                 <label>Progreso de competencias aprobadas</label>
                                 <div class="progress-bar" style="background: #eee; border-radius: 8px; overflow: hidden; height: 20px; width: 100%;">
-                                    <div style="width: <?= $porcentaje ?>%; background: #2a7f00; height: 100%; text-align: center; color: white; font-size: 0.8rem;">
+                                    <div style="width: <?= $porcentaje ?>%; background: <?= $color_barra ?>; height: 100%; text-align: center; color: white; font-size: 0.8rem;">
                                         <?= $porcentaje ?>%
                                     </div>
                                 </div>

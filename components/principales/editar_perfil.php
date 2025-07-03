@@ -8,7 +8,6 @@ if (!$id_aprendiz) {
     echo "Error: No has iniciado sesión.";
     exit;
 }
-
 $sql = "SELECT a.*, u.contraseña FROM aprendices a 
         LEFT JOIN usuarios u ON a.Id_usuario = u.Id_usuario
         WHERE a.Id_aprendiz = ?";
@@ -17,12 +16,6 @@ $stmt->bind_param("i", $id_aprendiz);
 $stmt->execute();
 $result = $stmt->get_result();
 $datos = $result->fetch_assoc();
-
-if (!$datos) {
-    echo "No se encontraron datos del aprendiz.";
-    exit;
-}
-
 ?>
 
 <!DOCTYPE html>

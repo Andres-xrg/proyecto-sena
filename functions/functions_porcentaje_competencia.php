@@ -20,9 +20,9 @@ function obtener_porcentaje_aprobadas($documento) {
         if (!isset($competencias_unicas[$comp])) {
             $competencias_unicas[$comp] = $juicio;
 
-            if ($juicio === 'cumple') $aprobadas++;
-            elseif ($juicio === 'no cumple') $no_aprobadas++;
-            else $pendientes++;
+            if ($juicio === 'aprobado') $aprobadas++;
+            elseif ($juicio === 'no aprobado') $no_aprobadas++;
+            elseif ($juicio === 'por evaluar' || $juicio === '') $pendientes++;
 
             $total++;
         }

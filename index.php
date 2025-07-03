@@ -6,7 +6,8 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Prueba Header</title>
+    <link rel="icon" href="/proyecto-sena/assets/img/logo-sena.png">
+    <title>Proyecto Formativo</title>
 </head>
 <body>
     <?php include 'includes/header.php'; ?>

@@ -27,10 +27,7 @@ if (!$aprendiz) {
     exit;
 }
 
-// Volver al inicio del resultado 
 $resultado->data_seek(0);
-
-// Agrupar y categorizar competencias usando la función externa
 list($competencias_agrupadas, $materias_organizadas) = agruparCompetencias($resultado);
 ?>
 
@@ -83,8 +80,9 @@ list($competencias_agrupadas, $materias_organizadas) = agruparCompetencias($resu
                                                 $aprobados = 0;
                                                 foreach ($competencias_materia as $juicios) {
                                                     foreach ($juicios as $juicio) {
+                                                        $estado = strtolower(trim($juicio['Juicio'] ?? ''));
                                                         $total_resultados++;
-                                                        if (strtolower($juicio['Juicio'] ?? '') === 'cumple') {
+                                                        if ($estado === 'aprobado') {
                                                             $aprobados++;
                                                         }
                                                     }
@@ -106,9 +104,7 @@ list($competencias_agrupadas, $materias_organizadas) = agruparCompetencias($resu
                                                         <div class="result-item" data-competencia="<?= strtolower(($j['Competencia'] ?? '') . ' ' . ($j['Resultado_aprendizaje'] ?? '')) ?>">
                                                             <div class="result-code">
                                                                 <strong><?= htmlspecialchars($j['Competencia'] ?? '') ?></strong>
-                                                                <div class="result-description">
-                                                                    <?= htmlspecialchars($j['Resultado_aprendizaje'] ?? '') ?>
-                                                                </div>
+                                                                <div class="result-description"><?= htmlspecialchars($j['Resultado_aprendizaje'] ?? '') ?></div>
                                                                 <div class="result-date">
                                                                     <small><i class="fas fa-calendar"></i> <?= isset($j['Fecha_registro']) ? date('d/m/Y', strtotime($j['Fecha_registro'])) : 'N/A' ?></small>
                                                                 </div>
@@ -118,17 +114,17 @@ list($competencias_agrupadas, $materias_organizadas) = agruparCompetencias($resu
                                                                 <?= htmlspecialchars($j['Funcionario_registro'] ?? 'N/A') ?>
                                                             </div>
                                                             <?php
-                                                            $estado = strtolower($j['Juicio'] ?? '');
+                                                            $estado = strtolower(trim($j['Juicio'] ?? ''));
                                                             $clase = 'status-pending';
                                                             $texto = 'Por Evaluar';
                                                             $icono = 'fa-clock';
-                                                            if ($estado === 'cumple') {
+                                                            if ($estado === 'aprobado') {
                                                                 $clase = 'status-approved';
-                                                                $texto = 'Aprueba';
+                                                                $texto = 'Aprobado';
                                                                 $icono = 'fa-check-circle';
-                                                            } elseif ($estado === 'no cumple') {
+                                                            } elseif ($estado === 'no aprobado') {
                                                                 $clase = 'status-rejected';
-                                                                $texto = 'No Aprueba';
+                                                                $texto = 'No Aprobado';
                                                                 $icono = 'fa-times-circle';
                                                             }
                                                             ?>
@@ -151,7 +147,6 @@ list($competencias_agrupadas, $materias_organizadas) = agruparCompetencias($resu
         <?php endforeach; ?>
     </div>
 
-    <!-- Información del aprendiz -->
     <div class="student-info-section">
         <div class="card">
             <div class="card-header">
@@ -196,15 +191,15 @@ list($competencias_agrupadas, $materias_organizadas) = agruparCompetencias($resu
                         $categoria_stat = $categorizacion['categoria'];
 
                         foreach ($juicios as $juicio) {
+                            $estado = strtolower(trim($juicio['Juicio'] ?? ''));
                             $total_resultados++;
                             $stats_por_categoria[$categoria_stat]['total']++;
-                            $estado = strtolower($juicio['Juicio'] ?? '');
-                            if ($estado === 'cumple') {
+                            if ($estado === 'aprobado') {
                                 $aprobados_total++;
                                 $stats_por_categoria[$categoria_stat]['aprobados']++;
-                            } elseif ($estado === 'no cumple') {
+                            } elseif ($estado === 'no aprobado') {
                                 $rechazados_total++;
-                            } else {
+                            } elseif ($estado === 'por evaluar' || $estado === '') {
                                 $pendientes_total++;
                             }
                         }
@@ -222,11 +217,11 @@ list($competencias_agrupadas, $materias_organizadas) = agruparCompetencias($resu
                         </div>
                         <div class="stat-item">
                             <span class="stat-number text-danger"><?= $rechazados_total ?></span>
-                            <span class="stat-label">Rechazados</span>
+                            <span class="stat-label">No Aprobados</span>
                         </div>
                         <div class="stat-item">
                             <span class="stat-number text-warning"><?= $pendientes_total ?></span>
-                            <span class="stat-label">Pendientes</span>
+                            <span class="stat-label">Por Evaluar</span>
                         </div>
                     </div>
 
@@ -241,8 +236,7 @@ list($competencias_agrupadas, $materias_organizadas) = agruparCompetencias($resu
                                 <div class="category-stat-item">
                                     <div class="category-stat-header"><?= htmlspecialchars($cat_nombre) ?></div>
                                     <div class="category-stat-numbers">
-                                        <span class="text-success"><?= $aprob ?></span>
-                                        /
+                                        <span class="text-success"><?= $aprob ?></span> /
                                         <span><?= $total ?></span>
                                     </div>
                                 </div>
