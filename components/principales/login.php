@@ -65,5 +65,12 @@
             </div>
         </div>
     </div>
+    <script>
+// Ocultar cualquier sidebar que pueda existir
+document.addEventListener('DOMContentLoaded', function() {
+    const sidebars = document.querySelectorAll('.sidebar, #sidebar');
+    sidebars.forEach(sidebar => sidebar.style.display = 'none');
+});
+</script>
 </body>
 </html>
