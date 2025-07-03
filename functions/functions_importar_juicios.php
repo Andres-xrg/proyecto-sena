@@ -5,10 +5,28 @@ require '../libs/PhpSpreadsheet/IOFactory.php';
 
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
+// 🔧 Limpieza avanzada del texto del juicio
 function normalizar_juicio($texto) {
-    $texto = strtolower(trim($texto));
-    $texto = str_replace(['á','é','í','ó','ú'], ['a','e','i','o','u'], $texto);
-    return $texto;
+    $texto = preg_replace('/[\x00-\x1F\x7F\xA0]/u', '', $texto);
+    $texto = trim($texto);
+    $texto = str_replace(["\n", "\r", "\t", '"', "'", '“', '”'], '', $texto);
+    $texto = str_replace(
+        ['á','é','í','ó','ú','Á','É','Í','Ó','Ú'],
+        ['a','e','i','o','u','a','e','i','o','u'],
+        $texto
+    );
+    $texto = preg_replace('/\s+/', ' ', $texto);
+    $texto = mb_convert_encoding($texto, 'UTF-8', 'UTF-8');
+    return strtolower($texto);
+}
+
+// 🎯 Interpreta el juicio y devuelve lo que se guarda
+function interpretar_juicio($juicio_raw) {
+    $juicio = normalizar_juicio($juicio_raw);
+    if ($juicio === 'aprobado') return 'cumple';
+    if ($juicio === 'no aprobado' || $juicio === 'no cumple') return 'no cumple';
+    if ($juicio === 'por evaluar' || $juicio === '') return null;
+    return null;
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['juicios'])) {
@@ -34,17 +52,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['juicios'])) {
             $estado_formacion = trim($fila[4] ?? '');
             $competencia = trim($fila[5] ?? '');
             $resultado_aprendizaje = trim($fila[6] ?? '');
-            $juicio_raw = normalizar_juicio((string)($fila[7] ?? ''));
-            $fecha = !empty($fila[9]) ? date('Y-m-d H:i:s', strtotime($fila[9])) : null;
+            $juicio_raw = (string)($fila[7] ?? '');
+            $fecha = !empty($fila[9]) ? date('Y-m-d H:i:s', strtotime($fila[9])) : date('Y-m-d H:i:s');
             $funcionario = trim($fila[10] ?? '');
 
-            // Traducir juicio
-            $juicio = null;
-            if ($juicio_raw === 'aprobado') $juicio = 'cumple';
-            elseif ($juicio_raw === 'no aprobado') $juicio = 'no cumple';
-            elseif ($juicio_raw === 'por evaluar' || $juicio_raw === '') $juicio = null;
+            // ✅ Interpretación real del juicio
+            $juicio_interpretado = interpretar_juicio($juicio_raw);
+            $juicio = $juicio_interpretado !== null ? (string)$juicio_interpretado : '';
 
-            // Buscar documento del aprendiz
+            // 🐞 Log de depuración
+            error_log("JUICIO RAW: [$juicio_raw] => NORMALIZADO: [" . normalizar_juicio($juicio_raw) . "] => INTERPRETADO: [$juicio]");
+
+            // 🔎 Buscar documento del aprendiz
             $buscar = $conn->prepare("SELECT a.N_Documento FROM ficha_aprendiz fa
                 JOIN aprendices a ON fa.Id_aprendiz = a.Id_aprendiz
                 WHERE fa.Id_ficha = ? AND a.nombre = ? AND a.apellido = ?");
@@ -56,13 +75,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['juicios'])) {
             $documento = $res->fetch_assoc()['N_Documento'];
             if (!$competencia || !$resultado_aprendizaje) continue;
 
-            // Evitar duplicados
+            // ❌ Evitar duplicados
             $verifica = $conn->prepare("SELECT 1 FROM juicios_evaluativos WHERE Numero_ficha = ? AND N_Documento = ? AND Competencia = ?");
             $verifica->bind_param("sss", $numero_ficha, $documento, $competencia);
             $verifica->execute();
             if ($verifica->get_result()->num_rows > 0) continue;
 
-            // Insertar
+            // ✅ Insertar
             $stmt = $conn->prepare("INSERT INTO juicios_evaluativos 
                 (N_Documento, Nombre_aprendiz, Apellido_aprendiz, Estado_formacion, 
                 Competencia, Resultado_aprendizaje, Juicio, 
