@@ -55,7 +55,9 @@ if (!$resultado) {
         ?>
             <div class="instructor-card <?= $claseCard ?>">
                 <div class="instructor-content">
-                    <div class="avatar"><div class="avatar-icon">👤</div></div>
+                    <div class="avatar">
+                        <div class="avatar-icon"><?= strtoupper(substr($instructor['nombre'], 0, 1)) ?></div>
+                    </div>                    
                     <div class="instructor-info">
                         <div class="instructor-header">
                             <h3 class="instructor-name">

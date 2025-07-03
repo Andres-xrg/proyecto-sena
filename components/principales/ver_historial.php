@@ -27,6 +27,9 @@ $resultado = $conn->query($sql);
     </style>
 </head>
 <body>
+    <div class="form-header">
+            <img src="assets/img/back-arrow.png" alt="Regresar" class="back-arrow" onclick="goBack()">
+        </div>
     <div class="container-fluid">
         <div class="main-container fade-in">
             <!-- Header Section -->
@@ -216,5 +219,17 @@ $resultado = $conn->query($sql);
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/historial.js"></script>
+    <script src="assets/js/goBack.js"></script>
+    <style>
+.sidebar { display: none !important; }
+#sidebar { display: none !important; }
+</style>
+<script>
+// Ocultar cualquier sidebar que pueda existir
+document.addEventListener('DOMContentLoaded', function() {
+    const sidebars = document.querySelectorAll('.sidebar, #sidebar');
+    sidebars.forEach(sidebar => sidebar.style.display = 'none');
+});
+</script>
 </body>
 </html>

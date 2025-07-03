@@ -11,6 +11,7 @@ body {
     color: #333;
     line-height: 1.6;
     padding: 20px;
+    margin-left: 180px;
 }
 
 /* Contenedor principal */
@@ -487,7 +488,18 @@ body {
 .text-warning { color: #ffc107 !important; }
 
 /* Responsive */
+@media (max-width: 1200px) {
+    body {
+        margin-left: 0;
+        padding: 15px;
+    }
+}
+
 @media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+    
     .content-grid {
         grid-template-columns: 1fr;
         padding: 15px;
