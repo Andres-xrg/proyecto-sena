@@ -52,14 +52,12 @@ list($competencias_agrupadas, $materias_organizadas) = agruparCompetencias($resu
 
     <div class="search-section">
         <div class="search-container">
-            <div class="search-input-wrapper">
-                <i class="fas fa-search search-icon"></i>
-                <input type="text" class="search-input" placeholder="Buscar competencias..." id="searchInput">
-            </div>
-            <button class="btn-generate-report" onclick="generarReporte()">
+            <button class="btn-generate-report" onclick="abrirModal()">
                 <i class="fas fa-file-alt"></i>
                 GENERAR REPORTE
             </button>
+            <input type="text" class="form-control observaciones-aprendiz" readonly
+                value="<?= htmlspecialchars($aprendiz['Observaciones'] ?? 'Sin observaciones') ?>">
         </div>
     </div>
 
@@ -247,6 +245,21 @@ list($competencias_agrupadas, $materias_organizadas) = agruparCompetencias($resu
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+   <div id="modalReporte" class="modal">
+        <div class="modal-contenido">
+            <span class="cerrar-modal" onclick="cerrarModal()">&times;</span>
+            <h2>Reporte de Aprendiz</h2>
+            <p><strong>Nombre:</strong> <?= htmlspecialchars($aprendiz['Nombre_aprendiz'] ?? '') ?> <?= htmlspecialchars($aprendiz['Apellido_aprendiz'] ?? '') ?></p>
+            <p><strong>Documento:</strong> <?= htmlspecialchars($aprendiz['N_Documento'] ?? '') ?></p>
+            <p><strong>Ficha:</strong> <?= htmlspecialchars($aprendiz['Numero_ficha'] ?? '') ?></p>
+            <p><strong>Estado:</strong> <?= htmlspecialchars($aprendiz['Estado_formacion'] ?? '') ?></p>
+            <p><strong>Observaciones:</strong></p>
+            <textarea readonly rows="4" style="width:100%; resize:none;" maxlength="500"><?= htmlspecialchars($aprendiz['Observaciones'] ?? 'Sin observaciones') ?></textarea>
+            <div style="margin-top: 20px; text-align:right;">
+                <a href="generar_reporte.php?doc=<?= $documento ?>" target="_blank" class="btn btn-success">Descargar PDF</a>
             </div>
         </div>
     </div>

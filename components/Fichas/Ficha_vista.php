@@ -1,7 +1,4 @@
 <?php
-if (!ACCESO_PERMITIDO){
-    header("Location: /proyecto-sena/components/principales/login.php");
-}
 require_once __DIR__ . '/../../db/conexion.php';
 require_once __DIR__ . '/../../functions/functions_porcentaje_competencia.php';
 
@@ -55,15 +52,15 @@ $aprendices = $stmt2->get_result();
         <div class="form-controls">
             <div class="form-group">
                 <label>Programa:</label>
-                <select disabled><option><?= htmlspecialchars($ficha['programa_formación']) ?></option></select>
+                <p><?= htmlspecialchars($ficha['programa_formación']) ?></p>
             </div>
             <div class="form-group">
                 <label>Jornada:</label>
-                <select disabled><option><?= htmlspecialchars($ficha['Jornada']) ?></option></select>
+                <p><?= htmlspecialchars($ficha['Jornada']) ?></p>
             </div>
             <div class="form-group">
                 <label>Horas Totales:</label>
-                <select disabled><option><?= htmlspecialchars($ficha['Horas_Totales']) ?></option></select>
+                <p><?= htmlspecialchars($ficha['Horas_Totales']) ?></p>
             </div>
         </div>
 
@@ -89,16 +86,16 @@ $aprendices = $stmt2->get_result();
                 elseif ($estado === 'trasladado') $badge_color = 'badge-blue';
                 elseif ($estado === 'desertado') $badge_color = 'badge-red';
 
-                // Porcentaje y detalle de competencias
+                // Porcentaje de competencias
                 $datos = obtener_porcentaje_aprobadas($a['N_Documento']);
                 $porcentaje = $datos['porcentaje'];
 
-                // Color dinámico para barra de progreso
-                $color_barra = '#e53935'; // Rojo por defecto
+                // Color de barra según porcentaje
+                $color_barra = '#e53935'; // rojo
                 if ($porcentaje >= 70) {
-                    $color_barra = '#2a7f00'; // Verde
+                    $color_barra = '#2a7f00'; // verde
                 } elseif ($porcentaje >= 50) {
-                    $color_barra = '#fbc02d'; // Amarillo
+                    $color_barra = '#fbc02d'; // amarillo
                 }
             ?>
                 <div class="student-card">
