@@ -39,4 +39,5 @@ return [
     'history' => 'History',
     'dark_mode' => 'Dark Mode',
     'logout' => 'Logout',
+    'Select_the_group_leader' => 'Select the group leader'
 ];

@@ -1,3 +1,8 @@
+<?php
+if (!ACCESO_PERMITIDO){
+    header("Location: /proyecto-sena/components/principales/login.php");
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>

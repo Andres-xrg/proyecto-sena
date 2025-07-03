@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -27,22 +26,22 @@
                 <div class="carousel-slide active">
                     <img src="assets/img/software_1.jpeg" alt="Programación" class="carousel-image">
                     <div class="slide-overlay">
-                        <h3>Desarrollo de Software</h3>
-                        <p>Aprende los lenguajes más demandados</p>
+                        <h3>Titulo</h3>
+                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Enim aspernatur.</p>
                     </div>
                 </div>
                 <div class="carousel-slide">
                     <img src="assets/img/software_2.jpeg" alt="Tecnología" class="carousel-image">
                     <div class="slide-overlay">
-                        <h3>Tecnologías Emergentes</h3>
-                        <p>Mantente al día con las últimas tendencias</p>
+                        <h3>Titulo</h3>
+                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Enim aspernatur.</p>   
                     </div>
                 </div>
                 <div class="carousel-slide">
                     <img src="assets/img/software_3.jpeg" alt="Innovación" class="carousel-image">
                     <div class="slide-overlay">
-                        <h3>Innovación Digital</h3>
-                        <p>Transforma ideas en soluciones reales</p>
+                        <h3>Titulo</h3>
+                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Enim aspernatur.</p>
                     </div>
                 </div>
             </div>
@@ -62,18 +61,18 @@
     <div class="features-grid">
         <div class="feature-card">
             <i class="fas fa-code"></i>
-            <h3>Programación</h3>
-            <p>Domina los lenguajes más populares del mercado</p>
+            <h3>Titulo</h3>
+            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Enim aspernatur.</p>        
         </div>
         <div class="feature-card">
             <i class="fas fa-database"></i>
-            <h3>Bases de Datos</h3>
-            <p>Gestiona información de manera eficiente</p>
+            <h3>Titulo</h3>
+            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Enim aspernatur.</p>
         </div>
         <div class="feature-card">
             <i class="fas fa-mobile-alt"></i>
-            <h3>Desarrollo Móvil</h3>
-            <p>Crea aplicaciones para dispositivos móviles</p>
+            <h3>Titulo</h3>
+            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Enim aspernatur.</p>        
         </div>
     </div>
 </div>

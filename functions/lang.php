@@ -1,16 +1,18 @@
 <?php
-session_start();
-
-if (isset($_GET['lang'])) {
-    $lang = $_GET['lang'];
-    $_SESSION['lang'] = $lang;
-} elseif (isset($_SESSION['lang'])) {
-    $lang = $_SESSION['lang'];
-} else {
-    $lang = 'es'; // idioma por defecto
+// Iniciar sesión si no está activa
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
 }
 
-// Ruta a los archivos de idioma
+// Cambiar idioma si viene por GET
+if (isset($_GET['lang'])) {
+    $_SESSION['lang'] = $_GET['lang'];
+}
+
+// Usar idioma de la sesión o español por defecto
+$lang = $_SESSION['lang'] ?? 'es';
+
+// Cargar archivo de idioma
 $lang_file = __DIR__ . '/../lang/' . $lang . '.php';
 
 if (file_exists($lang_file)) {

@@ -247,3 +247,23 @@ body.dark .sidebar-toggle:hover {
         padding-bottom: 80px;
     }
 }
+
+/* Modo oscuro aplicado al body */
+.dark-mode {
+    background-color: #242424;
+    color: white;
+}
+
+/* Estilo especial para el sidebar en modo oscuro */
+.dark-mode #sidebar {
+    background-color: #1b5074 !important;
+}
+
+/* Cambios visuales adicionales (opcional) */
+.dark-mode .utility-item,
+.dark-mode .style-switcher,
+.dark-mode .card,
+.dark-mode nav {
+    background-color: #1e1e1e !important;
+    color: white;
+}

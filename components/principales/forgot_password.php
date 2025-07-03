@@ -1,3 +1,8 @@
+<?php
+if (!ACCESO_PERMITIDO){
+    header("Location: /proyecto-sena/components/principales/login.php");
+}
+?>
 <link rel="stylesheet" href="../../assets/css/forgot_password.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 

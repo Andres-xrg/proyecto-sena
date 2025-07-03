@@ -40,5 +40,6 @@ return [
     'dark_mode' => 'Modo Oscuro',
     'logout' => 'Cerrar Sesión',
     'edit_profile' => 'Editar perfil',
+     'Select_the_group_leader' => 'Seleccione el jefe de grupo'
 
 ];

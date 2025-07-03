@@ -1,4 +1,7 @@
 <?php
+if (!ACCESO_PERMITIDO){
+    header("Location: proyecto-sena/components/principales/login.php");
+}
 require_once 'db/conexion.php';
 $instructores = $conn->query("SELECT Id_instructor, nombre, apellido FROM instructores ORDER BY nombre ASC");
 ?>
@@ -29,7 +32,7 @@ $instructores = $conn->query("SELECT Id_instructor, nombre, apellido FROM instru
                     <div class="grupo-formulario">
                         <label for="jefeGrupo"><?= $translations['group_leader'] ?></label>
                         <select id="jefeGrupo" name="jefeGrupo" required>
-                            <option value=""><?= $translations['select_doc_type'] ?></option>
+                            <option value=""><?= $translations['Select_the_group_leader'] ?></option>
                             <?php while ($inst = $instructores->fetch_assoc()): ?>
                                 <option value="<?= $inst['Id_instructor'] ?>">
                                     <?= htmlspecialchars($inst['nombre'] . ' ' . $inst['apellido']) ?>

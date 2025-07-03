@@ -1,5 +1,7 @@
 <?php
 // session_start();
+
+define("ACCESO_PERMITIDO", true);
 ?>
 
 <!DOCTYPE html>

@@ -1,4 +1,9 @@
-<?php require_once 'functions/lang.php'; ?>
+<?php
+if (!ACCESO_PERMITIDO){
+    header("Location: /proyecto-sena/components/principales/login.php");
+}
+require_once 'functions/lang.php'; 
+?>
 
 <!DOCTYPE html>
 <html lang="<?= $_SESSION['lang'] ?? 'es' ?>">

@@ -1,5 +1,8 @@
 <?php
 require_once(__DIR__ . "/../../db/conexion.php");
+if (!ACCESO_PERMITIDO){
+    header("Location: /proyecto-sena/components/principales/login.php");
+}
 
 if (!$conn) {
     die("Error de conexión a la base de datos: " . mysqli_connect_error());

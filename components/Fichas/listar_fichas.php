@@ -1,4 +1,8 @@
-<?php if (isset($_GET['mensaje']) && $_GET['mensaje'] == 'creada'): ?>
+<?php
+if (!ACCESO_PERMITIDO){
+    header("Location: /proyecto-sena/components/principales/login.php");
+} 
+if (isset($_GET['mensaje']) && $_GET['mensaje'] == 'creada'): ?>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
     Swal.fire({

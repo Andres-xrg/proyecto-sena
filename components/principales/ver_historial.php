@@ -1,4 +1,7 @@
 <?php
+if (!ACCESO_PERMITIDO){
+    header("Location: /proyecto-sena/components/principales/login.php");
+}
 require_once __DIR__ . '/../../db/conexion.php';
 require_once __DIR__ . '/../../functions/historial.php';
 date_default_timezone_set('America/Bogota'); // O la que aplique a tu país

@@ -1,4 +1,5 @@
 <?php
+
 function registrar_historial($conn, $usuario_id, $accion, $descripcion = '') {
     $ip = $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
 

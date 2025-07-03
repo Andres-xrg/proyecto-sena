@@ -1,4 +1,7 @@
 <?php
+if (!ACCESO_PERMITIDO){
+    header("Location: /proyecto-sena/components/principales/login.php");
+}
 require_once '../db/conexion.php';
 require_once '../functions/historial.php';
 session_start();
