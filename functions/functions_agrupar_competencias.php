@@ -1,7 +1,5 @@
 <?php
-if (!ACCESO_PERMITIDO){
-    header("Location: /proyecto-sena/components/principales/login.php");
-}
+
 function categorizarCompetencia($competencia, $resultado_aprendizaje) {
     $texto_completo = strtolower(($competencia ?? '') . ' ' . ($resultado_aprendizaje ?? ''));
 

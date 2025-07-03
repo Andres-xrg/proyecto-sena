@@ -1,7 +1,4 @@
 <?php
-if (!ACCESO_PERMITIDO){
-    header("Location: /proyecto-sena/components/principales/login.php");
-}
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 

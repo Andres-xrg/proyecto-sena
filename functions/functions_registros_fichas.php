@@ -1,7 +1,4 @@
 <?php
-if (!ACCESO_PERMITIDO){
-    header("Location: /proyecto-sena/components/principales/login.php");
-}
 require_once __DIR__ . '/../db/conexion.php';
 require_once __DIR__ . '/historial.php';
 require_once __DIR__ . '/../vendor/autoload.php';

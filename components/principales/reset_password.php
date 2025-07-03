@@ -1,8 +1,5 @@
 <!-- components/principales/reset_password.php -->
 <?php
-if (!ACCESO_PERMITIDO){
-    header("Location: /proyecto-sena/components/principales/login.php");
-}
 require_once '../../db/conexion.php';
 
 $token = $_GET['token'] ?? '';
