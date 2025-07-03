@@ -1,8 +1,7 @@
 <?php
+session_start();
 require_once '../db/conexion.php';
 require_once '../functions/historial.php';
-
-session_start();
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // 1. Obtener y validar datos del formulario
@@ -24,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $contrasena_hash = password_hash($contrasena, PASSWORD_BCRYPT);
     $rol = 'Usuario';
 
-    // 3. Insertar en base de datos
+    // 3. Insertar en tabla usuarios
     $stmt = $conn->prepare("
         INSERT INTO usuarios (
             nombre, apellido, N_Telefono, T_Documento, N_Documento, Email, Contraseña, confirmarcontraseña, Rol
@@ -38,14 +37,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $stmt->bind_param("sssssssss", $nombre, $apellidos, $telefono, $tipo_doc, $documento, $email, $contrasena_hash, $confirmar, $rol);
 
     if ($stmt->execute()) {
-        // 4. Guardar en historial si hay un usuario logueado
+        // 4. Insertar también en aprendices (relacionado con Id_usuario)
+        $id_usuario_nuevo = $conn->insert_id;
+
+        $stmt_ap = $conn->prepare("INSERT INTO aprendices (Id_usuario, nombre, apellido, T_documento, N_Documento, N_Telefono, Email) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $stmt_ap->bind_param("issssss", $id_usuario_nuevo, $nombre, $apellidos, $tipo_doc, $documento, $telefono, $email);
+        $stmt_ap->execute();
+
+        // 5. Guardar en historial si hay un usuario logueado
         if (isset($_SESSION['usuario']['id'])) {
             $usuario_id = $_SESSION['usuario']['id'];
             $descripcion = "Se registró el usuario $nombre $apellidos con documento $documento.";
             registrar_historial($conn, $usuario_id, 'Registro de usuario', $descripcion);
         }
 
-        // 5. Redirigir con éxito
+        // 6. Redirigir con éxito
         header("Location: ../index.php?page=components/principales/welcome&success=Registro+exitoso");
         exit;
     } else {

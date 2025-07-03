@@ -23,22 +23,31 @@ if ($result->num_rows === 1) {
     $usuario = $result->fetch_assoc();
 
     // Verificar contraseña
-    if (password_verify($password, $usuario['Contraseña'])) {
-        $_SESSION['usuario'] = [
-            'id'     => $usuario['Id_usuario'],
-            'email'  => $usuario['Email'],
-            'nombre' => $usuario['nombre']
-        ];
+if (password_verify($password, $usuario['Contraseña'])) {
+    $_SESSION['usuario'] = [
+        'id'     => $usuario['Id_usuario'],
+        'email'  => $usuario['Email'],
+        'nombre' => $usuario['nombre']
+    ];
 
-        registrar_historial($conn, $usuario['Id_usuario'], 'Login', "El usuario inició sesión correctamente.");
+    // Obtener el ID del aprendiz (si aplica)
+    $sql_aprendiz = "SELECT Id_aprendiz FROM aprendices WHERE Id_usuario = ?";
+    $stmt_apr = $conn->prepare($sql_aprendiz);
+    $stmt_apr->bind_param("i", $usuario['Id_usuario']);
+    $stmt_apr->execute();
+    $result_apr = $stmt_apr->get_result();
 
-        header("Location: /proyecto-sena/index.php?page=components/principales/welcome");
-        exit;
-    } else {
-        // Contraseña incorrecta
-        header("Location: /proyecto-sena/components/principales/login.php?status=contrasena");
-        exit;
+    if ($result_apr->num_rows > 0) {
+        $aprendiz = $result_apr->fetch_assoc();
+        $_SESSION['Id_aprendiz'] = $aprendiz['Id_aprendiz'];
     }
+
+    registrar_historial($conn, $usuario['Id_usuario'], 'Login', "El usuario inició sesión correctamente.");
+
+    header("Location: /proyecto-sena/index.php?page=components/principales/welcome");
+    exit;
+}
+
 } else {
     // Correo no registrado
     header("Location: /proyecto-sena/components/principales/login.php?status=correo");

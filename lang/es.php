@@ -39,4 +39,6 @@ return [
     'history' => 'Historial',
     'dark_mode' => 'Modo Oscuro',
     'logout' => 'Cerrar Sesión',
+    'edit_profile' => 'Editar perfil',
+
 ];

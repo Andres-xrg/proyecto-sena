@@ -60,7 +60,13 @@ require_once __DIR__ . '/../functions/lang.php'; // o ajusta la ruta según tu e
                 </button>
             </form>
         </div>
-        
+         <a href="./components/principales/editar_perfil.php" style="text-decoration: none; color: inherit;">
+            <div class="utility-item style-switcher" id="modoOscuroBtn" title="<?= $translations['edit_profile'] ?? 'Editar perfil' ?>">
+                <i class="fas fa-user"></i>
+                <span><?= $translations['edit_profile'] ?? 'Editar perfil' ?></span>
+            </div>
+        </a>           
+
         <!-- Modo oscuro -->
         <div class="utility-item style-switcher" id="modoOscuroBtn" title="<?= $translations['dark_mode'] ?? 'Cambiar tema' ?>">
             <i class="fas fa-moon"></i>

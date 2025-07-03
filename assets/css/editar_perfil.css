@@ -1,0 +1,199 @@
+/* Reset y configuración base */
+* {
+    box-sizing: border-box;
+}
+
+body.container.mt-5 {
+    background-color: #f8f9fa;
+    min-height: 100vh;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    padding: 2rem 1rem;
+}
+
+/* Título principal */
+h2 {
+    color: #2a7f00;
+    text-align: center;
+    font-weight: 600;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+h2::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background-color: #2a7f00;
+    border-radius: 2px;
+}
+
+/* Contenedor del formulario */
+form {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 2.5rem;
+    box-shadow: 0 4px 20px rgba(42, 127, 0, 0.08);
+    max-width: 600px;
+    margin: 0 auto;
+    border: 1px solid #e9ecef;
+}
+
+/* Grupos de campos */
+.mb-3 {
+    margin-bottom: 1.5rem !important;
+}
+
+/* Etiquetas */
+label {
+    display: block;
+    font-weight: 500;
+    color: #495057;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+/* Campos de entrada */
+.form-control {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid #dee2e6;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    background: #ffffff;
+    color: #495057;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #2a7f00;
+    box-shadow: 0 0 0 3px rgba(42, 127, 0, 0.1);
+}
+
+.form-control:hover {
+    border-color: #adb5bd;
+}
+
+/* Select específico */
+select.form-control {
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23495057' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 1rem center;
+    background-repeat: no-repeat;
+    background-size: 1rem;
+    padding-right: 3rem;
+}
+
+/* Campos de contraseña */
+input[type="password"].form-control {
+    background-color: #f8f9fa;
+}
+
+input[type="password"].form-control:focus {
+    background-color: #ffffff;
+}
+
+/* Botón principal */
+.btn.btn-primary {
+    background-color: #2a7f00;
+    border: 2px solid #2a7f00;
+    padding: 0.75rem 2rem;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    width: 100%;
+    margin-top: 1rem;
+    color: #ffffff;
+}
+
+.btn.btn-primary:hover {
+    background-color: #236600;
+    border-color: #236600;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(42, 127, 0, 0.2);
+}
+
+.btn.btn-primary:active {
+    transform: translateY(0);
+    background-color: #1e5500;
+    border-color: #1e5500;
+}
+
+/* Efectos sutiles para campos requeridos */
+input[required].form-control,
+select[required].form-control {
+    position: relative;
+}
+
+input[required].form-control::after,
+select[required].form-control::after {
+    content: '*';
+    color: #2a7f00;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    body.container.mt-5 {
+        padding: 1rem 0.5rem;
+    }
+    
+    form {
+        padding: 2rem 1.5rem;
+        border-radius: 8px;
+    }
+    
+    h2 {
+        font-size: 1.75rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .form-control {
+        padding: 0.625rem 0.875rem;
+    }
+}
+
+/* Estados de validación */
+.form-control:valid {
+    border-color: #2a7f00;
+}
+
+.form-control:invalid:not(:placeholder-shown) {
+    border-color: #dc3545;
+}
+
+/* Mejora visual para el placeholder */
+.form-control::placeholder {
+    color: #6c757d;
+    opacity: 0.7;
+}
+
+/* Efecto sutil en el hover del formulario */
+form:hover {
+    box-shadow: 0 6px 25px rgba(42, 127, 0, 0.12);
+}
+
+/* Espaciado mejorado para el input hidden */
+input[type="hidden"] {
+    display: none;
+}
+
+/* Estilo para opciones del select */
+select.form-control option {
+    padding: 0.5rem;
+    color: #495057;
+}
+
+select.form-control option:checked {
+    background-color: #2a7f00;
+    color: #ffffff;
+}
