@@ -31,7 +31,6 @@ if (!$resultado) {
     <link rel="stylesheet" href="/proyecto-sena/assets/css/instructores.css">
     <link rel="stylesheet" href="/proyecto-sena/assets/css/header.css">
     <link rel="stylesheet" href="/proyecto-sena/assets/css/footer.css">
-    
 </head>
 <body>
 <div class="container">
@@ -78,7 +77,7 @@ if (!$resultado) {
                             <div class="detail-item"><label>T. Documento</label><span><?= htmlspecialchars($instructor['T_documento']) ?></span></div>
                             <div class="detail-item"><label>Num. Documento</label><span><?= htmlspecialchars($instructor['N_Documento']) ?></span></div>
                             <div class="detail-item"><label>Correo Instructor</label><span><?= htmlspecialchars($instructor['Email']) ?></span></div>
-                            <div class="detail-item"><label>N° Teléfono</label><span><?= htmlspecialchars($instructor['N_Telefono']) ?></span></div>
+                            <div class="detail-item"><label>Nº Teléfono</label><span><?= htmlspecialchars($instructor['N_Telefono']) ?></span></div>
                             <div class="detail-item estado-item"><label>Estado</label><span><?= $textoEstado ?></span></div>
                             <div class="detail-item"><label>Jefe de ficha</label><span><?= $jefeFicha ?></span></div>
                         </div>
@@ -98,6 +97,8 @@ if (!$resultado) {
         <h2>Editar Instructor</h2>
         <form id="formEditarInstructor" method="POST" action="/proyecto-sena/functions/actualizar_instructores.php" onsubmit="return validarFormulario()">
             <input type="hidden" name="id" id="editId">
+            <input type="hidden" name="ficha" id="editFicha">
+
             <label>Nombre:</label>
             <input type="text" name="nombre" id="editNombre" required pattern="[A-Za-zÁÉÍÓÚñáéíóú\s]+" title="Solo letras y espacios">
 

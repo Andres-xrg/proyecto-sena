@@ -92,13 +92,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     }
                 }
             } catch (Exception $e) {
-                echo "<p style='color:red;'>❌ Error al procesar el archivo Excel: " . $e->getMessage() . "</p>";
+                echo "<script>alert('❌ Error al procesar el archivo Excel: " . $e->getMessage() . "');</script>";
                 exit;
             }
         }
 
-        // ✅ Redirige automáticamente
-        header("Location: index.php?page=components/Fichas/Ficha_vista&id=" . $id_ficha_insertada);
+        echo "<script>window.location.href = 'index.php?page=components/Fichas/Ficha_vista&id=" . $id_ficha_insertada . "';</script>";
         exit;
     } else {
         echo "<p style='color:red;'>❌ Error al registrar ficha: " . $stmt->error . "</p>";
