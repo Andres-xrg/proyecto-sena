@@ -1,5 +1,4 @@
 <?php
-
 require_once '../db/conexion.php';
 require '../libs/PhpSpreadsheet/Spreadsheet.php';
 require '../libs/PhpSpreadsheet/IOFactory.php';

@@ -52,8 +52,8 @@ if (!ACCESO_PERMITIDO){
                         <label for="instructor"><?= $translations['instructors'] ?></label>
                         <select id="instructor" name="instructor" required>
                             <option value=""><?= $translations['select_doc_type'] ?></option>
-                            <option value="innovacional">Instructor Innovacional</option>
-                            <option value="normal">Instructor Normal</option>
+                            <option value="transversal">Instructor Transversal</option>
+                            <option value="planta">Instructor planta</option>
                         </select>
                     </div>
                 </div>
