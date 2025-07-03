@@ -41,6 +41,9 @@ $aprendices = $stmt2->get_result();
     <meta charset="UTF-8">
     <title>Ficha <?= htmlspecialchars($ficha['numero_ficha']) ?></title>
     <link rel="stylesheet" href="assets/css/fichas.css">
+    <link rel="stylesheet" href="assets/css/header.css">
+    <link rel="stylesheet" href="assets/css/footer.css">
+
 </head>
 <body>
 <div class="container">
