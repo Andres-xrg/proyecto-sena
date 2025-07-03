@@ -3,16 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/css/programas_formacion.css">
+    
+    <!-- Rutas absolutas seguras -->
     <link rel="stylesheet" href="assets/css/header.css">
     <link rel="stylesheet" href="assets/css/footer.css">
+    <link rel="stylesheet" href="assets/css/programas_formacion.css">
+
     <title>SENA - Plataforma Educativa</title>
 </head>
 <body>
     <main class="programs-main-content">
         <div class="programs-content-area">
             <div class="programs-grid">
-                <!-- Tecnólogo Card -->
+                <!-- Tecnólogo -->
                 <div class="program-card">
                     <div>
                         <div class="card-header" onclick="tecnologo()">
@@ -23,15 +26,16 @@
                             </div>
                         </div>
                     </div>
-                    
                     <div class="image-section">
                         <div class="photos-grid">
-                            <img class="photo-placeholder" src="assets/img/tecnologo.jpg" alt="">
+                            <div class="photo-placeholder">
+                                <img src="assets/img/tecnologo.jpg" alt="Tecnólogo">
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Técnico Card -->
+                <!-- Técnico -->
                 <div class="program-card">
                     <div>
                         <div class="card-header" onclick="tecnico()">
@@ -42,10 +46,11 @@
                             </div>
                         </div>
                     </div>
-                    
                     <div class="image-section">
                         <div class="photos-grid">
-                            <img class="photo-placeholder" src="assets/img/tecnico.jpg" alt="">
+                            <div class="photo-placeholder">
+                                <img src="assets/img/tecnico.jpg" alt="Técnico">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -69,6 +74,7 @@
         </aside>
     </main>
 
+    <!-- Script de registros -->
     <script src="assets/js/registros.js"></script>
 </body>
 </html>

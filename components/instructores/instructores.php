@@ -1,26 +1,23 @@
 <?php
 require_once(__DIR__ . "/../../db/conexion.php");
 
-// Validar conexión
 if (!$conn) {
     die("Error de conexión a la base de datos: " . mysqli_connect_error());
 }
 
-// Consulta directa a la tabla instructores
 $sql = "SELECT 
             Id_instructor, 
             nombre, 
             apellido, 
             Email, 
             T_documento, 
-            N_documento, 
+            N_Documento, 
             N_Telefono, 
             Ficha, 
             Tipo_instructor
         FROM instructores";
 
 $resultado = $conn->query($sql);
-
 if (!$resultado) {
     die("Error en la consulta SQL: " . $conn->error);
 }
@@ -31,48 +28,17 @@ if (!$resultado) {
 <head>
     <meta charset="UTF-8">
     <title>Instructores</title>
-    <link rel="stylesheet" href="assets/css/instructores.css">
-    <link rel="stylesheet" href="assets/css/header.css">
-    <link rel="stylesheet" href="assets/css/footer.css">
+    <link rel="stylesheet" href="/proyecto-sena/assets/css/instructores.css">
+    <link rel="stylesheet" href="/proyecto-sena/assets/css/header.css">
+    <link rel="stylesheet" href="/proyecto-sena/assets/css/footer.css">
+    
 </head>
 <body>
-    <?php
-require_once(__DIR__ . "/../../db/conexion.php");
-
-// Validar conexión
-if (!$conn) {
-    die("Error de conexión a la base de datos: " . mysqli_connect_error());
-}
-
-// Consulta directa a la tabla instructores
-$sql = "SELECT 
-            Id_instructor, 
-            nombre, 
-            apellido, 
-            Email, 
-            T_documento, 
-            N_documento, 
-            N_Telefono, 
-            Ficha, 
-            Tipo_instructor
-        FROM instructores";
-
-$resultado = $conn->query($sql);
-
-if (!$resultado) {
-    die("Error en la consulta SQL: " . $conn->error);
-}
-?>
-
 <div class="container">
     <div class="titulo">
         <h1 class="title">Instructores</h1>
-
-        <!-- ✅ Mostrar mensaje si se actualizó correctamente -->
         <?php if (isset($_GET['success']) && $_GET['success'] === 'estado-cambiado'): ?>
-            <div style="background-color: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin-top: 10px;">
-                ✅ Estado del instructor actualizado correctamente.
-            </div>
+            <div class="success-msg">✅ Estado del instructor actualizado correctamente.</div>
         <?php endif; ?>
     </div>
 
@@ -88,30 +54,31 @@ if (!$resultado) {
                 $claseBoton = $activo ? 'btn-deshabilitar' : 'btn-habilitar';
                 $jefeFicha = !empty($instructor['Ficha']) ? 'Sí' : 'No';
         ?>
-            <!-- INSTRUCTOR <?= $contador++ ?> -->
             <div class="instructor-card <?= $claseCard ?>">
                 <div class="instructor-content">
-                    <div class="avatar">
-                        <div class="avatar-icon">👤</div>
-                    </div>
+                    <div class="avatar"><div class="avatar-icon">👤</div></div>
                     <div class="instructor-info">
                         <div class="instructor-header">
                             <h3 class="instructor-name">
-                                <?= htmlspecialchars($instructor['nombre'] ?? '') . ' ' . htmlspecialchars($instructor['apellido'] ?? '') ?>
+                                <?= htmlspecialchars($instructor['nombre']) . ' ' . htmlspecialchars($instructor['apellido']) ?>
                             </h3>
-                            <form method="POST" action="functions/functions_instructores.php" style="display:inline;">
-                                <input type="hidden" name="id" value="<?= $instructor['Id_instructor'] ?>">
-                                <input type="hidden" name="accion" value="<?= $textoBoton ?>">
-                                <button type="submit" class="btn-estado <?= $claseBoton ?>">
-                                    <?= $textoBoton ?>
-                                </button>
-                            </form>
+                            <div class="botones-acciones">
+                                <form method="POST" action="/proyecto-sena/functions/functions_instructores.php">
+                                    <input type="hidden" name="id" value="<?= $instructor['Id_instructor'] ?>">
+                                    <input type="hidden" name="accion" value="<?= $textoBoton ?>">
+                                    <button type="submit" class="btn-estado <?= $claseBoton ?>">
+                                        <?= $textoBoton ?>
+                                    </button>
+                                </form>
+                                <button class="btn-editar" onclick='abrirModal(<?= json_encode($instructor) ?>)'>Editar</button>
+                            </div>
                         </div>
+
                         <div class="instructor-details">
-                            <div class="detail-item"><label>T. Documento</label><span><?= htmlspecialchars($instructor['T_documento'] ?? 'N/A') ?></span></div>
-                            <div class="detail-item"><label>Num. Documento</label><span><?= htmlspecialchars($instructor['N_documento'] ?? 'N/A') ?></span></div>
-                            <div class="detail-item"><label>Correo Instructor</label><span><?= htmlspecialchars($instructor['Email'] ?? 'N/A') ?></span></div>
-                            <div class="detail-item"><label>N° Teléfono</label><span><?= htmlspecialchars($instructor['N_Telefono'] ?? 'N/A') ?></span></div>
+                            <div class="detail-item"><label>T. Documento</label><span><?= htmlspecialchars($instructor['T_documento']) ?></span></div>
+                            <div class="detail-item"><label>Num. Documento</label><span><?= htmlspecialchars($instructor['N_Documento']) ?></span></div>
+                            <div class="detail-item"><label>Correo Instructor</label><span><?= htmlspecialchars($instructor['Email']) ?></span></div>
+                            <div class="detail-item"><label>N° Teléfono</label><span><?= htmlspecialchars($instructor['N_Telefono']) ?></span></div>
                             <div class="detail-item estado-item"><label>Estado</label><span><?= $textoEstado ?></span></div>
                             <div class="detail-item"><label>Jefe de ficha</label><span><?= $jefeFicha ?></span></div>
                         </div>
@@ -124,5 +91,39 @@ if (!$resultado) {
     </div>
 </div>
 
+<!-- Modal Edición -->
+<div id="modalEditar" class="modal">
+    <div class="modal-contenido">
+        <span class="cerrar-modal" onclick="cerrarModal()">&times;</span>
+        <h2>Editar Instructor</h2>
+        <form id="formEditarInstructor" method="POST" action="/proyecto-sena/functions/actualizar_instructores.php" onsubmit="return validarFormulario()">
+            <input type="hidden" name="id" id="editId">
+            <label>Nombre:</label>
+            <input type="text" name="nombre" id="editNombre" required pattern="[A-Za-zÁÉÍÓÚñáéíóú\s]+" title="Solo letras y espacios">
+
+            <label>Apellido:</label>
+            <input type="text" name="apellido" id="editApellido" required pattern="[A-Za-zÁÉÍÓÚñáéíóú\s]+" title="Solo letras y espacios">
+
+            <label>Email:</label>
+            <input type="email" name="email" id="editEmail" required>
+
+            <label>Tipo Documento:</label>
+            <select name="tipo_documento" id="editTipoDocumento" required>
+                <option value="CC">CC</option>
+                <option value="CE">CE</option>
+            </select>
+
+            <label>Número Documento:</label>
+            <input type="text" name="numero_documento" id="editNumeroDocumento" required pattern="[0-9]+" title="Solo números">
+
+            <label>Teléfono:</label>
+            <input type="text" name="telefono" id="editTelefono" required pattern="[0-9]+" title="Solo números">
+
+            <button type="submit">Actualizar</button>
+        </form>
+    </div>
+</div>
+
+<script src="/proyecto-sena/assets/js/editar_instructores.js"></script>
 </body>
 </html>
