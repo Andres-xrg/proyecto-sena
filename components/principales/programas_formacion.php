@@ -1,6 +1,4 @@
 <?php
-
-
 if (!isset($_SESSION['usuario'])) {
     header("Location: /proyecto-sena/components/principales/login.php");
     exit();

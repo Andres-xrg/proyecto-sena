@@ -1,7 +1,4 @@
 <?php
-if (!ACCESO_PERMITIDO){
-    header("Location: /proyecto-sena/components/principales/login.php");
-}
 session_start();
 if (!isset($_SESSION['usuario_id'])) {
     header("Location: login.php");
