@@ -1,38 +1,42 @@
 <?php
- if (!ACCESO_PERMITIDO){
-     header("Location: /proyecto-sena/components/principales/login.php");
-}
 session_start();
 require_once '../../db/conexion.php';
 
-$id_aprendiz = $_SESSION['Id_aprendiz'] ?? null;
+// Verificar si hay sesión activa
+$usuario = $_SESSION['usuario'] ?? null;
 
-if (!$id_aprendiz) {
+if (!$usuario) {
     echo "Error: No has iniciado sesión.";
     exit;
 }
-$sql = "SELECT a.*, u.contraseña FROM aprendices a 
-        LEFT JOIN usuarios u ON a.Id_usuario = u.Id_usuario
-        WHERE a.Id_aprendiz = ?";
+
+$id_usuario = $usuario['id'];
+
+$sql = "SELECT * FROM usuarios WHERE Id_usuario = ?";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $id_aprendiz);
+$stmt->bind_param("i", $id_usuario);
 $stmt->execute();
 $result = $stmt->get_result();
 $datos = $result->fetch_assoc();
+
+if (!$datos) {
+    echo "Usuario no encontrado.";
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Editar Perfil</title>
+    <title>Editar Perfil de Usuario</title>
     <link rel="stylesheet" href="../../assets/css/editar_perfil.css">
     <link rel="stylesheet" href="../../assets/bootstrap.min.css">
 </head>
 <body class="container mt-5">
     <h2>Editar Perfil</h2>
-    <form action="../../functions/procesar_editar_perfil.php" method="POST">
-        <input type="hidden" name="id_aprendiz" value="<?= $id_aprendiz ?>">
+    <form action="../../functions/procesar_editar_perfil_usuario.php" method="POST">
+        <input type="hidden" name="id_usuario" value="<?= $id_usuario ?>">
 
         <div class="mb-3">
             <label>Nombre:</label>
@@ -41,25 +45,12 @@ $datos = $result->fetch_assoc();
 
         <div class="mb-3">
             <label>Apellido:</label>
-            <input type="text" class="form-control" name="apellido" value="<?= $datos['apellido'] ?>" required>
+            <input type="text" class="form-control" name="apellido" value="<?= $datos['apellido'] ?? '' ?>" required>
         </div>
 
         <div class="mb-3">
-            <label>Tipo de Documento:</label>
-            <select name="T_documento" class="form-control" required>
-                <option value="C.C" <?= $datos['T_documento'] == 'C.C' ? 'selected' : '' ?>>C.C</option>
-                <option value="T.I" <?= $datos['T_documento'] == 'T.I' ? 'selected' : '' ?>>T.I</option>
-            </select>
-        </div>
-
-        <div class="mb-3">
-            <label>Número de Documento:</label>
-            <input type="text" class="form-control" name="N_Documento" value="<?= $datos['N_Documento'] ?>" required>
-        </div>
-
-        <div class="mb-3">
-            <label>Teléfono:</label>
-            <input type="text" class="form-control" name="N_Telefono" value="<?= $datos['N_Telefono'] ?>" required>
+            <label>Nº Teléfono:</label>
+            <input type="text" class="form-control" name="N_telefono" value="<?= $datos['N_telefono'] ?? '' ?>" required>
         </div>
 
         <div class="mb-3">

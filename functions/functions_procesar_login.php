@@ -31,7 +31,7 @@ if ($result->num_rows === 1) {
             'nombre' => $usuario['nombre']
         ];
 
-        // Buscar si es aprendiz
+        // Intentar cargar Id_aprendiz (si el usuario está relacionado con un aprendiz)
         $sql_aprendiz = "SELECT Id_aprendiz FROM aprendices WHERE Id_usuario = ?";
         $stmt_apr = $conn->prepare($sql_aprendiz);
         $stmt_apr->bind_param("i", $usuario['Id_usuario']);
@@ -48,14 +48,11 @@ if ($result->num_rows === 1) {
         exit;
 
     } else {
-        // Contraseña incorrecta
         header("Location: /proyecto-sena/components/principales/login.php?status=contraseña");
         exit;
     }
 
 } else {
-    // Correo no registrado
     header("Location: /proyecto-sena/components/principales/login.php?status=correo");
     exit;
 }
-?>
