@@ -45,7 +45,6 @@ $titulo = match ($tipoSeleccionado) {
   <div class="controls">
     <div class="search-box">
       <input type="text" placeholder="Consultar..." id="searchInput">
-      <span class="search-icon">🔍</span>
     </div>
 
     <div class="dropdown-container">

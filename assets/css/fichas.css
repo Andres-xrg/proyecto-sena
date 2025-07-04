@@ -5,6 +5,7 @@
     box-sizing: border-box;
 }
 
+/* Fondo y tipografía general */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
@@ -15,6 +16,7 @@ body {
     line-height: 1.6;
 }
 
+/* Contenedor principal de la ficha */
 .container {
     width: 100%;
     max-width: calc(100% - 40px);
@@ -39,7 +41,7 @@ body {
     padding: 0;
 }
 
-/* Form Controls */
+/* Controles del formulario de ficha */
 .form-controls {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -80,7 +82,7 @@ body {
     color: #6b7280;
 }
 
-/* Students List */
+/* Lista de aprendices */
 .students-list {
     display: flex;
     flex-direction: column;
@@ -109,7 +111,7 @@ body {
     align-items: flex-start;
 }
 
-/* Avatar */
+/* Avatar circular para aprendices */
 .avatar {
     width: 3rem;
     height: 3rem;
@@ -125,7 +127,7 @@ body {
     box-shadow: 0 4px 16px rgba(34, 197, 94, 0.3);
 }
 
-/* Student Info */
+/* Información del aprendiz */
 .student-info {
     flex: 1;
     display: flex;
@@ -178,7 +180,7 @@ body {
     background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
 }
 
-/* Student Details */
+/* Detalles del aprendiz */
 .student-details {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -209,7 +211,7 @@ body {
     color: #3b82f6;
 }
 
-/* Progress Bar */
+/* Barra de progreso */
 .progress-bar {
     background: #e5e7eb;
     border-radius: 0.5rem;
@@ -231,7 +233,7 @@ body {
     background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
 }
 
-/* Button */
+/* Botón de porcentaje */
 .percentage-btn {
     display: inline-block;
     padding: 0.75rem 1.5rem;
@@ -274,41 +276,7 @@ body {
     box-shadow: 0 8px 25px rgba(34, 197, 94, 0.4);
 }
 
-.btn-actualizar-juicios {
-    background-color: #198754;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    font-size: 14px;
-    border-radius: 5px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    transition: background-color 0.3s;
-}
-
-.btn-actualizar-juicios:hover {
-    background-color: #157347;
-}
-
-.btn-actualizar-juicios i {
-    font-size: 16px;
-}
-
-.form-controls input[type="file"] {
-    max-width: 220px;
-    padding: 6px;
-    font-size: 14px;
-}
-
-form.update-form {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-/* Empty Content */
+/* Contenido vacío */
 .empty-content {
     padding: 3rem;
     text-align: center;
@@ -318,14 +286,117 @@ form.update-form {
     border-radius: 1rem;
     border: 2px dashed #e2e8f0;
 }
+/* Botón para actualizar juicios - estilo discreto */
+.btn-actualizar-juicios {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    background: #f8fafc;
+    border: 2px solid #e2e8f0;
+    border-radius: 0.75rem;
+    color: #475569;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
 
-/* Responsive Design */
+.btn-actualizar-juicios:hover {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+    color: #334155;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.btn-actualizar-juicios i {
+    font-size: 0.85rem;
+    opacity: 0.8;
+}
+
+/* Botón secundario discreto - para acciones adicionales */
+.btn-accion-secundaria {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1rem;
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    color: #6b7280;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.btn-accion-secundaria:hover {
+    background: #f9fafb;
+    border-color: #9ca3af;
+    color: #374151;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Estilos para el input file personalizado */
+.update-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.update-form input[type="file"] {
+    padding: 0.5rem;
+    border: 2px dashed #d1d5db;
+    border-radius: 0.5rem;
+    background: #f9fafb;
+    font-size: 0.85rem;
+    color: #6b7280;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.update-form input[type="file"]:hover {
+    border-color: #9ca3af;
+    background: #f3f4f6;
+}
+
+/* Estados deshabilitados */
+.btn-actualizar-juicios:disabled,
+.btn-accion-secundaria:disabled {
+    background: #f3f4f6;
+    border-color: #e5e7eb;
+    color: #9ca3af;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Responsive para los nuevos botones */
+@media (max-width: 768px) {
+    .btn-actualizar-juicios,
+    .btn-accion-secundaria {
+        padding: 0.6rem 1rem;
+        font-size: 0.8rem;
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .update-form {
+        width: 100%;
+    }
+}
+/* Responsive */
 @media (max-width: 1200px) {
     body {
         margin-left: 0;
         padding: 15px;
     }
-    
     .container {
         padding: 1.5rem;
     }
@@ -335,47 +406,38 @@ form.update-form {
     body {
         padding: 10px;
     }
-    
     .container {
         padding: 1rem;
         margin-top: 10px;
     }
-    
     .header-title {
         font-size: 1.5rem;
     }
-    
     .form-controls {
         grid-template-columns: 1fr;
         padding: 1rem;
     }
-    
     .student-content {
         flex-direction: column;
         align-items: center;
         text-align: center;
         padding: 1.25rem;
     }
-    
     .student-header {
         justify-content: center;
     }
-    
     .student-details {
         grid-template-columns: 1fr;
         text-align: center;
     }
-    
     .avatar {
         width: 2.5rem;
         height: 2.5rem;
         font-size: 1rem;
     }
-    
     .student-name {
         font-size: 1.25rem;
     }
-    
     .percentage-btn {
         max-width: 100%;
     }
@@ -385,31 +447,24 @@ form.update-form {
     .container {
         padding: 0.75rem;
     }
-    
     .header-title {
         font-size: 1.25rem;
     }
-    
     .form-controls {
         padding: 0.75rem;
     }
-    
     .student-content {
         padding: 1rem;
     }
-    
     .student-details {
         gap: 0.75rem;
     }
-    
     .detail-item label {
         font-size: 0.75rem;
     }
-    
     .detail-item p {
         font-size: 0.875rem;
     }
-    
     .percentage-btn {
         padding: 0.6rem 1.2rem;
         font-size: 0.8rem;

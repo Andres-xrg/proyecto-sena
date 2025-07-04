@@ -5,6 +5,7 @@
     box-sizing: border-box;
 }
 
+/* Fondo y tipografía general */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
@@ -30,7 +31,7 @@ body {
     min-height: calc(100vh - 80px);
 }
 
-/* Header Section */
+/* Header de la sección */
 .titulo {
     text-align: center;
     margin-bottom: 2rem;
@@ -44,7 +45,6 @@ body {
     margin-bottom: 0.5rem;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-
 .title::after {
     content: '';
     position: absolute;
@@ -57,7 +57,7 @@ body {
     border-radius: 2px;
 }
 
-/* Success Message */
+/* Mensaje de éxito */
 .success-msg {
     background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
     color: #155724;
@@ -69,14 +69,14 @@ body {
     text-align: center;
 }
 
-/* Instructores List */
+/* Lista de instructores */
 .instructores-list {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
 }
 
-/* Instructor Cards */
+/* Tarjeta de instructor */
 .instructor-card {
     background: #ffffff;
     border: 2px solid #e2e8f0;
@@ -87,32 +87,29 @@ body {
     position: relative;
     overflow: hidden;
 }
-
 .instructor-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
     border-color: #cbd5e1;
 }
-
 .instructor-card.disabled {
     background: #f8fafc;
     border-color: #d1d5db;
     opacity: 0.7;
 }
-
 .instructor-card.disabled:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 }
 
-/* Card Content */
+/* Contenido de la tarjeta */
 .instructor-content {
     display: flex;
     align-items: flex-start;
     gap: 1.5rem;
 }
 
-/* Avatar con letra */
+/* Avatar circular con inicial */
 .avatar {
     width: 4rem;
     height: 4rem;
@@ -125,30 +122,25 @@ body {
     box-shadow: 0 4px 16px rgba(34, 197, 94, 0.3);
     transition: all 0.3s ease;
 }
-
 .instructor-card:hover .avatar {
     transform: scale(1.05);
     box-shadow: 0 6px 20px rgba(34, 197, 94, 0.4);
 }
-
 .instructor-card.disabled .avatar {
     background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
     box-shadow: 0 4px 16px rgba(107, 114, 128, 0.3);
 }
-
 .avatar-icon {
     font-size: 1.5rem;
     color: white;
     font-weight: bold;
-    /* Mostrar la primera letra del nombre */
 }
 
-/* Instructor Info */
+/* Información del instructor */
 .instructor-info {
     flex: 1;
     min-width: 0;
 }
-
 .instructor-header {
     display: flex;
     justify-content: space-between;
@@ -156,7 +148,6 @@ body {
     margin-bottom: 1rem;
     gap: 1rem;
 }
-
 .instructor-name {
     font-size: 1.25rem;
     font-weight: 600;
@@ -164,24 +155,22 @@ body {
     margin: 0;
     line-height: 1.2;
 }
-
 .instructor-card.disabled .instructor-name {
     color: #6b7280;
 }
 
-/* Botones de Acción */
+/* Botones de acción */
 .botones-acciones {
     display: flex;
     gap: 0.75rem;
     align-items: center;
     flex-wrap: wrap;
 }
-
 .botones-acciones form {
     margin: 0;
 }
 
-/* Botones de Estado */
+/* Botón de estado */
 .btn-estado {
     padding: 0.5rem 1rem;
     border: none;
@@ -196,7 +185,6 @@ body {
     overflow: hidden;
     min-width: 120px;
 }
-
 .btn-estado::before {
     content: '';
     position: absolute;
@@ -207,35 +195,29 @@ body {
     background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
     transition: left 0.5s ease;
 }
-
 .btn-estado:hover::before {
     left: 100%;
 }
-
 .btn-deshabilitar {
     background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
     color: white;
     box-shadow: 0 4px 16px rgba(239, 68, 68, 0.3);
 }
-
 .btn-deshabilitar:hover {
     background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
 }
-
 .btn-habilitar {
     background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
     color: white;
     box-shadow: 0 4px 16px rgba(34, 197, 94, 0.3);
 }
-
 .btn-habilitar:hover {
     background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(34, 197, 94, 0.4);
 }
-
 .btn-editar {
     background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
     color: white;
@@ -253,7 +235,6 @@ body {
     overflow: hidden;
     min-width: 120px;
 }
-
 .btn-editar::before {
     content: '';
     position: absolute;
@@ -264,24 +245,21 @@ body {
     background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
     transition: left 0.5s ease;
 }
-
 .btn-editar:hover::before {
     left: 100%;
 }
-
 .btn-editar:hover {
     background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
 }
 
-/* Instructor Details */
+/* Detalles del instructor */
 .instructor-details {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 1rem;
 }
-
 .detail-item {
     display: flex;
     flex-direction: column;
@@ -291,13 +269,11 @@ body {
     transition: all 0.3s ease;
     border: 1px solid #f1f5f9;
 }
-
 .detail-item:hover {
     background: rgba(248, 250, 252, 1);
     transform: translateY(-1px);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
-
 .detail-item label {
     color: #6b7280;
     font-size: 0.75rem;
@@ -306,24 +282,21 @@ body {
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
-
 .detail-item span {
     color: #1f2937;
     font-size: 0.875rem;
     font-weight: 500;
     word-break: break-word;
 }
-
 .instructor-card.disabled .detail-item {
     background: rgba(243, 244, 246, 0.5);
 }
-
 .instructor-card.disabled .detail-item label,
 .instructor-card.disabled .detail-item span {
     color: #9ca3af;
 }
 
-/* Estado especial */
+/* Estado visual del instructor */
 .estado-item span {
     padding: 0.25rem 0.5rem;
     border-radius: 0.25rem;
@@ -333,7 +306,7 @@ body {
     letter-spacing: 0.5px;
 }
 
-/* Modal moderno */
+/* Modal de edición */
 .modal {
     display: none;
     position: fixed;
@@ -347,14 +320,11 @@ body {
     backdrop-filter: blur(4px);
     padding: 2rem;
 }
-
-/* Cuando el modal se muestra */
 .modal[style*="block"] {
     display: flex !important;
     justify-content: center;
     align-items: center;
 }
-
 .modal-contenido {
     background: #ffffff;
     padding: 2rem;
@@ -371,7 +341,6 @@ body {
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
     transform: translateY(-2px);
 }
-
 .modal-contenido h2 {
     text-align: center;
     font-size: 1.5rem;
@@ -380,7 +349,6 @@ body {
     color: #1f2937;
     position: relative;
 }
-
 .modal-contenido h2::after {
     content: '';
     position: absolute;
@@ -393,29 +361,26 @@ body {
     border-radius: 2px;
 }
 
-/* Form Layout en Modal */
+/* Formulario en el modal */
 .modal-contenido form {
     display: flex;
     flex-direction: column;
     gap: 1rem;
 }
-
 .form-row {
     display: flex;
     gap: 1rem;
 }
-
 .form-group {
     flex: 1;
     display: flex;
     flex-direction: column;
 }
-
 .form-group.full-width {
     flex: 100%;
 }
 
-/* Form Elements en Modal */
+/* Inputs y selects en el modal */
 .modal-contenido label {
     font-weight: 600;
     margin-bottom: 0.5rem;
@@ -424,7 +389,6 @@ body {
     text-align: left;
     display: block;
 }
-
 .modal-contenido input[type="text"],
 .modal-contenido input[type="email"],
 .modal-contenido select {
@@ -437,7 +401,6 @@ body {
     transition: all 0.3s ease;
     width: 100%;
 }
-
 .modal-contenido input[type="text"]:focus,
 .modal-contenido input[type="email"]:focus,
 .modal-contenido select:focus {
@@ -446,13 +409,11 @@ body {
     box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
     transform: translateY(-1px);
 }
-
 .modal-contenido input[type="text"]:hover,
 .modal-contenido input[type="email"]:hover,
 .modal-contenido select:hover {
     border-color: #cbd5e1;
 }
-
 .modal-contenido select {
     cursor: pointer;
     appearance: none;
@@ -462,17 +423,15 @@ body {
     background-size: 1rem;
     padding-right: 2.5rem;
 }
-
 .modal-contenido select:focus {
     background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2322c55e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
 }
-
 .modal-contenido input::placeholder {
     color: #9ca3af;
     font-style: italic;
 }
 
-/* Botón de actualizar (mantener como está) */
+/* Botón de actualizar en el modal */
 .modal-contenido button[type="submit"] {
     background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
     color: white;
@@ -492,7 +451,6 @@ body {
     position: relative;
     overflow: hidden;
 }
-
 .modal-contenido button[type="submit"]::before {
     content: '';
     position: absolute;
@@ -503,26 +461,23 @@ body {
     background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
     transition: left 0.5s ease;
 }
-
 .modal-contenido button[type="submit"]:hover::before {
     left: 100%;
 }
-
 .modal-contenido button[type="submit"]:hover {
     background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
     transform: translateY(-3px);
     box-shadow: 0 8px 25px rgba(34, 197, 94, 0.4);
 }
-
 .modal-contenido button[type="submit"]:active {
     transform: translateY(-1px);
 }
-
 .modal-contenido button[type="submit"]:focus {
     outline: none;
     box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2);
 }
 
+/* Botón para cerrar el modal */
 .cerrar-modal {
     position: absolute;
     top: 1rem;
@@ -541,13 +496,13 @@ body {
     background: #f8fafc;
     border: 1px solid #e2e8f0;
 }
-
 .cerrar-modal:hover {
     color: #ef4444;
     background: #fef2f2;
     border-color: #fecaca;
 }
 
+/* Animación modal */
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -559,7 +514,7 @@ body {
     }
 }
 
-/* Empty State */
+/* Estado vacío */
 .instructores-list p {
     text-align: center;
     padding: 3rem;
@@ -570,151 +525,121 @@ body {
     border: 2px dashed #e2e8f0;
 }
 
-/* Responsive Design */
+/* Responsive */
 @media (max-width: 1200px) {
     body {
         margin-left: 0;
         padding: 15px;
     }
-    
     .container {
         padding: 1.5rem;
     }
 }
-
 @media (max-width: 768px) {
     body {
         padding: 10px;
     }
-    
     .container {
         padding: 1rem;
         margin-top: 10px;
     }
-    
     .title {
         font-size: 1.5rem;
     }
-    
     .instructor-content {
         flex-direction: column;
         align-items: center;
         text-align: center;
     }
-    
     .instructor-header {
         flex-direction: column;
         gap: 1rem;
         align-items: center;
     }
-    
     .botones-acciones {
         justify-content: center;
         width: 100%;
     }
-    
     .instructor-details {
         grid-template-columns: 1fr;
         text-align: center;
     }
-    
     .avatar {
         width: 3rem;
         height: 3rem;
     }
-    
     .avatar-icon {
         font-size: 1.25rem;
     }
-    
     .instructor-name {
         font-size: 1.125rem;
     }
-    
     .btn-estado,
     .btn-editar {
         min-width: 100px;
         font-size: 0.75rem;
         padding: 0.5rem 0.75rem;
     }
-    
-    /* Modal responsive */
     .modal {
         padding: 1rem;
     }
-    
     .modal-contenido {
         padding: 2rem;
         max-width: 95%;
     }
-    
     .form-row {
         flex-direction: column;
         gap: 1rem;
     }
-    
     .modal-contenido h2 {
         font-size: 1.25rem;
         margin-bottom: 1.5rem;
     }
-    
     .modal-contenido button[type="submit"] {
         width: 100%;
         margin-top: 1.5rem;
     }
 }
-
 @media (max-width: 480px) {
     .container {
         padding: 0.75rem;
     }
-    
     .title {
         font-size: 1.25rem;
     }
-    
     .instructor-card {
         padding: 1rem;
     }
-    
     .instructor-details {
         gap: 0.75rem;
     }
-    
     .detail-item {
         padding: 0.5rem;
     }
-    
     .detail-item label {
         font-size: 0.7rem;
     }
-    
     .detail-item span {
         font-size: 0.8rem;
     }
-    
     .botones-acciones {
         flex-direction: column;
         width: 100%;
     }
-    
     .btn-estado,
     .btn-editar {
         width: 100%;
         min-width: auto;
     }
-    
     .modal-contenido {
         padding: 1.5rem;
     }
-    
     .modal-contenido input[type="text"],
     .modal-contenido input[type="email"],
     .modal-contenido select {
         padding: 0.6rem 0.8rem;
         font-size: 0.9rem;
     }
-    
     .modal-contenido button[type="submit"] {
         padding: 0.8rem 1.5rem;
         font-size: 0.9rem;
@@ -726,12 +651,11 @@ body {
 .modal-contenido input:invalid {
     border-color: #ef4444;
 }
-
 .modal-contenido input:valid {
     border-color: #22c55e;
 }
 
-/* Accessibility */
+/* Accesibilidad: reduce motion */
 @media (prefers-reduced-motion: reduce) {
     * {
         animation-duration: 0.01ms !important;
@@ -739,18 +663,15 @@ body {
         transition-duration: 0.01ms !important;
     }
 }
-
 .instructor-card:focus-within {
     outline: 2px solid #22c55e;
     outline-offset: 2px;
 }
-
 .btn-estado:focus,
 .btn-editar:focus {
     outline: 2px solid white;
     outline-offset: 2px;
 }
-
 .modal-contenido button[type="submit"]:focus-visible {
     outline: 2px solid #22c55e;
     outline-offset: 2px;

@@ -1,4 +1,4 @@
-/* ===== RESET & BASE STYLES ===== */
+/*  RESET & BASE STYLES  */
 * {
   margin: 0;
   padding: 0;
@@ -6,14 +6,14 @@
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-    margin-left: 260px;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    color: #333;
-    line-height: 1.5;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  margin-left: 260px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  color: #333;
+  line-height: 1.5;
 }
 
 /* Oculta el scroll externo de la página */
@@ -22,50 +22,7 @@ html, body {
   height: 100%;
 }
 
-/* ===== HEADER STYLES ===== */
-.header {
-  background: linear-gradient(135deg, #2a7f00, #348c00);
-  padding: 0.94rem 1.25rem;
-  display: flex;
-  align-items: center;
-  color: #fff;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  position: relative;
-  z-index: 10;
-}
-
-.jke-logo {
-  background-color: #fff;
-  color: #2a7f00;
-  padding: 0.5rem 0.75rem;
-  border-radius: 0.5rem;
-  font-weight: bold;
-  font-size: 0.875rem;
-  margin-right: 0.94rem;
-  transition: all 200ms ease;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-}
-
-.jke-logo:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.header-title {
-  font-weight: bold;
-  font-size: 1rem;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-}
-
-.sena-header-logo {
-  margin-left: auto;
-  font-weight: bold;
-  font-size: 1rem;
-  color: #fff;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-}
-
-/* ===== MAIN CONTAINER ===== */
+/*  MAIN CONTAINER  */
 .main-container {
   display: flex;
   flex: 1;
@@ -73,7 +30,7 @@ html, body {
   position: relative;
 }
 
-/* ===== FORM SECTION ===== */
+/*  FORM SECTION  */
 .form-section {
   flex: 1;
   background-color: #fff;
@@ -109,7 +66,7 @@ html, body {
   transform: translateX(-1px) scale(0.95);
 }
 
-/* ===== SCROLLABLE FORM CONTENT ===== */
+/*  SCROLLABLE FORM CONTENT  */
 .form-content {
   flex: 1;
   overflow-y: auto;
@@ -142,7 +99,7 @@ html, body {
   line-height: 1.5;
 }
 
-/* ===== FORM ELEMENTS ===== */
+/*  FORM ELEMENTS  */
 .form-group {
   margin-bottom: 1.25rem;
   position: relative;
@@ -213,7 +170,7 @@ html, body {
   background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2322c55e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
 }
 
-/* ===== BUTTON STYLES ===== */
+/*  BUTTON STYLES  */
 .register-btn {
   background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
   color: white;
@@ -263,7 +220,7 @@ html, body {
   box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2);
 }
 
-/* ===== GREEN SECTION (FIXED) ===== */
+/*  GREEN SECTION (FIXED)  */
 .green-section {
   flex: 1;
   background: linear-gradient(135deg, #2a7f00, #1e5c00);
@@ -332,7 +289,7 @@ html, body {
   opacity: 0.8;
 }
 
-/* ===== FOOTER ===== */
+/*  FOOTER  */
 .footer {
   background: linear-gradient(135deg, #2a7f00, #348c00);
   color: #fff;
@@ -342,7 +299,7 @@ html, body {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
-/* ===== RESPONSIVE STYLES ===== */
+/*  RESPONSIVE STYLES  */
 @media (max-width: 1024px) {
   body {
     margin-left: 0;
@@ -468,7 +425,7 @@ input:valid {
   border-color: #22c55e;
 }
 
-/* ===== ACCESSIBILITY IMPROVEMENTS ===== */
+/*  ACCESSIBILITY IMPROVEMENTS  */
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;
@@ -508,7 +465,7 @@ input:valid {
   outline-offset: 2px;
 }
 
-/* ===== LOADING STATES ===== */
+/*  LOADING STATES  */
 .register-btn.loading {
   pointer-events: none;
   opacity: 0.7;
@@ -533,7 +490,7 @@ input:valid {
   100% { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
-/* ===== CUSTOM SCROLLBAR ===== */
+/*  CUSTOM SCROLLBAR  */
 .form-content::-webkit-scrollbar {
   width: 8px;
 }
