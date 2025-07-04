@@ -26,17 +26,18 @@
                 </div>
 
                 <!-- Alertas con SweetAlert2 -->
-                <?php if (isset($_GET['status'])): ?>
-                    <script>
-                        <?php if ($_GET['status'] == 'correo'): ?>
-                            Swal.fire('Correo no registrado', 'El correo ingresado no se encuentra en la base de datos.', 'warning');
-                        <?php elseif ($_GET['status'] == 'contrasena'): ?>
-                            Swal.fire('Contraseña incorrecta', 'La contraseña no coincide.', 'error');
-                        <?php elseif ($_GET['status'] == 'vacio'): ?>
-                            Swal.fire('Campos vacíos', 'Por favor completa todos los campos.', 'info');
-                        <?php endif; ?>
-                    </script>
-                <?php endif; ?>
+        <?php if (isset($_GET['status'])): ?>
+    <script>
+        <?php if ($_GET['status'] == 'correo'): ?>
+            Swal.fire('Correo no registrado', 'El correo ingresado no se encuentra en la base de datos.', 'warning');
+        <?php elseif ($_GET['status'] == 'contrasena'): ?>
+            Swal.fire('Contraseña incorrecta', 'La contraseña no coincide.', 'error');
+        <?php elseif ($_GET['status'] == 'vacio'): ?>
+            Swal.fire('Campos vacíos', 'Por favor completa todos los campos.', 'info');
+        <?php endif; ?>
+    </script>
+<?php endif; ?>
+
 
                 <?php if (isset($_GET['logout']) && $_GET['logout'] == 1): ?>
                     <div style="display: flex; background-color: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin-bottom: 15px; align-items: center; justify-content: center; gap: 10px;">

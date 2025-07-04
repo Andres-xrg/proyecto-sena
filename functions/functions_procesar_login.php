@@ -48,7 +48,8 @@ if ($result->num_rows === 1) {
         exit;
 
     } else {
-        header("Location: /proyecto-sena/components/principales/login.php?status=contraseña");
+        // ❗ Corrección: usar 'contrasena' (sin ñ)
+        header("Location: /proyecto-sena/components/principales/login.php?status=contrasena");
         exit;
     }
 
