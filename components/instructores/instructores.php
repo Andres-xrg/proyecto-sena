@@ -9,16 +9,22 @@ if (!$conn) {
 }
 
 $sql = "SELECT 
-            Id_instructor, 
-            nombre, 
-            apellido, 
-            Email, 
-            T_documento, 
-            N_Documento, 
-            N_Telefono, 
-            Ficha, 
-            Tipo_instructor
-        FROM instructores";
+            i.Id_instructor, 
+            i.nombre, 
+            i.apellido, 
+            i.Email, 
+            i.T_documento, 
+            i.N_Documento, 
+            i.N_Telefono, 
+            i.Tipo_instructor,
+            CASE 
+                WHEN EXISTS (
+                    SELECT 1 FROM fichas f WHERE f.Jefe_grupo = i.Id_instructor
+                ) THEN 'Sí'
+                ELSE 'No'
+            END AS es_jefe_grupo
+        FROM instructores i";
+
 
 $resultado = $conn->query($sql);
 if (!$resultado) {
@@ -54,7 +60,8 @@ if (!$resultado) {
                 $textoEstado = $activo ? 'Activo' : 'Inactivo';
                 $textoBoton = $activo ? 'Deshabilitar' : 'Habilitar';
                 $claseBoton = $activo ? 'btn-deshabilitar' : 'btn-habilitar';
-                $jefeFicha = !empty($instructor['Ficha']) ? 'Sí' : 'No';
+                $jefeFicha = $instructor['es_jefe_grupo'];
+
         ?>
             <div class="instructor-card <?= $claseCard ?>">
                 <div class="instructor-content">
