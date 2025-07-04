@@ -43,6 +43,10 @@ $aprendices = $stmt2->get_result();
     <link rel="stylesheet" href="assets/css/fichas.css">
     <link rel="stylesheet" href="assets/css/header.css">
     <link rel="stylesheet" href="assets/css/footer.css">
+    <script src="https://kit.fontawesome.com/your-kit-code.js" crossorigin="anonymous"></script>
+    <style>
+        
+    </style>
 </head>
 <body>
 <div class="container">
@@ -62,6 +66,17 @@ $aprendices = $stmt2->get_result();
                 <label>Horas Totales:</label>
                 <p><?= htmlspecialchars($ficha['Horas_Totales']) ?></p>
             </div>
+            <div class="form-group">
+                <form class="update-form" action="functions/functions_actualizar_juicios.php" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="id_ficha" value="<?= $id_ficha ?>">
+                    <input type="hidden" name="numero_ficha" value="<?= htmlspecialchars($ficha['numero_ficha']) ?>">
+                    <input type="hidden" name="programa" value="<?= htmlspecialchars($ficha['programa_formación']) ?>">
+                    <input type="file" name="juicios" accept=".xlsx, .xls">
+                    <button type="submit" class="btn-actualizar-juicios">
+                        <i class="fas fa-upload"></i> Actualizar Juicios
+                    </button>
+                </form>
+            </div>
         </div>
 
         <h2 class="header-title">Aprendices</h2>
@@ -74,7 +89,6 @@ $aprendices = $stmt2->get_result();
                 if (in_array($a['N_Documento'], $documentos_vistos)) continue;
                 $documentos_vistos[] = $a['N_Documento'];
 
-                // Estado formación
                 $estado_stmt = $conn->prepare("SELECT Estado_formacion FROM juicios_evaluativos WHERE N_Documento = ? ORDER BY Fecha_registro DESC LIMIT 1");
                 $estado_stmt->bind_param("s", $a['N_Documento']);
                 $estado_stmt->execute();
@@ -86,17 +100,12 @@ $aprendices = $stmt2->get_result();
                 elseif ($estado === 'trasladado') $badge_color = 'badge-blue';
                 elseif ($estado === 'desertado') $badge_color = 'badge-red';
 
-                // Porcentaje de competencias
                 $datos = obtener_porcentaje_aprobadas($a['N_Documento']);
                 $porcentaje = $datos['porcentaje'];
 
-                // Color de barra según porcentaje
                 $color_barra = '#e53935'; // rojo
-                if ($porcentaje >= 70) {
-                    $color_barra = '#2a7f00'; // verde
-                } elseif ($porcentaje >= 50) {
-                    $color_barra = '#fbc02d'; // amarillo
-                }
+                if ($porcentaje >= 70) $color_barra = '#2a7f00';
+                elseif ($porcentaje >= 50) $color_barra = '#fbc02d';
             ?>
                 <div class="student-card">
                     <div class="student-content">
