@@ -1,7 +1,9 @@
 <?php
-if (!ACCESO_PERMITIDO){
+if (!isset($_SESSION['usuario'])) {
     header("Location: /proyecto-sena/components/principales/login.php");
+    exit();
 }
+
 require_once __DIR__ . '/../../db/conexion.php';
 require_once __DIR__ . '/../../functions/historial.php';
 date_default_timezone_set('America/Bogota'); // O la que aplique a tu país
@@ -20,18 +22,15 @@ $resultado = $conn->query($sql);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Historial de Actividades</title>
-    <link rel="stylesheet" href="assets/css/Historial.css">
+    <link rel="stylesheet" href="../../assets/css/Historial.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <style>
-
-    </style>
 </head>
 <body>
     <div class="form-header">
-            <img src="assets/img/back-arrow.png" alt="Regresar" class="back-arrow" onclick="goBack()">
+            <img src="../../assets/img/back-arrow.png" alt="Regresar" class="back-arrow" onclick="goBack()">
         </div>
     <div class="container-fluid">
         <div class="main-container fade-in">
@@ -221,18 +220,8 @@ $resultado = $conn->query($sql);
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/historial.js"></script>
-    <script src="assets/js/goBack.js"></script>
-    <style>
-.sidebar { display: none !important; }
-#sidebar { display: none !important; }
-</style>
-<script>
-// Ocultar cualquier sidebar que pueda existir
-document.addEventListener('DOMContentLoaded', function() {
-    const sidebars = document.querySelectorAll('.sidebar, #sidebar');
-    sidebars.forEach(sidebar => sidebar.style.display = 'none');
-});
-</script>
+    <script src="../../assets/js/historial.js"></script>
+    <script src="../../assets/js/goBack.js"></script>
+
 </body>
 </html>

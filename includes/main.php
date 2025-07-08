@@ -1,20 +1,27 @@
 <?php
-// Iniciar sesión si no está activa
+ob_start(); // Previene que se envíe HTML antes de validar sesión
+
 if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
 
-// Cargar traducciones
+// Cabeceras para evitar caché
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
+header("Expires: 0");
+
+// Traducciones
 require_once __DIR__ . '/../functions/lang.php';
 
-// Definir páginas públicas (que no requieren login)
+// Páginas públicas
 $publicas = [
     'components/principales/login',
     'components/principales/registro',
     'components/principales/welcome'
 ];
 
-// Obtener la página actual desde la URL (por defecto 'welcome')
+// Página actual
 $page = $_GET['page'] ?? 'components/principales/welcome';
 $pagePath = __DIR__ . '/../' . $page . '.php';
 
@@ -24,7 +31,7 @@ if (!in_array($page, $publicas) && !isset($_SESSION['usuario'])) {
     exit();
 }
 
-// Páginas que no deben mostrar el header/footer
+// Páginas sin header/footer
 $sinHeaderFooter = ['components/principales/ver_historial'];
 ?>
 <!DOCTYPE html>
@@ -34,7 +41,13 @@ $sinHeaderFooter = ['components/principales/ver_historial'];
     <title><?= $translations['home'] ?? 'Proyecto Formativo' ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- CSS condicional -->
+    <!-- Oculta todo hasta que esté cargado -->
+    <style>
+        body {
+            visibility: hidden;
+        }
+    </style>
+
     <?php if (!in_array($page, $sinHeaderFooter)): ?>
         <link rel="stylesheet" href="/proyecto-sena/assets/css/header.css">
     <?php endif; ?>
@@ -43,21 +56,19 @@ $sinHeaderFooter = ['components/principales/ver_historial'];
 <body>
 
 <?php
-// Mostrar el header si la página lo permite
-if (!in_array($page, $sinHeaderFooter)) {
-    if ($page !== 'components/principales/login') {
-        if (isset($_SESSION['usuario'])) {
-            include __DIR__ . '/header.php'; // Header principal si está logueado
-        } else {
-            include __DIR__ . '/header-secundario.php'; // Header público si no
-        }
+// Mostrar header si corresponde
+if (!in_array($page, $sinHeaderFooter) && $page !== 'components/principales/login') {
+    if (isset($_SESSION['usuario']) && $_SESSION['usuario']) {
+        include __DIR__ . '/header.php';
+    } else {
+        include __DIR__ . '/header-secundario.php';
     }
 }
 ?>
 
 <main>
     <?php
-    // Incluir el contenido de la página si existe
+    // Mostrar contenido de la página
     if (file_exists($pagePath)) {
         include $pagePath;
     } else {
@@ -66,5 +77,14 @@ if (!in_array($page, $sinHeaderFooter)) {
     ?>
 </main>
 
+<!-- Mostrar el contenido una vez cargado -->
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        document.body.style.visibility = 'visible';
+    });
+</script>
+
 </body>
 </html>
+
+<?php ob_end_flush(); ?>

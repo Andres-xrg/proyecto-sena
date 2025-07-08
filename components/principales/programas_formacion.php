@@ -1,9 +1,3 @@
-<?php
-if (!isset($_SESSION['usuario'])) {
-    header("Location: /proyecto-sena/components/principales/login.php");
-    exit();
-}
-?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -11,9 +5,9 @@ if (!isset($_SESSION['usuario'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- Rutas absolutas seguras -->
-    <link rel="stylesheet" href="assets/css/header.css">
-    <link rel="stylesheet" href="assets/css/footer.css">
-    <link rel="stylesheet" href="assets/css/programas_formacion.css">
+    <link rel="stylesheet" href="/proyecto-sena/assets/css/header.css">
+    <link rel="stylesheet" href="/proyecto-sena/assets/css/footer.css">
+    <link rel="stylesheet" href="/proyecto-sena/assets/css/programas_formacion.css">
 
     <title>SENA - Plataforma Educativa</title>
 </head>

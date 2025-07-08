@@ -1,7 +1,5 @@
 <?php
-if (!ACCESO_PERMITIDO){
-    header("Location: /proyecto-sena/components/principales/login.php");
-}
+
 require_once __DIR__ . '/../../db/conexion.php';
 require_once __DIR__ . '/../../functions/functions_agrupar_competencias.php';
 

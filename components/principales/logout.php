@@ -3,8 +3,8 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-require_once 'db/conexion.php';
-require_once 'functions/historial.php';
+require_once __DIR__ . '/../../db/conexion.php';
+require_once __DIR__ . '/../../functions/historial.php';
 
 if (isset($_SESSION['usuario']['id'])) {
     $usuario_id = $_SESSION['usuario']['id'];

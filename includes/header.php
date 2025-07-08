@@ -3,8 +3,6 @@
 require_once __DIR__ . '/../functions/lang.php'; // o ajusta la ruta según tu estructura
 ?>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
 <!-- Botón toggle SOLO para móvil -->
 <button class="sidebar-toggle" id="sidebarToggle">
     <i class="fas fa-bars"></i>
@@ -42,7 +40,7 @@ require_once __DIR__ . '/../functions/lang.php'; // o ajusta la ruta según tu e
             <i class="fas fa-user-plus"></i>
             <span><?= $translations['register_users'] ?></span>
         </a>
-        <a href="index.php?page=components/principales/ver_historial" class="nav-item">
+        <a href="./components/principales/ver_historial.php" class="nav-item">
             <i class="fas fa-history"></i>
             <span><?= $translations['history'] ?? 'Historial' ?></span>
         </a>
@@ -83,5 +81,3 @@ require_once __DIR__ . '/../functions/lang.php'; // o ajusta la ruta según tu e
 
 <!-- Overlay para cerrar sidebar en móvil -->
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
-
-<script src="assets/js/sidebar.js"></script>

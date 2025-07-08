@@ -1,0 +1,9 @@
+/* Oculta el header principal si no hay sesión */
+body.no-logueado .header-principal {
+    display: none;
+}
+
+/* Oculta el header secundario si sí hay sesión */
+body.logueado .header-secundario {
+    display: none;
+}

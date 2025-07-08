@@ -36,13 +36,12 @@
             <span>Modo Oscuro</span>
         </div>
         
-        <a href="index.php?page=components/principales/login" class="utility-item login-btn" title="Iniciar sesión">
+        <a href="./components/principales/login.php" class="utility-item login-btn" title="Iniciar sesión">
             <i class="fas fa-arrow-right-to-bracket"></i>
             <span>Iniciar Sesión</span>
         </a>
     </div>
 </div>
-
 
 <script src="/proyecto-sena/assets/js/sidebar-secundario.js"></script>
 </body>

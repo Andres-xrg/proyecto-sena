@@ -66,12 +66,6 @@
             </div>
         </div>
     </div>
-    <script>
 
-document.addEventListener('DOMContentLoaded', function() {
-    const sidebars = document.querySelectorAll('.sidebar, #sidebar');
-    sidebars.forEach(sidebar => sidebar.style.display = 'none');
-});
-</script>
 </body>
 </html>

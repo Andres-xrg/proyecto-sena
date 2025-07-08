@@ -9,6 +9,8 @@ define("ACCESO_PERMITIDO", true);
     <meta charset="UTF-8">
     <link rel="icon" href="/proyecto-sena/assets/img/logo-sena.png">
     <title>Proyecto Formativo</title>
+    <link rel="stylesheet" href="/proyecto-sena/assets/css/header.css">
+    <link rel="stylesheet" href="/proyecto-sena/assets/css/footer.css">
 </head>
 <body>
     <?php include 'includes/header.php'; ?>
