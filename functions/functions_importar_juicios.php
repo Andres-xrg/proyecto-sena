@@ -1,7 +1,7 @@
 <?php
+
 require_once '../db/conexion.php';
-require '../libs/PhpSpreadsheet/Spreadsheet.php';
-require '../libs/PhpSpreadsheet/IOFactory.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
@@ -20,6 +20,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['juicios'])) {
         $hoja = $spreadsheet->getActiveSheet();
         $filas = $hoja->toArray();
 
+        $ultimo_nombre = '';
+        $ultimo_apellido = '';
+        $ultima_competencia = '';
+
+        $registros_insertados = 0;
+        $registros_omitidos = 0;
+
         for ($i = 13; $i < count($filas); $i++) {
             $fila = $filas[$i];
 
@@ -32,7 +39,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['juicios'])) {
             $fecha = !empty($fila[9]) ? date('Y-m-d H:i:s', strtotime($fila[9])) : date('Y-m-d H:i:s');
             $funcionario = trim($fila[10] ?? '');
 
-            if (!$nombre || !$apellido || !$competencia || !$resultado_aprendizaje) continue;
+            // Reutilizar si vienen celdas vacías
+            if ($nombre !== '') $ultimo_nombre = $nombre;
+            else $nombre = $ultimo_nombre;
+
+            if ($apellido !== '') $ultimo_apellido = $apellido;
+            else $apellido = $ultimo_apellido;
+
+            if ($competencia !== '') $ultima_competencia = $competencia;
+            else $competencia = $ultima_competencia;
+
+            // Validar que existan los campos claves
+            if (!$nombre || !$apellido || !$competencia || !$resultado_aprendizaje) {
+                $registros_omitidos++;
+                continue;
+            }
 
             // Buscar documento del aprendiz
             $buscar = $conn->prepare("SELECT a.N_Documento FROM ficha_aprendiz fa
@@ -41,22 +62,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['juicios'])) {
             $buscar->bind_param("iss", $id_ficha, $nombre, $apellido);
             $buscar->execute();
             $res = $buscar->get_result();
-            if ($res->num_rows === 0) continue;
+
+            if ($res->num_rows === 0) {
+                $registros_omitidos++;
+                continue;
+            }
 
             $documento = $res->fetch_assoc()['N_Documento'];
 
-            // Evitar duplicados
-            $verifica = $conn->prepare("SELECT 1 FROM juicios_evaluativos WHERE Numero_ficha = ? AND N_Documento = ? AND Competencia = ?");
-            $verifica->bind_param("sss", $numero_ficha, $documento, $competencia);
-            $verifica->execute();
-            if ($verifica->get_result()->num_rows > 0) continue;
-
-            // Insertar directamente con el juicio original del Excel
+            // Insertar sin verificar duplicados (cada competencia + resultado_aprendizaje es único)
             $stmt = $conn->prepare("INSERT INTO juicios_evaluativos 
                 (N_Documento, Nombre_aprendiz, Apellido_aprendiz, Estado_formacion, 
                 Competencia, Resultado_aprendizaje, Juicio, 
                 Numero_ficha, Programa_formacion, Fecha_registro, Funcionario_registro)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+            if ($stmt === false) {
+                die("❌ Error en prepare: " . $conn->error);
+            }
+
             $stmt->bind_param(
                 "issssssssss",
                 $documento,
@@ -72,10 +96,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['juicios'])) {
                 $funcionario
             );
 
-            $stmt->execute();
+            if ($stmt->execute()) {
+                $registros_insertados++;
+            } else {
+                $registros_omitidos++;
+            }
         }
 
-        echo "<p style='color:green;'>✅ Importación finalizada. Ya puedes ver los resultados en la ficha.</p>";
+       // Redirigir a la ficha
+        header("Location: ../index.php?page=components/fichas/ficha_vista&id=$id_ficha");
         exit;
     } catch (Exception $e) {
         die("❌ Error al leer el archivo: " . $e->getMessage());

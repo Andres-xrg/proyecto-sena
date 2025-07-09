@@ -1,5 +1,4 @@
 <?php
-
 require_once __DIR__ . '/../../db/conexion.php';
 require_once __DIR__ . '/../../functions/functions_agrupar_competencias.php';
 
@@ -10,7 +9,6 @@ if (!$documento) {
     exit;
 }
 
-// Buscar juicios del aprendiz
 $sql = "
     SELECT *
     FROM juicios_evaluativos
@@ -81,9 +79,7 @@ list($competencias_agrupadas, $materias_organizadas) = agruparCompetencias($resu
                                                     foreach ($juicios as $juicio) {
                                                         $estado = strtolower(trim($juicio['Juicio'] ?? ''));
                                                         $total_resultados++;
-                                                        if ($estado === 'aprobado') {
-                                                            $aprobados++;
-                                                        }
+                                                        if ($estado === 'aprobado') $aprobados++;
                                                     }
                                                 }
                                                 ?>
@@ -93,46 +89,89 @@ list($competencias_agrupadas, $materias_organizadas) = agruparCompetencias($resu
                                         </div>
                                         <div class="collapse subject-content" id="collapse-<?= md5($categoria . $materia) ?>">
                                             <div class="results-container">
-                                                <div class="results-header">
-                                                    <span>Resultados de Aprendizaje</span>
-                                                    <span>Instructor</span>
-                                                    <span>Estado</span>
-                                                </div>
-                                                <?php foreach ($competencias_materia as $juicios): ?>
-                                                    <?php foreach ($juicios as $j): ?>
-                                                        <div class="result-item" data-competencia="<?= strtolower(($j['Competencia'] ?? '') . ' ' . ($j['Resultado_aprendizaje'] ?? '')) ?>">
-                                                            <div class="result-code">
-                                                                <strong><?= htmlspecialchars($j['Competencia'] ?? '') ?></strong>
-                                                                <div class="result-description"><?= htmlspecialchars($j['Resultado_aprendizaje'] ?? '') ?></div>
-                                                                <div class="result-date">
-                                                                    <small><i class="fas fa-calendar"></i> <?= isset($j['Fecha_registro']) ? date('d/m/Y', strtotime($j['Fecha_registro'])) : 'N/A' ?></small>
+                                                <?php foreach ($competencias_materia as $competencia => $juicios_de_la_competencia): ?>
+                                                   <?php
+                                                        $tiene_no_aprobado = false;
+                                                        $tiene_por_evaluar = false;
+                                                        $todos_aprobados = true;
+
+                                                        foreach ($juicios_de_la_competencia as $j) {
+                                                            $estado = strtolower(trim($j['Juicio'] ?? ''));
+
+                                                            if ($estado === 'no aprobado') {
+                                                                $tiene_no_aprobado = true;
+                                                                $todos_aprobados = false;
+                                                                break; // no puede ser aprobado ni por evaluar
+                                                            } elseif ($estado === 'por evaluar' || $estado === '') {
+                                                                $tiene_por_evaluar = true;
+                                                                $todos_aprobados = false;
+                                                            } elseif ($estado !== 'aprobado') {
+                                                                $todos_aprobados = false;
+                                                            }
+                                                        }
+
+                                                        if ($todos_aprobados) {
+                                                            $estado_comp = 'Aprobado';
+                                                            $clase_comp = 'status-approved';
+                                                            $icono = 'fa-check-circle';
+                                                        } elseif ($tiene_no_aprobado) {
+                                                            $estado_comp = 'No Aprobado';
+                                                            $clase_comp = 'status-rejected';
+                                                            $icono = 'fa-times-circle';
+                                                        } else {
+                                                            $estado_comp = 'Por Evaluar';
+                                                            $clase_comp = 'status-pending';
+                                                            $icono = 'fa-clock';
+                                                        }
+                                                        ?>
+                                                        <div class="competencia-header" data-bs-toggle="collapse" data-bs-target="#collapse-<?= md5($competencia) ?>">
+                                                            <strong><?= htmlspecialchars($competencia) ?></strong>
+                                                            <span class="result-status <?= $clase_comp ?>">
+                                                                <i class="fas <?= $icono ?>"></i>
+                                                                <?= $estado_comp ?>
+                                                            </span>
+                                                            <i class="fas fa-chevron-down float-end mt-1"></i>
+                                                        </div>
+                                                    <div class="collapse competencia-body" id="collapse-<?= md5($competencia) ?>">
+                                                        <div class="results-header">
+                                                            <span>Resultados de Aprendizaje</span>
+                                                            <span>Instructor</span>
+                                                            <span>Estado</span>
+                                                        </div>
+                                                        <?php foreach ($juicios_de_la_competencia as $j): ?>
+                                                            <div class="result-item">
+                                                                <div class="result-code">
+                                                                    <div class="result-description"><?= htmlspecialchars($j['Resultado_aprendizaje'] ?? '') ?></div>
+                                                                    <div class="result-date">
+                                                                        <small><i class="fas fa-calendar"></i> <?= isset($j['Fecha_registro']) ? date('d/m/Y', strtotime($j['Fecha_registro'])) : 'N/A' ?></small>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="result-instructor">
+                                                                    <i class="fas fa-user"></i>
+                                                                    <?= htmlspecialchars($j['Funcionario_registro'] ?? 'N/A') ?>
+                                                                </div>
+                                                                <?php
+                                                                $estado = strtolower(trim($j['Juicio'] ?? ''));
+                                                                $clase = 'status-pending';
+                                                                $texto = 'Por Evaluar';
+                                                                $icono = 'fa-clock';
+                                                                if ($estado === 'aprobado') {
+                                                                    $clase = 'status-approved';
+                                                                    $texto = 'Aprobado';
+                                                                    $icono = 'fa-check-circle';
+                                                                } elseif ($estado === 'no aprobado') {
+                                                                    $clase = 'status-rejected';
+                                                                    $texto = 'No Aprobado';
+                                                                    $icono = 'fa-times-circle';
+                                                                }
+                                                                ?>
+                                                                <div class="result-status <?= $clase ?>">
+                                                                    <i class="fas <?= $icono ?>"></i>
+                                                                    <?= $texto ?>
                                                                 </div>
                                                             </div>
-                                                            <div class="result-instructor">
-                                                                <i class="fas fa-user"></i>
-                                                                <?= htmlspecialchars($j['Funcionario_registro'] ?? 'N/A') ?>
-                                                            </div>
-                                                            <?php
-                                                            $estado = strtolower(trim($j['Juicio'] ?? ''));
-                                                            $clase = 'status-pending';
-                                                            $texto = 'Por Evaluar';
-                                                            $icono = 'fa-clock';
-                                                            if ($estado === 'aprobado') {
-                                                                $clase = 'status-approved';
-                                                                $texto = 'Aprobado';
-                                                                $icono = 'fa-check-circle';
-                                                            } elseif ($estado === 'no aprobado') {
-                                                                $clase = 'status-rejected';
-                                                                $texto = 'No Aprobado';
-                                                                $icono = 'fa-times-circle';
-                                                            }
-                                                            ?>
-                                                            <div class="result-status <?= $clase ?>">
-                                                                <i class="fas <?= $icono ?>"></i>
-                                                                <?= $texto ?>
-                                                            </div>
-                                                        </div>
-                                                    <?php endforeach; ?>
+                                                        <?php endforeach; ?>
+                                                    </div>
                                                 <?php endforeach; ?>
                                             </div>
                                         </div>
@@ -170,83 +209,64 @@ list($competencias_agrupadas, $materias_organizadas) = agruparCompetencias($resu
                     </div>
                 </div>
 
-                <!-- Resumen estadístico -->
-                <div class="stats-summary">
-                    <?php
-                    $total_competencias = is_array($competencias_agrupadas) ? count($competencias_agrupadas) : 0;
-                    $total_resultados = 0;
-                    $aprobados_total = 0;
-                    $rechazados_total = 0;
-                    $pendientes_total = 0;
+                <?php
+                $total_competencias = is_array($competencias_agrupadas) ? count($competencias_agrupadas) : 0;
+                $total_resultados = 0;
+                $aprobados_total = 0;
+                $rechazados_total = 0;
+                $pendientes_total = 0;
 
-                    $stats_por_categoria = [
-                        'COMPETENCIAS TÉCNICAS' => ['total' => 0, 'aprobados' => 0],
-                        'COMPETENCIAS TRANSVERSALES' => ['total' => 0, 'aprobados' => 0]
-                    ];
+                $stats_por_categoria = [
+                    'COMPETENCIAS TÉCNICAS' => ['total' => 0, 'aprobados' => 0],
+                    'COMPETENCIAS TRANSVERSALES' => ['total' => 0, 'aprobados' => 0]
+                ];
 
-                    foreach ($competencias_agrupadas as $competencia => $juicios) {
-                        $primer_juicio = $juicios[0];
-                        $categorizacion = categorizarCompetencia($competencia, $primer_juicio['Resultado_aprendizaje'] ?? '');
-                        $categoria_stat = $categorizacion['categoria'];
+                foreach ($competencias_agrupadas as $competencia => $juicios) {
+                    $primer_juicio = $juicios[0];
+                    $categorizacion = categorizarCompetencia($competencia, $primer_juicio['Resultado_aprendizaje'] ?? '');
+                    $categoria_stat = $categorizacion['categoria'];
 
-                        foreach ($juicios as $juicio) {
-                            $estado = strtolower(trim($juicio['Juicio'] ?? ''));
-                            $total_resultados++;
-                            $stats_por_categoria[$categoria_stat]['total']++;
-                            if ($estado === 'aprobado') {
-                                $aprobados_total++;
-                                $stats_por_categoria[$categoria_stat]['aprobados']++;
-                            } elseif ($estado === 'no aprobado') {
-                                $rechazados_total++;
-                            } elseif ($estado === 'por evaluar' || $estado === '') {
-                                $pendientes_total++;
-                            }
+                    foreach ($juicios as $juicio) {
+                        $estado = strtolower(trim($juicio['Juicio'] ?? ''));
+                        $total_resultados++;
+                        $stats_por_categoria[$categoria_stat]['total']++;
+                        if ($estado === 'aprobado') {
+                            $aprobados_total++;
+                            $stats_por_categoria[$categoria_stat]['aprobados']++;
+                        } elseif ($estado === 'no aprobado') {
+                            $rechazados_total++;
+                        } elseif ($estado === 'por evaluar' || $estado === '') {
+                            $pendientes_total++;
                         }
                     }
-                    ?>
-                    <h6>Resumen de Competencias</h6>
-                    <div class="stats-grid">
-                        <div class="stat-item">
-                            <span class="stat-number"><?= $total_competencias ?></span>
-                            <span class="stat-label">Competencias</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-number text-success"><?= $aprobados_total ?></span>
-                            <span class="stat-label">Aprobados</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-number text-danger"><?= $rechazados_total ?></span>
-                            <span class="stat-label">No Aprobados</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-number text-warning"><?= $pendientes_total ?></span>
-                            <span class="stat-label">Por Evaluar</span>
-                        </div>
-                    </div>
-
-                    <div class="category-stats">
-                        <h6>Por Categoría</h6>
-                        <div class="category-stats-grid">
-                            <?php foreach (['COMPETENCIAS TÉCNICAS', 'COMPETENCIAS TRANSVERSALES'] as $cat_nombre): ?>
-                                <?php 
-                                    $aprob = $stats_por_categoria[$cat_nombre]['aprobados'] ?? 0;
-                                    $total = $stats_por_categoria[$cat_nombre]['total'] ?? 0;
-                                ?>
-                                <div class="category-stat-item">
-                                    <div class="category-stat-header"><?= htmlspecialchars($cat_nombre) ?></div>
-                                    <div class="category-stat-numbers">
-                                        <span class="text-success"><?= $aprob ?></span> /
-                                        <span><?= $total ?></span>
-                                    </div>
+                }
+                ?>
+                <h6>Resumen de Competencias</h6>
+                <div class="stats-grid">
+                    <div class="stat-item"><span class="stat-number"><?= $total_competencias ?></span><span class="stat-label">Competencias</span></div>
+                    <div class="stat-item"><span class="stat-number text-success"><?= $aprobados_total ?></span><span class="stat-label">Aprobados</span></div>
+                    <div class="stat-item"><span class="stat-number text-danger"><?= $rechazados_total ?></span><span class="stat-label">No Aprobados</span></div>
+                    <div class="stat-item"><span class="stat-number text-warning"><?= $pendientes_total ?></span><span class="stat-label">Por Evaluar</span></div>
+                </div>
+                <div class="category-stats">
+                    <h6>Por Categoría</h6>
+                    <div class="category-stats-grid">
+                        <?php foreach (['COMPETENCIAS TÉCNICAS', 'COMPETENCIAS TRANSVERSALES'] as $cat_nombre): ?>
+                            <div class="category-stat-item">
+                                <div class="category-stat-header"><?= htmlspecialchars($cat_nombre) ?></div>
+                                <div class="category-stat-numbers">
+                                    <span class="text-success"><?= $stats_por_categoria[$cat_nombre]['aprobados'] ?></span> /
+                                    <span><?= $stats_por_categoria[$cat_nombre]['total'] ?></span>
                                 </div>
-                            <?php endforeach; ?>
-                        </div>
+                            </div>
+                        <?php endforeach; ?>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-   <div id="modalReporte" class="modal">
+
+    <div id="modalReporte" class="modal">
         <div class="modal-contenido">
             <span class="cerrar-modal" onclick="cerrarModal()">&times;</span>
             <h2>Reporte de Aprendiz</h2>

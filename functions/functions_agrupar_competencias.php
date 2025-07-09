@@ -8,37 +8,39 @@ function categorizarCompetencia($competencia, $resultado_aprendizaje) {
         return ['categoria' => 'COMPETENCIAS TRANSVERSALES', 'materia' => 'COMPETENCIAS TRANSVERSALES'];
     }
 
-    // Todo lo demás se considera competencia técnica
+    // Todo lo demás es técnico
     return ['categoria' => 'COMPETENCIAS TÉCNICAS', 'materia' => 'COMPETENCIAS TÉCNICAS'];
 }
 
 function agruparCompetencias($resultado) {
     $competencias_agrupadas = [];
-    while ($j = $resultado->fetch_assoc()) {
-        $competencia = $j['Competencia'];
-        if (!isset($competencias_agrupadas[$competencia])) {
-            $competencias_agrupadas[$competencia] = [];
-        }
-        $competencias_agrupadas[$competencia][] = $j;
-    }
-
-    // Estructura base solo con las dos categorías
     $materias_organizadas = [
-        'COMPETENCIAS TÉCNICAS' => ['COMPETENCIAS TÉCNICAS' => []],
-        'COMPETENCIAS TRANSVERSALES' => ['COMPETENCIAS TRANSVERSALES' => []]
+        'COMPETENCIAS TÉCNICAS' => [],
+        'COMPETENCIAS TRANSVERSALES' => []
     ];
 
-    foreach ($competencias_agrupadas as $competencia => $juicios) {
-        if (is_array($juicios) && !empty($juicios)) {
-            $primer_juicio = $juicios[0];
-            $resultado_aprendizaje = $primer_juicio['Resultado_aprendizaje'] ?? '';
-            $categorizacion = categorizarCompetencia($competencia, $resultado_aprendizaje);
+    while ($j = $resultado->fetch_assoc()) {
+        $competencia = $j['Competencia'] ?? '';
+        $resultado_aprendizaje = $j['Resultado_aprendizaje'] ?? '';
 
-            $categoria = $categorizacion['categoria'];
-            $materia = $categorizacion['materia'];
+        // Agrupar por competencia
+        $competencias_agrupadas[$competencia][] = $j;
 
-            $materias_organizadas[$categoria][$materia][$competencia] = $juicios;
+        // Clasificación
+        $categorizacion = categorizarCompetencia($competencia, $resultado_aprendizaje);
+        $categoria = $categorizacion['categoria'];
+        $materia = $categorizacion['materia'];
+
+        // Inicializar si no existe
+        if (!isset($materias_organizadas[$categoria][$materia])) {
+            $materias_organizadas[$categoria][$materia] = [];
         }
+        if (!isset($materias_organizadas[$categoria][$materia][$competencia])) {
+            $materias_organizadas[$categoria][$materia][$competencia] = [];
+        }
+
+        // Agregar el resultado a la competencia
+        $materias_organizadas[$categoria][$materia][$competencia][] = $j;
     }
 
     return [$competencias_agrupadas, $materias_organizadas];

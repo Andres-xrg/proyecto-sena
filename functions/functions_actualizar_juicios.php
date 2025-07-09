@@ -37,6 +37,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['juicios'])) {
             $buscar = $conn->prepare("SELECT a.N_Documento FROM ficha_aprendiz fa
                 JOIN aprendices a ON fa.Id_aprendiz = a.Id_aprendiz
                 WHERE fa.Id_ficha = ? AND a.nombre = ? AND a.apellido = ?");
+            if (!$buscar) {
+                die("❌ Error en prepare (buscar): " . $conn->error);
+            }
             $buscar->bind_param("iss", $id_ficha, $nombre, $apellido);
             $buscar->execute();
             $res = $buscar->get_result();
@@ -45,17 +48,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['juicios'])) {
             $documento = $res->fetch_assoc()['N_Documento'];
 
             // Verificar si ya existe ese juicio exacto
-            $verifica = $conn->prepare("SELECT 1 FROM juicios_evaluativos 
+            $verifica = $conn->prepare("SELECT Juicio FROM juicios_evaluativos 
                 WHERE Numero_ficha = ? AND N_Documento = ? AND Competencia = ? AND Resultado_aprendizaje = ?");
+            if (!$verifica) {
+                die("❌ Error en prepare (verifica): " . $conn->error);
+            }
             $verifica->bind_param("ssss", $numero_ficha, $documento, $competencia, $resultado_aprendizaje);
             $verifica->execute();
-            $existe = $verifica->get_result()->num_rows;
+            $resultado_existente = $verifica->get_result();
 
-            if ($existe > 0) {
+            if ($resultado_existente->num_rows > 0) {
                 // Actualizar juicio existente
                 $update = $conn->prepare("UPDATE juicios_evaluativos 
                     SET Juicio = ?, Estado_formacion = ?, Fecha_registro = ?, Funcionario_registro = ?
                     WHERE Numero_ficha = ? AND N_Documento = ? AND Competencia = ? AND Resultado_aprendizaje = ?");
+                if (!$update) {
+                    die("❌ Error en prepare (update): " . $conn->error);
+                }
                 $update->bind_param("ssssssss", 
                     $juicio, 
                     $estado_formacion, 
@@ -67,10 +76,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['juicios'])) {
                     $resultado_aprendizaje
                 );
                 $update->execute();
+            } else {
+                // Insertar nuevo juicio
+                $insert = $conn->prepare("INSERT INTO juicios_evaluativos 
+                    (N_Documento, Nombre_aprendiz, Apellido_aprendiz, Estado_formacion, 
+                    Competencia, Resultado_aprendizaje, Juicio, 
+                    Numero_ficha, Programa_formacion, Fecha_registro, Funcionario_registro)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                if (!$insert) {
+                    die("❌ Error en prepare (insert): " . $conn->error);
+                }
+                $insert->bind_param(
+                    "issssssssss",
+                    $documento,
+                    $nombre,
+                    $apellido,
+                    $estado_formacion,
+                    $competencia,
+                    $resultado_aprendizaje,
+                    $juicio,
+                    $numero_ficha,
+                    $programa,
+                    $fecha,
+                    $funcionario
+                );
+                $insert->execute();
             }
         }
 
-        // Redirigir a la misma ficha
+        // Redirigir
         header("Location: ../index.php?page=components/fichas/ficha_vista&id=$id_ficha");
         exit;
     } catch (Exception $e) {

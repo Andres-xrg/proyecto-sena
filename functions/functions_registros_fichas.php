@@ -53,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     $email = strtolower(str_replace(' ', '', $nombre)) . "@sena.edu.co";
                     $telefono = "No disponible";
 
-                    // Verificar aprendiz
+                    // Verificar si el aprendiz ya existe
                     $verificar = $conn->prepare("SELECT Id_aprendiz FROM aprendices WHERE N_Documento = ?");
                     $verificar->bind_param("s", $documento);
                     $verificar->execute();
@@ -68,14 +68,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         $id_aprendiz = $res->fetch_assoc()['Id_aprendiz'];
                     }
 
-                    // Asociar con ficha
+                    // Asociar aprendiz con ficha
                     $asociar = $conn->prepare("INSERT IGNORE INTO ficha_aprendiz (Id_ficha, Id_aprendiz) VALUES (?, ?)");
                     $asociar->bind_param("ii", $id_ficha_insertada, $id_aprendiz);
                     $asociar->execute();
 
-                    // Insertar juicio si no existe
-                    $verifica_juicio = $conn->prepare("SELECT 1 FROM juicios_evaluativos WHERE Numero_ficha = ? AND N_Documento = ? AND Competencia = ?");
-                    $verifica_juicio->bind_param("sss", $numero_ficha, $documento, $competencia);
+                    // Verificar si ya existe ese juicio (incluye resultado de aprendizaje)
+                    $verifica_juicio = $conn->prepare("SELECT 1 FROM juicios_evaluativos 
+                        WHERE Numero_ficha = ? AND N_Documento = ? AND Competencia = ? AND Resultado_aprendizaje = ?");
+                    $verifica_juicio->bind_param("ssss", $numero_ficha, $documento, $competencia, $resultado_aprendizaje);
                     $verifica_juicio->execute();
                     $juicio_existe = $verifica_juicio->get_result();
 
@@ -97,7 +98,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             }
         }
 
-        echo "<script>window.location.href = 'index.php?page=components/Fichas/Ficha_vista&id=" . $id_ficha_insertada . "';</script>";
+        header("Location: ../index.php?page=components/fichas/ficha_vista&id=$id_ficha");
         exit;
     } else {
         echo "<p style='color:red;'>❌ Error al registrar ficha: " . $stmt->error . "</p>";
