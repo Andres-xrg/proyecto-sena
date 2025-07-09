@@ -12,14 +12,25 @@ if (session_status() === PHP_SESSION_NONE) {
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $numero_ficha = $_POST["numero_ficha"];
     $programa     = $_POST["programa"];
-    $horas        = $_POST["horas_totales"];
     $jornada      = $_POST["Jornada"];
     $id_jefe      = $_POST["jefeGrupo"];
 
-    $sql = "INSERT INTO fichas (numero_ficha, programa_formación, Horas_Totales, Jornada, Estado_ficha, Jefe_grupo)
-            VALUES (?, ?, ?, ?, 'Activo', ?)";
+    // 🔎 Validar si el número de ficha ya existe
+    $verificar = $conn->prepare("SELECT 1 FROM fichas WHERE numero_ficha = ?");
+    $verificar->bind_param("s", $numero_ficha);
+    $verificar->execute();
+    $resultado = $verificar->get_result();
+
+    if ($resultado->num_rows > 0) {
+        echo "<script>alert('❌ El número de ficha $numero_ficha ya está registrado. Por favor ingrese uno diferente.'); window.history.back();</script>";
+        exit;
+    }
+
+    // ✅ Insertar ficha si es único
+    $sql = "INSERT INTO fichas (numero_ficha, programa_formación, Jornada, Estado_ficha, Jefe_grupo)
+            VALUES (?, ?, ?, 'Activo', ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssisi", $numero_ficha, $programa, $horas, $jornada, $id_jefe);
+    $stmt->bind_param("sssi", $numero_ficha, $programa, $jornada, $id_jefe);
 
     if ($stmt->execute()) {
         $id_ficha_insertada = $conn->insert_id;
@@ -98,7 +109,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             }
         }
 
-        header("Location: ../index.php?page=components/fichas/ficha_vista&id=$id_ficha");
+        header("Location: /proyecto-sena/index.php?page=components/fichas/ficha_vista&id=$id_ficha_insertada");
         exit;
     } else {
         echo "<p style='color:red;'>❌ Error al registrar ficha: " . $stmt->error . "</p>";

@@ -63,8 +63,9 @@ $aprendices = $stmt2->get_result();
                 <p><?= htmlspecialchars($ficha['Jornada']) ?></p>
             </div>
             <div class="form-group">
-                <label>Horas Totales:</label>
-                <p><?= htmlspecialchars($ficha['Horas_Totales']) ?></p>
+                <div class="search-box">
+                    <input type="text" placeholder="<?= $translations['search'] ?>..." id="searchInput">
+                </div>
             </div>
             <div class="form-group">
                 <form class="update-form" action="functions/functions_actualizar_juicios.php" method="POST" enctype="multipart/form-data">

@@ -70,11 +70,6 @@ $instructores = $conn->query("SELECT Id_instructor, nombre, apellido FROM instru
                         <label for="numero_ficha"><?= $translations['ficha_number'] ?></label>
                         <input type="number" id="numero_ficha" name="numero_ficha" placeholder="Ej: 2546889" required>
                     </div>
-
-                    <div class="grupo-formulario">
-                        <label for="horas_totales"><?= $translations['total_hours'] ?></label>
-                        <input type="number" id="horas_totales" name="horas_totales" placeholder="Ej: 2200" required>
-                    </div>
                 </div>
 
                 <!-- Botón -->
