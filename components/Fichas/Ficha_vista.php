@@ -155,4 +155,22 @@ $aprendices = $stmt2->get_result();
     </div>
 </div>
 </body>
+<script>
+document.getElementById('searchInput').addEventListener('keyup', function () {
+    const filtro = this.value.toLowerCase();
+    const estudiantes = document.querySelectorAll('.student-card');
+
+    estudiantes.forEach(card => {
+        const nombre = card.querySelector('.student-name').textContent.toLowerCase();
+        if (nombre.includes(filtro)) {
+            card.style.display = '';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+});
+</script>
+</body>
+</html>
+
 </html>
