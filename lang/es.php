@@ -40,6 +40,17 @@ return [
     'dark_mode' => 'Modo Oscuro',
     'logout' => 'Cerrar Sesión',
     'edit_profile' => 'Editar perfil',
-     'Select_the_group_leader' => 'Seleccione el jefe de grupo'
+    'Select_the_group_leader' => 'Seleccione el jefe de grupo',
+    'edit profile' => 'editar perfil',
+    'explore_programs' => 'Explora nuestros programas de formación tecnológica',
+    'chief' => 'Jefe',
+    'program' => 'Programa',
+    'status' => 'Estado',
+    'active' => 'Activo',
+    'view_ficha' => 'Ver ficha',
+    'disable' => 'Deshabilitar',
+    'search' => 'Consultar',
+    'select_schedule' => 'Selecciona el Horario De Jornada',
+    'files_tecnologo_tecnico' => 'Fichas de los ( Tecnólogo / Técnico )',
 
 ];

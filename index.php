@@ -13,8 +13,7 @@ define("ACCESO_PERMITIDO", true);
     <link rel="stylesheet" href="/proyecto-sena/assets/css/footer.css">
 </head>
 <body>
-    <?php include 'includes/header.php'; ?>
     <?php include 'includes/main.php'; ?>
-    <?php include 'includes/footer.php'; ?> 
+
 </body>
 </html>

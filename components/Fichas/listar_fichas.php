@@ -28,11 +28,12 @@ if (isset($_GET['mensaje']) && $_GET['mensaje'] == 'creada'): ?>
 $tipoSeleccionado = $_GET['tipo'] ?? 'todos';
 
 $titulo = match ($tipoSeleccionado) {
-  'tecnologo' => 'Ficha del Tecnólogo ',
-  'tecnico'   => 'Ficha del Técnico ',
-  default     => 'Fichas de los ( Tecnólogo / Técnico )'
+  'tecnologo' => $translations['ficha_technologist'],
+  'tecnico'   => $translations['ficha_technician'],
+  default     => $translations['fichas_tecnologo_tecnico']
 };
 ?>
+
 
 <div class="container">
   <div class="titulo">
@@ -41,23 +42,24 @@ $titulo = match ($tipoSeleccionado) {
 
   <div class="controls">
     <div class="search-box">
-      <input type="text" placeholder="Consultar..." id="searchInput">
+      <input type="text" placeholder="<?= $translations['search'] ?>..." id="searchInput">
     </div>
 
     <div class="dropdown-container">
       <div class="dropdown-wrapper">
         <div class="dropdown" onclick="toggleDropdown()">
-          <span>Selecciona el Horario De Jornada...</span>
+          <span><?= $translations['select_schedule'] ?>...</span>
           <span class="arrow">▼</span>
         </div>
         <div class="dropdown-options" id="dropdownOptions">
-          <div class="option">Diurna</div>
-          <div class="option">Mixta</div>
-          <div class="option">Nocturna</div>
+          <div class="option"><?= $translations['daytime'] ?></div>
+          <div class="option"><?= $translations['mixed'] ?></div>
+          <div class="option"><?= $translations['nighttime'] ?></div>
         </div>
       </div>
     </div>
   </div>
+
 
   <?php
   require_once 'db/conexion.php';
@@ -82,19 +84,23 @@ $titulo = match ($tipoSeleccionado) {
       $estado = $row['Estado_ficha'] ?? 'Activo';
     ?>
       <div class="ficha-card" data-jornada="<?= strtolower($row['Jornada']) ?>">
-        <div class="card-header">
-          <span class="numero"><?= $row['numero_ficha'] ?></span>
-          <div class="sena-logo">
-            <img src="/" alt="Logo SENA" style="height:28px;">
+          <div class="card-header">
+              <span class="numero"><?= $row['numero_ficha'] ?></span>
+              <div class="sena-logo">
+                  <img src="/proyecto-sena/assets/img/logo-sena.png" alt="Logo SENA" style="height:28px;">
+              </div>
           </div>
-        </div>
-        <p><strong>Jefe:</strong> <?= $row['jefe_nombre'] . ' ' . $row['jefe_apellido'] ?></p>
-        <p><strong>Programa:</strong> <?= $row['programa_formación'] ?></p>
-        <p><strong>Estado:</strong> <span class="estado-text"><?= $estado ?></span></p>
-        <button class="btn-ver-ficha" onclick="verFicha(<?= $row['Id_ficha'] ?>)">Ver ficha</button>
-        <button class="btn-deshabilitar" onclick="cambiarEstadoFicha(this, <?= $row['Id_ficha'] ?>, '<?= $estado ?>')">
-          <?= $estado === 'Activo' ? 'Deshabilitar' : 'Habilitar' ?>
-        </button>
+          <p><strong><?= $translations['chief'] ?>:</strong> <?= $row['jefe_nombre'] . ' ' . $row['jefe_apellido'] ?></p>
+          <p><strong><?= $translations['program'] ?>:</strong> <?= $row['programa_formación'] ?></p>
+          <p><strong><?= $translations['status'] ?>:</strong> 
+              <span class="estado-text"><?= $estado === 'Activo' ? $translations['active'] : $translations['inactive'] ?></span>
+          </p>
+          <button class="btn-ver-ficha" onclick="verFicha(<?= $row['Id_ficha'] ?>)">
+              <?= $translations['view_ficha'] ?>
+          </button>
+          <button class="btn-deshabilitar" onclick="cambiarEstadoFicha(this, <?= $row['Id_ficha'] ?>, '<?= $estado ?>')">
+              <?= $estado === 'Activo' ? $translations['disable'] : $translations['enable'] ?>
+          </button>
       </div>
     <?php endwhile; ?>
   </div>

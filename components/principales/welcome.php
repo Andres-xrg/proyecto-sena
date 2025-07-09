@@ -11,7 +11,7 @@
 <div class="welcome-container">
     <div class="welcome-header">
         <h1 class="welcome-title"><?= $translations['welcome'] ?></h1>
-        <p class="welcome-subtitle">Explora nuestros programas de formación tecnológica</p>
+        <p class="welcome-subtitle"><?= $translations['explore_programs'] ?></p>
     </div>
     
     <div class="carousel-container">

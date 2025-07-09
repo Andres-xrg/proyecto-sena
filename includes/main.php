@@ -1,38 +1,34 @@
 <?php
-ob_start(); // Previene que se envíe HTML antes de validar sesión
+ob_start();
 
 if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
 
-// Cabeceras para evitar caché
-header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
-header("Expires: 0");
-
-// Traducciones
 require_once __DIR__ . '/../functions/lang.php';
 
-// Páginas públicas
 $publicas = [
     'components/principales/login',
     'components/principales/registro',
-    'components/principales/welcome'
+    'components/principales/welcome',
+    'components/principales/forgot_password',
+    'components/principales/reset_password'
 ];
 
-// Página actual
 $page = $_GET['page'] ?? 'components/principales/welcome';
 $pagePath = __DIR__ . '/../' . $page . '.php';
 
-// Redirigir al login si no hay sesión y la página no es pública
+$sinHeaderFooter = [
+    'components/principales/login',
+    'components/principales/registro',
+    'components/principales/forgot_password',
+    'components/principales/reset_password'
+];
+
 if (!in_array($page, $publicas) && !isset($_SESSION['usuario'])) {
-    header("Location: /proyecto-sena/components/principales/login.php");
+    header("Location: /proyecto-sena/index.php?page=components/principales/login");
     exit();
 }
-
-// Páginas sin header/footer
-$sinHeaderFooter = ['components/principales/ver_historial'];
 ?>
 <!DOCTYPE html>
 <html lang="<?= $lang ?>">
@@ -40,25 +36,17 @@ $sinHeaderFooter = ['components/principales/ver_historial'];
     <meta charset="UTF-8">
     <title><?= $translations['home'] ?? 'Proyecto Formativo' ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Oculta todo hasta que esté cargado -->
-    <style>
-        body {
-            visibility: hidden;
-        }
-    </style>
-
-    <?php if (!in_array($page, $sinHeaderFooter)): ?>
-        <link rel="stylesheet" href="/proyecto-sena/assets/css/header.css">
-    <?php endif; ?>
+    <link rel="stylesheet" href="/proyecto-sena/assets/css/header.css">
+    <link rel="stylesheet" href="/proyecto-sena/assets/css/footer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>body { visibility: hidden; }</style>
 </head>
 <body>
 
 <?php
-// Mostrar header si corresponde
-if (!in_array($page, $sinHeaderFooter) && $page !== 'components/principales/login') {
-    if (isset($_SESSION['usuario']) && $_SESSION['usuario']) {
+// ✅ Mostrar header solo si corresponde
+if (!in_array($page, $sinHeaderFooter)) {
+    if (isset($_SESSION['usuario'])) {
         include __DIR__ . '/header.php';
     } else {
         include __DIR__ . '/header-secundario.php';
@@ -68,7 +56,6 @@ if (!in_array($page, $sinHeaderFooter) && $page !== 'components/principales/logi
 
 <main>
     <?php
-    // Mostrar contenido de la página
     if (file_exists($pagePath)) {
         include $pagePath;
     } else {
@@ -77,7 +64,13 @@ if (!in_array($page, $sinHeaderFooter) && $page !== 'components/principales/logi
     ?>
 </main>
 
-<!-- Mostrar el contenido una vez cargado -->
+<?php
+// ✅ Mostrar footer solo si corresponde
+if (!in_array($page, $sinHeaderFooter)) {
+    include __DIR__ . '/footer.php';
+}
+?>
+
 <script>
     window.addEventListener('DOMContentLoaded', () => {
         document.body.style.visibility = 'visible';

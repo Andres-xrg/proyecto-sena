@@ -11,9 +11,22 @@ if (isset($_SESSION['usuario']['id'])) {
     registrar_historial($conn, $usuario_id, 'Logout', 'El usuario cerró sesión.');
 }
 
-session_destroy();
-?>
+// Limpiar todas las variables de sesión
+$_SESSION = [];
 
-<script>
-window.location.href = '/proyecto-sena/index.php?page=components/principales/login&logout=1';
-</script>
+// Borrar cookie de sesión si existe
+if (ini_get("session.use_cookies")) {
+    $params = session_get_cookie_params();
+    setcookie(session_name(), '', time() - 42000,
+        $params["path"], $params["domain"],
+        $params["secure"], $params["httponly"]
+    );
+}
+
+// Destruir sesión
+session_destroy();
+
+// Redirigir al login
+header("Location: /proyecto-sena/index.php?page=components/principales/login&logout=1");
+exit();
+?>

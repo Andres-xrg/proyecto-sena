@@ -39,5 +39,19 @@ return [
     'history' => 'History',
     'dark_mode' => 'Dark Mode',
     'logout' => 'Logout',
-    'Select_the_group_leader' => 'Select the group leader'
+    'Select_the_group_leader' => 'Select the group leader',
+    'edit_profile' => 'edit profile',
+    'explore_programs' => 'Explore our technology training programs',
+    'chief' => 'Chief',
+    'program' => 'Program',
+    'status' => 'Status',
+    'active' => 'Active',
+    'view_ficha' => 'View Ficha',
+    'disable' => 'Disable',
+    'search' => 'Search',
+    'select_schedule' => 'Select Schedule',
+    'files_tecnologo_tecnico' => 'Files of the (Technologist / Technician)',
+
+
+
 ];
