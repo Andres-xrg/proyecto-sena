@@ -270,3 +270,200 @@ body.dark .feature-card p {
     font-size: 16px;
   }
 }
+/* AGREGAR ESTO AL FINAL DE welcome.css */
+
+/* Botón Editar */
+.edit-carousel-btn {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    background: #2a7f00;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: background 0.3s ease;
+}
+
+.edit-carousel-btn:hover {
+    background: #1e5a00;
+}
+
+/* Modales */
+.edit-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.edit-modal.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.edit-modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.edit-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.edit-modal-header h2 {
+    margin: 0;
+    color: #2a7f00;
+}
+
+.edit-close-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+}
+
+.edit-close-btn:hover {
+    color: #333;
+}
+
+.edit-form-group {
+    margin-bottom: 15px;
+}
+
+.edit-form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #333;
+}
+
+.edit-text-input,
+.edit-file-input,
+.edit-textarea {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.edit-textarea {
+    height: 80px;
+    resize: vertical;
+}
+
+.edit-text-input:focus,
+.edit-file-input:focus,
+.edit-textarea:focus {
+    outline: none;
+    border-color: #2a7f00;
+}
+
+.edit-form-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.edit-save-btn,
+.edit-cancel-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.edit-save-btn {
+    background: #2a7f00;
+    color: white;
+}
+
+.edit-save-btn:hover {
+    background: #1e5a00;
+}
+
+.edit-cancel-btn {
+    background: #f0f0f0;
+    color: #666;
+}
+
+.edit-cancel-btn:hover {
+    background: #e0e0e0;
+}
+
+@media (max-width: 768px) {
+    .edit-carousel-btn {
+        position: static;
+        margin: 10px auto;
+        display: block;
+        width: fit-content;
+    }
+    
+    .edit-modal-content {
+        width: 95%;
+        padding: 15px;
+    }
+    
+    .edit-form-actions {
+        flex-direction: column;
+    }
+}
+/* AGREGAR al final de welcome.css */
+
+.edit-exit-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    background: #dc3545;
+    color: white;
+}
+
+.edit-exit-btn:hover {
+    background: #c82333;
+}
+
+/* Ajustar el contenedor de botones para 3 botones */
+.edit-form-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+    .edit-form-actions {
+        flex-direction: column;
+    }
+}
