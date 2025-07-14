@@ -62,9 +62,6 @@ $resultado = $conn->query($sql);
                             <button class="filter-btn active" data-filter="all">Todas</button>
                             <button class="filter-btn" data-filter="login">Login</button>
                             <button class="filter-btn" data-filter="logout">Logout</button>
-                            <button class="filter-btn" data-filter="create">Crear</button>
-                            <button class="filter-btn" data-filter="update">Actualizar</button>
-                            <button class="filter-btn" data-filter="delete">Eliminar</button>
                         </div>
                     </div>
                 </div>
@@ -112,7 +109,6 @@ $resultado = $conn->query($sql);
                             <th><i class="fas fa-bolt"></i> Acción</th>
                             <th><i class="fas fa-info-circle"></i> Descripción</th>
                             <th><i class="fas fa-calendar"></i> Fecha</th>
-                            <th><i class="fas fa-globe"></i> IP</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -186,9 +182,6 @@ $resultado = $conn->query($sql);
                             ?>
                         </div>
                     </td>
-                    <td>
-                        <span class="ip-address"><?= htmlspecialchars($ip) ?></span>
-                    </td>
                 </tr>
                 <?php endwhile; ?>
                 </table>
@@ -199,23 +192,6 @@ $resultado = $conn->query($sql);
                     <p>Cuando se registren actividades en el sistema, aparecerán aquí.</p>
                 </div>
                 <?php endif; ?>
-            </div>
-
-            <!-- Pagination -->
-            <div class="pagination-container">
-                <nav aria-label="Navegación de páginas">
-                    <ul class="pagination">
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#" tabindex="-1">Anterior</a>
-                        </li>
-                        <li class="page-item active">
-                            <a class="page-link" href="#">1</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">Siguiente</a>
-                        </li>
-                    </ul>
-                </nav>
             </div>
         </div>
     </div>
