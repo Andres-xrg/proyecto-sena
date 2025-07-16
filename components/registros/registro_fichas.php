@@ -26,7 +26,7 @@ $instructores = $conn->query("SELECT Id_instructor, nombre, apellido FROM instru
                 <div class="fila-formulario">
                     <div class="grupo-formulario">
                         <label for="juicios"><?= $translations['import_judgments'] ?></label>
-                        <input type="file" id="juicios" name="juicios" accept=".xlsx,.xls">
+                        <input type="file" id="juicios" name="juicios" accept=".xlsx,.xls" required>
                     </div>
 
                     <div class="grupo-formulario">

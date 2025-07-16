@@ -44,9 +44,6 @@ $aprendices = $stmt2->get_result();
     <link rel="stylesheet" href="assets/css/header.css">
     <link rel="stylesheet" href="assets/css/footer.css">
     <script src="https://kit.fontawesome.com/your-kit-code.js" crossorigin="anonymous"></script>
-    <style>
-        
-    </style>
 </head>
 <body>
 <div class="container">
@@ -64,7 +61,7 @@ $aprendices = $stmt2->get_result();
             </div>
             <div class="form-group">
                 <div class="search-box">
-                    <input type="text" placeholder="<?= $translations['search'] ?>..." id="searchInput">
+                    <input type="text" placeholder="Buscar..." id="searchInput">
                 </div>
             </div>
             <div class="form-group">
@@ -104,9 +101,11 @@ $aprendices = $stmt2->get_result();
                 $datos = obtener_porcentaje_aprobadas($a['N_Documento']);
                 $porcentaje = $datos['porcentaje'];
 
-                $color_barra = '#e53935'; // rojo
+                $color_barra = '#e53935';
                 if ($porcentaje >= 70) $color_barra = '#2a7f00';
                 elseif ($porcentaje >= 50) $color_barra = '#fbc02d';
+
+                $tipo_doc = strtoupper($a['T_documento']); // Mostramos el tipo de documento tal como está en la base (CC, TI, CE)
             ?>
                 <div class="student-card">
                     <div class="student-content">
@@ -121,15 +120,14 @@ $aprendices = $stmt2->get_result();
                             <div class="student-details">
                                 <div class="detail-item">
                                     <label>Documento</label>
-                                    <p><?= htmlspecialchars($a['T_documento']) ?> - <?= htmlspecialchars($a['N_Documento']) ?></p>
+                                    <p><?= htmlspecialchars($tipo_doc) ?> - <?= htmlspecialchars($a['N_Documento']) ?></p>
                                 </div>
                                 <div class="detail-item">
                                     <label>Correo</label>
                                     <p class="email"><?= htmlspecialchars($a['Email']) ?></p>
                                 </div>
                                 <div class="detail-item">
-                                    <label>Teléfono</label>
-                                    <p><?= htmlspecialchars($a['N_Telefono']) ?></p>
+                                    <a class="percentage-btn" href="index.php?page=components/competencias/competencias&doc=<?= urlencode($a['N_Documento']) ?>">Ver Competencias</a>
                                 </div>
                             </div>
 
@@ -142,7 +140,7 @@ $aprendices = $stmt2->get_result();
                                 </div>
                             </div>
 
-                            <a class="percentage-btn" href="index.php?page=components/competencias/competencias&doc=<?= urlencode($a['N_Documento']) ?>">Ver Competencias</a>
+                            
                         </div>
                     </div>
                 </div>
@@ -162,15 +160,8 @@ document.getElementById('searchInput').addEventListener('keyup', function () {
 
     estudiantes.forEach(card => {
         const nombre = card.querySelector('.student-name').textContent.toLowerCase();
-        if (nombre.includes(filtro)) {
-            card.style.display = '';
-        } else {
-            card.style.display = 'none';
-        }
+        card.style.display = nombre.includes(filtro) ? '' : 'none';
     });
 });
 </script>
-</body>
-</html>
-
 </html>

@@ -15,18 +15,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $jornada      = $_POST["Jornada"];
     $id_jefe      = $_POST["jefeGrupo"];
 
-    // 🔎 Validar si el número de ficha ya existe
+    // Validar si el número de ficha ya existe
     $verificar = $conn->prepare("SELECT 1 FROM fichas WHERE numero_ficha = ?");
     $verificar->bind_param("s", $numero_ficha);
     $verificar->execute();
     $resultado = $verificar->get_result();
 
     if ($resultado->num_rows > 0) {
-        echo "<script>alert('❌ El número de ficha $numero_ficha ya está registrado. Por favor ingrese uno diferente.'); window.history.back();</script>";
+        echo "<script>alert('❌ El número de ficha $numero_ficha ya está registrado.'); window.history.back();</script>";
         exit;
     }
 
-    // ✅ Insertar ficha si es único
+    // Insertar ficha
     $sql = "INSERT INTO fichas (numero_ficha, programa_formación, Jornada, Estado_ficha, Jefe_grupo)
             VALUES (?, ?, ?, 'Activo', ?)";
     $stmt = $conn->prepare($sql);
@@ -60,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                     if (!isset($documento) || !is_numeric($documento)) continue;
 
-                    $tipo_doc = "C.C";
+                    $tipo_doc = strtoupper(trim($_tipo_doc));
                     $email = strtolower(str_replace(' ', '', $nombre)) . "@sena.edu.co";
                     $telefono = "No disponible";
 
@@ -79,12 +79,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         $id_aprendiz = $res->fetch_assoc()['Id_aprendiz'];
                     }
 
-                    // Asociar aprendiz con ficha
                     $asociar = $conn->prepare("INSERT IGNORE INTO ficha_aprendiz (Id_ficha, Id_aprendiz) VALUES (?, ?)");
                     $asociar->bind_param("ii", $id_ficha_insertada, $id_aprendiz);
                     $asociar->execute();
 
-                    // Verificar si ya existe ese juicio (incluye resultado de aprendizaje)
                     $verifica_juicio = $conn->prepare("SELECT 1 FROM juicios_evaluativos 
                         WHERE Numero_ficha = ? AND N_Documento = ? AND Competencia = ? AND Resultado_aprendizaje = ?");
                     $verifica_juicio->bind_param("ssss", $numero_ficha, $documento, $competencia, $resultado_aprendizaje);
