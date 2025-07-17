@@ -153,15 +153,5 @@ $aprendices = $stmt2->get_result();
     </div>
 </div>
 </body>
-<script>
-document.getElementById('searchInput').addEventListener('keyup', function () {
-    const filtro = this.value.toLowerCase();
-    const estudiantes = document.querySelectorAll('.student-card');
-
-    estudiantes.forEach(card => {
-        const nombre = card.querySelector('.student-name').textContent.toLowerCase();
-        card.style.display = nombre.includes(filtro) ? '' : 'none';
-    });
-});
-</script>
+<script src="/proyecto-sena/assets/js/fichas.js"></script>
 </html>

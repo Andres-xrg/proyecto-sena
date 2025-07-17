@@ -103,7 +103,8 @@ body {
 .nav-item:hover {
   background-color: rgba(255, 255, 255, 0.1);
   border-left-color: white;
-  padding-left: 30px;
+  padding-left: 15px;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.25); /* más pronunciado al pasar el mouse */
 }
 
 .nav-item i {
@@ -136,6 +137,9 @@ body {
 
 .utility-item:hover {
   background-color: rgba(255, 255, 255, 0.1);
+  border-left-color: white;
+  padding-left: 15px;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.25); /* más pronunciado al pasar el mouse */
 }
 
 .utility-item i {
