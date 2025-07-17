@@ -70,7 +70,19 @@ return [
     'password' => 'Contraseña',
     'forgot_password' => '¿Olvidaste tu contraseña?',
     'submit' => 'Ingresar',
-
-
+    'activity_history'  => 'Historial de Actividades',
+    'system_activity_log' => 'Registro completo de todas las actividades del sistema',
+    'search_placeholder' => 'Buscar por usuario, acción o descripción...',
+    'all'  => 'Todas',
+    'total_activities' => 'Total Actividades',
+    'today' => 'Hoy',
+    'active_users' => 'Usuarios Activos',
+    'user'  => 'Usuario',
+    'action' => 'Acción',
+    'description' => 'Descripción',
+    'date'  => 'Fecha',
+    'no_activities' => 'No hay actividades registradas',
+    'activities_hint'  => 'Cuando se registren actividades en el sistema, aparecerán aquí.',
+    'edit_carousel' => 'Editar Carrusel',
 
 ];

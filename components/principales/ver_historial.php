@@ -4,15 +4,14 @@ if (!isset($_SESSION['usuario'])) {
     header("Location: /proyecto-sena/components/principales/login.php");
     exit();
 }
-
+require_once __DIR__ . '/../../functions/lang.php'; // Asegúrate de incluir esto antes de cualquier uso de $translations
 require_once __DIR__ . '/../../db/conexion.php';
 require_once __DIR__ . '/../../functions/historial.php';
-date_default_timezone_set('America/Bogota'); // O la que aplique a tu país
+date_default_timezone_set('America/Bogota');
 $sql = "SELECT h.*, u.nombre, u.apellido 
         FROM historial_usuarios h 
         LEFT JOIN usuarios u ON h.usuario_id = u.Id_usuario 
         ORDER BY h.fecha DESC";
-
 
 $resultado = $conn->query($sql);
 ?>
@@ -22,44 +21,41 @@ $resultado = $conn->query($sql);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Historial de Actividades</title>
+    <title><?= $translations['activity_history'] ?? 'Historial de Actividades' ?></title>
     <link rel="stylesheet" href="../../assets/css/Historial.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
 </head>
 <body>
     <div class="form-header">
-            <img src="../../assets/img/back-arrow.png" alt="Regresar" class="back-arrow" onclick="goBack()">
-        </div>
+        <img src="../../assets/img/back-arrow.png" alt="Regresar" class="back-arrow" onclick="goBack()">
+    </div>
     <div class="container-fluid">
         <div class="main-container fade-in">
-            <!-- Header Section -->
             <div class="header-section">
                 <div class="header-content">
                     <h1 class="page-title">
                         <i class="fas fa-history"></i>
-                        Historial de Actividades
+                        <?= $translations['activity_history'] ?? 'Historial de Actividades' ?>
                     </h1>
                     <p class="page-subtitle">
-                        Registro completo de todas las actividades del sistema
+                        <?= $translations['system_activity_log'] ?? 'Registro completo de todas las actividades del sistema' ?>
                     </p>
                 </div>
             </div>
 
-            <!-- Controls Section -->
             <div class="controls-section">
                 <div class="row align-items-center">
                     <div class="col-md-6">
                         <div class="search-box">
                             <i class="fas fa-search search-icon"></i>
-                            <input type="text" class="search-input" placeholder="Buscar por usuario, acción o descripción..." id="searchInput">
+                            <input type="text" class="search-input" placeholder="<?= $translations['search_placeholder'] ?? 'Buscar por usuario, acción o descripción...' ?>" id="searchInput">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="filter-buttons">
-                            <button class="filter-btn active" data-filter="all">Todas</button>
+                            <button class="filter-btn active" data-filter="all"><?= $translations['all'] ?? 'Todas' ?></button>
                             <button class="filter-btn" data-filter="login">Login</button>
                             <button class="filter-btn" data-filter="logout">Logout</button>
                         </div>
@@ -67,64 +63,57 @@ $resultado = $conn->query($sql);
                 </div>
             </div>
 
-            <!-- Stats Cards -->
             <div class="controls-section">
                 <div class="stats-cards">
                     <div class="stat-card">
                         <div class="stat-number"><?= $resultado->num_rows ?></div>
-                        <div class="stat-label">Total Actividades</div>
+                        <div class="stat-label"><?= $translations['total_activities'] ?? 'Total Actividades' ?></div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-number">
                             <?php 
                             $today_sql = "SELECT COUNT(*) as count FROM historial_usuarios WHERE DATE(fecha) = CURDATE()";
                             $today_result = $conn->query($today_sql);
-                            $today_count = $today_result->fetch_assoc()['count'];
-                            echo $today_count;
+                            echo $today_result->fetch_assoc()['count'];
                             ?>
                         </div>
-                        <div class="stat-label">Hoy</div>
+                        <div class="stat-label"><?= $translations['today'] ?? 'Hoy' ?></div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-number">
                             <?php 
                             $users_sql = "SELECT COUNT(DISTINCT usuario_id) as count FROM historial_usuarios";
                             $users_result = $conn->query($users_sql);
-                            $users_count = $users_result->fetch_assoc()['count'];
-                            echo $users_count;
+                            echo $users_result->fetch_assoc()['count'];
                             ?>
                         </div>
-                        <div class="stat-label">Usuarios Activos</div>
+                        <div class="stat-label"><?= $translations['active_users'] ?? 'Usuarios Activos' ?></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Table Container -->
             <div class="table-container">
                 <?php if($resultado->num_rows > 0): ?>
                 <table class="activity-table" id="activityTable">
                     <thead>
                         <tr>
-                            <th><i class="fas fa-user"></i> Usuario</th>
-                            <th><i class="fas fa-bolt"></i> Acción</th>
-                            <th><i class="fas fa-info-circle"></i> Descripción</th>
-                            <th><i class="fas fa-calendar"></i> Fecha</th>
+                            <th><i class="fas fa-user"></i> <?= $translations['user'] ?? 'Usuario' ?></th>
+                            <th><i class="fas fa-bolt"></i> <?= $translations['action'] ?? 'Acción' ?></th>
+                            <th><i class="fas fa-info-circle"></i> <?= $translations['description'] ?? 'Descripción' ?></th>
+                            <th><i class="fas fa-calendar"></i> <?= $translations['date'] ?? 'Fecha' ?></th>
                         </tr>
                     </thead>
                     <tbody>
                 <?php  
-                $resultado->data_seek(0); // Reiniciar puntero
+                $resultado->data_seek(0);
                 while($row = $resultado->fetch_assoc()): 
                     $nombre = $row['nombre'] ?? '';
                     $apellido = $row['apellido'] ?? '';
                     $accion = $row['accion'] ?? 'Desconocida';
                     $descripcion = $row['descripcion'] ?? 'Sin descripción';
-                    $ip = $row['ip_usuario'] ?? '0.0.0.0';
-                
                     $inicial_nombre = $nombre !== '' ? substr($nombre, 0, 1) : '?';
                     $inicial_apellido = $apellido !== '' ? substr($apellido, 0, 1) : '?';
                     $initials = strtoupper($inicial_nombre . $inicial_apellido);
-                
                     $action_class = 'action-' . strtolower($accion);
                     $action_icon = match (strtolower($accion)) {
                         'login'  => 'fas fa-sign-in-alt',
@@ -188,8 +177,8 @@ $resultado = $conn->query($sql);
                 <?php else: ?>
                 <div class="empty-state">
                     <i class="fas fa-inbox"></i>
-                    <h3>No hay actividades registradas</h3>
-                    <p>Cuando se registren actividades en el sistema, aparecerán aquí.</p>
+                    <h3><?= $translations['no_activities'] ?? 'No hay actividades registradas' ?></h3>
+                    <p><?= $translations['activities_hint'] ?? 'Cuando se registren actividades en el sistema, aparecerán aquí.' ?></p>
                 </div>
                 <?php endif; ?>
             </div>
@@ -199,6 +188,5 @@ $resultado = $conn->query($sql);
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../../assets/js/historial.js"></script>
     <script src="../../assets/js/goBack.js"></script>
-
 </body>
 </html>

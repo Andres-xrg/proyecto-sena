@@ -79,6 +79,20 @@ return [
     'start' => 'Start',
     'session' => 'Session',
     'forgot_password' => 'Forgot your password?',
+    'activity_history' => 'Activity History',
+    'system_activity_log' => 'Complete record of all system activities',
+    'search_placeholder' => 'Search by user, action, or description...',
+    'all' => 'All',
+    'total_activities' => 'Total Activities',
+    'today' => 'Today',
+    'active_users' => 'Active Users',
+    'user' => 'User',
+    'action' => 'Action',
+    'description' => 'Description',
+    'date' => 'Date',
+    'no_activities' => 'No activities recorded',
+    'activities_hint'=> 'When activities are registered in the system, they will appear here.',
+    
 
 
 ];
