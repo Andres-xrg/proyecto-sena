@@ -26,7 +26,7 @@ if (ini_get("session.use_cookies")) {
 // Destruir sesión
 session_destroy();
 
-// Redirigir al login
-header("Location: /proyecto-sena/index.php?page=components/principales/login&logout=1");
+// ✅ Redirigir al welcome completo
+header("Location: /proyecto-sena/index.php?page=components/principales/welcome");
 exit();
 ?>

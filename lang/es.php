@@ -52,5 +52,25 @@ return [
     'search' => 'Consultar',
     'select_schedule' => 'Selecciona el Horario De Jornada',
     'files_tecnologo_tecnico' => 'Fichas de los ( Tecnólogo / Técnico )',
+    'login_to_access' => 'Inicia sesión para acceder',
+    'welcome_guest' => 'Bienvenido',
+    'login' => 'Iniciar sesión',
+    'login_title' => 'Iniciar sesión',
+    'welcome' => 'Bienvenido',
+    'login' => 'Inicia sesión',
+    'insert_email_password' => 'Ingrese el email y la contraseña',
+    'email_not_found' => 'Correo no registrado',
+    'email_not_found_desc' => 'El correo ingresado no se encuentra en la base de datos.',
+    'incorrect_password' => 'Contraseña incorrecta',
+    'incorrect_password_desc' => 'La contraseña no coincide.',
+    'empty_fields' => 'Campos vacíos',
+    'fill_all_fields' => 'Por favor completa todos los campos.',
+    'logout_success' => 'Sesión cerrada correctamente.',
+    'email' => 'Correo electrónico',
+    'password' => 'Contraseña',
+    'forgot_password' => '¿Olvidaste tu contraseña?',
+    'submit' => 'Ingresar',
+
+
 
 ];

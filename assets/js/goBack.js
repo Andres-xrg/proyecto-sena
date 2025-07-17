@@ -1,4 +1,5 @@
+const baseURL = '/proyecto-sena/index.php';
+
 function goBack() {
-            window.location.href = 'index.php?page=components/principales/programas_formacion';
-        }
-        
+    window.location.href = `${baseURL}?page=components/principales/welcome`;
+}

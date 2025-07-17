@@ -1,10 +1,13 @@
+<?php
+require_once __DIR__ . '/../../functions/lang.php'; // Asegúrate de incluir esto antes de cualquier uso de $translations
+?>
 <!DOCTYPE html>
-<html lang="es"> 
+<html lang="<?= $lang ?>"> 
 <head> 
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/proyecto-sena/assets/css/login.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-    <title>Login</title>
+    <title><?= $translations['login_title'] ?? 'Login' ?></title>
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head> 
@@ -12,60 +15,58 @@
     <div class="container-login"> 
         <div class="left-panel"> 
             <div class="wave-top"></div>
-            <h1 class="welcome-text">BIENVENIDO</h1>
+            <h1 class="welcome-text"><?= $translations['welcome'] ?? 'BIENVENIDO' ?></h1>
             <div class="wave-bottom"></div>
         </div>
 
         <div class="right-panel">
             <div class="login-container">
-                <h2 class="login-title">LOGIN</h2>
-                <p class="login-subtitle">Ingrese el email y la contraseña</p>
+                <h2 class="login-title"><?= $translations['login'] ?? 'INICIA SESIÓN' ?></h2>
+                <p class="login-subtitle"><?= $translations['insert_email_password'] ?? 'Ingrese el email y la contraseña' ?></p>
 
                 <div class="user-icon">
                     <img src="/proyecto-sena/assets/img/logo-inicio.png" alt="User Icon">
                 </div>
 
                 <!-- Alertas con SweetAlert2 -->
-        <?php if (isset($_GET['status'])): ?>
-    <script>
-        <?php if ($_GET['status'] == 'correo'): ?>
-            Swal.fire('Correo no registrado', 'El correo ingresado no se encuentra en la base de datos.', 'warning');
-        <?php elseif ($_GET['status'] == 'contrasena'): ?>
-            Swal.fire('Contraseña incorrecta', 'La contraseña no coincide.', 'error');
-        <?php elseif ($_GET['status'] == 'vacio'): ?>
-            Swal.fire('Campos vacíos', 'Por favor completa todos los campos.', 'info');
-        <?php endif; ?>
-    </script>
-<?php endif; ?>
-
+                <?php if (isset($_GET['status'])): ?>
+                <script>
+                    <?php if ($_GET['status'] == 'correo'): ?>
+                        Swal.fire('<?= $translations['email_not_found'] ?? 'Correo no registrado' ?>', '<?= $translations['email_not_found_desc'] ?? 'El correo ingresado no se encuentra en la base de datos.' ?>', 'warning');
+                    <?php elseif ($_GET['status'] == 'contrasena'): ?>
+                        Swal.fire('<?= $translations['incorrect_password'] ?? 'Contraseña incorrecta' ?>', '<?= $translations['incorrect_password_desc'] ?? 'La contraseña no coincide.' ?>', 'error');
+                    <?php elseif ($_GET['status'] == 'vacio'): ?>
+                        Swal.fire('<?= $translations['empty_fields'] ?? 'Campos vacíos' ?>', '<?= $translations['fill_all_fields'] ?? 'Por favor completa todos los campos.' ?>', 'info');
+                    <?php endif; ?>
+                </script>
+                <?php endif; ?>
 
                 <?php if (isset($_GET['logout']) && $_GET['logout'] == 1): ?>
                     <div style="display: flex; background-color: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin-bottom: 15px; align-items: center; justify-content: center; gap: 10px;">
                         <img src="/proyecto-sena/assets/img/alert.png" alt="img-alert" style="width: 25px; height: 25px;">
-                        Sesión cerrada correctamente.
+                        <?= $translations['logout_success'] ?? 'Sesión cerrada correctamente.' ?>
                     </div>
                 <?php endif; ?>
 
                 <form action="/proyecto-sena/functions/functions_procesar_login.php" method="POST">
                     <div class="form-group">
-                        <label class="form-label">Email</label>
+                        <label class="form-label"><?= $translations['email'] ?? 'Email' ?></label>
                         <input type="email" name="email" class="form-input" required>
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label">Contraseña</label>
+                        <label class="form-label"><?= $translations['password'] ?? 'Contraseña' ?></label>
                         <input type="password" name="contraseña" class="form-input" required>
                     </div>
 
-                    <a href="/proyecto-sena/components/principales/forgot_password.php">¿Olvidaste tu contraseña?</a>
+                    <a href="/proyecto-sena/components/principales/forgot_password.php"><?= $translations['forgot_password'] ?? '¿Olvidaste tu contraseña?' ?></a>
 
                     <div class="form-actions">
-                        <button type="submit" class="continue-button">Ingresar</button>
+                        <button type="submit" class="continue-button"><?= $translations['submit'] ?? 'Ingresar' ?></button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-
 </body>
 </html>

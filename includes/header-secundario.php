@@ -25,21 +25,37 @@
             <img src="/proyecto-sena/assets/img/logo-sena.png" alt="SENA Logo" class="logo-sena" />
         </div>
         
-        <h2 class="titulo-sidebar">Bienvenido</h2>
-        <p class="subtitle-sidebar">Inicia sesión para acceder</p>
+      <h2 class="titulo-sidebar"><?= $translations['welcome_guest'] ?? 'Bienvenido' ?></h2>
+        <p class="subtitle-sidebar"><?= $translations['login_to_access'] ?? 'Inicia sesión para acceder' ?></p>
+
     </div>
 
     <!-- Utilidades del sidebar para no logueados -->
     <div class="sidebar-utilities">
-        <div class="utility-item style-switcher" id="modoOscuroBtn" title="Cambiar tema">
-            <i class="fas fa-moon"></i>
-            <span>Modo Oscuro</span>
+
+        <!-- Modo oscuro -->
+            <div class="utility-item style-switcher" id="modoOscuroBtn" title="<?= $translations['dark_mode'] ?? 'Cambiar tema' ?>">
+                <i class="fas fa-moon"></i>
+                <span><?= $translations['dark_mode'] ?? 'Modo Oscuro' ?></span>
+            </div>
+
+        <!-- Botón de traducción -->
+        <div class="utility-item global">
+            <form id="langForm" method="GET" action="" style="display: flex; align-items: center; width: 100%;">
+                <input type="hidden" name="lang" value="<?= ($_SESSION['lang'] ?? 'es') === 'es' ? 'en' : 'es' ?>">
+                <button type="submit" style="background: none; border: none; color: white; cursor: pointer; display: flex; align-items: center; width: 100%;">
+                    <i class="fas fa-globe" style="width: 20px; margin-right: 15px; font-size: 16px;"></i>
+                    <span style="font-size: 14px;"><?= ($_SESSION['lang'] ?? 'es') === 'es' ? 'English' : 'Español' ?></span>
+                </button>
+            </form>
         </div>
-        
-        <a href="./components/principales/login.php" class="utility-item login-btn" title="Iniciar sesión">
-            <i class="fas fa-arrow-right-to-bracket"></i>
-            <span>Iniciar Sesión</span>
-        </a>
+
+        <!-- Iniciar sesión -->
+            <a href="/proyecto-sena/components/principales/login.php" class="utility-item login-btn" title="<?= $translations['login'] ?? 'Iniciar sesión' ?>">
+                <i class="fas fa-arrow-right-to-bracket"></i>
+                <span><?= $translations['login'] ?? 'Iniciar sesión' ?></span>
+            </a>
+
     </div>
 </div>
 

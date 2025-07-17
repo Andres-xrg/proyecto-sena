@@ -7,6 +7,7 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 
 require_once __DIR__ . '/../functions/lang.php';
 
+// Páginas públicas (no requieren sesión)
 $publicas = [
     'components/principales/login',
     'components/principales/registro',
@@ -15,9 +16,11 @@ $publicas = [
     'components/principales/reset_password'
 ];
 
+// Determinar la página solicitada
 $page = $_GET['page'] ?? 'components/principales/welcome';
 $pagePath = __DIR__ . '/../' . $page . '.php';
 
+// Páginas sin header/footer
 $sinHeaderFooter = [
     'components/principales/login',
     'components/principales/registro',
@@ -25,9 +28,16 @@ $sinHeaderFooter = [
     'components/principales/reset_password'
 ];
 
+// Seguridad: si no está logueado y no es una página pública, redirige
 if (!in_array($page, $publicas) && !isset($_SESSION['usuario'])) {
     header("Location: /proyecto-sena/index.php?page=components/principales/login");
     exit();
+}
+
+// Si la ruta no existe, mostrar welcome como fallback
+if (!file_exists($pagePath)) {
+    $page = 'components/principales/welcome';
+    $pagePath = __DIR__ . '/../' . $page . '.php';
 }
 ?>
 <!DOCTYPE html>
@@ -44,7 +54,7 @@ if (!in_array($page, $publicas) && !isset($_SESSION['usuario'])) {
 <body>
 
 <?php
-// ✅ Mostrar header solo si corresponde
+// Mostrar el header correspondiente
 if (!in_array($page, $sinHeaderFooter)) {
     if (isset($_SESSION['usuario'])) {
         include __DIR__ . '/header.php';
@@ -55,17 +65,11 @@ if (!in_array($page, $sinHeaderFooter)) {
 ?>
 
 <main>
-    <?php
-    if (file_exists($pagePath)) {
-        include $pagePath;
-    } else {
-        echo "<p style='color:red; text-align:center;'>La página solicitada no existe.</p>";
-    }
-    ?>
+    <?php include $pagePath; ?>
 </main>
 
 <?php
-// ✅ Mostrar footer solo si corresponde
+// Mostrar footer si corresponde
 if (!in_array($page, $sinHeaderFooter)) {
     include __DIR__ . '/footer.php';
 }
