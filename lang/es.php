@@ -84,5 +84,6 @@ return [
     'no_activities' => 'No hay actividades registradas',
     'activities_hint'  => 'Cuando se registren actividades en el sistema, aparecerán aquí.',
     'edit_carousel' => 'Editar Carrusel',
+    'developed_by' => 'Desarrollado por JKE | SENA CDITI 2025',
 
 ];

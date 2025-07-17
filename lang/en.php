@@ -92,7 +92,8 @@ return [
     'date' => 'Date',
     'no_activities' => 'No activities recorded',
     'activities_hint'=> 'When activities are registered in the system, they will appear here.',
-    
+    'developed_by' => 'Developed by JKE | SENA CDITI 2025',
+
 
 
 ];
