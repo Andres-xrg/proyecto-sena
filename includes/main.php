@@ -18,6 +18,7 @@ $publicas = [
 
 // Determinar la página solicitada
 $page = $_GET['page'] ?? 'components/principales/welcome';
+$page = str_replace('..', '', $page); // Seguridad: prevenir subida de nivel
 $pagePath = __DIR__ . '/../' . $page . '.php';
 
 // Páginas sin header/footer

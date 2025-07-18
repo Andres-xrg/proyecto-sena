@@ -3,7 +3,9 @@ if (!ACCESO_PERMITIDO){
     header("Location: proyecto-sena/components/principales/login.php");
 }
 require_once 'db/conexion.php';
+
 $instructores = $conn->query("SELECT Id_instructor, nombre, apellido FROM instructores ORDER BY nombre ASC");
+$programas = $conn->query("SELECT id_programa, nombre_programa FROM programas_formacion ORDER BY nombre_programa ASC");
 ?>
 
 <!DOCTYPE html>
@@ -45,21 +47,24 @@ $instructores = $conn->query("SELECT Id_instructor, nombre, apellido FROM instru
                 <!-- Segunda Fila -->
                 <div class="fila-formulario">
                     <div class="grupo-formulario">
-                        <label for="programa"><?= $translations['training_programs'] ?></label>
+                        <label for="programa">Programa de formación</label>
                         <select id="programa" name="programa" required>
-                            <option value=""><?= $translations['select_doc_type'] ?></option>
-                            <option value="Análisis y Desarrollo de Software"><?= $translations['technologist'] . ' ' . $translations['software_dev'] ?></option>
-                            <option value="Técnico en Programación"><?= $translations['technician'] . ' ' . $translations['software_programming'] ?></option>
+                            <option value="">Seleccione programa de formación</option>
+                            <?php while ($prog = $programas->fetch_assoc()): ?>
+                                <option value="<?= $prog['id_programa'] ?>">
+                                    <?= htmlspecialchars($prog['nombre_programa']) ?>
+                                </option>
+                            <?php endwhile; ?>
                         </select>
                     </div>
 
                     <div class="grupo-formulario">
-                        <label for="Jornada"><?= $translations['document_type'] ?></label>
+                        <label for="Jornada">Jornada</label>
                         <select id="Jornada" name="Jornada" required>
-                            <option value=""><?= $translations['select_doc_type'] ?></option>
-                            <option value="Diurna"><?= $translations['daytime'] ?></option>
-                            <option value="Nocturna"><?= $translations['nighttime'] ?></option>
-                            <option value="Mixta"><?= $translations['mixed'] ?></option>
+                            <option value="">Seleccione su jornada</option>
+                            <option value="Diurna">Diurna</option>
+                            <option value="Nocturna">Nocturna</option>
+                            <option value="Mixta">Mixta</option>
                         </select>
                     </div>
                 </div>

@@ -16,7 +16,7 @@ if (isset($_GET['mensaje']) && $_GET['mensaje'] == 'creada'): ?>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fichas - Tecnólogo/Técnico</title>
+  <title>Fichas</title>
   <link rel="stylesheet" href="assets/css/listar_fichas.css">
   <link rel="stylesheet" href="assets/css/header.css">
   <link rel="stylesheet" href="assets/css/footer.css">
@@ -25,62 +25,59 @@ if (isset($_GET['mensaje']) && $_GET['mensaje'] == 'creada'): ?>
 <body>
 
 <?php
-$tipoSeleccionado = $_GET['tipo'] ?? 'todos';
+require_once 'db/conexion.php';
 
-$titulo = match ($tipoSeleccionado) {
-  'tecnologo' => $translations['ficha_technologist'],
-  'tecnico'   => $translations['ficha_technician'],
-  default     => $translations['fichas_tecnologo_tecnico']
-};
+$id_programa = $_GET['id_programa'] ?? null;
+$titulo = 'Fichas - Programa desconocido';
+
+if ($id_programa) {
+    $stmt = $conn->prepare("SELECT nombre_programa FROM programas_formacion WHERE Id_programa = ?");
+    $stmt->bind_param("i", $id_programa);
+    $stmt->execute();
+    $resultado = $stmt->get_result()->fetch_assoc();
+    $titulo = $resultado ? $resultado['nombre_programa'] : 'Fichas - Programa no encontrado';
+}
 ?>
-
 
 <div class="container">
   <div class="titulo">
-    <h1 class="title"><?= $titulo ?></h1>
+    <h1 class="title"><?= htmlspecialchars($titulo) ?></h1>
   </div>
 
   <div class="controls">
     <div class="search-box">
-      <input type="text" placeholder="<?= $translations['search'] ?>..." id="searchInput">
+      <input type="text" placeholder="Buscar..." id="searchInput">
     </div>
 
     <div class="dropdown-container">
       <div class="dropdown-wrapper">
         <div class="dropdown" onclick="toggleDropdown()">
-          <span><?= $translations['select_schedule'] ?>...</span>
+          <span>Seleccionar jornada...</span>
           <span class="arrow">▼</span>
         </div>
         <div class="dropdown-options" id="dropdownOptions">
-          <div class="option"><?= $translations['daytime'] ?></div>
-          <div class="option"><?= $translations['mixed'] ?></div>
-          <div class="option"><?= $translations['nighttime'] ?></div>
+          <div class="option">Diurna</div>
+          <div class="option">Mixta</div>
+          <div class="option">Nocturna</div>
         </div>
       </div>
     </div>
   </div>
 
-
   <?php
-  require_once 'db/conexion.php';
-
-  $sql = "SELECT f.*, i.nombre AS jefe_nombre, i.apellido AS jefe_apellido 
+  $sql = "SELECT f.*, i.nombre AS jefe_nombre, i.apellido AS jefe_apellido, p.nombre_programa
           FROM fichas f
-          LEFT JOIN instructores i ON f.Jefe_grupo = i.Id_instructor";
-  $result = $conn->query($sql);
+          LEFT JOIN instructores i ON f.Jefe_grupo = i.Id_instructor
+          LEFT JOIN programas_formacion p ON f.Id_programa = p.Id_programa
+          WHERE f.Id_programa = ?";
+  $stmt_fichas = $conn->prepare($sql);
+  $stmt_fichas->bind_param("i", $id_programa);
+  $stmt_fichas->execute();
+  $result = $stmt_fichas->get_result();
   ?>
 
   <div class="fichas-grid">
-    <?php while ($row = $result->fetch_assoc()): 
-      $programa = strtolower($row['programa_formación']);
-
-      if (
-        ($tipoSeleccionado === 'tecnologo' && $programa !== 'análisis y desarrollo de software') ||
-        ($tipoSeleccionado === 'tecnico' && $programa !== 'técnico en programación')
-      ) {
-        continue;
-      }
-
+    <?php while ($row = $result->fetch_assoc()):
       $estado = $row['Estado_ficha'] ?? 'Activo';
     ?>
       <div class="ficha-card" data-jornada="<?= strtolower($row['Jornada']) ?>">
@@ -90,16 +87,16 @@ $titulo = match ($tipoSeleccionado) {
                   <img src="/proyecto-sena/assets/img/logo-sena.png" alt="Logo SENA" style="height:28px;">
               </div>
           </div>
-          <p><strong><?= $translations['chief'] ?>:</strong> <?= $row['jefe_nombre'] . ' ' . $row['jefe_apellido'] ?></p>
-          <p><strong><?= $translations['program'] ?>:</strong> <?= $row['programa_formación'] ?></p>
-          <p><strong><?= $translations['status'] ?>:</strong> 
-              <span class="estado-text"><?= $estado === 'Activo' ? $translations['active'] : $translations['inactive'] ?></span>
+          <p><strong>Jefe de grupo:</strong> <?= htmlspecialchars($row['jefe_nombre'] . ' ' . $row['jefe_apellido']) ?></p>
+          <p><strong>Programa:</strong> <?= htmlspecialchars($row['nombre_programa']) ?></p>
+          <p><strong>Estado:</strong> 
+              <span class="estado-text"><?= $estado === 'Activo' ? 'Activo' : 'Inactivo' ?></span>
           </p>
           <button class="btn-ver-ficha" onclick="verFicha(<?= $row['Id_ficha'] ?>)">
-              <?= $translations['view_ficha'] ?>
+              Ver Ficha
           </button>
           <button class="btn-deshabilitar" onclick="cambiarEstadoFicha(this, <?= $row['Id_ficha'] ?>, '<?= $estado ?>')">
-              <?= $estado === 'Activo' ? $translations['disable'] : $translations['enable'] ?>
+              <?= $estado === 'Activo' ? 'Deshabilitar' : 'Habilitar' ?>
           </button>
       </div>
     <?php endwhile; ?>

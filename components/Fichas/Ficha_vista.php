@@ -9,8 +9,11 @@ if (!$id_ficha || !is_numeric($id_ficha)) {
     exit;
 }
 
-// Obtener ficha
-$sql = "SELECT * FROM fichas WHERE Id_ficha = ?";
+// Obtener ficha con nombre del programa
+$sql = "SELECT f.*, p.nombre_programa 
+        FROM fichas f
+        JOIN programas_formacion p ON f.Id_programa = p.Id_programa
+        WHERE f.Id_ficha = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $id_ficha);
 $stmt->execute();
@@ -53,7 +56,7 @@ $aprendices = $stmt2->get_result();
         <div class="form-controls">
             <div class="form-group">
                 <label>Programa:</label>
-                <p><?= htmlspecialchars($ficha['programa_formación']) ?></p>
+                <p><?= htmlspecialchars($ficha['nombre_programa']) ?></p>
             </div>
             <div class="form-group">
                 <label>Jornada:</label>
@@ -68,7 +71,7 @@ $aprendices = $stmt2->get_result();
                 <form class="update-form" action="functions/functions_actualizar_juicios.php" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="id_ficha" value="<?= $id_ficha ?>">
                     <input type="hidden" name="numero_ficha" value="<?= htmlspecialchars($ficha['numero_ficha']) ?>">
-                    <input type="hidden" name="programa" value="<?= htmlspecialchars($ficha['programa_formación']) ?>">
+                    <input type="hidden" name="programa" value="<?= htmlspecialchars($ficha['nombre_programa']) ?>">
                     <input type="file" name="juicios" accept=".xlsx, .xls">
                     <button type="submit" class="btn-actualizar-juicios">
                         <i class="fas fa-upload"></i> Actualizar Juicios
@@ -105,7 +108,7 @@ $aprendices = $stmt2->get_result();
                 if ($porcentaje >= 70) $color_barra = '#2a7f00';
                 elseif ($porcentaje >= 50) $color_barra = '#fbc02d';
 
-                $tipo_doc = strtoupper($a['T_documento']); // Mostramos el tipo de documento tal como está en la base (CC, TI, CE)
+                $tipo_doc = strtoupper($a['T_documento']);
             ?>
                 <div class="student-card">
                     <div class="student-content">
@@ -140,7 +143,6 @@ $aprendices = $stmt2->get_result();
                                 </div>
                             </div>
 
-                            
                         </div>
                     </div>
                 </div>

@@ -11,7 +11,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $numero_ficha = $_POST["numero_ficha"];
-    $programa     = $_POST["programa"];
+    $id_programa  = $_POST["programa"]; // AHORA guarda el ID
     $jornada      = $_POST["Jornada"];
     $id_jefe      = $_POST["jefeGrupo"];
 
@@ -26,17 +26,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit;
     }
 
-    // Insertar ficha
-    $sql = "INSERT INTO fichas (numero_ficha, programa_formación, Jornada, Estado_ficha, Jefe_grupo)
+    // Insertar ficha con ID del programa
+    $sql = "INSERT INTO fichas (numero_ficha, Id_programa, Jornada, Estado_ficha, Jefe_grupo)
             VALUES (?, ?, ?, 'Activo', ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssi", $numero_ficha, $programa, $jornada, $id_jefe);
+    $stmt->bind_param("sisi", $numero_ficha, $id_programa, $jornada, $id_jefe);
 
     if ($stmt->execute()) {
         $id_ficha_insertada = $conn->insert_id;
         $usuario_id = $_SESSION['usuario']['id'] ?? 0;
         registrar_historial($conn, $usuario_id, 'Registro de ficha', "Ficha $numero_ficha creada");
 
+        // Procesar archivo Excel si se subió
         if (isset($_FILES['juicios']) && $_FILES['juicios']['error'] === UPLOAD_ERR_OK) {
             $archivoExcel = $_FILES['juicios']['tmp_name'];
 
@@ -79,10 +80,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         $id_aprendiz = $res->fetch_assoc()['Id_aprendiz'];
                     }
 
+                    // Asociar aprendiz con ficha
                     $asociar = $conn->prepare("INSERT IGNORE INTO ficha_aprendiz (Id_ficha, Id_aprendiz) VALUES (?, ?)");
                     $asociar->bind_param("ii", $id_ficha_insertada, $id_aprendiz);
                     $asociar->execute();
 
+                    // Verificar juicio
                     $verifica_juicio = $conn->prepare("SELECT 1 FROM juicios_evaluativos 
                         WHERE Numero_ficha = ? AND N_Documento = ? AND Competencia = ? AND Resultado_aprendizaje = ?");
                     $verifica_juicio->bind_param("ssss", $numero_ficha, $documento, $competencia, $resultado_aprendizaje);
