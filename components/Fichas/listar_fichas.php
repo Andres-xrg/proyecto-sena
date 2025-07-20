@@ -89,6 +89,7 @@ if ($id_programa) {
           </div>
           <p><strong>Jefe de grupo:</strong> <?= htmlspecialchars($row['jefe_nombre'] . ' ' . $row['jefe_apellido']) ?></p>
           <p><strong>Programa:</strong> <?= htmlspecialchars($row['nombre_programa']) ?></p>
+          <p><strong>Tipo de Oferta:</strong> <?= htmlspecialchars($row['tipo_oferta']) ?></p>
           <p><strong>Estado:</strong> 
               <span class="estado-text"><?= $estado === 'Activo' ? 'Activo' : 'Inactivo' ?></span>
           </p>

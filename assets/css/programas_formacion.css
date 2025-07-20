@@ -301,6 +301,7 @@ textarea {
     display: flex;
 }
 
+
 /* Modal y formulario */
 .modal {
     display: none;
@@ -356,6 +357,46 @@ textarea {
 
 .hidden {
     display: none;
+}
+
+/* Botón base */
+.btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* Botón editar */
+.editar-btn {
+    background-color: #3498db; /* azul */
+    color: white;
+}
+
+.editar-btn:hover {
+    background-color: #2980b9;
+}
+
+/* Botón deshabilitar */
+.deshabilitar-btn {
+    background-color: #e74c3c; /* rojo */
+    color: white;
+}
+
+.deshabilitar-btn:hover {
+    background-color: #c0392b;
+}
+
+/* Botón habilitar */
+.habilitar-btn {
+    background-color: #2ecc71; /* verde */
+    color: white;
+}
+
+.habilitar-btn:hover {
+    background-color: #27ae60;
 }
 
 .filtro-busqueda-container {

@@ -75,6 +75,15 @@ $programas = $conn->query("SELECT id_programa, nombre_programa FROM programas_fo
                         <label for="numero_ficha"><?= $translations['ficha_number'] ?></label>
                         <input type="number" id="numero_ficha" name="numero_ficha" placeholder="Ej: 2546889" required>
                     </div>
+
+                    <div class="grupo-formulario">
+                        <label for="tipo_oferta">Tipo de Oferta</label>
+                        <select id="tipo_oferta" name="tipo_oferta" required>
+                            <option value="">Seleccione tipo de oferta</option>
+                            <option value="Abierta">Abierta</option>
+                            <option value="Cerrada">Cerrada</option>         
+                        </select>
+                    </div>
                 </div>
 
                 <!-- Botón -->

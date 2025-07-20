@@ -11,9 +11,10 @@ if (session_status() === PHP_SESSION_NONE) {
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $numero_ficha = $_POST["numero_ficha"];
-    $id_programa  = $_POST["programa"]; // AHORA guarda el ID
+    $id_programa  = $_POST["programa"];
     $jornada      = $_POST["Jornada"];
     $id_jefe      = $_POST["jefeGrupo"];
+    $tipo_oferta  = $_POST["tipo_oferta"]; // 🟩 Nuevo campo capturado
 
     // Validar si el número de ficha ya existe
     $verificar = $conn->prepare("SELECT 1 FROM fichas WHERE numero_ficha = ?");
@@ -26,11 +27,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit;
     }
 
-    // Insertar ficha con ID del programa
-    $sql = "INSERT INTO fichas (numero_ficha, Id_programa, Jornada, Estado_ficha, Jefe_grupo)
-            VALUES (?, ?, ?, 'Activo', ?)";
+    // Insertar ficha con tipo_oferta
+    $sql = "INSERT INTO fichas (numero_ficha, Id_programa, Jornada, Estado_ficha, Jefe_grupo, tipo_oferta)
+            VALUES (?, ?, ?, 'Activo', ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sisi", $numero_ficha, $id_programa, $jornada, $id_jefe);
+    $stmt->bind_param("sisis", $numero_ficha, $id_programa, $jornada, $id_jefe, $tipo_oferta);
 
     if ($stmt->execute()) {
         $id_ficha_insertada = $conn->insert_id;
