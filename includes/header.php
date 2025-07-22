@@ -64,11 +64,12 @@ require_once __DIR__ . '/../functions/lang.php';
             </div>
 
             <a href="./components/principales/editar_perfil.php" style="text-decoration: none; color: inherit;">
-                <div class="utility-item style-switcher" id="modoOscuroBtn" title="<?= $translations['edit_profile'] ?? 'Editar perfil' ?>">
-                    <i class="fas fa-user"></i>
-                    <span><?= $translations['edit_profile'] ?? 'Editar perfil' ?></span>
-                </div>
+            <div class="utility-item style-switcher" title="<?= $translations['edit_profile'] ?? 'Editar perfil' ?>">
+                <i class="fas fa-user"></i>
+                <span><?= $translations['edit_profile'] ?? 'Editar perfil' ?></span>
+            </div>
             </a>
+
 
             <!-- Modo oscuro -->
             <div class="utility-item style-switcher" id="modoOscuroBtn" title="<?= $translations['dark_mode'] ?? 'Cambiar tema' ?>">
@@ -87,3 +88,54 @@ require_once __DIR__ . '/../functions/lang.php';
     <!-- Overlay para cerrar sidebar en móvil -->
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
 <?php endif; ?>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const body = document.body;
+    const themeToggleBtn = document.getElementById("modoOscuroBtn");
+    const themeIcon = themeToggleBtn ? themeToggleBtn.querySelector("i") : null;
+
+    const applyTheme = (theme) => {
+      if (theme === "dark") {
+        body.classList.add("dark");
+        if (themeIcon) {
+          themeIcon.classList.remove("fa-moon");
+          themeIcon.classList.add("fa-sun");
+        }
+      } else {
+        body.classList.remove("dark");
+        if (themeIcon) {
+          themeIcon.classList.remove("fa-sun");
+          themeIcon.classList.add("fa-moon");
+        }
+      }
+    };
+
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme) {
+      applyTheme(savedTheme);
+    } else {
+      if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+        applyTheme("dark");
+      } else {
+        applyTheme("light");
+      }
+    }
+
+    if (themeToggleBtn) {
+      themeToggleBtn.addEventListener("click", () => {
+        const isDark = body.classList.contains("dark");
+        const newTheme = isDark ? "light" : "dark";
+        applyTheme(newTheme);
+        localStorage.setItem("theme", newTheme);
+      });
+    }
+
+    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e) => {
+      if (!localStorage.getItem("theme")) {
+        applyTheme(e.matches ? "dark" : "light");
+      }
+    });
+  });
+</script>
+

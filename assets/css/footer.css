@@ -3,21 +3,21 @@
     color: white;
     font-weight: bold;
     text-align: center;
-    padding: 15px;
-    border-top: 2px solid #ffffff;
-    font-size: 14px;
+    padding: 1rem;
+    border-top: 0.125rem solid #ffffff;
+    font-size: 0.95rem;
     word-wrap: break-word;
-    
+
     /* Footer fijo */
     position: fixed;
     bottom: 0;
-    left: 280px; /* Empieza después del sidebar */
+    left: 17.5rem; /* Empieza después del sidebar (280px ≈ 17.5rem) */
     right: 0;
     z-index: 100;
 }
 
 /* Responsive para móvil */
-@media (max-width: 768px) {
+@media (max-width: 48rem) {
     .footer {
         left: 0;
         right: 0;

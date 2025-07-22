@@ -9,8 +9,8 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-    margin-left: 280px;
-    padding: 20px;
+    margin-left: 17.5rem;
+    padding: 1.25rem;
     min-height: 100vh;
     color: #374151;
     line-height: 1.6;
@@ -19,17 +19,17 @@ body {
 /* Contenedor principal de la ficha */
 .container {
     width: 100%;
-    max-width: calc(100% - 40px);
+    max-width: calc(100% - 2.5rem);
     margin: 0 auto;
     background: rgba(255, 255, 255, 0.95);
-    margin-top: 20px;
-    margin-bottom: 80px;
+    margin-top: 1.25rem;
+    margin-bottom: 5rem;
     border-radius: 1rem;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.08);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(226, 232, 240, 0.3);
     padding: 2rem;
-    min-height: calc(100vh - 80px);
+    min-height: calc(100vh - 5rem);
 }
 
 .main-card {
@@ -44,13 +44,13 @@ body {
 /* Controles del formulario de ficha */
 .form-controls {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(15.625rem, 1fr));
     gap: 1.5rem;
     margin-bottom: 2rem;
     padding: 1.5rem;
     background: #ffffff;
     border-radius: 1rem;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.05);
     border: 1px solid #e2e8f0;
 }
 
@@ -68,7 +68,7 @@ body {
 
 .form-group select {
     padding: 0.75rem 1rem;
-    border: 2px solid #e2e8f0;
+    border: 0.125rem solid #e2e8f0;
     border-radius: 0.5rem;
     background: #ffffff;
     font-size: 0.95rem;
@@ -91,16 +91,16 @@ body {
 
 .student-card {
     background: #ffffff;
-    border: 2px solid #e2e8f0;
+    border: 0.125rem solid #e2e8f0;
     border-radius: 1rem;
     overflow: hidden;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.05);
 }
 
 .student-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+    transform: translateY(-0.25rem);
+    box-shadow: 0 0.75rem 2rem rgba(0, 0, 0, 0.1);
     border-color: #cbd5e1;
 }
 
@@ -124,31 +124,31 @@ body {
     font-weight: bold;
     font-size: 1.25rem;
     flex-shrink: 0;
-    box-shadow: 0 4px 16px rgba(34, 197, 94, 0.3);
+    box-shadow: 0 0.25rem 1rem rgba(34, 197, 94, 0.3);
 }
 
 .search-box {
     position: relative;
     flex-grow: 1;
-    min-width: 200px;
-    max-width: 300px;
+    min-width: 12.5rem;
+    max-width: 18.75rem;
 }
 .search-box input {
     width: 100%;
     padding: 0.75rem 2.5rem 0.75rem 1rem;
-    border: 2px solid #e2e8f0;
+    border: 0.125rem solid #e2e8f0;
     border-radius: 0.75rem;
     background: #ffffff;
     font-size: 0.95rem;
     color: #1f2937;
     transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.03);
 }
 .search-box input:focus {
     outline: none;
     border-color: #94a3b8;
-    box-shadow: 0 0 0 3px rgba(148, 163, 184, 0.1);
-    transform: translateY(-1px);
+    box-shadow: 0 0 0 0.1875rem rgba(148, 163, 184, 0.1);
+    transform: translateY(-0.0625rem);
 }
 .search-box input::placeholder {
     color: #6b7280;
@@ -210,7 +210,7 @@ body {
 /* Detalles del aprendiz */
 .student-details {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(12.5rem, 1fr));
     gap: 1rem;
 }
 
@@ -274,12 +274,12 @@ body {
     transition: all 0.3s ease;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    box-shadow: 0 4px 16px rgba(34, 197, 94, 0.3);
+    box-shadow: 0 0.25rem 1rem rgba(34, 197, 94, 0.3);
     position: relative;
     overflow: hidden;
     margin-top: 1rem;
     text-align: center;
-    max-width: 200px;
+    max-width: 12.5rem;
 }
 
 .percentage-btn::before {
@@ -299,8 +299,8 @@ body {
 
 .percentage-btn:hover {
     background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(34, 197, 94, 0.4);
+    transform: translateY(-0.125rem);
+    box-shadow: 0 0.5rem 1.56rem rgba(34, 197, 94, 0.4);
 }
 
 /* Contenido vacío */
@@ -311,7 +311,7 @@ body {
     font-size: 1.1rem;
     background: #f8fafc;
     border-radius: 1rem;
-    border: 2px dashed #e2e8f0;
+    border: 0.125rem dashed #e2e8f0;
 }
 /* Botón para actualizar juicios - estilo discreto */
 .btn-actualizar-juicios {
@@ -320,7 +320,7 @@ body {
     gap: 0.5rem;
     padding: 0.75rem 1.25rem;
     background: #f8fafc;
-    border: 2px solid #e2e8f0;
+    border: 0.125rem solid #e2e8f0;
     border-radius: 0.75rem;
     color: #475569;
     font-size: 0.9rem;
@@ -328,15 +328,15 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     text-decoration: none;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.05);
 }
 
 .btn-actualizar-juicios:hover {
     background: #f1f5f9;
     border-color: #cbd5e1;
     color: #334155;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-0.0625rem);
+    box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1);
 }
 
 .btn-actualizar-juicios i {
@@ -351,7 +351,7 @@ body {
     gap: 0.5rem;
     padding: 0.6rem 1rem;
     background: #ffffff;
-    border: 1px solid #d1d5db;
+    border: 0.0625rem solid #d1d5db;
     border-radius: 0.5rem;
     color: #6b7280;
     font-size: 0.85rem;
@@ -359,15 +359,15 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     text-decoration: none;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 0.0625rem 0.1875rem rgba(0, 0, 0, 0.05);
 }
 
 .btn-accion-secundaria:hover {
     background: #f9fafb;
     border-color: #9ca3af;
     color: #374151;
-    transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transform: translateY(-0.0625rem);
+    box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.08);
 }
 
 /* Estilos para el input file personalizado */
@@ -379,7 +379,7 @@ body {
 
 .update-form input[type="file"] {
     padding: 0.5rem;
-    border: 2px dashed #d1d5db;
+    border: 0.125rem dashed #d1d5db;
     border-radius: 0.5rem;
     background: #f9fafb;
     font-size: 0.85rem;
@@ -405,7 +405,7 @@ body {
 }
 
 /* Responsive para los nuevos botones */
-@media (max-width: 768px) {
+@media (max-width: 48rem) {
     .btn-actualizar-juicios,
     .btn-accion-secundaria {
         padding: 0.6rem 1rem;
@@ -419,23 +419,23 @@ body {
     }
 }
 /* Responsive */
-@media (max-width: 1200px) {
+@media (max-width: 75rem) {
     body {
         margin-left: 0;
-        padding: 15px;
+        padding: 0.9375rem;
     }
     .container {
         padding: 1.5rem;
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 48rem) {
     body {
-        padding: 10px;
+        padding: 0.625rem;
     }
     .container {
         padding: 1rem;
-        margin-top: 10px;
+        margin-top: 0.625rem;
     }
     .header-title {
         font-size: 1.5rem;
@@ -470,7 +470,7 @@ body {
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 30rem) {
     .container {
         padding: 0.75rem;
     }
@@ -496,4 +496,291 @@ body {
         padding: 0.6rem 1.2rem;
         font-size: 0.8rem;
     }
+}
+
+/* === MODO OSCURO GENERAL === */
+body.dark {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+/* Fondos de contenedores */
+body.dark .sidebar,
+body.dark .card,
+body.dark .main-content {
+  background-color: #1e1e1e;
+  color: #ffffff;
+}
+
+/* Cambios en textos dentro del sidebar */
+body.dark .sidebar-nav .nav-item,
+body.dark .sidebar-utilities .utility-item {
+  color: #ffffff;
+}
+
+/* Botones u otros elementos con fondo claro (excepto los verdes) */
+body.dark .btn,
+body.dark input,
+body.dark select,
+body.dark textarea {
+  background-color: #2c2c2c;
+  color: #ffffff;
+  border: 1px solid #444;
+}
+
+/* Enlaces */
+body.dark a {
+  color: #90caf9;
+}
+
+/* Hover en modo oscuro */
+body.dark .nav-item:hover,
+body.dark .utility-item:hover {
+  background-color: #333;
+}
+
+/* === EXCEPCIONES PARA VERDE INSTITUCIONAL === */
+body.dark .btn-green,
+body.dark .nav-item i,
+body.dark .logo-sena,
+body.dark .logo-jke {
+  filter: none;
+  color: inherit;
+}
+
+/* Evitar que los logos se oscurezcan (si son imágenes) */
+body.dark img {
+  filter: none;
+}
+
+/* =============== CUSTOM PARA ESTA VISTA =============== */
+body.dark .welcome-container {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+}
+body.dark .welcome-title {
+  color: #2a7f00; /* Mantenemos el verde institucional */
+}
+body.dark .welcome-subtitle {
+  color: #ccc;
+}
+body.dark .feature-card {
+  background: #333;
+  color: white;
+}
+body.dark .feature-card h3 {
+  color: white;
+}
+body.dark .feature-card p {
+  color: #ccc;
+}
+body.dark .edit-modal-content {
+  background: #2a2a2a;
+}
+body.dark .edit-modal-header {
+  border-bottom: 1px solid #444;
+}
+body.dark .edit-close-btn {
+  color: #ccc;
+}
+body.dark .edit-close-btn:hover {
+  color: white;
+}
+body.dark .edit-form-group label {
+  color: #ddd;
+}
+body.dark .edit-text-input,
+body.dark .edit-file-input,
+body.dark .edit-textarea {
+  background-color: #1f1f1f;
+  color: white;
+  border: 1px solid #555;
+}
+body.dark .edit-form-actions {
+  border-top: 1px solid #444;
+}
+body.dark .edit-cancel-btn {
+  background: #444;
+  color: #ccc;
+}
+body.dark .edit-cancel-btn:hover {
+  background: #555;
+}
+body.dark .edit-exit-btn {
+  background: #b52b3a;
+  color: #fff; /* Added for better visibility */
+}
+body.dark .edit-exit-btn:hover {
+  background: #9e1f2d;
+}
+
+/* Dark mode styles for the provided CSS */
+
+/* Reset y configuración base */
+body.dark {
+  background: linear-gradient(135deg, #121212 0%, #1a1a1a 100%);
+  color: #e0e0e0;
+}
+
+/* Contenedor principal de la ficha */
+body.dark .container {
+  background: rgba(30, 30, 30, 0.95);
+  box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(68, 68, 68, 0.3);
+}
+body.dark .main-card {
+  background: transparent;
+}
+
+/* Controles del formulario de ficha */
+body.dark .form-controls {
+  background: #1e1e1e;
+  box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.2);
+  border: 1px solid #444;
+}
+body.dark .form-group label {
+  color: #e0e0e0;
+}
+body.dark .form-group select {
+  background: #2c2c2c;
+  border: 0.125rem solid #555;
+  color: #ffffff;
+}
+body.dark .form-group select:disabled {
+  background: #1f1f1f;
+  color: #999;
+}
+
+/* Lista de aprendices */
+body.dark .student-card {
+  background: #1e1e1e;
+  border: 0.125rem solid #444;
+  box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.2);
+}
+body.dark .student-card:hover {
+  box-shadow: 0 0.75rem 2rem rgba(0, 0, 0, 0.3);
+  border-color: #666;
+}
+/* Avatar circular para aprendices */
+body.dark .avatar {
+  background: linear-gradient(135deg, #2a7f00 0%, #1e5500 100%); /* Darker green */
+  box-shadow: 0 0.25rem 1rem rgba(42, 127, 0, 0.4);
+}
+body.dark .search-box input {
+  background: #2c2c2c;
+  border: 0.125rem solid #555;
+  color: #ffffff;
+  box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.1);
+}
+body.dark .search-box input:focus {
+  border-color: #90caf9; /* Light blue for focus */
+  box-shadow: 0 0 0 0.1875rem rgba(144, 202, 249, 0.2);
+}
+body.dark .search-box input::placeholder {
+  color: #999;
+}
+
+/* Información del aprendiz */
+body.dark .student-name {
+  color: #ffffff;
+}
+body.dark .badge-green {
+  background: linear-gradient(135deg, #2a7f00 0%, #1e5500 100%);
+}
+body.dark .badge-blue {
+  background: linear-gradient(135deg, #1976d2 0%, #0d47a1 100%); /* Darker blue */
+}
+body.dark .badge-red {
+  background: linear-gradient(135deg, #b52b3a 0%, #8b1a26 100%); /* Darker red */
+}
+body.dark .badge-gray {
+  background: linear-gradient(135deg, #4b5563 0%, #333a44 100%); /* Darker gray */
+}
+
+/* Detalles del aprendiz */
+body.dark .detail-item label {
+  color: #aaa;
+}
+body.dark .detail-item p {
+  color: #e0e0e0;
+}
+body.dark .detail-item .email {
+  color: #90caf9; /* Light blue for links */
+}
+
+/* Barra de progreso */
+body.dark .progress-bar {
+  background: #333;
+}
+body.dark .progress-bar > div {
+  background: linear-gradient(135deg, #2a7f00 0%, #1e5500 100%);
+}
+
+/* Botón de porcentaje */
+body.dark .percentage-btn {
+  background: linear-gradient(135deg, #2a7f00 0%, #1e5500 100%);
+  box-shadow: 0 0.25rem 1rem rgba(42, 127, 0, 0.4);
+}
+body.dark .percentage-btn::before {
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+}
+body.dark .percentage-btn:hover {
+  background: linear-gradient(135deg, #1e5500 0%, #15803d 100%);
+  box-shadow: 0 0.5rem 1.56rem rgba(42, 127, 0, 0.5);
+}
+
+/* Contenido vacío */
+body.dark .empty-content {
+  color: #999;
+  background: #1e1e1e;
+  border: 0.125rem dashed #444;
+}
+
+/* Botón para actualizar juicios - estilo discreto */
+body.dark .btn-actualizar-juicios {
+  background: #2c2c2c;
+  border: 0.125rem solid #555;
+  color: #ccc;
+  box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.1);
+}
+body.dark .btn-actualizar-juicios:hover {
+  background: #333;
+  border-color: #777;
+  color: #e0e0e0;
+  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.2);
+}
+body.dark .btn-actualizar-juicios i {
+  opacity: 1;
+}
+
+/* Botón secundario discreto - para acciones adicionales */
+body.dark .btn-accion-secundaria {
+  background: #2c2c2c;
+  border: 0.0625rem solid #555;
+  color: #ccc;
+  box-shadow: 0 0.0625rem 0.1875rem rgba(0, 0, 0, 0.1);
+}
+body.dark .btn-accion-secundaria:hover {
+  background: #333;
+  border-color: #777;
+  color: #e0e0e0;
+  box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.15);
+}
+
+/* Estilos para el input file personalizado */
+body.dark .update-form input[type="file"] {
+  border: 0.125rem dashed #555;
+  background: #2c2c2c;
+  color: #ccc;
+}
+body.dark .update-form input[type="file"]:hover {
+  border-color: #777;
+  background: #333;
+}
+
+/* Estados deshabilitados */
+body.dark .btn-actualizar-juicios:disabled,
+body.dark .btn-accion-secundaria:disabled {
+  background: #1f1f1f;
+  border-color: #333;
+  color: #666;
 }

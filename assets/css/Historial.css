@@ -161,31 +161,31 @@ body {
 }
 .search-icon {
     position: absolute;
-    left: 1rem;
+    left: 2vw;
     top: 50%;
     transform: translateY(-50%);
-    color: var(--text-muted);
+    color: #64748b;
 }
 .filter-buttons {
     display: flex;
-    gap: 0.5rem;
+    gap: 1vw;
     flex-wrap: wrap;
 }
 .filter-btn {
-    padding: 0.5rem 1rem;
-    border: 2px solid var(--border-color);
+    padding: 0.5em 2em;
+    border: 0.125em solid #e2e8f0;
     background: white;
-    border-radius: 8px;
-    font-size: 0.875rem;
+    border-radius: 0.5em;
+    font-size: 0.95em;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
-    color: var(--text-muted);
+    color: #64748b;
 }
 .filter-btn:hover,
 .filter-btn.active {
-    border-color: var(--primary-color);
-    background: var(--primary-color);
+    border-color: #2A7F00;
+    background: #2A7F00;
     color: white;
 }
 

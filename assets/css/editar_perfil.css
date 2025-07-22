@@ -23,22 +23,22 @@ h2 {
 h2::after {
     content: '';
     position: absolute;
-    bottom: -8px;
+    bottom: -0.5rem;
     left: 50%;
     transform: translateX(-50%);
-    width: 60px;
-    height: 3px;
+    width: 3.75rem;
+    height: 0.19rem;
     background-color: #2a7f00;
-    border-radius: 2px;
+    border-radius: 0.125rem;
 }
 
 /* Contenedor del formulario */
 form {
     background: #ffffff;
-    border-radius: 12px;
+    border-radius: 0.75rem;
     padding: 2.5rem;
-    box-shadow: 0 4px 20px rgba(42, 127, 0, 0.08);
-    max-width: 600px;
+    box-shadow: 0 0.25rem 1.25rem rgba(42, 127, 0, 0.08);
+    max-width: 37.5rem;
     margin: 0 auto;
     border: 1px solid #e9ecef;
 }
@@ -61,8 +61,8 @@ label {
 .form-control {
     width: 100%;
     padding: 0.75rem 1rem;
-    border: 2px solid #dee2e6;
-    border-radius: 8px;
+    border: 0.125rem solid #dee2e6;
+    border-radius: 0.5rem;
     font-size: 1rem;
     transition: all 0.2s ease;
     background: #ffffff;
@@ -72,7 +72,7 @@ label {
 .form-control:focus {
     outline: none;
     border-color: #2a7f00;
-    box-shadow: 0 0 0 3px rgba(42, 127, 0, 0.1);
+    box-shadow: 0 0 0 0.1875rem rgba(42, 127, 0, 0.1);
 }
 
 .form-control:hover {
@@ -101,9 +101,9 @@ input[type="password"].form-control:focus {
 /* Botón principal */
 .btn.btn-primary {
     background-color: #2a7f00;
-    border: 2px solid #2a7f00;
+    border: 0.125rem solid #2a7f00;
     padding: 0.75rem 2rem;
-    border-radius: 8px;
+    border-radius: 0.5rem;
     font-weight: 500;
     font-size: 1rem;
     transition: all 0.2s ease;
@@ -115,8 +115,8 @@ input[type="password"].form-control:focus {
 .btn.btn-primary:hover {
     background-color: #236600;
     border-color: #236600;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(42, 127, 0, 0.2);
+    transform: translateY(-0.0625rem);
+    box-shadow: 0 0.25rem 0.75rem rgba(42, 127, 0, 0.2);
 }
 
 .btn.btn-primary:active {
@@ -136,27 +136,24 @@ select[required].form-control::after {
     content: '*';
     color: #2a7f00;
     position: absolute;
-    right: 10px;
+    right: 0.625rem;
     top: 50%;
     transform: translateY(-50%);
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: 48rem) {
     body.container.mt-5 {
         padding: 1rem 0.5rem;
     }
-    
     form {
         padding: 2rem 1.5rem;
-        border-radius: 8px;
+        border-radius: 0.5rem;
     }
-    
     h2 {
-        font-size: 1.75rem;
-        margin-bottom: 1.5rem;
+        font-size: 1.5rem;
+        margin-bottom: 1.2rem;
     }
-    
     .form-control {
         padding: 0.625rem 0.875rem;
     }
@@ -179,7 +176,7 @@ select[required].form-control::after {
 
 /* Efecto sutil en el hover del formulario */
 form:hover {
-    box-shadow: 0 6px 25px rgba(42, 127, 0, 0.12);
+    box-shadow: 0 0.375rem 1.56rem rgba(42, 127, 0, 0.12);
 }
 
 /* Espaciado mejorado para el input hidden */
@@ -196,4 +193,611 @@ select.form-control option {
 select.form-control option:checked {
     background-color: #2a7f00;
     color: #ffffff;
+}
+
+/* === MODO OSCURO GENERAL === */
+body.dark {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+/* Fondos de contenedores */
+body.dark .sidebar,
+body.dark .card,
+body.dark .main-content {
+  background-color: #1e1e1e;
+  color: #ffffff;
+}
+
+/* Cambios en textos dentro del sidebar */
+body.dark .sidebar-nav .nav-item,
+body.dark .sidebar-utilities .utility-item {
+  color: #ffffff;
+}
+
+/* Botones u otros elementos con fondo claro (excepto los verdes) */
+body.dark .btn,
+body.dark input,
+body.dark select,
+body.dark textarea {
+  background-color: #2c2c2c;
+  color: #ffffff;
+  border: 1px solid #444;
+}
+
+/* Enlaces */
+body.dark a {
+  color: #90caf9;
+}
+
+/* Hover en modo oscuro */
+body.dark .nav-item:hover,
+body.dark .utility-item:hover {
+  background-color: #333;
+}
+
+/* === EXCEPCIONES PARA VERDE INSTITUCIONAL === */
+body.dark .btn-green,
+body.dark .nav-item i,
+body.dark .logo-sena,
+body.dark .logo-jke {
+  filter: none;
+  color: inherit;
+}
+
+/* Evitar que los logos se oscurezcan (si son imágenes) */
+body.dark img {
+  filter: none;
+}
+
+/* =============== CUSTOM PARA ESTA VISTA =============== */
+body.dark .welcome-container {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+}
+body.dark .welcome-title {
+  color: #2a7f00; /* Mantenemos el verde institucional */
+}
+body.dark .welcome-subtitle {
+  color: #ccc;
+}
+body.dark .feature-card {
+  background: #333;
+  color: white;
+}
+body.dark .feature-card h3 {
+  color: white;
+}
+body.dark .feature-card p {
+  color: #ccc;
+}
+body.dark .edit-modal-content {
+  background: #2a2a2a;
+}
+body.dark .edit-modal-header {
+  border-bottom: 1px solid #444;
+}
+body.dark .edit-close-btn {
+  color: #ccc;
+}
+body.dark .edit-close-btn:hover {
+  color: white;
+}
+body.dark .edit-form-group label {
+  color: #ddd;
+}
+body.dark .edit-text-input,
+body.dark .edit-file-input,
+body.dark .edit-textarea {
+  background-color: #1f1f1f;
+  color: white;
+  border: 1px solid #555;
+}
+body.dark .edit-form-actions {
+  border-top: 1px solid #444;
+}
+body.dark .edit-cancel-btn {
+  background: #444;
+  color: #ccc;
+}
+body.dark .edit-cancel-btn:hover {
+  background: #555;
+}
+body.dark .edit-exit-btn {
+  background: #b52b3a;
+  color: #fff; /* Added for better visibility */
+}
+body.dark .edit-exit-btn:hover {
+  background: #9e1f2d;
+}
+
+/* Dark mode styles for the provided CSS */
+
+/* Contenedor principal */
+body.dark .main-content {
+  background-color: #1e1e1e;
+  color: #ffffff;
+  box-shadow: 0 0.125rem 0.625rem rgba(0, 0, 0, 0.3); /* Darker shadow */
+}
+
+/* Título de la página */
+body.dark .page-title {
+  background: #1e1e1e;
+  color: #ffffff;
+  border-bottom: 1px solid #444;
+}
+
+/* Sección de búsqueda y botón de reporte */
+body.dark .search-section {
+  background: #1e1e1e; /* Consistent with containers */
+  border-bottom: 1px solid #444;
+}
+body.dark .btn-generate-report {
+  background: #2c2c2c;
+  border: 0.125rem solid #444;
+  color: #ffffff;
+}
+body.dark .btn-generate-report:hover {
+  background: #333;
+  border-color: #555;
+}
+
+/* Modal para reportes */
+body.dark .modal-contenido {
+  background-color: #2a2a2a; /* Similar to edit-modal-content */
+  border: 0.0625rem solid #444;
+  box-shadow: 0 0 0.9375rem rgba(0, 0, 0, 0.5);
+}
+body.dark .cerrar-modal {
+  color: #ccc;
+}
+body.dark .cerrar-modal:hover,
+body.dark .cerrar-modal:focus {
+  color: #fff;
+}
+
+/* Grid de categorías y materias */
+body.dark .content-grid {
+  background: #121212; /* Body background */
+}
+body.dark .category-card {
+  background: #1e1e1e;
+  color: #ffffff;
+  box-shadow: 0 0.125rem 0.625rem rgba(0, 0, 0, 0.3);
+}
+body.dark .category-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); /* Darker hover shadow */
+}
+body.dark .category-header {
+  background: #2a7f00; /* Institutional green, adjusted for dark mode */
+  color: white;
+}
+body.dark .category-content {
+  background: #1e1e1e;
+}
+
+/* Materias dentro de cada categoría */
+body.dark .subject-section {
+  border-bottom: 1px solid #333;
+}
+body.dark .subject-header {
+  background: #222; /* Slightly lighter than container for distinction */
+  border-bottom: 1px solid #444;
+  color: #e0e0e0;
+}
+body.dark .subject-header:hover {
+  background: #333;
+}
+body.dark .subject-title {
+  color: #e0e0e0;
+}
+body.dark .stats-badge {
+  background: #2c2c2c;
+  color: #ffffff;
+}
+body.dark .collapse-icon {
+  color: #999;
+}
+body.dark .subject-header:hover .collapse-icon,
+body.dark .competencia-header:hover .fa-chevron-down,
+body.dark .competencia-header:hover .fa-chevron-up {
+  color: #e0e0e0;
+}
+
+body.dark .results-header {
+  background: #222;
+  color: #ccc;
+  border-bottom: 1px solid #444;
+}
+
+body.dark .competencia-header {
+  background: #222;
+  border-bottom: 1px solid #444;
+  color: #e0e0e0;
+}
+body.dark .competencia-header:hover {
+  background: #333;
+}
+body.dark .competencia-header strong {
+  color: #e0e0e0;
+}
+body.dark .competencia-header .fa-chevron-down,
+body.dark .competencia-header .fa-chevron-up {
+  color: #999;
+}
+
+/* Resultados de aprendizaje */
+body.dark .competencia-titulo {
+  background-color: #222;
+  border-top: 1px solid #444;
+  border-bottom: 1px solid #444;
+}
+body.dark .result-item {
+  border-bottom: 1px solid #333;
+}
+body.dark .result-item:hover {
+  background: #222;
+}
+body.dark .result-code strong {
+  color: #e0e0e0;
+}
+body.dark .result-description {
+  color: #ccc;
+}
+body.dark .result-date {
+  color: #aaa;
+}
+body.dark .result-date i {
+  color: #aaa;
+}
+body.dark .result-instructor {
+  color: #ccc;
+}
+body.dark .result-instructor i {
+  color: #aaa;
+}
+
+/* Estados de los resultados */
+body.dark .status-approved {
+  background: #1f4f2a; /* Darker green */
+  color: #90ee90;
+  border: 1px solid #2a6f3a;
+}
+body.dark .status-rejected {
+  background: #5c1f2a; /* Darker red */
+  color: #ff6b6b;
+  border: 1px solid #7a2f3a;
+}
+body.dark .status-pending {
+  background: #5c4f1f; /* Darker yellow */
+  color: #ffd700;
+  border: 1px solid #7a6f2a;
+}
+
+/* Información del estudiante */
+body.dark .student-info-section {
+  background: #121212; /* Body background */
+  border-top: 1px solid #444;
+}
+body.dark .student-info-section .card {
+  background: #1e1e1e; /* Consistent with containers */
+  box-shadow: 0 0.125rem 0.625rem rgba(0, 0, 0, 0.3);
+}
+body.dark .student-info-section .card-header {
+  background: #1976d2; /* Darker blue */
+  color: white;
+}
+body.dark .student-info-section .card-content {
+  background: #1e1e1e; /* Consistent with containers */
+}
+body.dark .info-item strong {
+  color: #e0e0e0;
+}
+body.dark .badge-success {
+  background: #1f4f2a;
+  color: #90ee90;
+}
+body.dark .badge-secondary {
+  background: #2c2c2c;
+  color: #ffffff;
+}
+
+/* Utilidades de color */
+body.dark .text-success {
+  color: #90ee90 !important;
+}
+body.dark .text-danger {
+  color: #ff6b6b !important;
+}
+body.dark .text-warning {
+  color: #ffd700 !important;
+}
+
+/* Agregar estilos para estadísticas */
+body.dark .stat-item {
+  background: #222;
+}
+body.dark .stat-label {
+  color: #ccc;
+}
+body.dark .category-stat-item {
+  background: #222;
+}
+body.dark .category-stat-header {
+  color: #e0e0e0;
+}
+
+/* Reset y configuración base */
+body.container.mt-5 {
+  background-color: #f8f9fa;
+  min-height: 100vh;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  padding: 2rem 1rem;
+}
+
+/* Título principal */
+h2 {
+  color: #2a7f00;
+  text-align: center;
+  font-weight: 600;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  position: relative;
+}
+h2::after {
+  content: "";
+  position: absolute;
+  bottom: -0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 3.75rem;
+  height: 0.19rem;
+  background-color: #2a7f00;
+  border-radius: 0.125rem;
+}
+
+/* Contenedor del formulario */
+form {
+  background: #ffffff;
+  border-radius: 0.75rem;
+  padding: 2.5rem;
+  box-shadow: 0 0.25rem 1.25rem rgba(42, 127, 0, 0.08);
+  max-width: 37.5rem;
+  margin: 0 auto;
+  border: 1px solid #e9ecef;
+}
+
+/* Grupos de campos */
+.mb-3 {
+  margin-bottom: 1.5rem !important;
+}
+
+/* Etiquetas */
+label {
+  display: block;
+  font-weight: 500;
+  color: #495057;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+/* Campos de entrada */
+.form-control {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 0.125rem solid #dee2e6;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  background: #ffffff;
+  color: #495057;
+}
+.form-control:focus {
+  outline: none;
+  border-color: #2a7f00;
+  box-shadow: 0 0 0 0.1875rem rgba(42, 127, 0, 0.1);
+}
+.form-control:hover {
+  border-color: #adb5bd;
+}
+
+/* Select específico */
+select.form-control {
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23495057' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 1rem center;
+  background-repeat: no-repeat;
+  background-size: 1rem;
+  padding-right: 3rem;
+}
+
+/* Campos de contraseña */
+input[type="password"].form-control {
+  background-color: #f8f9fa;
+}
+input[type="password"].form-control:focus {
+  background-color: #ffffff;
+}
+
+/* Botón principal */
+.btn.btn-primary {
+  background-color: #2a7f00;
+  border: 0.125rem solid #2a7f00;
+  padding: 0.75rem 2rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  width: 100%;
+  margin-top: 1rem;
+  color: #ffffff;
+}
+.btn.btn-primary:hover {
+  background-color: #236600;
+  border-color: #236600;
+  transform: translateY(-0.0625rem);
+  box-shadow: 0 0.25rem 0.75rem rgba(42, 127, 0, 0.2);
+}
+.btn.btn-primary:active {
+  transform: translateY(0);
+  background-color: #1e5500;
+  border-color: #1e5500;
+}
+
+/* Efectos sutiles para campos requeridos */
+input[required].form-control,
+select[required].form-control {
+  position: relative;
+}
+input[required].form-control::after,
+select[required].form-control::after {
+  content: "*";
+  color: #2a7f00;
+  position: absolute;
+  right: 0.625rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Responsive */
+@media (max-width: 48rem) {
+  body.container.mt-5 {
+    padding: 1rem 0.5rem;
+  }
+  form {
+    padding: 2rem 1.5rem;
+    border-radius: 0.5rem;
+  }
+  h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1.2rem;
+  }
+  .form-control {
+    padding: 0.625rem 0.875rem;
+  }
+}
+
+/* Estados de validación */
+.form-control:valid {
+  border-color: #2a7f00;
+}
+.form-control:invalid:not(:placeholder-shown) {
+  border-color: #dc3545;
+}
+
+/* Mejora visual para el placeholder */
+.form-control::placeholder {
+  color: #6c757d;
+  opacity: 0.7;
+}
+
+/* Efecto sutil en el hover del formulario */
+form:hover {
+  box-shadow: 0 0.375rem 1.56rem rgba(42, 127, 0, 0.12);
+}
+
+/* Espaciado mejorado para el input hidden */
+input[type="hidden"] {
+  display: none;
+}
+
+/* Estilo para opciones del select */
+select.form-control option {
+  padding: 0.5rem;
+  color: #495057;
+}
+select.form-control option:checked {
+  background-color: #2a7f00;
+  color: #ffffff;
+}
+
+/* Dark mode styles for the provided CSS */
+
+body.dark.container.mt-5 {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+h2 {
+  color: #2a7f00; /* Keep institutional green */
+}
+h2::after {
+  background-color: #2a7f00; /* Keep institutional green */
+}
+
+form {
+  background: #1e1e1e;
+  box-shadow: 0 0.25rem 1.25rem rgba(42, 127, 0, 0.2); /* Darker shadow */
+  border: 1px solid #444;
+}
+form:hover {
+  box-shadow: 0 0.375rem 1.56rem rgba(42, 127, 0, 0.25);
+}
+
+label {
+  color: #ddd;
+}
+
+.form-control {
+  background: #1f1f1f;
+  color: #ffffff;
+  border: 0.125rem solid #555;
+}
+.form-control:focus {
+  border-color: #2a7f00;
+  box-shadow: 0 0 0 0.1875rem rgba(42, 127, 0, 0.2);
+}
+.form-control:hover {
+  border-color: #777;
+}
+
+select.form-control {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e"); /* White arrow for dark mode */
+}
+
+input[type="password"].form-control {
+  background-color: #1f1f1f;
+}
+input[type="password"].form-control:focus {
+  background-color: #1f1f1f;
+}
+
+.btn.btn-primary {
+  background-color: #2a7f00;
+  border: 0.125rem solid #2a7f00;
+  color: #ffffff;
+}
+.btn.btn-primary:hover {
+  background-color: #236600;
+  border-color: #236600;
+  box-shadow: 0 0.25rem 0.75rem rgba(42, 127, 0, 0.3);
+}
+.btn.btn-primary:active {
+  background-color: #1e5500;
+  border-color: #1e5500;
+}
+
+input[required].form-control::after,
+select[required].form-control::after {
+  color: #2a7f00;
+}
+
+.form-control:valid {
+  border-color: #2a7f00;
+}
+.form-control:invalid:not(:placeholder-shown) {
+  border-color: #ff6b6b; /* Dark mode danger color */
+}
+
+.form-control::placeholder {
+  color: #999;
+  opacity: 0.7;
+}
+
+select.form-control option {
+  background-color: #1f1f1f;
+  color: #ffffff;
+}
+select.form-control option:checked {
+  background-color: #2a7f00;
+  color: #ffffff;
 }
