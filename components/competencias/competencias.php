@@ -1,34 +1,55 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 require_once __DIR__ . '/../../db/conexion.php';
 require_once __DIR__ . '/../../functions/functions_agrupar_competencias.php';
 
 $documento = $_GET['doc'] ?? null;
+$aprendiz = null;
+$idAprendiz = null;
 
 if (!$documento) {
     echo "<p style='color:red;'>Documento no válido.</p>";
     exit;
 }
 
-$sql = "
-    SELECT *
-    FROM juicios_evaluativos
-    WHERE N_Documento = ?
-    ORDER BY Competencia, Resultado_aprendizaje, Fecha_registro DESC";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $documento);
-$stmt->execute();
-$resultado = $stmt->get_result();
-
-$aprendiz = $resultado->fetch_assoc();
+// 1. Obtener datos del aprendiz
+$stmt1 = $conn->prepare("SELECT * FROM aprendices WHERE N_Documento = ?");
+if (!$stmt1) {
+    die("Error al preparar la consulta de aprendiz: " . $conn->error);
+}
+$stmt1->bind_param("s", $documento);
+$stmt1->execute();
+$result1 = $stmt1->get_result();
+$aprendiz = $result1->fetch_assoc();
 
 if (!$aprendiz) {
-    echo "<p style='color:red;'>No hay competencias registradas para este aprendiz.</p>";
+    echo "<p style='color:red;'>Aprendiz no encontrado.</p>";
     exit;
 }
 
+$idAprendiz = $aprendiz['Id_aprendiz'] ?? null;
+
+// 2. Obtener juicios evaluativos
+$stmt2 = $conn->prepare("SELECT * FROM juicios_evaluativos WHERE N_Documento = ? ORDER BY Competencia, Resultado_aprendizaje, Fecha_registro DESC");
+if (!$stmt2) {
+    die("Error al preparar la consulta de juicios: " . $conn->error);
+}
+$stmt2->bind_param("s", $documento);
+$stmt2->execute();
+$resultado = $stmt2->get_result();
+
+if (!$resultado) {
+    die("Error al obtener los juicios evaluativos: " . $conn->error);
+}
+
+// 3. Agrupar competencias
 $resultado->data_seek(0);
 list($competencias_agrupadas, $materias_organizadas) = agruparCompetencias($resultado);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="es">
@@ -266,23 +287,106 @@ list($competencias_agrupadas, $materias_organizadas) = agruparCompetencias($resu
         </div>
     </div>
 
-    <div id="modalReporte" class="modal">
-        <div class="modal-contenido">
-            <span class="cerrar-modal" onclick="cerrarModal()">&times;</span>
-            <h2>Reporte de Aprendiz</h2>
-            <p><strong>Nombre:</strong> <?= htmlspecialchars($aprendiz['Nombre_aprendiz'] ?? '') ?> <?= htmlspecialchars($aprendiz['Apellido_aprendiz'] ?? '') ?></p>
-            <p><strong>Documento:</strong> <?= htmlspecialchars($aprendiz['N_Documento'] ?? '') ?></p>
-            <p><strong>Ficha:</strong> <?= htmlspecialchars($aprendiz['Numero_ficha'] ?? '') ?></p>
-            <p><strong>Estado:</strong> <?= htmlspecialchars($aprendiz['Estado_formacion'] ?? '') ?></p>
-            <p><strong>Observaciones:</strong></p>
-            <textarea readonly rows="4" style="width:100%; resize:none;" maxlength="500"><?= htmlspecialchars($aprendiz['Observaciones'] ?? 'Sin observaciones') ?></textarea>
-            <div style="margin-top: 20px; text-align:right;">
-                <a href="generar_reporte.php?doc=<?= $documento ?>" target="_blank" class="btn btn-success">Descargar PDF</a>
+<div id="modalReporte" class="modal">
+    <div class="modal-contenido">
+        <span class="cerrar-modal" onclick="cerrarModal()">&times;</span>
+        <h2>Reporte de Aprendiz</h2>
+
+        <p><strong>Nombre:</strong> <?= htmlspecialchars($aprendiz['Nombre_aprendiz'] ?? '') ?> <?= htmlspecialchars($aprendiz['Apellido_aprendiz'] ?? '') ?></p>
+        <p><strong>Documento:</strong> <?= htmlspecialchars($aprendiz['N_Documento'] ?? '') ?></p>
+        <p><strong>Ficha:</strong> <?= htmlspecialchars($aprendiz['Numero_ficha'] ?? '') ?></p>
+        <p><strong>Estado:</strong> <?= htmlspecialchars($aprendiz['Estado_formacion'] ?? '') ?></p>
+
+        <!-- Formulario para nueva observación (PRIMER CUADRO) -->
+        <form id="formObservacion" style="margin-bottom: 20px;">
+            <input type="hidden" name="id_aprendiz" value="<?= $idAprendiz ?>">
+            <textarea name="observacion" placeholder="Escribe una nueva observación..." rows="4" style="width:100%; resize:none;" maxlength="500" required></textarea>
+            <div style="margin-top: 10px; text-align:right;">
+                <button type="submit" class="btn btn-primary">Guardar observación</button>
             </div>
-        </div>
+        </form>
+
+        <!-- Historial de observaciones (SEGUNDO CUADRO) -->
+        <h4>Historial de Observaciones</h4>
+        <?php
+        $observaciones = [];
+        if (!empty($idAprendiz)) {
+            $stmt = $conn->prepare("SELECT o.observacion, o.fecha, u.Nombre, u.Apellido 
+                                    FROM observaciones_aprendiz o 
+                                    JOIN usuarios u ON o.id_usuario = u.Id_usuario 
+                                    WHERE o.id_aprendiz = ?
+                                    ORDER BY o.fecha DESC");
+            $stmt->bind_param("i", $idAprendiz);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $observaciones = $result->fetch_all(MYSQLI_ASSOC);
+        }
+        ?>
+
+        <?php if (!empty($observaciones)): ?>
+            <ul id="historialObservaciones" style="max-height: 200px; overflow-y: auto;">
+                <?php foreach ($observaciones as $obs): ?>
+                    <li>
+                        <strong><?= htmlspecialchars($obs['Nombre'] . ' ' . $obs['Apellido']) ?></strong>
+                        <em>(<?= $obs['fecha'] ?>):</em><br>
+                        <?= nl2br(htmlspecialchars($obs['observacion'])) ?>
+                    </li>
+                    <hr>
+                <?php endforeach; ?>
+            </ul>
+        <?php else: ?>
+            <p id="historialObservaciones">No hay observaciones registradas.</p>
+        <?php endif; ?>
+
     </div>
+</div>
+
+
 </main>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="assets/js/competencias.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+document.getElementById('formObservacion').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const form = this;
+    const formData = new FormData(form);
+
+    fetch('functions/guardar_observacion.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(res => res.json())
+    .then(response => {
+        if (response.success) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Observación guardada',
+                text: 'La observación se ha guardado exitosamente.',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                location.reload();
+            });
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: response.message || 'No se pudo guardar la observación.',
+            });
+        }
+    })
+    .catch(err => {
+        console.error(err);
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Hubo un error inesperado al guardar la observación.',
+        });
+    });
+});
+</script>
+
 </body>
 </html>

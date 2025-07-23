@@ -103,7 +103,6 @@ $programas = $stmt->get_result();
         <button onclick="abrirModalPrograma()">Crear Programa</button>
         <button onclick="registrarFicha()">Registrar Ficha</button>
         <button onclick="registrarInstructor()">Registrar Instructor</button>
-        <button onclick="registrarAprendiz()">Registrar Aprendiz</button>
     </div>
 </div>
 <?php endif; ?>

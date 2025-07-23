@@ -5,7 +5,10 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
 
-require_once __DIR__ . '/../functions/lang.php';
+// Cargar traducciones y código de idioma
+$lang_data = require_once __DIR__ . '/../functions/lang.php';
+$lang = $lang_data['lang_code']; // 'es' o 'en'
+$translations = $lang_data['translations']; // array de traducciones
 
 // Páginas públicas (no requieren sesión)
 $publicas = [
