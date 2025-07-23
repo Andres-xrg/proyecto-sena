@@ -16,6 +16,7 @@ require_once __DIR__ . '/../functions/lang.php';
         <!-- Header del sidebar -->
         <div class="sidebar-header">
             <div class="logos-container">
+              <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
                 <img src="/proyecto-sena/assets/img/JKE.png" alt="JKE Logo" class="logo-jke" />
                 <img src="/proyecto-sena/assets/img/logo-sena.png" alt="SENA Logo" class="logo-sena" />
             </div>
@@ -140,3 +141,25 @@ require_once __DIR__ . '/../functions/lang.php';
     });
   });
 </script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const sidebarToggle = document.getElementById("sidebarToggle");
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("sidebarOverlay");
+
+    if (sidebarToggle && sidebar && overlay) {
+      // Abrir el sidebar
+      sidebarToggle.addEventListener("click", () => {
+        sidebar.classList.toggle("sidebar-open");
+        overlay.classList.toggle("active");
+      });
+
+      // Cerrar el sidebar al hacer clic en el overlay
+      overlay.addEventListener("click", () => {
+        sidebar.classList.remove("sidebar-open");
+        overlay.classList.remove("active");
+      });
+    }
+  });
+</script>
+
