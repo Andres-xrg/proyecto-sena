@@ -8,7 +8,7 @@
 </head>
 <body>
     <footer class="footer">
-    Desarrollado por (Empresa) | SENA CDITI 2025
+    Desarrollado por JKE | SENA CDITI 2025
     </footer>
 </body>
 </html>
