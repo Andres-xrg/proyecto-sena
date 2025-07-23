@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../../db/conexion.php';
 require_once __DIR__ . '/../../functions/functions_porcentaje_competencia.php';
+if (session_status() === PHP_SESSION_NONE) session_start();
 
 $id_ficha = $_GET['id'] ?? null;
 
@@ -67,16 +68,19 @@ $aprendices = $stmt2->get_result();
                     <input type="text" placeholder="Buscar..." id="searchInput">
                 </div>
             </div>
+            
             <div class="form-group">
-                <form class="update-form" action="functions/functions_actualizar_juicios.php" method="POST" enctype="multipart/form-data">
-                    <input type="hidden" name="id_ficha" value="<?= $id_ficha ?>">
-                    <input type="hidden" name="numero_ficha" value="<?= htmlspecialchars($ficha['numero_ficha']) ?>">
-                    <input type="hidden" name="programa" value="<?= htmlspecialchars($ficha['nombre_programa']) ?>">
-                    <input type="file" name="juicios" accept=".xlsx, .xls">
-                    <button type="submit" class="btn-actualizar-juicios">
-                        <i class="fas fa-upload"></i> Actualizar Juicios
-                    </button>
-                </form>
+                <?php if (isset($_SESSION['usuario']) && strtolower($_SESSION['usuario']['rol']) === 'administrador'): ?>
+                    <form class="update-form" action="functions/functions_actualizar_juicios.php" method="POST" enctype="multipart/form-data">
+                        <input type="hidden" name="id_ficha" value="<?= $id_ficha ?>">
+                        <input type="hidden" name="numero_ficha" value="<?= htmlspecialchars($ficha['numero_ficha']) ?>">
+                        <input type="hidden" name="programa" value="<?= htmlspecialchars($ficha['nombre_programa']) ?>">
+                        <input type="file" name="juicios" accept=".xlsx, .xls">
+                        <button type="submit" class="btn-actualizar-juicios">
+                            <i class="fas fa-upload"></i> Actualizar Juicios
+                        </button>
+                    </form>
+                <?php endif; ?>
             </div>
         </div>
 

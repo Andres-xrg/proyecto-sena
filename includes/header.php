@@ -40,14 +40,17 @@ require_once __DIR__ . '/../functions/lang.php';
                 <i class="fas fa-chalkboard-teacher"></i>
                 <span><?= $translations['instructors'] ?></span>
             </a>
-            <a href="index.php?page=components/registros/registro_user" class="nav-item">
-                <i class="fas fa-user-plus"></i>
-                <span><?= $translations['register_users'] ?></span>
-            </a>
-            <a href="./components/principales/ver_historial.php" class="nav-item">
-                <i class="fas fa-history"></i>
-                <span><?= $translations['history'] ?? 'Historial' ?></span>
-            </a>
+
+            <?php if (strtolower($_SESSION['usuario']['rol']) === 'administrador'): ?>
+                <a href="index.php?page=components/registros/registro_user" class="nav-item">
+                    <i class="fas fa-user-plus"></i>
+                    <span><?= $translations['register_users'] ?></span>
+                </a>
+                <a href="./components/principales/ver_historial.php" class="nav-item">
+                    <i class="fas fa-history"></i>
+                    <span><?= $translations['history'] ?? 'Historial' ?></span>
+                </a>
+            <?php endif; ?>
         </nav>
 
         <!-- Utilidades -->
@@ -69,7 +72,6 @@ require_once __DIR__ . '/../functions/lang.php';
                 <span><?= $translations['edit_profile'] ?? 'Editar perfil' ?></span>
             </div>
             </a>
-
 
             <!-- Modo oscuro -->
             <div class="utility-item style-switcher" id="modoOscuroBtn" title="<?= $translations['dark_mode'] ?? 'Cambiar tema' ?>">
@@ -138,4 +140,3 @@ require_once __DIR__ . '/../functions/lang.php';
     });
   });
 </script>
-

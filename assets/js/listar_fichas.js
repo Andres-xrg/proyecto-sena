@@ -39,19 +39,54 @@ function cambiarEstadoFicha(btn, idFicha, estadoActual) {
   });
 }
 
-// Dropdown
+// ------------------------ Dropdowns ------------------------
+
 function toggleDropdown() {
   document.getElementById("dropdownOptions").classList.toggle("show");
 }
+function toggleDropdownTipoOferta() {
+  document.getElementById('dropdownTipoOfertaOptions').classList.toggle('show');
+}
+function toggleDropdownEstado() {
+  document.getElementById('dropdownEstadoOptions').classList.toggle('show');
+}
+
+// ------------------------ Selectores ------------------------
+
+function seleccionarJornada(jornada) {
+  const span = document.getElementById('selectedJornada');
+  document.getElementById('jornadaHidden').value = jornada === 'Todos' ? '' : jornada;
+  span.textContent = jornada === 'Todos' ? 'Seleccionar jornada...' : jornada;
+  document.querySelector('.controls form').submit();
+}
+
+function seleccionarTipoOferta(oferta) {
+  const span = document.getElementById('selectedTipoOferta');
+  document.getElementById('tipoOfertaHidden').value = oferta === 'Todos' ? '' : oferta;
+  span.textContent = oferta === 'Todos' ? 'Tipo de oferta' : oferta;
+  document.querySelector('.controls form').submit();
+}
+
+function seleccionarEstado(estado) {
+  const span = document.getElementById('selectedEstado');
+  document.getElementById('estadoHidden').value = estado === 'Todos' ? '' : estado.toLowerCase();
+  span.textContent = estado === 'Todos' ? 'Filtrar por estado' : estado;
+  document.querySelector('.controls form').submit();
+}
+
+// ------------------------ Ocultar menú al hacer clic fuera ------------------------
 
 document.addEventListener("click", function (e) {
-  const wrapper = document.querySelector(".dropdown-wrapper");
-  if (!wrapper.contains(e.target)) {
-    document.getElementById("dropdownOptions").classList.remove("show");
-  }
+  const wrappers = document.querySelectorAll(".dropdown-wrapper");
+  wrappers.forEach(wrapper => {
+    if (!wrapper.contains(e.target)) {
+      wrapper.querySelectorAll(".dropdown-options").forEach(optionBox => optionBox.classList.remove("show"));
+    }
+  });
 });
 
-// Buscador
+// ------------------------ Buscador ------------------------
+
 const searchInput = document.getElementById("searchInput");
 const fichaCards = document.querySelectorAll(".ficha-card");
 
@@ -60,17 +95,5 @@ searchInput.addEventListener("input", function () {
   fichaCards.forEach(card => {
     const numero = card.querySelector(".numero").textContent.toLowerCase();
     card.style.display = numero.includes(query) ? "block" : "none";
-  });
-});
-
-// Filtro por jornada
-document.querySelectorAll(".option").forEach(option => {
-  option.addEventListener("click", function () {
-    const jornadaSeleccionada = this.textContent.toLowerCase();
-    fichaCards.forEach(card => {
-      const jornadaFicha = card.getAttribute("data-jornada").toLowerCase();
-      card.style.display = jornadaFicha.includes(jornadaSeleccionada) ? "block" : "none";
-    });
-    document.getElementById("dropdownOptions").classList.remove("show");
   });
 });

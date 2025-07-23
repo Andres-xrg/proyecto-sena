@@ -14,44 +14,48 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $contrasena   = $_POST['contrasena'] ?? '';
     $confirmar    = $_POST['confirmar_contrasena'] ?? '';
 
+    // 2. Verificar que las contraseñas coincidan
     if ($contrasena !== $confirmar) {
         header("Location: registro_user.php?error=Las+contraseñas+no+coinciden");
         exit;
     }
 
-    // 2. Encriptar contraseña y definir rol
+    // 3. Encriptar contraseña y definir rol
     $contrasena_hash = password_hash($contrasena, PASSWORD_BCRYPT);
     $rol = 'Usuario';
 
-    // 3. Insertar en tabla usuarios
+    // 4. Insertar en tabla usuarios
     $stmt = $conn->prepare("
         INSERT INTO usuarios (
-            nombre, apellido, N_Telefono, T_Documento, N_Documento, Email, Contraseña, confirmarcontraseña, Rol
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            nombre, apellido, N_Telefono, T_Documento, N_Documento, Email, Contraseña, Rol
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     ");
 
     if (!$stmt) {
         die("Error al preparar consulta: " . $conn->error);
     }
 
-    $stmt->bind_param("sssssssss", $nombre, $apellidos, $telefono, $tipo_doc, $documento, $email, $contrasena_hash, $confirmar, $rol);
+    $stmt->bind_param("ssssssss", $nombre, $apellidos, $telefono, $tipo_doc, $documento, $email, $contrasena_hash, $rol);
 
     if ($stmt->execute()) {
-        // 4. Insertar también en aprendices (relacionado con Id_usuario)
+        // 5. Insertar también en aprendices (relacionado con Id_usuario)
         $id_usuario_nuevo = $conn->insert_id;
 
-        $stmt_ap = $conn->prepare("INSERT INTO aprendices (Id_usuario, nombre, apellido, T_documento, N_Documento, N_Telefono, Email) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $stmt_ap = $conn->prepare("
+            INSERT INTO aprendices (Id_usuario, nombre, apellido, T_documento, N_Documento, N_Telefono, Email)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        ");
         $stmt_ap->bind_param("issssss", $id_usuario_nuevo, $nombre, $apellidos, $tipo_doc, $documento, $telefono, $email);
         $stmt_ap->execute();
 
-        // 5. Guardar en historial si hay un usuario logueado
+        // 6. Guardar en historial si hay un usuario logueado
         if (isset($_SESSION['usuario']['id'])) {
             $usuario_id = $_SESSION['usuario']['id'];
             $descripcion = "Se registró el usuario $nombre $apellidos con documento $documento.";
             registrar_historial($conn, $usuario_id, 'Registro de usuario', $descripcion);
         }
 
-        // 6. Redirigir con éxito
+        // 7. Redirigir con éxito
         header("Location: ../index.php?page=components/principales/welcome&success=Registro+exitoso");
         exit;
     } else {

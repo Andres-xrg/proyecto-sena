@@ -1,169 +1,191 @@
-<?php if (session_status() === PHP_SESSION_NONE) 
-session_start();
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+<?php
+require_once __DIR__ . '/../../db/conexion.php';
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-require_once __DIR__ . '/../../functions/historial.php';
+$tipo = $_GET['tipo'] ?? '';
+$estado_programa = $_GET['estado'] ?? '';
+$es_admin = isset($_SESSION['usuario']) && $_SESSION['usuario']['rol'] === 'administrador';
+
+$condiciones = [];
+$params = [];
+$tipos_param = '';
+
+if (!empty($tipo) && in_array($tipo, ['tecnico', 'tecnologo'])) {
+    $condiciones[] = "tipo_programa = ?";
+    $params[] = $tipo;
+    $tipos_param .= 's';
+}
+
+if (!$es_admin) {
+    $condiciones[] = "estado = 'activo'";
+} elseif (!empty($estado_programa) && in_array($estado_programa, ['activo', 'inactivo'])) {
+    $condiciones[] = "estado = ?";
+    $params[] = $estado_programa;
+    $tipos_param .= 's';
+}
+
+$sql = "SELECT * FROM programas_formacion";
+if ($condiciones) {
+    $sql .= " WHERE " . implode(" AND ", $condiciones);
+}
+$sql .= " ORDER BY nombre_programa ASC";
+
+$stmt = $conn->prepare($sql);
+if (!empty($params)) {
+    $stmt->bind_param($tipos_param, ...$params);
+}
+$stmt->execute();
+$programas = $stmt->get_result();
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/proyecto-sena/assets/css/welcome.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <title>Welcome</title>
+    <title>Programas de Formación</title>
+    <link rel="stylesheet" href="/proyecto-sena/assets/css/header.css">
+    <link rel="stylesheet" href="/proyecto-sena/assets/css/footer.css">
+    <link rel="stylesheet" href="/proyecto-sena/assets/css/programas_formacion.css">
 </head>
 <body>
-<div class="welcome-container">
-    <div class="welcome-header">
-        <?php if (isset($_SESSION['usuario'])): ?>
-        <button class="edit-carousel-btn" onclick="startEditProcess()">
-            <i class="fas fa-edit"></i> Editar Carrusel
-        </button>
-        <?php endif; ?>
 
-        <h1 class="welcome-title"><?= $translations['welcome'] ?? 'Bienvenido' ?></h1>
-        <p class="welcome-subtitle"><?= $translations['explore_programs'] ?? 'Explora nuestros programas' ?></p>
-    </div>
+<div class="filtro-barra" style="display: flex; align-items: center; gap: 1rem; position: fixed; top: 20px; left: 300px; z-index: 1000;">
+    <form method="GET" action="index.php" style="display: flex; align-items: center;">
+        <input type="hidden" name="page" value="components/principales/programas_formacion">
 
-    <div class="carousel-container">
-        <button class="nav-button prev" id="prevBtn"><i class="fas fa-chevron-left"></i></button>
-        <div class="carousel-wrapper">
-            <div class="carousel-track" id="carouselTrack">
-                <?php
-                require_once(__DIR__ . "/../../db/conexion.php");
-                $slides = [];
-                $query = $conn->query("SELECT * FROM slider ORDER BY id DESC LIMIT 3");
-
-                while ($row = $query->fetch_assoc()) {
-                    $slides[] = $row;
-                }
-
-                while (count($slides) < 3) {
-                    $slides[] = [
-                        'id_slider' => '',
-                        'titulo_es' => '',
-                        'titulo_en' => '',
-                        'descripcion_es' => '',
-                        'descripcion_en' => '',
-                        'imagen' => ''
-                    ];
-                }
-
-                $idioma = $_SESSION['idioma'] ?? 'es';
-
-                foreach ($slides as $index => $row):
-                    $titulo = $idioma === 'en' ? $row['titulo_en'] : $row['titulo_es'];
-                    $descripcion = $idioma === 'en' ? $row['descripcion_en'] : $row['descripcion_es'];
-                ?>
-                <div class="carousel-slide<?= $index === 0 ? ' active' : '' ?>">
-                    <?php if (!empty($row['imagen'])): ?>
-                        <img src="/proyecto-sena/assets/slider/<?= htmlspecialchars($row['imagen']) ?>" alt="Slide" class="carousel-image">
-                    <?php endif; ?>
-                    <div class="slide-overlay">
-                        <h3><?= htmlspecialchars($titulo) ?></h3>
-                        <p><?= htmlspecialchars($descripcion) ?></p>
-                    </div>
-                </div>
-                <?php endforeach; ?>
+        <!-- Filtro Tipo -->
+        <div class="dropdown-container">
+            <div class="dropdown" id="dropdownFiltroTipo" onclick="toggleDropdown('tipo')">
+                <span id="selectedOptionTipo">
+                    <?= isset($_GET['tipo']) ? ($_GET['tipo'] === '' || $_GET['tipo'] === 'Todos' ? 'Filtrar por tipo' : ucfirst($_GET['tipo'])) : 'Filtrar por tipo' ?>
+                </span>
+                <span class="arrow">&#9662;</span>
             </div>
+            <div class="dropdown-options" id="dropdownOptionsTipo">
+                <div onclick="seleccionarFiltro('', 'tipo')">Todos</div>
+                <div onclick="seleccionarFiltro('tecnico', 'tipo')">Técnico</div>
+                <div onclick="seleccionarFiltro('tecnologo', 'tipo')">Tecnólogo</div>
+            </div>
+            <input type="hidden" name="tipo" id="tipoHidden" value="<?= htmlspecialchars($tipo) ?>">
         </div>
-        <button class="nav-button next" id="nextBtn"><i class="fas fa-chevron-right"></i></button>
-    </div>
 
-    <div class="pagination" id="pagination">
-        <?php foreach ($slides as $index => $_): ?>
-            <div class="pagination-dot<?= $index === 0 ? ' active' : '' ?>" data-slide="<?= $index ?>"></div>
-        <?php endforeach; ?>
-    </div>
+        <!-- Filtro Estado solo para administrador -->
+        <?php if (isset($_SESSION['usuario']) && $_SESSION['usuario']['rol'] === 'administrador'): ?>
+        <div class="dropdown-container">
+            <div class="dropdown" id="dropdownFiltroEstado" onclick="toggleDropdown('estado')">
+                <span id="selectedOptionEstado">
+                    <?= isset($_GET['estado']) ? ($_GET['estado'] === '' || $_GET['estado'] === 'Todos' ? 'Estado programa' : ucfirst($_GET['estado'])) : 'Estado programa' ?>
+                </span>
+                <span class="arrow">&#9662;</span>
+            </div>
+            <div class="dropdown-options" id="dropdownOptionsEstado">
+                <div onclick="seleccionarFiltro('', 'estado')">Todos</div>
+                <div onclick="seleccionarFiltro('activo', 'estado')">Activo</div>
+                <div onclick="seleccionarFiltro('inactivo', 'estado')">Inactivo</div>
+            </div>
+            <input type="hidden" name="estado" id="estadoHidden" value="<?= htmlspecialchars($estado_programa) ?>">
+        </div>
+        <?php endif; ?>
+    </form>
 
-    <div class="features-grid">
-        <div class="feature-card">
-            <i class="fas fa-code"></i>
-            <h3>Desarrollo</h3>
-            <p>Aprende a construir software moderno con herramientas actuales.</p>
-        </div>
-        <div class="feature-card">
-            <i class="fas fa-database"></i>
-            <h3>Base de Datos</h3>
-            <p>Domina el diseño y administración de bases de datos.</p>
-        </div>
-        <div class="feature-card">
-            <i class="fas fa-mobile-alt"></i>
-            <h3>Aplicaciones Móviles</h3>
-            <p>Desarrolla apps para Android y otras plataformas móviles.</p>
-        </div>
+    <div class="search-box">
+        <input type="text" placeholder="Buscar..." id="searchInput">
     </div>
 </div>
 
-<!-- Modales de edición -->
-<?php for ($i = 0; $i < 3; $i++): 
-    $slide = $slides[$i];
-    $id = $slide['id_slider'] ?? '';
-?>
-<div id="editModal<?= $i + 1 ?>" class="edit-modal">
-    <div class="edit-modal-content">
-        <div class="edit-modal-header">
-            <h2>Editar Slide <?= $i + 1 ?></h2>
-            <button class="edit-close-btn" onclick="closeModal(<?= $i + 1 ?>)">&times;</button>
+<?php if ($es_admin): ?>
+    <div class="menu-fab">
+        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+        <div class="menu-options" id="menuOptions">
+            <button onclick="abrirModalPrograma()">Crear Programa</button>
+            <button onclick="registrarFicha()">Registrar Ficha</button>
+            <button onclick="registrarInstructor()">Registrar Instructor</button>
+            <button onclick="registrarAprendiz()">Registrar Aprendiz</button>
         </div>
-        <form class="edit-form" action="/proyecto-sena/functions/guardar_slider.php?page=components/principales/welcome&edit=1" method="POST" enctype="multipart/form-data">
-            <!-- CAMBIO CLAVE: este hidden debe llamarse id_slider -->
-            <input type="hidden" name="id_slider" value="<?= htmlspecialchars($id) ?>">
+    </div>
+<?php endif; ?>
 
-            <div class="edit-form-group">
-                <label>Imagen:</label>
-                <input type="file" name="imagen" accept="image/*" class="edit-file-input">
-                <?php if (!empty($slide['imagen'])): ?>
-                    <p>Actual: <strong><?= htmlspecialchars($slide['imagen']) ?></strong></p>
-                    <img src="/proyecto-sena/assets/slider/<?= htmlspecialchars($slide['imagen']) ?>" width="100">
-                <?php endif; ?>
-            </div>
+<main class="programs-main-content">
+    <?php if (isset($_GET['creado']) && $_GET['creado'] == 1): ?>
+        <div class="alert success"></div>
+    <?php endif; ?>
 
-            <div class="edit-form-group">
-                <label>Título (Español):</label>
-                <input type="text" name="titulo_es" class="edit-text-input" value="<?= htmlspecialchars($slide['titulo_es']) ?>">
-            </div>
-            <div class="edit-form-group">
-                <label>Título (Inglés):</label>
-                <input type="text" name="titulo_en" class="edit-text-input" value="<?= htmlspecialchars($slide['titulo_en']) ?>">
-            </div>
-            <div class="edit-form-group">
-                <label>Descripción (Español):</label>
-                <textarea name="descripcion_es" class="edit-textarea"><?= htmlspecialchars($slide['descripcion_es']) ?></textarea>
-            </div>
-            <div class="edit-form-group">
-                <label>Descripción (Inglés):</label>
-                <textarea name="descripcion_en" class="edit-textarea"><?= htmlspecialchars($slide['descripcion_en']) ?></textarea>
-            </div>
+    <div class="programs-content-area">
+        <div class="programs-grid">
+            <?php while ($row = $programas->fetch_assoc()): ?>
+                <div class="program-card">
+                    <div class="card-header">
+                        <div class="card-icon"></div>
+                        <div class="card-info">
+                            <div class="card-title">
+                                <a href="index.php?page=components/Fichas/listar_fichas&id_programa=<?= $row['Id_programa'] ?>" style="text-decoration: none; color: inherit;">
+                                    <?= htmlspecialchars($row['nombre_programa']) ?>
+                                </a>
+                            </div>
 
-            <div class="edit-form-actions">
-               <button type="submit" name="<?= $i < 2 ? 'continuar' : 'finalizar' ?>" class="edit-save-btn">
-                    <?= $i < 2 ? 'Guardar y Continuar' : 'Finalizar' ?>
-                </button>
+                            <?php if ($es_admin): ?>
+                            <div class="card-buttons">
+                                <button class="btn editar-btn" onclick="abrirModalEditar('<?= $row['Id_programa'] ?>', '<?= htmlspecialchars(addslashes($row['nombre_programa'])) ?>', '<?= $row['tipo_programa'] ?>')">Editar</button>
+                                <form method="POST" action="functions/functions_estado_programa.php" style="display:inline;">
+                                    <input type="hidden" name="id_programa" value="<?= $row['Id_programa'] ?>">
+                                    <input type="hidden" name="nuevo_estado" value="<?= $row['estado'] === 'activo' ? 'inactivo' : 'activo' ?>">
+                                    <button type="submit" class="btn <?= $row['estado'] === 'activo' ? 'deshabilitar-btn' : 'habilitar-btn' ?>">
+                                        <?= $row['estado'] === 'activo' ? 'Deshabilitar' : 'Habilitar' ?>
+                                    </button>
+                                </form>
+                            </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+            <?php endwhile; ?>
+        </div>
+    </div>
+</main>
 
-                <button type="button" onclick="<?= $i < 2 ? 'cancelAndNext(' . ($i + 1) . ')' : 'closeModal(' . ($i + 1) . ')' ?>" class="edit-cancel-btn">
-                    Cancelar
-                </button>
+<!-- Modales -->
+<div id="modalPrograma" class="modal hidden">
+    <div class="modal-content">
+        <span class="close-btn" onclick="cerrarModalPrograma()">&times;</span>
+        <h2>Registrar Programa de Formación</h2>
+        <form action="/proyecto-sena/functions/functions_crear_programas.php" method="POST">
+            <div class="form-group">
+                <label for="programa">Nombre del Programa:</label>
+                <input type="text" id="programa" name="programa" required>
             </div>
+            <div class="form-group">
+                <label for="tipo_programa">Tipo de Programa:</label>
+                <select id="tipo_programa" name="tipo_programa" required>
+                    <option value="">Seleccione tipo</option>
+                    <option value="tecnico">Técnico</option>
+                    <option value="tecnologo">Tecnólogo</option>
+                </select>
+            </div>
+            <button type="submit" class="register-btn">Guardar</button>
         </form>
     </div>
 </div>
-<?php endfor; ?>
 
-<script src="/proyecto-sena/assets/js/welcome.js"></script>
+<div id="modalEditarPrograma" class="modal hidden">
+    <div class="modal-content">
+        <span class="close-btn" onclick="cerrarModalEditar()">&times;</span>
+        <h2>Editar Programa de Formación</h2>
+        <form id="formEditarPrograma" method="POST" action="functions/functions_actualizar_programa.php">
+            <input type="hidden" name="id_programa" id="editIdPrograma">
+            <label for="editNombrePrograma">Nombre del programa:</label>
+            <input type="text" name="programa" id="editNombrePrograma" required>
+            <label for="editTipoPrograma">Tipo de programa:</label>
+            <input type="text" name="tipo_programa" id="editTipoPrograma" required>
+            <button type="submit">Guardar cambios</button>
+        </form>
+    </div>
+</div>
 
-<?php
-// Mostrar automáticamente el modal correcto si viene de guardar
-if (isset($_GET['edit']) && isset($_SESSION['slide_step'])):
-?>
-<script>
-    window.addEventListener('DOMContentLoaded', () => {
-        openModal(<?= (int) $_SESSION['slide_step'] ?>);
-    });
-</script>
-<?php endif; ?>
+<script src="/proyecto-sena/assets/js/registros.js"></script>
+<script src="/proyecto-sena/assets/js/programas_formacion.js"></script>
+
 </body>
 </html>

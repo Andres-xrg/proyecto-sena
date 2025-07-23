@@ -1,10 +1,8 @@
 // Esperar que cargue completamente el DOM
 window.addEventListener('DOMContentLoaded', () => {
-    // Modales
     const modalPrograma = document.getElementById('modalPrograma');
     const modalEditarPrograma = document.getElementById('modalEditarPrograma');
 
-    // Asegurarse de ocultar modales al inicio
     if (modalPrograma) {
         modalPrograma.classList.add('hidden');
         modalPrograma.style.display = 'none';
@@ -20,20 +18,19 @@ window.addEventListener('DOMContentLoaded', () => {
         if (e.target === modalEditarPrograma) cerrarModalEditar();
     });
 
-    // Agregar eventos a todos los botones Editar
+    // Botones Editar
     const botonesEditar = document.querySelectorAll('.btn-editar-programa');
     botonesEditar.forEach(boton => {
         boton.addEventListener('click', function () {
             const id = this.dataset.id;
             const nombre = this.dataset.nombre;
             const tipo = this.dataset.tipo;
-
             abrirModalEditar(id, nombre, tipo);
         });
     });
 });
 
-// Abrir modal de nuevo programa
+// Abrir modal crear
 function abrirModalPrograma() {
     const modal = document.getElementById('modalPrograma');
     modal.classList.remove('hidden');
@@ -41,14 +38,14 @@ function abrirModalPrograma() {
     toggleMenu();
 }
 
-// Cerrar modal de nuevo programa
+// Cerrar modal crear
 function cerrarModalPrograma() {
     const modal = document.getElementById('modalPrograma');
     modal.classList.add('hidden');
     modal.style.display = 'none';
 }
 
-// Abrir modal de edición con datos cargados
+// Abrir modal editar
 function abrirModalEditar(id, nombre, tipo) {
     document.getElementById('editIdPrograma').value = id;
     document.getElementById('editNombrePrograma').value = nombre;
@@ -59,26 +56,49 @@ function abrirModalEditar(id, nombre, tipo) {
     modal.style.display = 'flex';
 }
 
-// Cerrar modal de edición
+// Cerrar modal editar
 function cerrarModalEditar() {
     const modal = document.getElementById('modalEditarPrograma');
     modal.classList.add('hidden');
     modal.style.display = 'none';
 }
 
-// Menú desplegable superior
+// Mostrar/ocultar menú FAB
 function toggleMenu() {
     const menu = document.getElementById('menuOptions');
     menu.classList.toggle('show');
 }
 
-function toggleDropdown() {
-    document.getElementById('dropdownOptions').classList.toggle('show');
-    document.getElementById('dropdownFiltro').classList.toggle('active');
+// Mostrar opciones de dropdown personalizado
+function toggleDropdown(tipo) {
+    document.getElementById('dropdownOptions' + capitalize(tipo)).classList.toggle('show');
 }
 
-function seleccionarFiltro(tipo) {
-    document.getElementById('tipoHidden').value = tipo;
-    document.getElementById('selectedOption').textContent = tipo ? tipo.charAt(0).toUpperCase() + tipo.slice(1) : 'Todos';
-    document.querySelector('.filtro-barra form').submit();
+// Selección de filtros con conservación de valores
+function seleccionarFiltro(valor, tipo) {
+    if (valor.toLowerCase() === 'todos') valor = '';
+
+    // Actualizar el valor oculto
+    document.getElementById(tipo + 'Hidden').value = valor;
+
+    // Cambiar texto visible
+    const selectedSpan = document.getElementById('selectedOption' + capitalize(tipo));
+    selectedSpan.textContent = valor ? capitalize(valor) : 'Todos';
+
+    // Obtener los otros valores seleccionados
+    const tipoVal = document.getElementById('tipoHidden').value;
+    const estadoVal = document.getElementById('estadoHidden').value;
+
+    // Redirigir manualmente conservando ambos valores
+    const url = new URL(window.location.origin + '/proyecto-sena/index.php');
+    url.searchParams.set('page', 'components/principales/programas_formacion');
+    if (tipoVal) url.searchParams.set('tipo', tipoVal);
+    if (estadoVal) url.searchParams.set('estado', estadoVal);
+
+    window.location.href = url.toString();
+}
+
+// Capitalizar texto (primera letra mayúscula)
+function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
 }

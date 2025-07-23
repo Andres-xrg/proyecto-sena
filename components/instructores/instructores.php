@@ -1,11 +1,11 @@
 <?php
 require_once(__DIR__ . "/../../db/conexion.php");
-if (!ACCESO_PERMITIDO){
-    header("Location: /proyecto-sena/components/principales/login.php");
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
 }
 
-if (!$conn) {
-    die("Error de conexión a la base de datos: " . mysqli_connect_error());
+if (!ACCESO_PERMITIDO) {
+    header("Location: /proyecto-sena/components/principales/login.php");
 }
 
 $sql = "SELECT 
@@ -24,7 +24,6 @@ $sql = "SELECT
                 ELSE 'No'
             END AS es_jefe_grupo
         FROM instructores i";
-
 
 $resultado = $conn->query($sql);
 if (!$resultado) {
@@ -52,7 +51,6 @@ if (!$resultado) {
 
     <div class="instructores-list">
         <?php 
-        $contador = 1;
         if ($resultado->num_rows > 0): 
             while ($instructor = $resultado->fetch_assoc()):
                 $activo = $instructor['Tipo_instructor'] !== 'Inactivo';
@@ -61,7 +59,6 @@ if (!$resultado) {
                 $textoBoton = $activo ? 'Deshabilitar' : 'Habilitar';
                 $claseBoton = $activo ? 'btn-deshabilitar' : 'btn-habilitar';
                 $jefeFicha = $instructor['es_jefe_grupo'];
-
         ?>
             <div class="instructor-card <?= $claseCard ?>">
                 <div class="instructor-content">
@@ -73,6 +70,8 @@ if (!$resultado) {
                             <h3 class="instructor-name">
                                 <?= htmlspecialchars($instructor['nombre']) . ' ' . htmlspecialchars($instructor['apellido']) ?>
                             </h3>
+
+                            <?php if ($_SESSION['usuario']['rol'] === 'administrador'): ?>
                             <div class="botones-acciones">
                                 <form method="POST" action="/proyecto-sena/functions/functions_instructores.php">
                                     <input type="hidden" name="id" value="<?= $instructor['Id_instructor'] ?>">
@@ -83,6 +82,7 @@ if (!$resultado) {
                                 </form>
                                 <button class="btn-editar" onclick='abrirModal(<?= json_encode($instructor) ?>)'>Editar</button>
                             </div>
+                            <?php endif; ?>
                         </div>
 
                         <div class="instructor-details">
@@ -102,7 +102,8 @@ if (!$resultado) {
     </div>
 </div>
 
-<!-- Modal Edición -->
+<?php if ($_SESSION['usuario']['rol'] === 'administrador'): ?>
+<!-- Modal Edición SOLO visible para Administradores -->
 <div id="modalEditar" class="modal">
     <div class="modal-contenido">
         <span class="cerrar-modal" onclick="cerrarModal()">&times;</span>
@@ -136,6 +137,7 @@ if (!$resultado) {
         </form>
     </div>
 </div>
+<?php endif; ?>
 
 <script src="/proyecto-sena/assets/js/editar_instructores.js"></script>
 </body>

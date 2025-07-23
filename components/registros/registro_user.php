@@ -14,6 +14,9 @@ require_once 'functions/lang.php';
     <link rel="stylesheet" href="assets/css/registro_user.css">
     <link rel="stylesheet" href="assets/css/header.css">
     <link rel="stylesheet" href="assets/css/footer.css">
+    
+    <!-- SweetAlert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
 
@@ -24,7 +27,23 @@ require_once 'functions/lang.php';
         </div>
         
         <div class="form-content">
-            <form action="functions/functions_registro_user.php" method="POST">
+
+            <!-- Alerta con SweetAlert2 si hay error desde PHP -->
+            <?php if (isset($_GET['error'])): ?>
+                <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    Swal.fire({
+                        icon: 'error',
+                        title: '¡Error!',
+                        text: '<?= htmlspecialchars($_GET['error']) ?>',
+                        confirmButtonText: 'Ok',
+                        confirmButtonColor: '#d33'
+                    });
+                });
+                </script>
+            <?php endif; ?>
+
+            <form id="form-registro" action="functions/functions_registro_user.php" method="POST">
                 <div class="section-title"><?= $translations['register_users'] ?></div>
                 <div class="section-subtitle"><?= $translations['all_fields_required'] ?></div>
 
@@ -71,12 +90,12 @@ require_once 'functions/lang.php';
 
                 <div class="form-group">
                     <label>Contraseña</label>
-                    <input type="password" name="contrasena" required placeholder="Ingrese su contraseña">
+                    <input type="password" name="contrasena" id="contrasena" required placeholder="Ingrese su contraseña">
                 </div>
 
                 <div class="form-group">
                     <label><?= $translations['confirm_password'] ?></label>
-                    <input type="password" name="confirmar_contrasena" required placeholder="<?= $translations['confirm_password'] ?>">
+                    <input type="password" name="confirmar_contrasena" id="confirmar_contrasena" required placeholder="<?= $translations['confirm_password'] ?>">
                 </div>
 
                 <button type="submit" class="register-btn"><?= $translations['submit'] ?></button>
@@ -90,6 +109,25 @@ require_once 'functions/lang.php';
 </div>
 
 <script src="assets/js/goBack.js"></script>
+
+<!-- Validación JS con SweetAlert2 -->
+<script>
+document.getElementById("form-registro").addEventListener("submit", function(e) {
+    const pass = document.getElementById("contrasena").value;
+    const confirm = document.getElementById("confirmar_contrasena").value;
+
+    if (pass !== confirm) {
+        e.preventDefault();
+        Swal.fire({
+            icon: 'error',
+            title: '¡Error!',
+            text: 'Las contraseñas no coinciden.',
+            confirmButtonText: 'Entendido',
+            confirmButtonColor: '#d33'
+        });
+    }
+});
+</script>
 
 </body>
 </html>

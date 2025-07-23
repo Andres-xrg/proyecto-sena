@@ -3,8 +3,8 @@ session_start();
 require_once '../db/conexion.php';
 require_once '../functions/historial.php';
 
-$email = $_POST['email'];
-$password = $_POST['contraseña'];
+$email = $_POST['email'] ?? '';
+$password = $_POST['contraseña'] ?? '';
 
 // Buscar el usuario por correo
 $sql = "SELECT * FROM usuarios WHERE Email = ? LIMIT 1";
@@ -13,19 +13,20 @@ $stmt->bind_param("s", $email);
 $stmt->execute();
 $result = $stmt->get_result();
 
-// Verificar si existe
+// Verificar si existe el usuario
 if ($result->num_rows === 1) {
     $usuario = $result->fetch_assoc();
 
-    // Verificar contraseña
+    // Comparar contraseña usando password_verify
     if (password_verify($password, $usuario['Contraseña'])) {
         $_SESSION['usuario'] = [
             'id'     => $usuario['Id_usuario'],
             'nombre' => $usuario['nombre'],
-            'email'  => $usuario['Email']
+            'email'  => $usuario['Email'],
+            'rol'    => $usuario['Rol']  // Puede ser 'administrador' o 'aprendiz'
         ];
 
-        // Buscar ID del aprendiz (si aplica)
+        // Si el usuario es aprendiz, guardar su Id_aprendiz
         $sql_apr = "SELECT Id_aprendiz FROM aprendices WHERE Id_usuario = ?";
         $stmt_apr = $conn->prepare($sql_apr);
         $stmt_apr->bind_param("i", $usuario['Id_usuario']);
@@ -40,12 +41,17 @@ if ($result->num_rows === 1) {
         // Registrar historial
         registrar_historial($conn, $usuario['Id_usuario'], 'Login', "El usuario inició sesión correctamente.");
 
-        // Redirigir al inicio
+        // Redirigir al panel de bienvenida
         header("Location: /proyecto-sena/index.php?page=components/principales/welcome");
+        exit;
+
+    } else {
+        // Contraseña incorrecta
+        header("Location: ../components/principales/login.php?status=contrasena");
         exit;
     }
 }
 
-// Si no coincide o no existe el usuario
-header("Location: ../components/principales/login.php?status=1");
+// Usuario no existe
+header("Location: ../components/principales/login.php?status=correo");
 exit;
