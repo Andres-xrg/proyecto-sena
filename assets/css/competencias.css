@@ -13,7 +13,6 @@ body {
   padding: 1.25rem;
   margin-left: 12vw; /* Se ajustará en media queries */
 }
-
 /* ===== MAIN CONTENT ===== */
 .main-content {
   margin-left: 16.75rem; /* 300px */
@@ -25,7 +24,6 @@ body {
   overflow: hidden;
   padding-bottom: 5rem; /* Añadido para dar más espacio en la parte inferior */
 }
-
 /* Título de la página */
 .page-title {
   font-size: 2.2vw; /* Se ajustará en media queries */
@@ -37,7 +35,6 @@ body {
   margin: 0;
   border-bottom: 1px solid #e0e0e0;
 }
-
 /* Sección de búsqueda y botón de reporte */
 .search-section {
   background: #f8f9fa;
@@ -70,7 +67,6 @@ body {
   background: #dee2e6;
   border-color: #adb5bd;
 }
-
 /* Modal para reportes */
 .modal {
   display: none;
@@ -105,7 +101,6 @@ body {
   color: #000;
   text-decoration: none;
 }
-
 /* Grid de categorías y materias */
 .content-grid {
   display: grid;
@@ -131,7 +126,7 @@ body {
 }
 .category-header {
   background: #4caf50;
-  color: white;
+  color: #000; /* Cambiado de white a black */
   padding: 1rem 1.25rem;
   font-weight: 600;
   font-size: 1.1vw; /* Se ajustará en media queries */
@@ -143,7 +138,6 @@ body {
   padding: 0;
   min-height: 200px;
 }
-
 /* Materias dentro de cada categoría */
 .subject-section {
   border-bottom: 1px solid #f0f0f0;
@@ -253,7 +247,6 @@ body {
   height: 1.1em;
   flex-shrink: 0;
 }
-
 /* Resultados de aprendizaje */
 .competencia-titulo {
   background-color: #f5f5f5;
@@ -313,7 +306,6 @@ body {
 .result-instructor i {
   color: #999;
 }
-
 /* Estados de los resultados */
 .result-status {
   padding: 0.4em 0.8em;
@@ -343,7 +335,6 @@ body {
   color: #856404;
   border: 1px solid #ffeaa7;
 }
-
 /* Información del estudiante */
 .student-info-section {
   padding: 1.25rem;
@@ -360,7 +351,7 @@ body {
 }
 .student-info-section .card-header {
   background: #2196f3;
-  color: white;
+  color: #000; /* Cambiado de white a black */
   padding: 0.75rem 1rem;
   font-weight: 600;
   font-size: 1em;
@@ -370,7 +361,7 @@ body {
 }
 .student-info-section .card-content {
   padding: 1.25rem;
-  color: #ffffff; /* Asegurar que el texto dentro del contenido de la tarjeta sea blanco */
+  color: #333; /* Cambiado de #ffffff a #333 */
 }
 .info-grid {
   display: grid;
@@ -384,7 +375,7 @@ body {
   gap: 0.3em;
 }
 .info-item strong {
-  color: #ffffff; /* Asegurar que el texto fuerte sea blanco */
+  color: #333; /* Cambiado de #ffffff a #333 */
   font-weight: 600;
   font-size: 0.95em;
 }
@@ -401,9 +392,8 @@ body {
 }
 .badge-secondary {
   background: #2c2c2c;
-  color: #ffffff; /* Asegurar que el texto del badge secundario sea blanco */
+  color: #ffffff; /* Se mantiene blanco porque el fondo es oscuro */
 }
-
 /* Utilidades de color */
 .text-success {
   color: #28a745 !important;
@@ -414,7 +404,6 @@ body {
 .text-warning {
   color: #ffc107 !important;
 }
-
 /* Rotación de flechas */
 .collapse-icon.fa-chevron-up,
 .fa-chevron-up {
@@ -424,14 +413,12 @@ body {
 .fa-chevron-down {
   transform: rotate(0deg);
 }
-
 /* Hover effects para flechas */
 .subject-header:hover .collapse-icon,
 .competencia-header:hover .fa-chevron-down,
 .competencia-header:hover .fa-chevron-up {
   color: #333;
 }
-
 /* Animación para collapse de Bootstrap */
 .collapsing {
   transition: height 0.35s ease;
@@ -442,7 +429,6 @@ body {
 .collapse.show {
   display: block;
 }
-
 /* Agregar estilos para estadísticas */
 .stats-grid {
   display: grid;
@@ -463,7 +449,7 @@ body {
   margin-bottom: 0.3em;
 }
 .stat-label {
-  color: #ffffff; /* Asegurar que las etiquetas de estadísticas sean blancas */
+  color: #333; /* Cambiado de #ffffff a #333 */
   font-size: 0.85em;
 }
 .category-stats {
@@ -482,7 +468,7 @@ body {
   text-align: center;
 }
 .category-stat-header {
-  color: #ffffff; /* Asegurar que el encabezado de estadísticas por categoría sea blanco */
+  color: #333; /* Cambiado de #ffffff a #333 */
   font-size: 0.85em;
   font-weight: 600;
   margin-bottom: 0.3em;
@@ -490,29 +476,25 @@ body {
 .category-stat-numbers {
   font-size: 1em;
   font-weight: 500;
-  color: #ffffff; /* Asegurar que los números de estadísticas por categoría sean blancos */
+  color: #333; /* Cambiado de #ffffff a #333 */
 }
-
 /* === MODO OSCURO GENERAL === */
 body.dark {
   background-color: #121212;
   color: #e0e0e0;
 }
-
 /* Fondos de contenedores */
 body.dark .main-content {
   background-color: #1e1e1e;
   color: #ffffff;
   box-shadow: 0 0.125rem 0.625rem rgba(0, 0, 0, 0.3); /* Darker shadow */
 }
-
 /* Título de la página */
 body.dark .page-title {
   background: #1e1e1e;
   color: #ffffff;
   border-bottom: 1px solid #444;
 }
-
 /* Sección de búsqueda y botón de reporte */
 body.dark .search-section {
   background: #1e1e1e;
@@ -527,7 +509,6 @@ body.dark .btn-generate-report:hover {
   background: #333;
   border-color: #555;
 }
-
 /* Modal para reportes */
 body.dark .modal-contenido {
   background-color: #2a2a2a;
@@ -541,7 +522,6 @@ body.dark .cerrar-modal:hover,
 body.dark .cerrar-modal:focus {
   color: #fff;
 }
-
 /* Grid de categorías y materias */
 body.dark .content-grid {
   background: #121212;
@@ -561,7 +541,6 @@ body.dark .category-header {
 body.dark .category-content {
   background: #1e1e1e;
 }
-
 /* Materias dentro de cada categoría */
 body.dark .subject-section {
   border-bottom: 1px solid #333;
@@ -609,7 +588,6 @@ body.dark .competencia-header .fa-chevron-down,
 body.dark .competencia-header .fa-chevron-up {
   color: #999;
 }
-
 /* Resultados de aprendizaje */
 body.dark .competencia-titulo {
   background-color: #222;
@@ -641,7 +619,6 @@ body.dark .result-instructor {
 body.dark .result-instructor i {
   color: #aaa;
 }
-
 /* Estados de los resultados */
 body.dark .status-approved {
   background: #1f4f2a;
@@ -658,7 +635,6 @@ body.dark .status-pending {
   color: #ffd700;
   border: 1px solid #7a6f2a;
 }
-
 /* Información del estudiante */
 body.dark .student-info-section {
   background: #121212;
@@ -687,7 +663,6 @@ body.dark .badge-secondary {
   background: #2c2c2c;
   color: #ffffff; /* Asegurar que el texto del badge secundario sea blanco */
 }
-
 /* Utilidades de color */
 body.dark .text-success {
   color: #90ee90 !important;
@@ -698,7 +673,6 @@ body.dark .text-danger {
 body.dark .text-warning {
   color: #ffd700 !important;
 }
-
 /* Agregar estilos para estadísticas */
 body.dark .stat-item {
   background: #222;
@@ -717,106 +691,86 @@ body.dark .category-stat-numbers {
   font-weight: 500;
   color: #ffffff; /* Asegurar que los números de estadísticas por categoría sean blancos */
 }
-
 /* === Media Queries para Responsividad === */
-
 /* Para pantallas medianas (tablets y laptops pequeñas) */
 @media (max-width: 1024px) {
   body {
     margin-left: 0; /* Eliminar margen izquierdo fijo */
     padding: 1rem; /* Ajustar padding general */
   }
-
   .main-content {
     margin-left: auto; /* Centrar */
     margin-right: auto; /* Centrar */
     max-width: 95%; /* Ocupar la mayor parte del ancho */
     padding-bottom: 4rem; /* Ajuste para tablets */
   }
-
   .page-title {
     font-size: 1.8rem; /* Tamaño de fuente fijo para el título */
     padding: 1.2rem 1rem 0.8rem;
   }
-
   .search-container {
     max-width: 70vw; /* Aumentar el ancho máximo para tablets */
   }
-
   .modal-contenido {
     width: 80vw; /* Aumentar el ancho del modal para tablets */
   }
-
   .category-header {
     font-size: 1rem; /* Tamaño de fuente fijo para el encabezado de categoría */
   }
-
   .info-grid,
   .stats-grid,
   .category-stats-grid {
     grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); /* Ajustar minmax para más flexibilidad */
   }
 }
-
 /* Para pantallas pequeñas (móviles) */
 @media (max-width: 768px) {
   body {
     padding: 0.75rem; /* Reducir padding general */
   }
-
   .main-content {
     margin-left: 0;
     margin-right: 0;
     max-width: 100%;
     padding-bottom: 3rem; /* Ajuste para móviles */
   }
-
   .page-title {
     font-size: 1.5rem; /* Reducir aún más el tamaño del título */
     padding: 1rem 0.75rem 0.6rem;
   }
-
   .search-section {
     padding: 1rem; /* Reducir padding de la sección de búsqueda */
   }
-
   .search-container {
     flex-direction: column; /* Apilar elementos de búsqueda */
     gap: 0.75rem;
     max-width: 100%; /* Ocupar todo el ancho */
   }
-
   .btn-generate-report {
     width: 100%; /* Botón de reporte ocupa todo el ancho */
     justify-content: center; /* Centrar contenido del botón */
   }
-
   .modal-contenido {
     width: 90vw; /* Modal ocupa casi todo el ancho en móviles */
     margin: 10% auto; /* Ajustar margen superior */
     padding: 1.5rem; /* Reducir padding del modal */
   }
-
   .content-grid {
     grid-template-columns: 1fr; /* Una columna para móviles */
     gap: 1rem; /* Reducir espaciado */
     padding: 1rem;
   }
-
   .category-header {
     font-size: 0.95rem; /* Ajustar tamaño de fuente */
     padding: 0.8rem 1rem;
   }
-
   .subject-header {
     padding: 0.8rem 1rem; /* Ajustar padding */
     min-height: 2.8rem;
   }
-
   .subject-title {
     font-size: 0.9rem; /* Ajustar tamaño de fuente */
   }
-
   .results-header,
   .result-item {
     grid-template-columns: 1fr; /* Apilar columnas en móviles */
@@ -829,7 +783,6 @@ body.dark .category-stat-numbers {
   .result-item .result-status {
     justify-content: flex-start; /* Alinear estado a la izquierda */
   }
-
   .competencia-header {
     padding: 0.6rem 1rem; /* Ajustar padding */
     min-height: 2.5rem;
@@ -837,92 +790,74 @@ body.dark .category-stat-numbers {
   .competencia-header strong {
     font-size: 0.9rem; /* Ajustar tamaño de fuente */
   }
-
   .competencia-titulo {
     font-size: 1rem; /* Ajustar tamaño de fuente */
     padding: 0.6rem;
   }
-
   .student-info-section {
     padding: 1rem; /* Reducir padding */
   }
   .student-info-section .card {
     max-width: 100%; /* Ocupar todo el ancho */
   }
-
   .student-info-section .card-header {
     font-size: 0.9em; /* Ajustar tamaño de fuente */
     padding: 0.6rem 0.8rem;
   }
-
   .info-grid,
   .stats-grid,
   .category-stats-grid {
     grid-template-columns: 1fr; /* Una columna para móviles */
     gap: 0.75rem; /* Reducir espaciado */
   }
-
   .stat-number {
     font-size: 1.3rem; /* Ajustar tamaño de fuente */
   }
 }
-
 /* Para pantallas muy pequeñas (ej. iPhone SE) */
 @media (max-width: 480px) {
   body {
     padding: 0.5rem; /* Padding mínimo */
   }
-
   .page-title {
     font-size: 1.3rem; /* Tamaño de fuente más pequeño */
     padding: 0.8rem 0.5rem 0.5rem;
   }
-
   .search-section {
     padding: 0.75rem;
   }
-
   .btn-generate-report {
     padding: 0.4em 0.8em;
     font-size: 0.8em;
   }
-
   .modal-contenido {
     padding: 1rem;
   }
-
   .cerrar-modal {
     font-size: 24px;
   }
-
   .content-grid {
     padding: 0.75rem;
   }
-
   .category-header {
     font-size: 0.85rem;
     padding: 0.7rem 0.8rem;
   }
-
   .subject-header {
     padding: 0.7rem 0.8rem;
     min-height: 2.5rem;
   }
-
   .subject-title {
     font-size: 0.85rem;
   }
-
   .stats-badge {
     font-size: 0.75em;
   }
-
   .results-header,
   .result-item {
     padding: 0.6rem 0.8rem;
     font-size: 0.9em;
   }
-
   .competencia-header {
     padding: 0.5rem 0.8rem;
     min-height: 2.2rem;
@@ -930,12 +865,10 @@ body.dark .category-stat-numbers {
   .competencia-header strong {
     font-size: 0.85rem;
   }
-
   .competencia-titulo {
     font-size: 0.9rem;
     padding: 0.5rem;
   }
-
   .result-code strong {
     font-size: 0.8em;
   }
@@ -946,29 +879,24 @@ body.dark .category-stat-numbers {
   .result-date {
     font-size: 0.7em;
   }
-
   .result-status {
     padding: 0.3em 0.6em;
     font-size: 0.7em;
     min-width: 5em;
   }
-
   .student-info-section {
     padding: 0.75rem;
   }
-
   .student-info-section .card-header {
     font-size: 0.8em;
     padding: 0.5rem 0.7rem;
   }
-
   .info-item strong {
     font-size: 0.85em;
   }
   .badge {
     font-size: 0.75em;
   }
-
   .stat-number {
     font-size: 1.2rem;
   }
@@ -982,7 +910,6 @@ body.dark .category-stat-numbers {
     font-size: 0.9em;
   }
 }
-
 /* Ajustes para el modo oscuro en móviles */
 @media (max-width: 768px) {
   body.dark .search-section {
