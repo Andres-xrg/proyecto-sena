@@ -4,6 +4,7 @@
   padding: 0;
   box-sizing: border-box;
 }
+
 body {
   font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans",
     sans-serif;
@@ -15,6 +16,7 @@ body {
   color: #333;
   line-height: 1.5;
 }
+
 /* Permite el scroll en la página principal */
 html,
 body {
@@ -22,6 +24,7 @@ body {
   overflow-y: auto; /* Permite el scroll vertical */
   height: 100%;
 }
+
 /*   MAIN CONTAINER   */
 .main-container {
   display: flex;
@@ -29,6 +32,7 @@ body {
   height: calc(100vh - 4rem);
   position: relative;
 }
+
 /*   FORM SECTION   */
 .form-section {
   flex: 1;
@@ -37,6 +41,7 @@ body {
   flex-direction: column;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
+
 .form-header {
   display: flex;
   align-items: center;
@@ -44,6 +49,7 @@ body {
   margin-bottom: 1.88rem;
   flex-shrink: 0;
 }
+
 .back-arrow {
   width: 2.2rem;
   height: 2.2rem;
@@ -53,19 +59,23 @@ body {
   border-radius: 0.25rem;
   padding: 0.25rem;
 }
+
 .back-arrow:hover {
   background-color: #f5f5f5;
   transform: translateX(-2px);
 }
+
 .back-arrow:active {
   transform: translateX(-1px) scale(0.95);
 }
+
 /*   SCROLLABLE FORM CONTENT   */
 .form-content {
   flex: 1;
   overflow-y: auto; /* Esto ya está bien para el scroll interno */
   padding: 0 2.5rem 6rem; /* Aumentado a 6rem */
 }
+
 .section-title {
   font-size: clamp(1.25rem, 4vw, 1.8rem);
   font-weight: bold;
@@ -73,6 +83,7 @@ body {
   color: #333;
   position: relative;
 }
+
 .section-title::after {
   content: "";
   position: absolute;
@@ -83,17 +94,20 @@ body {
   background: linear-gradient(90deg, #2a7f00, #348c00);
   border-radius: 2px;
 }
+
 .section-subtitle {
   font-size: 0.75rem;
   color: #666;
   margin-bottom: 1.25rem;
   line-height: 1.5;
 }
+
 /*   FORM ELEMENTS   */
 .form-group {
   margin-bottom: 1.25rem;
   position: relative;
 }
+
 .form-group label {
   display: block;
   font-size: 0.95rem;
@@ -101,6 +115,7 @@ body {
   margin-bottom: 0.5rem;
   font-weight: 600;
 }
+
 .form-group input,
 .form-group select {
   width: 100%;
@@ -113,6 +128,7 @@ body {
   transition: all 0.3s ease;
   font-family: inherit;
 }
+
 .form-group input:focus,
 .form-group select:focus {
   outline: none;
@@ -120,23 +136,28 @@ body {
   box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
   transform: translateY(-1px);
 }
+
 .form-group input:hover,
 .form-group select:hover {
   border-color: #cbd5e1;
 }
+
 .form-group input::placeholder {
   color: #9ca3af;
   font-style: italic;
 }
+
 .form-group input:focus::placeholder {
   opacity: 0.7;
 }
+
 .form-group select:disabled {
   color: #999;
   background-color: #f0f0f0;
   cursor: not-allowed;
   opacity: 0.7;
 }
+
 /* Custom select arrow */
 .form-group select {
   cursor: pointer;
@@ -147,9 +168,11 @@ body {
   background-size: 1rem;
   padding-right: 2.5rem;
 }
+
 .form-group select:focus {
   background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2322c55e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
 }
+
 /*   BUTTON STYLES   */
 .register-btn {
   background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
@@ -169,6 +192,7 @@ body {
   letter-spacing: 0.5px;
   min-width: 200px;
 }
+
 .register-btn::before {
   content: "";
   position: absolute;
@@ -179,21 +203,26 @@ body {
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
   transition: left 0.5s ease;
 }
+
 .register-btn:hover::before {
   left: 100%;
 }
+
 .register-btn:hover {
   background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
   transform: translateY(-3px);
   box-shadow: 0 8px 25px rgba(34, 197, 94, 0.4);
 }
+
 .register-btn:active {
   transform: translateY(-1px);
 }
+
 .register-btn:focus {
   outline: none;
   box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2);
 }
+
 /*   GREEN SECTION (FIXED)   */
 .green-section {
   flex: 1;
@@ -205,6 +234,7 @@ body {
   overflow: hidden;
   height: calc(100vh - 4rem);
 }
+
 /* Enhanced decorative elements */
 .green-section::before,
 .green-section::after {
@@ -217,16 +247,19 @@ body {
   transform: rotate(-5deg);
   box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
 }
+
 .green-section::before {
   top: -3.13rem;
   border-radius: 0 0 50% 50%;
   animation: float 6s ease-in-out infinite;
 }
+
 .green-section::after {
   bottom: -3.13rem;
   border-radius: 50% 50% 0 0;
   animation: float 6s ease-in-out infinite reverse;
 }
+
 @keyframes float {
   0%,
   100% {
@@ -236,6 +269,7 @@ body {
     transform: rotate(-5deg) translateY(-10px);
   }
 }
+
 .registro-title {
   color: #fff;
   font-size: clamp(2rem, 6vw, 3rem);
@@ -245,6 +279,7 @@ body {
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   position: relative;
 }
+
 .registro-title::after {
   content: "";
   position: absolute;
@@ -257,6 +292,7 @@ body {
   border-radius: 2px;
   opacity: 0.8;
 }
+
 /*   FOOTER   */
 .footer {
   background: linear-gradient(135deg, #2a7f00, #348c00);
@@ -266,6 +302,7 @@ body {
   font-size: 0.75rem;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
+
 /*   RESPONSIVE STYLES   */
 @media (max-width: 1024px) {
   body {
@@ -280,6 +317,7 @@ body {
     padding: 0 1.25rem 5rem; /* Aumentado a 5rem */
   }
 }
+
 @media (max-width: 768px) {
   body {
     margin-left: 0;
@@ -289,6 +327,7 @@ body {
     flex-direction: column;
     height: auto;
   }
+
   .form-section {
     order: 2;
     height: auto;
@@ -298,40 +337,49 @@ body {
     overflow-y: auto; /* Cambiado de 'visible' a 'auto' para permitir scroll */
     padding: 0 1.25rem 5rem; /* Aumentado a 5rem */
   }
+
   .green-section {
     min-height: 12.5rem;
     order: 1;
     height: auto;
   }
+
   .green-section::before,
   .green-section::after {
     display: none;
   }
+
   .registro-title {
     font-size: 2rem;
   }
+
   .header {
     flex-wrap: wrap;
     gap: 0.5rem;
   }
+
   .sena-header-logo {
     margin-left: 0;
     margin-top: 0.63rem;
     width: 100%;
     text-align: center;
   }
+
   .back-arrow {
     width: 1.8rem;
     height: 1.8rem;
   }
+
   .section-title {
     font-size: 1.5rem;
   }
+
   .register-btn {
     width: 100%;
     margin-top: 1.5rem;
   }
 }
+
 @media (max-width: 480px) {
   .form-header {
     padding: 0.94rem 0.75rem 0;
@@ -340,38 +388,47 @@ body {
   .form-content {
     padding: 0 0.75rem 5rem; /* Aumentado a 5rem */
   }
+
   .green-section {
     min-height: 8rem;
   }
+
   .registro-title {
     font-size: 1.5rem;
   }
+
   .register-btn {
     width: 100%;
     padding: 0.8rem 1.5rem;
     font-size: 0.9rem;
     min-width: auto;
   }
+
   .header {
     padding: 0.63rem 0.94rem;
   }
+
   .jke-logo {
     font-size: 0.7rem;
     padding: 0.31rem 0.5rem;
   }
+
   .form-group input,
   .form-group select {
     padding: 0.6rem 0.8rem;
     font-size: 0.9rem;
   }
 }
+
 /* Estados de validación */
 input:invalid {
   border-color: #ef4444;
 }
+
 input:valid {
   border-color: #22c55e;
 }
+
 /*   ACCESSIBILITY IMPROVEMENTS   */
 @media (prefers-reduced-motion: reduce) {
   * {
@@ -385,6 +442,7 @@ input:valid {
     animation: none;
   }
 }
+
 /* High contrast mode support */
 @media (prefers-contrast: high) {
   .form-group input,
@@ -397,22 +455,26 @@ input:valid {
     border-width: 3px;
   }
 }
+
 /* Focus visible for keyboard navigation */
 .back-arrow:focus-visible,
 .register-btn:focus-visible {
   outline: 2px solid #22c55e;
   outline-offset: 2px;
 }
+
 .form-group input:focus-visible,
 .form-group select:focus-visible {
   outline: 2px solid #22c55e;
   outline-offset: 2px;
 }
+
 /*   LOADING STATES   */
 .register-btn.loading {
   pointer-events: none;
   opacity: 0.7;
 }
+
 .register-btn.loading::after {
   content: "";
   position: absolute;
@@ -426,6 +488,7 @@ input:valid {
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
+
 @keyframes spin {
   0% {
     transform: translate(-50%, -50%) rotate(0deg);
@@ -434,146 +497,162 @@ input:valid {
     transform: translate(-50%, -50%) rotate(360deg);
   }
 }
+
 /*   CUSTOM SCROLLBAR   */
 .form-content::-webkit-scrollbar {
   width: 8px;
 }
+
 .form-content::-webkit-scrollbar-track {
   background: #f1f1f1;
   border-radius: 4px;
 }
+
 .form-content::-webkit-scrollbar-thumb {
   background: #c1c1c1;
   border-radius: 4px;
 }
+
 .form-content::-webkit-scrollbar-thumb:hover {
   background: #a8a8a8;
 }
-/* === MODO OSCURO GENERAL === */
+
+/* === MODO OSCURO PARA ESTE ARCHIVO === */
 body.dark {
-  background-color: #121212;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
   color: #e0e0e0;
 }
-/* Fondos de contenedores */
-body.dark .sidebar,
-body.dark .card,
-body.dark .main-content {
+
+body.dark .form-section {
   background-color: #1e1e1e;
-  color: #ffffff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
-/* Cambios en textos dentro del sidebar */
-body.dark .sidebar-nav .nav-item,
-body.dark .sidebar-utilities .utility-item {
-  color: #ffffff;
-}
-/* Botones u otros elementos con fondo claro (excepto los verdes) */
-body.dark .btn,
-body.dark input,
-body.dark select,
-body.dark textarea {
-  background-color: #2c2c2c;
-  color: #ffffff;
-  border: 1px solid #444;
-}
-/* Enlaces */
-body.dark a {
-  color: #90caf9;
-}
-/* Hover en modo oscuro */
-body.dark .nav-item:hover,
-body.dark .utility-item:hover {
+
+body.dark .back-arrow:hover {
   background-color: #333;
 }
-/* === EXCEPCIONES PARA VERDE INSTITUCIONAL === */
-body.dark .btn-green,
-body.dark .nav-item i,
-body.dark .logo-sena,
-body.dark .logo-jke {
-  filter: none;
-  color: inherit;
+
+body.dark .section-title {
+  color: #e0e0e0;
 }
-/* Evitar que los logos se oscurezcan (si son imágenes) */
-body.dark img {
-  filter: none;
+
+body.dark .section-title::after {
+  background: linear-gradient(90deg, #2a7f00, #348c00); /* Keep green gradient */
 }
-/* =============== CUSTOM PARA ESTA VISTA =============== */
-body.dark .welcome-container {
-  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-}
-body.dark .welcome-title {
-  color: #2a7f00; /* Mantenemos el verde institucional */
-}
-body.dark .welcome-subtitle {
+
+body.dark .section-subtitle {
   color: #ccc;
 }
-body.dark .feature-card {
-  background: #333;
-  color: white;
-}
-body.dark .feature-card h3 {
-  color: white;
-}
-body.dark .feature-card p {
-  color: #ccc;
-}
-body.dark .edit-modal-content {
-  background: #2a2a2a;
-}
-body.dark .edit-modal-header {
-  border-bottom: 1px solid #444;
-}
-body.dark .edit-close-btn {
-  color: #ccc;
-}
-body.dark .edit-close-btn:hover {
-  color: white;
-}
-body.dark .edit-form-group label {
+
+body.dark .form-group label {
   color: #ddd;
 }
-body.dark .edit-text-input,
-body.dark .edit-file-input,
-body.dark .edit-textarea {
-  background-color: #1f1f1f;
-  color: white;
-  border: 1px solid #555;
+
+body.dark .form-group input,
+body.dark .form-group select {
+  background: #1f1f1f;
+  color: #ffffff;
+  border: 2px solid #555;
 }
-body.dark .edit-form-actions {
-  border-top: 1px solid #444;
+
+body.dark .form-group input:focus,
+body.dark .form-group select:focus {
+  border-color: #22c55e; /* Keep green focus */
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2); /* Darker shadow */
 }
-body.dark .edit-cancel-btn {
-  background: #444;
+
+body.dark .form-group input:hover,
+body.dark .form-group select:hover {
+  border-color: #777;
+}
+
+body.dark .form-group input::placeholder {
+  color: #999;
+}
+
+body.dark .form-group select:disabled {
+  color: #aaa;
+  background-color: #2c2c2c;
+}
+
+body.dark .form-group select {
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1rem;
+}
+
+    
+
+body.dark .form-group select:focus {
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2322c55e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e"); /* Keep green focus arrow */
+}
+
+body.dark .register-btn {
+  background: linear-gradient(135deg, #16a34a 0%, #15803d 100%); /* Darker green gradient */
+  box-shadow: 0 4px 16px rgba(34, 197, 94, 0.4); /* Darker shadow */
+}
+
+body.dark .register-btn::before {
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent); /* Subtler shine */
+}
+
+body.dark .register-btn:hover {
+  background: linear-gradient(135deg, #15803d 0%, #126b31 100%); /* Even darker green on hover */
+  box-shadow: 0 8px 25px rgba(34, 197, 94, 0.5); /* Darker hover shadow */
+}
+
+body.dark .register-btn:focus {
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.3); /* Darker focus shadow */
+}
+
+body.dark .green-section {
+  background: linear-gradient(135deg, #1e5c00, #123d00); /* Darker green section */
+}
+
+body.dark .green-section::before,
+body.dark .green-section::after {
+  background: linear-gradient(45deg, #333, rgba(51, 51, 51, 0.9)); /* Darker decorative elements */
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3); /* Darker shadow */
+}
+
+body.dark .registro-title {
+  color: #fff; /* Keep white for contrast */
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* More pronounced shadow */
+}
+
+body.dark .registro-title::after {
+  background: #fff; /* Keep white line */
+}
+
+body.dark .footer {
+  background: linear-gradient(135deg, #1e5c00, #123d00); /* Darker footer */
   color: #ccc;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
-body.dark .edit-cancel-btn:hover {
-  background: #555;
-}
-body.dark .edit-exit-btn {
-  background: #b52b3a;
-  color: #fff; /* Added for better visibility */
-}
-body.dark .edit-exit-btn:hover {
-  background: #9e1f2d;
-}
-/* Estados de validación */
+
 body.dark input:invalid {
   border-color: #ff6b6b; /* Dark mode red */
 }
+
 body.dark input:valid {
-  border-color: #2a7f00; /* Dark mode green */
+  border-color: #22c55e; /* Dark mode green */
 }
-/* Animación sutil para el formulario */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+
+/* Custom scrollbar for dark mode */
+body.dark .form-content::-webkit-scrollbar-track {
+  background: #2c2c2c;
 }
-/* Accesibilidad: reduce motion */
+
+body.dark .form-content::-webkit-scrollbar-thumb {
+  background: #555;
+}
+
+body.dark .form-content::-webkit-scrollbar-thumb:hover {
+  background: #777;
+}
+
+/* Accessibility: reduce motion for dark mode */
 @media (prefers-reduced-motion: reduce) {
   body.dark * {
     animation-duration: 0.01ms !important;
@@ -581,17 +660,34 @@ body.dark input:valid {
     transition-duration: 0.01ms !important;
   }
 }
-/* High contrast mode support */
+
+/* High contrast mode support for dark mode */
 @media (prefers-contrast: high) {
-  body.dark input[type="text"]:focus,
-  body.dark input[type="email"]:focus,
-  body.dark input[type="tel"]:focus,
-  body.dark select:focus {
+  body.dark .form-group input,
+  body.dark .form-group select {
+    border-width: 3px;
+  }
+
+  body.dark .form-group input:focus,
+  body.dark .form-group select:focus {
     border-width: 3px;
   }
 }
-/* Focus visible for keyboard navigation */
+
+/* Focus visible for keyboard navigation in dark mode */
+body.dark .back-arrow:focus-visible,
 body.dark .register-btn:focus-visible {
-  outline: 2px solid #2a7f00;
+  outline: 2px solid #22c55e;
   outline-offset: 2px;
+}
+
+body.dark .form-group input:focus-visible,
+body.dark .form-group select:focus-visible {
+  outline: 2px solid #22c55e;
+  outline-offset: 2px;
+}
+
+/* Loading states for dark mode */
+body.dark .register-btn.loading::after {
+  border-top: 2px solid #fff;
 }
