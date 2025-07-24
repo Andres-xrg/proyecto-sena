@@ -13,7 +13,6 @@
   text-align: center;
   margin-bottom: 3.125rem;
 }
-
 .welcome-title {
   font-size: 3rem;
   font-weight: 700;
@@ -21,7 +20,6 @@
   margin-bottom: 0.9375rem;
   text-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1);
 }
-
 .welcome-subtitle {
   font-size: 1.2rem;
   color: #666;
@@ -39,7 +37,6 @@
   align-items: center;
   gap: 1.875rem;
 }
-
 .carousel-wrapper {
   position: relative;
   height: 25rem;
@@ -48,13 +45,11 @@
   box-shadow: 0 1.25rem 2.5rem rgba(0, 0, 0, 0.1);
   flex: 1;
 }
-
 .carousel-track {
   display: flex;
   transition: transform 0.5s ease;
   height: 100%;
 }
-
 .carousel-slide {
   min-width: 100%;
   position: relative;
@@ -62,13 +57,11 @@
   align-items: center;
   justify-content: center;
 }
-
 .carousel-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
-
 .slide-overlay {
   position: absolute;
   bottom: 0;
@@ -79,13 +72,11 @@
   padding: 2.5rem 1.875rem 1.875rem;
   text-align: center;
 }
-
 .slide-overlay h3 {
   font-size: 2rem;
   margin-bottom: 0.625rem;
   font-weight: 600;
 }
-
 .slide-overlay p {
   font-size: 1.1rem;
   opacity: 0.9;
@@ -109,16 +100,13 @@
   justify-content: center;
   flex-shrink: 0;
 }
-
 .nav-button:hover {
   background: #2a7f00;
   transform: scale(1.1);
 }
-
 .nav-button.prev {
   order: -1;
 }
-
 .nav-button.next {
   order: 1;
 }
@@ -130,7 +118,6 @@
   gap: 0.9375rem;
   margin-bottom: 3.75rem;
 }
-
 .pagination-dot {
   width: 0.75rem;
   height: 0.75rem;
@@ -139,7 +126,6 @@
   cursor: pointer;
   transition: all 0.3s ease;
 }
-
 .pagination-dot.active,
 .pagination-dot:hover {
   background: #2a7f00;
@@ -154,7 +140,6 @@
   max-width: 62.5rem;
   margin: 0 auto;
 }
-
 .feature-card {
   background: white;
   padding: 2.5rem 1.875rem;
@@ -165,25 +150,21 @@
   transition: all 0.3s ease;
   border-top: 0.25rem solid #2a7f00;
 }
-
 .feature-card:hover {
   transform: translateY(-0.625rem);
   box-shadow: 0 1.25rem 2.5rem rgba(0, 0, 0, 0.15);
 }
-
 .feature-card i {
   font-size: 3rem;
   color: #2a7f00;
   margin-bottom: 1.25rem;
 }
-
 .feature-card h3 {
   font-size: 1.5rem;
   color: #333;
   margin-bottom: 0.9375rem;
   font-weight: 600;
 }
-
 .feature-card p {
   color: #666;
   line-height: 1.6;
@@ -193,260 +174,566 @@
 body.dark .welcome-container {
   background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
 }
-
 body.dark .welcome-title {
   color: #4caf50;
 }
-
 body.dark .welcome-subtitle {
   color: #ccc;
 }
-
 body.dark .feature-card {
   background: #333;
   color: white;
 }
-
 body.dark .feature-card h3 {
   color: white;
 }
-
 body.dark .feature-card p {
   color: #ccc;
 }
 
 /* Responsive */
-@media (max-width: 48rem) {
+@media (max-width: 1024px) {
+  .welcome-container {
+    margin-left: 0; /* Remove sidebar margin */
+    padding: 2rem 1rem;
+  }
+  body.dark .welcome-container {
+    margin-left: 0;
+    padding: 2rem 1rem;
+  }
+  .welcome-title {
+    font-size: 2.8rem;
+  }
+  body.dark .welcome-title {
+    font-size: 2.8rem;
+  }
+  .welcome-subtitle {
+    font-size: 1.1rem;
+  }
+  body.dark .welcome-subtitle {
+    font-size: 1.1rem;
+  }
+  .carousel-container {
+    max-width: 90%;
+    gap: 1rem;
+  }
+  body.dark .carousel-container {
+    max-width: 90%;
+    gap: 1rem;
+  }
+  .carousel-wrapper {
+    height: 20rem;
+  }
+  body.dark .carousel-wrapper {
+    height: 20rem;
+  }
+  .slide-overlay h3 {
+    font-size: 1.8rem;
+  }
+  body.dark .slide-overlay h3 {
+    font-size: 1.8rem;
+  }
+  .slide-overlay p {
+    font-size: 1rem;
+  }
+  body.dark .slide-overlay p {
+    font-size: 1rem;
+  }
+  .nav-button {
+    width: 3.2rem;
+    height: 3.2rem;
+    font-size: 1.1rem;
+  }
+  body.dark .nav-button {
+    width: 3.2rem;
+    height: 3.2rem;
+    font-size: 1.1rem;
+  }
+  .features-grid {
+    max-width: 90%;
+    gap: 1.5rem;
+  }
+  body.dark .features-grid {
+    max-width: 90%;
+    gap: 1.5rem;
+  }
+  .feature-card {
+    padding: 2rem 1.5rem;
+  }
+  body.dark .feature-card {
+    padding: 2rem 1.5rem;
+  }
+  .feature-card i {
+    font-size: 2.5rem;
+  }
+  body.dark .feature-card i {
+    font-size: 2.5rem;
+  }
+  .feature-card h3 {
+    font-size: 1.3rem;
+  }
+  body.dark .feature-card h3 {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 768px) {
   .welcome-container {
     margin: 0;
-    padding: 1.25rem 0.625rem;
+    padding: 1.5rem 1rem;
+    min-height: auto; /* Allow height to adjust */
   }
-
+  body.dark .welcome-container {
+    margin: 0;
+    padding: 1.5rem 1rem;
+    min-height: auto;
+  }
   .welcome-title {
     font-size: 2.2rem;
+    margin-bottom: 0.75rem;
   }
-
+  body.dark .welcome-title {
+    font-size: 2.2rem;
+    margin-bottom: 0.75rem;
+  }
+  .welcome-subtitle {
+    font-size: 1rem;
+    max-width: 90%;
+  }
+  body.dark .welcome-subtitle {
+    font-size: 1rem;
+    max-width: 90%;
+  }
   .carousel-container {
     flex-direction: column;
     gap: 1.25rem;
     margin: 0 auto 2.5rem;
+    max-width: 100%;
   }
-
+  body.dark .carousel-container {
+    flex-direction: column;
+    gap: 1.25rem;
+    margin: 0 auto 2.5rem;
+    max-width: 100%;
+  }
   .carousel-wrapper {
-    border-radius: 0;
+    border-radius: 0.75rem;
     width: 100%;
+    height: 18rem;
   }
-
+  body.dark .carousel-wrapper {
+    border-radius: 0.75rem;
+    width: 100%;
+    height: 18rem;
+  }
+  .slide-overlay {
+    padding: 2rem 1.5rem 1.5rem;
+  }
+  body.dark .slide-overlay {
+    padding: 2rem 1.5rem 1.5rem;
+  }
+  .slide-overlay h3 {
+    font-size: 1.6rem;
+  }
+  body.dark .slide-overlay h3 {
+    font-size: 1.6rem;
+  }
+  .slide-overlay p {
+    font-size: 0.9rem;
+  }
+  body.dark .slide-overlay p {
+    font-size: 0.9rem;
+  }
+  .nav-button {
+    display: none; /* Ocultar las flechas en responsive */
+  }
+  body.dark .nav-button {
+    display: none; /* Ocultar las flechas en responsive para dark mode */
+  }
+  .pagination {
+    margin-bottom: 2.5rem;
+  }
+  body.dark .pagination {
+    margin-bottom: 2.5rem;
+  }
   .features-grid {
     grid-template-columns: 1fr;
     gap: 1.25rem;
+    max-width: 95%;
+  }
+  body.dark .features-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    max-width: 95%;
+  }
+  .feature-card {
+    padding: 1.8rem 1.2rem;
+    margin-bottom: 1.5rem;
+  }
+  body.dark .feature-card {
+    padding: 1.8rem 1.2rem;
+    margin-bottom: 1.5rem;
+  }
+  .feature-card i {
+    font-size: 2.2rem;
+  }
+  body.dark .feature-card i {
+    font-size: 2.2rem;
+  }
+  .feature-card h3 {
+    font-size: 1.2rem;
+  }
+  body.dark .feature-card h3 {
+    font-size: 1.2rem;
   }
 
-  .nav-button {
-    width: 3.125rem;
-    height: 3.125rem;
-    font-size: 1.125rem;
+  /* Modal Responsive */
+  .edit-modal-content {
+    width: 95%;
+    padding: 1.5rem;
   }
-
-  .nav-button.prev,
-  .nav-button.next {
-    order: 0;
+  body.dark .edit-modal-content {
+    width: 95%;
+    padding: 1.5rem;
   }
-
-  .carousel-container::after {
-    content: "";
-    display: flex;
-    justify-content: space-between;
+  .edit-modal-header h2 {
+    font-size: 1.5rem;
+  }
+  body.dark .edit-modal-header h2 {
+    font-size: 1.5rem;
+  }
+  .edit-form-group label {
+    font-size: 0.9rem;
+  }
+  body.dark .edit-form-group label {
+    font-size: 0.9rem;
+  }
+  .edit-text-input,
+  .edit-file-input,
+  .edit-textarea {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.85rem;
+  }
+  body.dark .edit-text-input,
+  body.dark .edit-file-input,
+  body.dark .edit-textarea {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.85rem;
+  }
+  .edit-form-actions {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: stretch;
+  }
+  body.dark .edit-form-actions {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: stretch;
+  }
+  .edit-save-btn,
+  .edit-cancel-btn,
+  .edit-exit-btn {
     width: 100%;
-    order: 2;
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+  }
+  body.dark .edit-save-btn,
+  body.dark .edit-cancel-btn,
+  body.dark .edit-exit-btn {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+  }
+  .edit-close-btn {
+    font-size: 1.8rem;
+    top: 0.75rem;
+    right: 0.75rem;
+  }
+  body.dark .edit-close-btn {
+    font-size: 1.8rem;
+    top: 0.75rem;
+    right: 0.75rem;
   }
 }
 
-@media (max-width: 30rem) {
+@media (max-width: 480px) {
+  .welcome-container {
+    padding: 1rem 0.75rem;
+  }
+  body.dark .welcome-container {
+    padding: 1rem 0.75rem;
+  }
+  .welcome-title {
+    font-size: 1.8rem;
+  }
+  body.dark .welcome-title {
+    font-size: 1.8rem;
+  }
+  .welcome-subtitle {
+    font-size: 0.9rem;
+  }
+  body.dark .welcome-subtitle {
+    font-size: 0.9rem;
+  }
+  .carousel-wrapper {
+    height: 15rem;
+  }
+  body.dark .carousel-wrapper {
+    height: 15rem;
+  }
+  .slide-overlay {
+    padding: 1.5rem 1rem 1rem;
+  }
+  body.dark .slide-overlay {
+    padding: 1.5rem 1rem 1rem;
+  }
+  .slide-overlay h3 {
+    font-size: 1.4rem;
+  }
+  body.dark .slide-overlay h3 {
+    font-size: 1.4rem;
+  }
+  .slide-overlay p {
+    font-size: 0.8rem;
+  }
+  body.dark .slide-overlay p {
+    font-size: 0.8rem;
+  }
   .nav-button {
-    width: 2.8125rem;
-    height: 2.8125rem;
-    font-size: 1rem;
+    display: none; /* Asegurar que las flechas estén ocultas en pantallas muy pequeñas */
+  }
+  body.dark .nav-button {
+    display: none; /* Asegurar que las flechas estén ocultas en pantallas muy pequeñas para dark mode */
+  }
+  .pagination {
+    margin-bottom: 2rem;
+  }
+  body.dark .pagination {
+    margin-bottom: 2rem;
+  }
+  .features-grid {
+    gap: 1rem;
+  }
+  body.dark .features-grid {
+    gap: 1rem;
+  }
+  .feature-card {
+    padding: 1.5rem 1rem;
+    margin-bottom: 1rem;
+  }
+  body.dark .feature-card {
+    padding: 1.5rem 1rem;
+    margin-bottom: 1rem;
+  }
+  .feature-card i {
+    font-size: 2rem;
+  }
+  body.dark .feature-card i {
+    font-size: 2rem;
+  }
+  .feature-card h3 {
+    font-size: 1.1rem;
+  }
+  body.dark .feature-card h3 {
+    font-size: 1.1rem;
+  }
+  .feature-card p {
+    font-size: 0.85rem;
+  }
+  body.dark .feature-card p {
+    font-size: 0.85rem;
+  }
+
+  /* Modal Responsive */
+  .edit-modal-content {
+    padding: 1rem;
+  }
+  body.dark .edit-modal-content {
+    padding: 1rem;
+  }
+  .edit-modal-header h2 {
+    font-size: 1.3rem;
+  }
+  body.dark .edit-modal-header h2 {
+    font-size: 1.3rem;
+  }
+  .edit-form-group label {
+    font-size: 0.85rem;
+  }
+  body.dark .edit-form-group label {
+    font-size: 0.85rem;
+  }
+  .edit-text-input,
+  .edit-file-input,
+  .edit-textarea {
+    padding: 0.5rem 0.7rem;
+    font-size: 0.8rem;
+  }
+  body.dark .edit-text-input,
+  body.dark .edit-file-input,
+  body.dark .edit-textarea {
+    padding: 0.5rem 0.7rem;
+    font-size: 0.8rem;
+  }
+  .edit-save-btn,
+  .edit-cancel-btn,
+  .edit-exit-btn {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.8rem;
+  }
+  body.dark .edit-save-btn,
+  body.dark .edit-cancel-btn,
+  body.dark .edit-exit-btn {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.8rem;
+  }
+  .edit-close-btn {
+    font-size: 1.5rem;
+  }
+  body.dark .edit-close-btn {
+    font-size: 1.5rem;
   }
 }
 
 /* Botón Editar */
 .edit-carousel-btn {
-    position: absolute;
-    top: 0.625rem;
-    right: 1.25rem;
-    background: #2a7f00;
-    color: white;
-    border: none;
-    padding: 0.625rem 0.9375rem;
-    border-radius: 0.3125rem;
-    cursor: pointer;
-    font-size: 0.875rem;
-    display: flex;
-    align-items: center;
-    gap: 0.3125rem;
-    transition: background 0.3s ease;
+  position: absolute;
+  top: 0.625rem;
+  right: 1.25rem;
+  background: #2a7f00;
+  color: white;
+  border: none;
+  padding: 0.625rem 0.9375rem;
+  border-radius: 0.3125rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3125rem;
+  transition: background 0.3s ease;
 }
-
 .edit-carousel-btn:hover {
-    background: #1e5a00;
+  background: #1e5a00;
 }
 
 /* Modales */
 .edit-modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
 }
-
 .edit-modal.active {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-
 .edit-modal-content {
-    background: white;
-    padding: 1.25rem;
-    border-radius: 0.625rem;
-    width: 90%;
-    max-width: 31.25rem;
-    max-height: 90vh;
-    overflow-y: auto;
+  background: white;
+  padding: 1.25rem;
+  border-radius: 0.625rem;
+  width: 90%;
+  max-width: 31.25rem;
+  max-height: 90vh;
+  overflow-y: auto;
 }
-
 .edit-modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.25rem;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 0.625rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.625rem;
 }
-
 .edit-modal-header h2 {
-    margin: 0;
-    color: #2a7f00;
+  margin: 0;
+  color: #2a7f00;
 }
-
 .edit-close-btn {
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-    color: #666;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #666;
 }
-
 .edit-close-btn:hover {
-    color: #333;
+  color: #333;
 }
-
 .edit-form-group {
-    margin-bottom: 0.9375rem;
+  margin-bottom: 0.9375rem;
 }
-
 .edit-form-group label {
-    display: block;
-    margin-bottom: 0.3125rem;
-    font-weight: 500;
-    color: #333;
+  display: block;
+  margin-bottom: 0.3125rem;
+  font-weight: 500;
+  color: #333;
 }
-
 .edit-text-input,
 .edit-file-input,
 .edit-textarea {
-    width: 100%;
-    padding: 0.5rem 0.75rem;
-    border: 1px solid #ddd;
-    border-radius: 0.25rem;
-    font-size: 0.875rem;
-    box-sizing: border-box;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  box-sizing: border-box;
 }
-
 .edit-textarea {
-    height: 5rem;
-    resize: vertical;
+  height: 5rem;
+  resize: vertical;
 }
-
 .edit-text-input:focus,
 .edit-file-input:focus,
 .edit-textarea:focus {
-    outline: none;
-    border-color: #2a7f00;
+  outline: none;
+  border-color: #2a7f00;
 }
-
 .edit-form-actions {
-    display: flex;
-    gap: 0.625rem;
-    justify-content: flex-end;
-    margin-top: 1.25rem;
-    padding-top: 0.9375rem;
-    border-top: 1px solid #eee;
-    flex-wrap: wrap;
+  display: flex;
+  gap: 0.625rem;
+  justify-content: flex-end;
+  margin-top: 1.25rem;
+  padding-top: 0.9375rem;
+  border-top: 1px solid #eee;
+  flex-wrap: wrap;
 }
-
 .edit-save-btn,
 .edit-cancel-btn {
-    padding: 0.625rem 1.25rem;
-    border: none;
-    border-radius: 0.25rem;
-    cursor: pointer;
-    font-size: 0.875rem;
+  padding: 0.625rem 1.25rem;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  font-size: 0.875rem;
 }
-
 .edit-save-btn {
-    background: #2a7f00;
-    color: white;
+  background: #2a7f00;
+  color: white;
 }
-
 .edit-save-btn:hover {
-    background: #1e5a00;
+  background: #1e5a00;
 }
-
 .edit-cancel-btn {
-    background: #f0f0f0;
-    color: #666;
+  background: #f0f0f0;
+  color: #666;
 }
-
 .edit-cancel-btn:hover {
-    background: #e0e0e0;
+  background: #e0e0e0;
 }
-
-@media (max-width: 48rem) {
-    .edit-carousel-btn {
-        position: static;
-        margin: 0.625rem auto;
-        display: block;
-        width: fit-content;
-    }
-    
-    .edit-modal-content {
-        width: 95%;
-        padding: 0.9375rem;
-    }
-    
-    .edit-form-actions {
-        flex-direction: column;
-    }
-}
-
 .edit-exit-btn {
-    padding: 0.625rem 1.25rem;
-    border: none;
-    border-radius: 0.25rem;
-    cursor: pointer;
-    font-size: 0.875rem;
-    background: #dc3545;
-    color: white;
+  padding: 0.625rem 1.25rem;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  background: #dc3545;
+  color: white;
 }
-
 .edit-exit-btn:hover {
-    background: #c82333;
+  background: #c82333;
 }
 
 /*modo oscuro*/
@@ -455,7 +742,6 @@ body.dark {
   background-color: #121212;
   color: #e0e0e0;
 }
-
 /* Fondos de contenedores */
 body.dark .sidebar,
 body.dark .card,
@@ -463,13 +749,11 @@ body.dark .main-content {
   background-color: #1e1e1e;
   color: #ffffff;
 }
-
 /* Cambios en textos dentro del sidebar */
 body.dark .sidebar-nav .nav-item,
 body.dark .sidebar-utilities .utility-item {
   color: #ffffff;
 }
-
 /* Botones u otros elementos con fondo claro (excepto los verdes) */
 body.dark .btn,
 body.dark input,
@@ -479,18 +763,15 @@ body.dark textarea {
   color: #ffffff;
   border: 1px solid #444;
 }
-
 /* Enlaces */
 body.dark a {
   color: #90caf9;
 }
-
 /* Hover en modo oscuro */
 body.dark .nav-item:hover,
 body.dark .utility-item:hover {
   background-color: #333;
 }
-
 /* === EXCEPCIONES PARA VERDE INSTITUCIONAL === */
 body.dark .btn-green,
 body.dark .nav-item i,
@@ -499,58 +780,45 @@ body.dark .logo-jke {
   filter: none;
   color: inherit;
 }
-
 /* Evitar que los logos se oscurezcan (si son imágenes) */
 body.dark img {
   filter: none;
 }
-
 /* =============== CUSTOM PARA ESTA VISTA =============== */
 body.dark .welcome-container {
   background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
 }
-
 body.dark .welcome-title {
   color: #2a7f00; /* Mantenemos el verde institucional */
 }
-
 body.dark .welcome-subtitle {
   color: #ccc;
 }
-
 body.dark .feature-card {
   background: #333;
   color: white;
 }
-
 body.dark .feature-card h3 {
   color: white;
 }
-
 body.dark .feature-card p {
   color: #ccc;
 }
-
 body.dark .edit-modal-content {
   background: #2a2a2a;
 }
-
 body.dark .edit-modal-header {
   border-bottom: 1px solid #444;
 }
-
 body.dark .edit-close-btn {
   color: #ccc;
 }
-
 body.dark .edit-close-btn:hover {
   color: white;
 }
-
 body.dark .edit-form-group label {
   color: #ddd;
 }
-
 body.dark .edit-text-input,
 body.dark .edit-file-input,
 body.dark .edit-textarea {
@@ -558,24 +826,19 @@ body.dark .edit-textarea {
   color: white;
   border: 1px solid #555;
 }
-
 body.dark .edit-form-actions {
   border-top: 1px solid #444;
 }
-
 body.dark .edit-cancel-btn {
   background: #444;
   color: #ccc;
 }
-
 body.dark .edit-cancel-btn:hover {
   background: #555;
 }
-
 body.dark .edit-exit-btn {
   background: #b52b3a;
 }
-
 body.dark .edit-exit-btn:hover {
   background: #9e1f2d;
 }
