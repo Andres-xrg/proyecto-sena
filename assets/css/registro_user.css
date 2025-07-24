@@ -18,7 +18,6 @@ body {
 
 /* Oculta el scroll externo de la página */
 html, body {
-  overflow: hidden !important;
   height: 100%;
 }
 

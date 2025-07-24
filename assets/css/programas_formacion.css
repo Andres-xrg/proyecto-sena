@@ -1076,3 +1076,112 @@ body.dark .filtro-barra {
     border: 1px solid rgba(68, 68, 68, 0.5);
   }
 }
+
+/* Ocultar modal inicialmente */
+.hidden {
+    display: none;
+}
+
+/* Fondo del modal */
+.modal {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1050;
+}
+
+/* Contenido del modal */
+.modal-content {
+    background: #fff;
+    color: #333;
+    padding: 2rem;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    position: relative;
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Animación de aparición */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Botón de cerrar */
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 24px;
+    color: inherit;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+.close-btn:hover {
+    transform: scale(1.2);
+}
+
+/* Etiquetas e inputs */
+.modal-content label {
+    margin-top: 1rem;
+    font-weight: 600;
+    display: block;
+}
+.modal-content input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 0.5rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    background-color: #f8f8f8;
+    color: #000;
+}
+
+/* Botón de guardar */
+.modal-content button {
+    margin-top: 1.5rem;
+    padding: 10px 20px;
+    background: linear-gradient(to right, #37a200);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+.modal-content button:hover {
+    transform: scale(1.05);
+}
+
+/* ======== ESTILO PARA MODO OSCURO ======== */
+body.dark-mode .modal-content {
+    background: #1e1e1e;
+    color: #fff;
+    box-shadow: 0 0 20px rgba(255, 100, 100, 0.3);
+}
+
+body.dark-mode .modal-content input {
+    background-color: #333;
+    color: #fff;
+    border: 1px solid #555;
+}
+
+body.dark-mode .modal-content button {
+    background: linear-gradient(to right, #ff4e50, #f9d423); /* rojo-naranja */
+    color: #fff;
+}
+
+body.dark-mode .close-btn {
+    color: #f88;
+}

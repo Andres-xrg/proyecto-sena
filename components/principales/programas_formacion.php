@@ -56,7 +56,6 @@ $programas = $stmt->get_result();
     <form method="GET" action="index.php" style="display: flex; align-items: center;">
         <input type="hidden" name="page" value="components/principales/programas_formacion">
 
-        <!-- Filtro Tipo -->
         <div class="dropdown-container">
             <div class="dropdown" id="dropdownFiltroTipo" onclick="toggleDropdown('tipo')">
                 <span id="selectedOptionTipo">
@@ -72,7 +71,6 @@ $programas = $stmt->get_result();
             <input type="hidden" name="tipo" id="tipoHidden" value="<?= htmlspecialchars($tipo) ?>">
         </div>
 
-        <!-- Filtro Estado solo si es administrador -->
         <?php if ($es_admin): ?>
         <div class="dropdown-container">
             <div class="dropdown" id="dropdownFiltroEstado" onclick="toggleDropdown('estado')">
@@ -188,6 +186,28 @@ $programas = $stmt->get_result();
 
 <script src="/proyecto-sena/assets/js/registros.js"></script>
 <script src="/proyecto-sena/assets/js/programas_formacion.js"></script>
+
+<!-- 🔍 Buscador -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const searchInput = document.getElementById("searchInput");
+    const cards = document.querySelectorAll(".program-card");
+
+    searchInput.addEventListener("input", () => {
+        const searchTerm = searchInput.value.toLowerCase();
+
+        cards.forEach(card => {
+            const nombrePrograma = card.querySelector(".card-title").textContent.toLowerCase();
+
+            if (nombrePrograma.includes(searchTerm)) {
+                card.style.display = "block";
+            } else {
+                card.style.display = "none";
+            }
+        });
+    });
+});
+</script>
 
 </body>
 </html>
