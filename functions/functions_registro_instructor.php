@@ -17,7 +17,7 @@ if (
     $telefono = trim($_POST['telefono']);
     $Email = trim($_POST['Email']);
 
-    $query = "INSERT INTO instructores (nombre, apellido, Ficha, T_documento, N_Documento, Tipo_instructor, N_Telefono, Email)
+    $query = "INSERT INTO instructores (nombre, apellido, Ficha, T_documento, N_Documento, Tipo_instructor, N_Telefono, email)
               VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("ssssssss", $nombre, $apellido, $ficha, $tipoDocumento, $numeroDocumento, $tipoInstructor, $telefono, $Email);
@@ -27,7 +27,7 @@ if (
         $descripcion = "Se registró el instructor $nombre $apellido, Documento: $numeroDocumento, Ficha: $ficha";
         registrar_historial($conn, $usuario_id, 'Registro de instructor', $descripcion);
 
-        header("Location: ../index.php?page=components/instructores/instructores&success=Registro+exitoso");
+        header("Location: ../index.php?page=components/instructores/instructores&success=creado");
         exit;
     } else {
         die("Error al registrar: " . $stmt->error);

@@ -1,8 +1,6 @@
 <?php
 require_once(__DIR__ . "/../../db/conexion.php");
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+if (session_status() === PHP_SESSION_NONE) session_start();
 
 if (!ACCESO_PERMITIDO) {
     header("Location: /proyecto-sena/components/principales/login.php");
@@ -26,9 +24,7 @@ $sql = "SELECT
         FROM instructores i";
 
 $resultado = $conn->query($sql);
-if (!$resultado) {
-    die("Error en la consulta SQL: " . $conn->error);
-}
+if (!$resultado) die("Error en la consulta SQL: " . $conn->error);
 ?>
 
 <!DOCTYPE html>
@@ -39,71 +35,70 @@ if (!$resultado) {
     <link rel="stylesheet" href="/proyecto-sena/assets/css/instructores.css">
     <link rel="stylesheet" href="/proyecto-sena/assets/css/header.css">
     <link rel="stylesheet" href="/proyecto-sena/assets/css/footer.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
+
 <div class="container">
     <div class="titulo">
         <h1 class="title">Instructores</h1>
-        <?php if (isset($_GET['success']) && $_GET['success'] === 'estado-cambiado'): ?>
-            <div class="success-msg">✅ Estado del instructor actualizado correctamente.</div>
-        <?php endif; ?>
     </div>
 
     <div class="instructores-list">
-        <?php 
-        if ($resultado->num_rows > 0): 
-            while ($instructor = $resultado->fetch_assoc()):
-                $activo = $instructor['Tipo_instructor'] !== 'Inactivo';
-                $claseCard = $activo ? '' : 'disabled';
-                $textoEstado = $activo ? 'Activo' : 'Inactivo';
-                $textoBoton = $activo ? 'Deshabilitar' : 'Habilitar';
-                $claseBoton = $activo ? 'btn-deshabilitar' : 'btn-habilitar';
-                $jefeFicha = $instructor['es_jefe_grupo'];
-        ?>
-            <div class="instructor-card <?= $claseCard ?>">
-                <div class="instructor-content">
-                    <div class="avatar">
-                        <div class="avatar-icon"><?= strtoupper(substr($instructor['nombre'], 0, 1)) ?></div>
-                    </div>                    
-                    <div class="instructor-info">
-                        <div class="instructor-header">
-                            <h3 class="instructor-name">
-                                <?= htmlspecialchars($instructor['nombre']) . ' ' . htmlspecialchars($instructor['apellido']) ?>
-                            </h3>
-
-                            <?php if ($_SESSION['usuario']['rol'] === 'administrador'): ?>
-                            <div class="botones-acciones">
-                                <form method="POST" action="/proyecto-sena/functions/functions_instructores.php">
-                                    <input type="hidden" name="id" value="<?= $instructor['Id_instructor'] ?>">
-                                    <input type="hidden" name="accion" value="<?= $textoBoton ?>">
-                                    <button type="submit" class="btn-estado <?= $claseBoton ?>">
-                                        <?= $textoBoton ?>
-                                    </button>
-                                </form>
-                                <button class="btn-editar" onclick='abrirModal(<?= json_encode($instructor) ?>)'>Editar</button>
-                            </div>
-                            <?php endif; ?>
+        <?php if ($resultado->num_rows > 0): ?>
+            <?php while ($instructor = $resultado->fetch_assoc()): ?>
+                <?php
+                    $activo = $instructor['Tipo_instructor'] !== 'Inactivo';
+                    $claseCard = $activo ? '' : 'disabled';
+                    $textoEstado = $activo ? 'Activo' : 'Inactivo';
+                    $textoBoton = $activo ? 'Deshabilitar' : 'Habilitar';
+                    $claseBoton = $activo ? 'btn-deshabilitar' : 'btn-habilitar';
+                    $jefeFicha = $instructor['es_jefe_grupo'];
+                ?>
+                <div class="instructor-card <?= $claseCard ?>">
+                    <div class="instructor-content">
+                        <div class="avatar">
+                            <div class="avatar-icon"><?= strtoupper(substr($instructor['nombre'], 0, 1)) ?></div>
                         </div>
+                        <div class="instructor-info">
+                            <div class="instructor-header">
+                                <h3 class="instructor-name">
+                                    <?= htmlspecialchars($instructor['nombre']) . ' ' . htmlspecialchars($instructor['apellido']) ?>
+                                </h3>
+                                <?php if ($_SESSION['usuario']['rol'] === 'administrador'): ?>
+                                    <div class="botones-acciones">
+                                        <form method="POST" action="/proyecto-sena/functions/functions_instructores.php">
+                                            <input type="hidden" name="id" value="<?= $instructor['Id_instructor'] ?>">
+                                            <input type="hidden" name="accion" value="<?= $textoBoton ?>">
+                                            <button type="submit" class="btn-estado <?= $claseBoton ?>">
+                                                <?= $textoBoton ?>
+                                            </button>
+                                        </form>
+                                        <button class="btn-editar" onclick='abrirModal(<?= json_encode($instructor) ?>)'>Editar</button>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
 
-                        <div class="instructor-details">
-                            <div class="detail-item"><label>T. Documento</label><span><?= htmlspecialchars($instructor['T_documento']) ?></span></div>
-                            <div class="detail-item"><label>Num. Documento</label><span><?= htmlspecialchars($instructor['N_Documento']) ?></span></div>
-                            <div class="detail-item"><label>Correo Instructor</label><span><?= htmlspecialchars($instructor['Email']) ?></span></div>
-                            <div class="detail-item"><label>Nº Teléfono</label><span><?= htmlspecialchars($instructor['N_Telefono']) ?></span></div>
-                            <div class="detail-item estado-item"><label>Estado</label><span><?= $textoEstado ?></span></div>
-                            <div class="detail-item"><label>Jefe de ficha</label><span><?= $jefeFicha ?></span></div>
+                            <div class="instructor-details">
+                                <div class="detail-item"><label>T. Documento</label><span><?= htmlspecialchars($instructor['T_documento']) ?></span></div>
+                                <div class="detail-item"><label>Num. Documento</label><span><?= htmlspecialchars($instructor['N_Documento']) ?></span></div>
+                                <div class="detail-item"><label>Correo Instructor</label><span><?= htmlspecialchars($instructor['Email']) ?></span></div>
+                                <div class="detail-item"><label>Nº Teléfono</label><span><?= htmlspecialchars($instructor['N_Telefono']) ?></span></div>
+                                <div class="detail-item estado-item"><label>Estado</label><span><?= $textoEstado ?></span></div>
+                                <div class="detail-item"><label>Jefe de ficha</label><span><?= $jefeFicha ?></span></div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        <?php endwhile; else: ?>
+            <?php endwhile; ?>
+        <?php else: ?>
             <p>No hay instructores registrados.</p>
         <?php endif; ?>
     </div>
 </div>
 
 <?php if ($_SESSION['usuario']['rol'] === 'administrador'): ?>
-<!-- Modal Edición SOLO visible para Administradores -->
+<!-- Modal edición -->
 <div id="modalEditar" class="modal">
     <div class="modal-contenido">
         <span class="cerrar-modal" onclick="cerrarModal()">&times;</span>
@@ -137,6 +132,34 @@ if (!$resultado) {
         </form>
     </div>
 </div>
+<?php endif; ?>
+
+<!-- ALERTAS SWEETALERT -->
+<?php if (isset($_GET['success'])): ?>
+<script>
+    <?php if ($_GET['success'] === 'estado-cambiado'): ?>
+    Swal.fire({
+        icon: 'success',
+        title: '¡Éxito!',
+        text: 'Estado del instructor actualizado correctamente.',
+        confirmButtonColor: '#3085d6'
+    });
+    <?php elseif ($_GET['success'] === 'editado'): ?>
+    Swal.fire({
+        icon: 'success',
+        title: '¡Instructor actualizado!',
+        text: 'El instructor fue editado correctamente.',
+        confirmButtonColor: '#3085d6'
+    });
+    <?php elseif ($_GET['success'] === 'creado'): ?>
+    Swal.fire({
+        icon: 'success',
+        title: '¡Instructor creado!',
+        text: 'El instructor fue registrado correctamente.',
+        confirmButtonColor: '#3085d6'
+    });
+    <?php endif; ?>
+</script>
 <?php endif; ?>
 
 <script src="/proyecto-sena/assets/js/editar_instructores.js"></script>

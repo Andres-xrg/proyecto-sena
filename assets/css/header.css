@@ -227,3 +227,134 @@ body.dark .utility-item:hover {
     color:#2A7F00;
   }
 }
+
+/* 🔧 Forzar visibilidad y prioridad al botón hamburguesa en móvil */
+@media (max-width: 768px) {
+  .sidebar-toggle {
+    display: block !important;
+    position: fixed;
+    top: 1rem;
+    z-index: 1200; /* Más alto que filtros o headers */
+    background-color: #2a7f00;
+    color: white;
+    border: none;
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    font-size: 1.25rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  }
+}
+
+    .sidebar {
+        width: 260px;
+        height: 100vh;
+        background-color: #2A7F00;
+        color: white;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+        transition: transform 0.3s ease;
+    }
+
+    .sidebar-toggle {
+        display: none;
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        background: #2A7F00;
+        border: none;
+        color: white;
+        padding: 10px 12px;
+        border-radius: 4px;
+        font-size: 18px;
+        z-index: 1100;
+    }
+
+    .sidebar-header {
+        padding: 15px;
+        text-align: center;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .logos-container {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-bottom: 10px;
+    }
+
+    .logo-jke, .logo-sena {
+        height: 40px;
+    }
+
+    .titulo-header {
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    .sidebar-nav {
+        padding: 10px 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .nav-item {
+        color: white;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px;
+        border-radius: 6px;
+        transition: background 0.3s;
+    }
+
+    .nav-item:hover {
+        background: #237000;
+    }
+
+    .sidebar-utilities {
+        margin-top: auto;
+        padding: 10px 20px;
+    }
+
+    .utility-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 0;
+        cursor: pointer;
+        color: white;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 900;
+    }
+
+    /* Solo en móvil: sidebar cerrado por defecto y toggle visible */
+    @media screen and (max-width: 768px) {
+        .sidebar {
+            transform: translateX(-100%);
+        }
+
+        .sidebar.sidebar-open {
+            transform: translateX(0);
+        }
+
+        .sidebar-toggle {
+            display: block;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+        }
+    }

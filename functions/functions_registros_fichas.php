@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $id_programa  = $_POST["programa"];
     $jornada      = $_POST["Jornada"];
     $id_jefe      = $_POST["jefeGrupo"];
-    $tipo_oferta  = $_POST["tipo_oferta"]; // 🟩 Nuevo campo capturado
+    $tipo_oferta  = $_POST["tipo_oferta"];
 
     // Validar si el número de ficha ya existe
     $verificar = $conn->prepare("SELECT 1 FROM fichas WHERE numero_ficha = ?");
@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit;
     }
 
-    // Insertar ficha con tipo_oferta
+    // Insertar ficha
     $sql = "INSERT INTO fichas (numero_ficha, Id_programa, Jornada, Estado_ficha, Jefe_grupo, tipo_oferta)
             VALUES (?, ?, ?, 'Activo', ?, ?)";
     $stmt = $conn->prepare($sql);
@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $usuario_id = $_SESSION['usuario']['id'] ?? 0;
         registrar_historial($conn, $usuario_id, 'Registro de ficha', "Ficha $numero_ficha creada");
 
-        // Procesar archivo Excel si se subió
+        // Procesar Excel
         if (isset($_FILES['juicios']) && $_FILES['juicios']['error'] === UPLOAD_ERR_OK) {
             $archivoExcel = $_FILES['juicios']['tmp_name'];
 
@@ -66,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     $email = strtolower(str_replace(' ', '', $nombre)) . "@sena.edu.co";
                     $telefono = "No disponible";
 
-                    // Verificar si el aprendiz ya existe
+                    // Verificar aprendiz
                     $verificar = $conn->prepare("SELECT Id_aprendiz FROM aprendices WHERE N_Documento = ?");
                     $verificar->bind_param("s", $documento);
                     $verificar->execute();
@@ -81,12 +81,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         $id_aprendiz = $res->fetch_assoc()['Id_aprendiz'];
                     }
 
-                    // Asociar aprendiz con ficha
+                    // Asociar aprendiz
                     $asociar = $conn->prepare("INSERT IGNORE INTO ficha_aprendiz (Id_ficha, Id_aprendiz) VALUES (?, ?)");
                     $asociar->bind_param("ii", $id_ficha_insertada, $id_aprendiz);
                     $asociar->execute();
 
-                    // Verificar juicio
+                    // Juicio evaluativo
                     $verifica_juicio = $conn->prepare("SELECT 1 FROM juicios_evaluativos 
                         WHERE Numero_ficha = ? AND N_Documento = ? AND Competencia = ? AND Resultado_aprendizaje = ?");
                     $verifica_juicio->bind_param("ssss", $numero_ficha, $documento, $competencia, $resultado_aprendizaje);
@@ -111,8 +111,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             }
         }
 
-        header("Location: /proyecto-sena/index.php?page=components/fichas/ficha_vista&id=$id_ficha_insertada");
-        exit;
+        // 🔁 Redirigir al formulario con mensaje de éxito
+header("Location: /proyecto-sena/index.php?page=components/fichas/registro_ficha&success=ficha-creada");
+exit;
+
+
     } else {
         echo "<p style='color:red;'>❌ Error al registrar ficha: " . $stmt->error . "</p>";
     }
