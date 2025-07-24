@@ -52,7 +52,7 @@ $programas = $stmt->get_result();
 </head>
 <body>
 
-<div class="filtro-barra" style="display: flex; align-items: center; gap: 1rem; position: fixed; top: 20px; left: 300px; z-index: 1000;">
+<div class="filtro-barra">
     <form method="GET" action="index.php" style="display: flex; align-items: center;">
         <input type="hidden" name="page" value="components/principales/programas_formacion">
 
