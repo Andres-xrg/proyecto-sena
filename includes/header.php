@@ -46,7 +46,7 @@ require_once __DIR__ . '/../functions/lang.php';
     </nav>
 
     <div class="sidebar-utilities">
-        <a href="./components/principales/editar_perfil.php" class="utility-item">
+        <a href="index.php?page=components/principales/editar_perfil" class="utility-item">
             <i class="fas fa-user"></i><span><?= $translations['edit_profile'] ?? 'Editar perfil' ?></span>
         </a>
 

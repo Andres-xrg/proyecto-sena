@@ -1,6 +1,8 @@
 <?php
-session_start();
-require_once '../../db/conexion.php';
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+require_once __DIR__ . '/../../db/conexion.php';
 
 // Verificar si hay sesión activa
 $usuario = $_SESSION['usuario'] ?? null;
@@ -30,12 +32,12 @@ if (!$datos) {
 <head>
     <meta charset="UTF-8">
     <title>Editar Perfil de Usuario</title>
-    <link rel="stylesheet" href="../../assets/css/editar_perfil.css">
-    <link rel="stylesheet" href="../../assets/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/editar_perfil.css">
+    <link rel="stylesheet" href="assets/bootstrap.min.css">
 </head>
 <body class="container mt-5">
     <h2>Editar Perfil</h2>
-    <form action="../../functions/procesar_editar_perfil_usuario.php" method="POST">
+    <form class="form-edit" action="../../functions/procesar_editar_perfil_usuario.php" method="POST">
         <input type="hidden" name="id_usuario" value="<?= $id_usuario ?>">
 
         <div class="mb-3">
