@@ -1,7 +1,7 @@
 <?php
 
 require_once '../db/conexion.php';
-require __DIR__ . '/../vendor/autoload.php';
+require _DIR_ . '/../vendor/autoload.php';
 
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['juicios'])) {
         for ($i = 13; $i < count($filas); $i++) {
             $fila = $filas[$i];
 
-            $tipo_documento = strtoupper(trim($fila[0] ?? '')); // Limpieza segura
+            $tipo_documento = strtoupper(trim($fila[0] ?? ''));
             $n_documento = trim($fila[1] ?? '');
             $nombre = trim($fila[2] ?? '');
             $apellido = trim($fila[3] ?? '');
@@ -40,6 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['juicios'])) {
             $juicio = trim($fila[7] ?? '');
             $fecha = !empty($fila[9]) ? date('Y-m-d H:i:s', strtotime($fila[9])) : date('Y-m-d H:i:s');
             $funcionario = trim($fila[10] ?? '');
+            $telefono = ''; // Opcional
 
             if ($nombre !== '') $ultimo_nombre = $nombre;
             else $nombre = $ultimo_nombre;
@@ -85,14 +86,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['juicios'])) {
                 $id_aprendiz = $row['Id_aprendiz'];
                 $tipo_actual = strtoupper(trim($row['T_documento']));
 
-                // ✅ ACTUALIZAR tipo documento si es diferente
+                // Actualizar tipo documento si cambió
                 if ($tipo_actual !== $tipo_documento) {
                     $actualizar = $conn->prepare("UPDATE aprendices SET T_documento = ? WHERE Id_aprendiz = ?");
                     $actualizar->bind_param("si", $tipo_documento, $id_aprendiz);
                     $actualizar->execute();
                 }
 
-                // Verificar si ya está asociado a la ficha
+                // Verificar asociación a la ficha
                 $verificar_asociacion = $conn->prepare("SELECT 1 FROM ficha_aprendiz WHERE Id_ficha = ? AND Id_aprendiz = ?");
                 $verificar_asociacion->bind_param("ii", $id_ficha, $id_aprendiz);
                 $verificar_asociacion->execute();
@@ -105,30 +106,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['juicios'])) {
                 }
             }
 
-            // Insertar juicio evaluativo
-            $stmt = $conn->prepare("INSERT INTO juicios_evaluativos 
-                (N_Documento, Nombre_aprendiz, Apellido_aprendiz, Estado_formacion, 
-                Competencia, Resultado_aprendizaje, Juicio, 
-                Numero_ficha, Programa_formacion, Fecha_registro, Funcionario_registro)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            // Verificar si ya existe el mismo juicio para evitar duplicados
+            $verificar_juicio = $conn->prepare("SELECT Id_juicio FROM juicios_evaluativos 
+                WHERE N_Documento = ? AND Competencia = ? AND Resultado_aprendizaje = ? AND Juicio = ? AND Numero_ficha = ?");
+            $verificar_juicio->bind_param("sssss", $n_documento, $competencia, $resultado_aprendizaje, $juicio, $numero_ficha);
+            $verificar_juicio->execute();
+            $res_juicio = $verificar_juicio->get_result();
 
-            $stmt->bind_param(
-                "issssssssss",
-                $n_documento,
-                $nombre,
-                $apellido,
-                $estado_formacion,
-                $competencia,
-                $resultado_aprendizaje,
-                $juicio,
-                $numero_ficha,
-                $programa,
-                $fecha,
-                $funcionario
-            );
+            if ($res_juicio->num_rows === 0) {
+                // Insertar nuevo juicio evaluativo
+                $stmt = $conn->prepare("INSERT INTO juicios_evaluativos 
+                    (N_Documento, Nombre_aprendiz, Apellido_aprendiz, Estado_formacion, 
+                    Competencia, Resultado_aprendizaje, Juicio, 
+                    Numero_ficha, Programa_formacion, Fecha_registro, Funcionario_registro)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-            if ($stmt->execute()) {
-                $registros_insertados++;
+                $stmt->bind_param(
+                    "issssssssss",
+                    $n_documento,
+                    $nombre,
+                    $apellido,
+                    $estado_formacion,
+                    $competencia,
+                    $resultado_aprendizaje,
+                    $juicio,
+                    $numero_ficha,
+                    $programa,
+                    $fecha,
+                    $funcionario
+                );
+
+                if ($stmt->execute()) {
+                    $registros_insertados++;
+                } else {
+                    $registros_omitidos++;
+                }
             } else {
                 $registros_omitidos++;
             }

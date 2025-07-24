@@ -1,4 +1,5 @@
 <?php
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -48,6 +49,13 @@ if (!$resultado) {
 // 3. Agrupar competencias
 $resultado->data_seek(0);
 list($competencias_agrupadas, $materias_organizadas) = agruparCompetencias($resultado);
+
+//4. Obtener el estado de formación desde el último juicio evaluativo registrado
+$stmt_estado = $conn->prepare("SELECT Estado_formacion FROM juicios_evaluativos WHERE N_Documento = ? ORDER BY Fecha_registro DESC LIMIT 1");
+$stmt_estado->bind_param("s", $documento);
+$stmt_estado->execute();
+$res_estado = $stmt_estado->get_result();
+$estado_formacion = $res_estado->fetch_assoc()['Estado_formacion'] ?? 'No registrado';
 ?>
 
 
@@ -61,11 +69,13 @@ list($competencias_agrupadas, $materias_organizadas) = agruparCompetencias($resu
     <link rel="stylesheet" href="assets/css/header.css">
     <link rel="stylesheet" href="assets/css/footer.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juicios de <?= htmlspecialchars($aprendiz['Nombre_aprendiz'] ?? '') ?></title>
+    <title>Juicios de <?= htmlspecialchars($aprendiz['nombre'] ?? '') ?></title>
+</head>
+
 </head>
 <body>
 <main class="main-content">
-    <h1 class="page-title">Juicios Evaluativos de <?= htmlspecialchars($aprendiz['Nombre_aprendiz'] ?? '') ?> <?= htmlspecialchars($aprendiz['Apellido_aprendiz'] ?? '') ?></h1>
+    <h1 class="page-title">Juicios Evaluativos de <?= htmlspecialchars($aprendiz['nombre'] ?? '') ?> <?= htmlspecialchars($aprendiz['apellido'] ?? '') ?></h1>
 
     <div class="search-section">
         <div class="search-container">
@@ -213,22 +223,25 @@ list($competencias_agrupadas, $materias_organizadas) = agruparCompetencias($resu
             </div>
             <div class="card-content open">
                 <div class="info-grid">
-                    <div class="info-item">
-                        <strong>Estado:</strong> 
-                        <span class="badge badge-<?= strtolower($aprendiz['Estado_formacion'] ?? '') === 'activo' ? 'success' : 'secondary' ?>">
-                            <?= htmlspecialchars($aprendiz['Estado_formacion'] ?? 'N/A') ?>
-                        </span>
-                    </div>
-                    <div class="info-item">
-                        <strong>Documento:</strong> <?= htmlspecialchars($aprendiz['N_Documento'] ?? 'N/A') ?>
-                    </div>
-                    <div class="info-item">
-                        <strong>Ficha:</strong> <?= htmlspecialchars($aprendiz['Numero_ficha'] ?? 'N/A') ?>
-                    </div>
-                    <div class="info-item">
-                        <strong>Última actualización:</strong> <?= isset($aprendiz['Fecha_registro']) ? date('d/m/Y H:i', strtotime($aprendiz['Fecha_registro'])) : 'N/A' ?>
-                    </div>
-                </div>
+    <div class="info-item">
+                <strong>Estado:</strong> 
+               <span class="badge badge-<?= strtolower($estado_formacion) === 'activo' ? 'success' : 'secondary' ?>">
+                    <?= htmlspecialchars($estado_formacion) ?>
+                </span>
+            </div>
+            <div class="info-item">
+                <strong>Documento:</strong> <?= !empty($aprendiz['N_Documento']) ? htmlspecialchars($aprendiz['N_Documento']) : 'N/A' ?>
+            </div>
+            <div class="info-item">
+                <strong>Ficha:</strong>
+                        <?= htmlspecialchars($competencias_agrupadas[array_key_first($competencias_agrupadas)][0]['Numero_ficha'] ?? 'N/A') 
+                    ?>
+            </div>
+            <div class="info-item">
+                <strong>Última actualización:</strong> 
+                <?= !empty($aprendiz['Fecha_registro']) ? date('d/m/Y H:i', strtotime($aprendiz['Fecha_registro'])) : 'N/A' ?>
+            </div>
+        </div>
 
                 <?php
                 $total_competencias = is_array($competencias_agrupadas) ? count($competencias_agrupadas) : 0;

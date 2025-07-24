@@ -19,6 +19,8 @@ function agruparCompetencias($resultado) {
         'COMPETENCIAS TRANSVERSALES' => []
     ];
 
+    $categorias_por_competencia = []; // NUEVO: para memorizar la categoría única por competencia
+
     while ($j = $resultado->fetch_assoc()) {
         $competencia = $j['Competencia'] ?? '';
         $resultado_aprendizaje = $j['Resultado_aprendizaje'] ?? '';
@@ -26,8 +28,12 @@ function agruparCompetencias($resultado) {
         // Agrupar por competencia
         $competencias_agrupadas[$competencia][] = $j;
 
-        // Clasificación
-        $categorizacion = categorizarCompetencia($competencia, $resultado_aprendizaje);
+        // Solo categorizar una vez por competencia
+        if (!isset($categorias_por_competencia[$competencia])) {
+            $categorias_por_competencia[$competencia] = categorizarCompetencia($competencia, $resultado_aprendizaje);
+        }
+
+        $categorizacion = $categorias_por_competencia[$competencia];
         $categoria = $categorizacion['categoria'];
         $materia = $categorizacion['materia'];
 
