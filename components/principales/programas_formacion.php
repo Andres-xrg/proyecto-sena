@@ -117,7 +117,9 @@ $programas = $stmt->get_result();
             <?php while ($row = $programas->fetch_assoc()): ?>
                 <div class="program-card">
                     <div class="card-header">
-                        <div class="card-icon"></div>
+                        <div class="card-icon">
+                            <?= htmlspecialchars(strtoupper(substr($row['nombre_programa'], 0, 1))) ?>
+                        </div>
                         <div class="card-info">
                             <div class="card-title">
                                 <a href="index.php?page=components/Fichas/listar_fichas&id_programa=<?= $row['Id_programa'] ?>" style="text-decoration: none; color: inherit;">
