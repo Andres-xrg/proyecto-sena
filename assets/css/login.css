@@ -455,3 +455,146 @@ body::before {
     animation: gentleFloat 15s ease-in-out infinite reverse;
     pointer-events: none;
 }
+
+/* ==== MODO OSCURO SOLO PARA login.css ==== */
+body.dark {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); /* Darker background */
+}
+
+body.dark::before {
+  background: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.015) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.01) 0%, transparent 50%);
+}
+
+body.dark .left-panel {
+    width: 45%;
+    background: linear-gradient(135deg, #1d3f0c 0%, #337114 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    color: white;
+    animation: slideInLeft 0.6s ease-out;
+    overflow: hidden;
+}
+
+
+body.dark .left-panel::before {
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  opacity: 0.2;
+}
+
+body.dark .wave-top,
+body.dark .wave-bottom {
+  background: rgba(255, 255, 255, 0.04); /* Darker wave background */
+}
+
+body.dark .welcome-text {
+  text-shadow: 0 0.125rem 1.25rem rgba(0, 0, 0, 0.3);
+}
+
+body.dark .right-panel {
+  background: rgba(30, 30, 30, 0.7); /* Darker translucent background */
+  backdrop-filter: blur(10px);
+}
+
+body.dark .login-container {
+  background: rgba(30, 30, 30, 0.95);
+  box-shadow: 0 0.625rem 2.5rem rgba(0, 0, 0, 0.3), 0 0.125rem 0.5rem rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(68, 68, 68, 0.8);
+}
+
+body.dark .login-title {
+  color: #2a7f00; /* Keep green */
+}
+
+body.dark .login-subtitle {
+  color: #ccc;
+}
+
+body.dark .user-icon img {
+  box-shadow: 0 0.5rem 2rem rgba(42, 127, 0, 0.15);
+  border: 0.25rem solid rgba(42, 127, 0, 0.1);
+  background-color: #1e1e1e; /* Darker background for icon */
+}
+
+body.dark .user-icon img:hover {
+  box-shadow: 0 0.75rem 2.5rem rgba(42, 127, 0, 0.2);
+  border-color: rgba(42, 127, 0, 0.2);
+}
+
+body.dark .form-label {
+  color: #2a7f00; /* Keep green */
+}
+
+body.dark .form-input {
+  border: 0.125em solid #444;
+  background: rgba(44, 44, 44, 0.8); /* Darker input background */
+  color: #e0e0e0;
+}
+
+body.dark .form-input::placeholder {
+  color: #999;
+}
+
+body.dark .form-input:focus {
+  border-color: #2a7f00; /* Darker green focus */
+  background: #1e1e1e; /* Darker input background on focus */
+  box-shadow: 0 0 0 0.25em rgba(42, 127, 0, 0.08);
+}
+
+body.dark .form-input:hover {
+  border-color: rgba(42, 127, 0, 0.3);
+  background: #1e1e1e;
+}
+
+body.dark .continue-button {
+  background: linear-gradient(135deg, #1e5500 0%, #15803d 100%); /* Darker green gradient */
+  box-shadow: 0 0.25rem 1rem rgba(42, 127, 0, 0.25);
+}
+
+body.dark .continue-button:before {
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+}
+
+body.dark .continue-button:hover {
+  box-shadow: 0 0.5rem 1.5rem rgba(42, 127, 0, 0.35);
+}
+
+body.dark .continue-button:active {
+  box-shadow: 0 0.125rem 0.5rem rgba(42, 127, 0, 0.25);
+}
+
+body.dark .login-container p[style*="color: red"] {
+  background: rgba(60, 0, 0, 0.8); /* Darker red background */
+  border: 1px solid rgba(255, 0, 0, 0.1);
+  border-left: 0.25rem solid #b52b3a; /* Darker red border */
+  color: #ff6b6b !important; /* Lighter red text */
+}
+
+body.dark .login-container div[style*="background-color: #d4edda"] {
+  background: rgba(0, 60, 0, 0.9) !important; /* Darker green background */
+  border: 1px solid rgba(57, 169, 0, 0.1);
+  border-left: 0.25rem solid #2a7f00; /* Darker green border */
+  color: #90ee90 !important; /* Lighter green text */
+}
+
+body.dark .login-container a[href*="forgot_password"] {
+  color: #2a7f00; /* Keep green */
+}
+
+body.dark .login-container a[href*="forgot_password"]:hover {
+  color: #1e5500; /* Darker green on hover */
+}
+
+body.dark .login-container a[href*="forgot_password"]::after {
+  background: #2a7f00; /* Keep green */
+}
+
+body.dark .right-panel::after {
+  background: radial-gradient(circle, rgba(42, 127, 0, 0.05) 0%, transparent 70%);
+}
+
+body.dark .right-panel::before {
+  background: radial-gradient(circle, rgba(27, 80, 116, 0.04) 0%, transparent 70%);
+}

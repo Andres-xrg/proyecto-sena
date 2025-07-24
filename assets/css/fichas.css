@@ -662,7 +662,7 @@ body.dark .student-card:hover {
 }
 /* Avatar circular para aprendices */
 body.dark .avatar {
-  background: linear-gradient(135deg, #2a7f00 0%, #1e5500 100%); /* Darker green */
+  background: linear-gradient(135deg, #2a7f00 0%, #1e5500 100%);
   box-shadow: 0 0.25rem 1rem rgba(42, 127, 0, 0.4);
 }
 body.dark .search-box input {
@@ -672,7 +672,7 @@ body.dark .search-box input {
   box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.1);
 }
 body.dark .search-box input:focus {
-  border-color: #90caf9; /* Light blue for focus */
+  border-color: #90caf9;
   box-shadow: 0 0 0 0.1875rem rgba(144, 202, 249, 0.2);
 }
 body.dark .search-box input::placeholder {
@@ -687,13 +687,13 @@ body.dark .badge-green {
   background: linear-gradient(135deg, #2a7f00 0%, #1e5500 100%);
 }
 body.dark .badge-blue {
-  background: linear-gradient(135deg, #1976d2 0%, #0d47a1 100%); /* Darker blue */
+  background: linear-gradient(135deg, #1976d2 0%, #0d47a1 100%);
 }
 body.dark .badge-red {
-  background: linear-gradient(135deg, #b52b3a 0%, #8b1a26 100%); /* Darker red */
+  background: linear-gradient(135deg, #b52b3a 0%, #8b1a26 100%);
 }
 body.dark .badge-gray {
-  background: linear-gradient(135deg, #4b5563 0%, #333a44 100%); /* Darker gray */
+  background: linear-gradient(135deg, #4b5563 0%, #333a44 100%);
 }
 
 /* Detalles del aprendiz */
@@ -704,7 +704,7 @@ body.dark .detail-item p {
   color: #e0e0e0;
 }
 body.dark .detail-item .email {
-  color: #90caf9; /* Light blue for links */
+  color: #90caf9;
 }
 
 /* Barra de progreso */
@@ -784,3 +784,4 @@ body.dark .btn-accion-secundaria:disabled {
   border-color: #333;
   color: #666;
 }
+

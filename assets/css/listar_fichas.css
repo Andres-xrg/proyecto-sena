@@ -60,51 +60,55 @@ body {
 /* Controles superiores: búsqueda y filtro */
 .controls {
     display: flex;
-    justify-content: space-between;
+    justify-content: center; /* Centrar los elementos dentro de la barra */
     align-items: center;
-    margin-bottom: 2rem;
-    padding: 1.5rem;
+    margin-bottom: 2rem; /* Espacio debajo de los controles reducido */
+    padding: 1rem; /* Padding ajustado */
     background: #ffffff;
-    border-radius: 1rem;
-    box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.05);
+    border-radius: 1rem; /* Bordes redondeados */
+    box-shadow: 0 0.3rem 1.2rem rgba(0, 0, 0, 0.06); /* Sombra más suave */
     border: 1px solid #e2e8f0;
-    flex-wrap: wrap;
-    gap: 1rem;
+    flex-wrap: wrap; /* Permitir que los elementos se envuelvan */
+    gap: 1rem; /* Espaciado entre elementos */
 }
 
 /* Caja de búsqueda */
 .search-box {
     position: relative;
     flex-grow: 1;
-    min-width: 12.5rem;
-    max-width: 18.75rem;
+    min-width: 14rem; /* Ancho mínimo ajustado */
+    max-width: 18rem; /* Ancho máximo ajustado */
 }
+
 .search-box input {
     width: 100%;
-    padding: 0.75rem 2.5rem 0.75rem 1rem;
-    border: 0.125rem solid #e2e8f0;
+    padding: 0.75rem 2.5rem 0.75rem 1rem; /* Padding ajustado */
+    border: 1px solid #e2e8f0; /* Borde más delgado */
     border-radius: 0.75rem;
     background: #ffffff;
-    font-size: 0.95rem;
+    font-size: 0.95rem; /* Tamaño de fuente ajustado */
     color: #1f2937;
     transition: all 0.3s ease;
-    box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.03);
+    box-shadow: 0 0.1rem 0.4rem rgba(0, 0, 0, 0.03);
 }
+
 .search-box input:focus {
     outline: none;
     border-color: #94a3b8;
-    box-shadow: 0 0 0 0.1875rem rgba(148, 163, 184, 0.1);
-    transform: translateY(-0.0625rem);
+    box-shadow: 0 0 0 3px rgba(148, 163, 184, 0.12); /* Sombra de focus más pronunciada */
+    transform: translateY(-1px); /* Pequeño lift */
 }
+
 .search-box input::placeholder {
     color: #6b7280;
 }
+
 .search-icon {
     position: absolute;
-    right: 1rem;
+    right: 1rem; /* Posición ajustada */
     top: 50%;
     transform: translateY(-50%);
-    font-size: 1rem;
+    font-size: 1rem; /* Tamaño de icono ajustado */
     color: #6b7280;
     pointer-events: none;
 }
@@ -113,77 +117,87 @@ body {
 .dropdown-container {
     position: relative;
     flex-grow: 1;
-    min-width: 15.625rem;
-    max-width: 21.875rem;
+    min-width: 11rem; /* Ancho mínimo ajustado */
+    max-width: 14rem; /* Ancho máximo ajustado */
 }
+
 .dropdown {
     position: relative;
-    padding: 0.75rem 1rem;
+    padding: 0.75rem 1rem; /* Padding ajustado */
     width: 100%;
-    border: 0.125rem solid #e2e8f0;
+    border: 1px solid #e2e8f0;
     border-radius: 0.75rem;
     background: #ffffff;
     cursor: pointer;
-    font-size: 0.95rem;
+    font-size: 0.95rem; /* Tamaño de fuente ajustado */
     color: #1f2937;
     display: flex;
     justify-content: space-between;
     align-items: center;
     transition: all 0.3s ease;
-    box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.03);
+    box-shadow: 0 0.1rem 0.4rem rgba(0, 0, 0, 0.03);
 }
+
 .dropdown:hover {
     border-color: #94a3b8;
-    transform: translateY(-0.0625rem);
-    box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.08);
+    transform: translateY(-1px);
+    box-shadow: 0 0.2rem 0.8rem rgba(0, 0, 0, 0.07);
 }
+
 .dropdown .arrow {
     transition: transform 0.3s ease;
     color: #6b7280;
 }
+
 .dropdown.active .arrow {
     transform: rotate(180deg);
 }
+
 .dropdown-options {
     position: absolute;
-    top: calc(100% + 0.5rem);
+    top: calc(100% + 0.6rem); /* Más espacio debajo del dropdown */
     left: 0;
     right: 0;
     background: white;
-    border: 0.125rem solid #e2e8f0;
+    border: 1px solid #e2e8f0;
     border-radius: 0.75rem;
     display: none;
     z-index: 1000;
-    box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0.4rem 1.6rem rgba(0, 0, 0, 0.12); /* Sombra más pronunciada */
     overflow: hidden;
-}
-.dropdown-options.show {
-    display: block;
     animation: slideDown 0.3s ease;
 }
+
+.dropdown-options.show {
+    display: block;
+}
+
 @keyframes slideDown {
     from {
         opacity: 0;
-        transform: translateY(-0.625rem);
+        transform: translateY(-0.4rem);
     }
     to {
         opacity: 1;
         transform: translateY(0);
     }
 }
+
 .option {
-    padding: 0.75rem 1rem;
-    font-size: 0.9rem;
+    padding: 0.75rem 1rem; /* Padding ajustado */
+    font-size: 0.9rem; /* Tamaño de fuente ajustado */
     background: white;
     border-bottom: 1px solid #f1f5f9;
     cursor: pointer;
     transition: all 0.2s ease;
     color: #1f2937;
 }
+
 .option:hover {
     background: #f8fafc;
     color: #1f2937;
 }
+
 .option:last-child {
     border-bottom: none;
 }
@@ -191,33 +205,35 @@ body {
 /* Grid de tarjetas de fichas */
 .fichas-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
-    gap: 1.5rem;
-    padding: 1rem 0;
+    grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr)); /* Tarjetas un poco más pequeñas */
+    gap: 1.5rem; /* Espacio entre tarjetas ajustado */
+    padding: 1rem 0; /* Padding ajustado */
 }
 
 /* Tarjeta individual de ficha */
 .ficha-card {
     background: #ffffff;
-    border: 0.125rem solid #e2e8f0;
-    border-radius: 1rem;
-    padding: 1.5rem;
+    border: 1px solid #e2e8f0; /* Borde más delgado */
+    border-radius: 1rem; /* Bordes más redondeados */
+    padding: 1.5rem; /* Padding interno ajustado */
     text-align: center;
     transition: all 0.3s ease;
-    box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.05);
+    box-shadow: 0 0.3rem 1.2rem rgba(0, 0, 0, 0.05); /* Sombra más suave */
     position: relative;
     overflow: hidden;
     height: auto;
-    min-height: 17.5rem;
+    min-height: 17.5rem; /* Altura mínima ajustada */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
+
 .ficha-card:hover {
-    transform: translateY(-0.5rem);
-    box-shadow: 0 0.75rem 2rem rgba(0, 0, 0, 0.1);
+    transform: translateY(-0.4rem); /* Más lift */
+    box-shadow: 0 0.8rem 2rem rgba(0, 0, 0, 0.1); /* Sombra más pronunciada */
     border-color: #cbd5e1;
 }
+
 .ficha-card.disabled {
     background: #f8fafc;
     border-color: #d1d5db;
@@ -229,50 +245,56 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1rem;
+    margin-bottom: 1rem; /* Espacio ajustado */
     padding-bottom: 1rem;
     border-bottom: 1px solid #e2e8f0;
 }
+
 .numero {
-    font-size: 1.75rem;
+    font-size: 1.8rem; /* Número más pequeño */
     font-weight: 700;
     color: #1f2937;
 }
+
 .ficha-card.disabled .numero {
     color: #9ca3af;
 }
+
 .sena-logo {
-    font-size: 2rem;
+    font-size: 2rem; /* Logo más pequeño */
     color: #6b7280;
-    background: #f8fafc;
-    width: 3rem;
-    height: 3rem;
+    background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);    width: 3rem; /* Tamaño ajustado */
+    height: 3rem; /* Tamaño ajustado */
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 0.125rem solid #e2e8f0;
+    border: 1px solid #e2e8f0; /* Borde más delgado */
 }
 
 /* Contenido de la tarjeta */
 .ficha-card p {
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.75rem; /* Espacio ajustado */
     color: #374151;
-    font-size: 0.9rem;
+    font-size: 0.9rem; /* Tamaño de fuente ajustado */
     line-height: 1.5;
 }
+
 .ficha-card p strong {
     color: #1f2937;
     font-weight: 600;
 }
+
 .estado-text {
-    padding: 0.25rem 0.75rem;
-    border-radius: 1rem;
+    padding: 0.25rem 0.75rem; /* Padding ajustado */
+    border-radius: 9999px; /* Pill shape */
     font-size: 0.8rem;
     font-weight: 600;
     background: #f1f5f9;
     color: #374151;
-    border: 0.0625rem solid #e2e8f0;
+    border: 1px solid #e2e8f0;
+    display: inline-block; /* Para que el padding funcione bien */
+    margin-top: 0.4rem; /* Espacio superior */
 }
 
 /* Botones de acción en las tarjetas */
@@ -280,11 +302,11 @@ body {
 .btn-deshabilitar,
 .btn-habilitar {
     width: 100%;
-    padding: 0.75rem 1rem;
-    margin-bottom: 0.5rem;
+    padding: 0.75rem 1rem; /* Padding ajustado */
+    margin-bottom: 0.5rem; /* Espacio ajustado */
     border: none;
-    border-radius: 0.5rem;
-    font-size: 0.9rem;
+    border-radius: 0.5rem; /* Bordes redondeados */
+    font-size: 0.9rem; /* Tamaño de fuente ajustado */
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -298,13 +320,15 @@ body {
 .btn-ver-ficha {
     background: linear-gradient(135deg, #22c55e 0%, #2a7f00 100%);
     color: white;
-    box-shadow: 0 0.25rem 1rem rgba(34, 197, 94, 0.3);
+    box-shadow: 0 0.3rem 1rem rgba(34, 197, 94, 0.3); /* Sombra más pronunciada */
 }
+
 .btn-ver-ficha:hover {
-    transform: translateY(-0.125rem);
-    box-shadow: 0 0.375rem 1.25rem rgba(34, 197, 94, 0.4);
+    transform: translateY(-0.125rem); /* Más lift */
+    box-shadow: 0 0.4rem 1.2rem rgba(34, 197, 94, 0.4);
     background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
 }
+
 .btn-ver-ficha.disabled {
     background: linear-gradient(135deg, #9ca3af 0%, #6b7280 100%);
     cursor: not-allowed;
@@ -313,26 +337,28 @@ body {
 
 /* Botón deshabilitar en gris-rojo */
 .btn-deshabilitar {
-    background: linear-gradient(135deg, #6b7280 0%, #dc2626 100%);
+    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%); /* Rojo más vibrante */
     color: white;
-    box-shadow: 0 0.25rem 1rem rgba(107, 114, 128, 0.3);
+    box-shadow: 0 0.3rem 1rem rgba(220, 38, 38, 0.3); /* Sombra roja */
 }
+
 .btn-deshabilitar:hover {
     transform: translateY(-0.125rem);
-    box-shadow: 0 0.375rem 1.25rem rgba(107, 114, 128, 0.4);
-    background: linear-gradient(135deg, #4b5563 0%, #dc2626 100%);
+    box-shadow: 0 0.4rem 1.2rem rgba(220, 38, 38, 0.4);
+    background: linear-gradient(135deg, #b91c1c 0%, #991b1b 100%);
 }
 
 /* Botón habilitar en gris */
 .btn-habilitar {
     background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
     color: white;
-    box-shadow: 0 0.25rem 1rem rgba(107, 114, 128, 0.3);
+    box-shadow: 0 0.3rem 1rem rgba(107, 114, 128, 0.3);
 }
+
 .btn-habilitar:hover {
     transform: translateY(-0.125rem);
-    box-shadow: 0 0.375rem 1.25rem rgba(107, 114, 128, 0.4);
-    background: linear-gradient(135deg, #4b5563 0%, #2a7f00 100%);
+    box-shadow: 0 0.4rem 1.2rem rgba(107, 114, 128, 0.4);
+    background: linear-gradient(135deg, #4b5563 0%, #2a7f00 100%); /* Transición a verde al habilitar */
 }
 
 /* Efecto de brillo en botones */
@@ -348,6 +374,7 @@ body {
     background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
     transition: left 0.5s ease;
 }
+
 .btn-ver-ficha:hover::before,
 .btn-deshabilitar:hover::before,
 .btn-habilitar:hover::before {
@@ -355,80 +382,514 @@ body {
 }
 
 /* Responsive Design */
-@media (max-width: 75rem) {
+/* Large Screens (1200px - 1399px) */
+@media (max-width: 87.4375rem) and (min-width: 75rem) {
     body {
-        margin-left: 0;
-        padding: 0.9375rem;
+        padding: 1.25rem;
+    }
+    .container {
+        padding: 2rem;
+        padding-bottom: 7rem; /* Ajuste para pantallas grandes */
+    }
+    .title {
+        font-size: 2rem;
+    }
+    .controls {
+        gap: 0.8rem;
+        padding: 0.9rem;
+    }
+    .search-box {
+        min-width: 13rem;
+        max-width: 17rem;
+    }
+    .dropdown-container {
+        min-width: 10rem;
+        max-width: 13rem;
+    }
+    .fichas-grid {
+        gap: 1.25rem;
+        grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+    }
+    .ficha-card {
+        padding: 1.4rem;
+        min-height: 16.5rem;
+    }
+}
+
+/* Medium-Large Screens (992px - 1199px) */
+@media (max-width: 74.9375rem) and (min-width: 62rem) {
+    body {
+        padding: 1rem;
+    }
+    .container {
+        padding: 1.75rem;
+        padding-bottom: 6rem; /* Ajuste para pantallas medianas */
+    }
+    .title {
+        font-size: 1.8rem;
+    }
+    .controls {
+        gap: 0.7rem;
+        padding: 0.8rem;
+    }
+    .search-box {
+        min-width: 11rem;
+        max-width: 15rem;
+    }
+    .dropdown-container {
+        min-width: 9rem;
+        max-width: 12rem;
+    }
+    .fichas-grid {
+        gap: 1rem;
+        grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+    }
+    .ficha-card {
+        padding: 1.2rem;
+        min-height: 15.5rem;
+    }
+    .numero {
+        font-size: 1.6rem;
+    }
+    .sena-logo {
+        width: 2.8rem;
+        height: 2.8rem;
+        font-size: 1.8rem;
+    }
+}
+
+/* Tablets (768px - 991px) */
+@media (max-width: 61.9375rem) and (min-width: 48rem) {
+    body {
+        margin-left: 0; /* Eliminar margen izquierdo para ocupar todo el ancho */
+        padding: 1rem;
     }
     .container {
         padding: 1.5rem;
-    }
-    .fichas-grid {
-        grid-template-columns: repeat(auto-fill, minmax(17.5rem, 1fr));
-        gap: 1.25rem;
-    }
-}
-@media (max-width: 48rem) {
-    body {
-        padding: 0.625rem;
-    }
-    .container {
-        padding: 1rem;
-        margin-top: 0.625rem;
+        margin-top: 1rem;
+        max-width: 100%; /* Ocupar todo el ancho disponible */
+        padding-bottom: 5rem; /* Ajuste para tablets */
     }
     .title {
-        font-size: 1.5rem;
+        font-size: 1.6rem;
+        margin-bottom: 1.5rem;
     }
     .controls {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 1rem;
-        padding: 1rem;
+        flex-direction: row; /* Mantener en fila si hay espacio */
+        justify-content: center;
+        align-items: center;
+        gap: 0.8rem;
+        padding: 0.9rem;
     }
     .search-box,
     .dropdown-container {
-        max-width: 100%;
+        flex-basis: calc(50% - 0.4rem); /* Dos columnas */
+        max-width: unset; /* Eliminar max-width para flex-basis */
+        min-width: unset;
     }
     .fichas-grid {
-        grid-template-columns: 1fr;
-        gap: 1rem;
+        grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr)); /* Más pequeñas */
+        gap: 0.8rem;
     }
     .ficha-card {
-        min-height: 16.25rem;
-        padding: 1.25rem;
+        min-height: 14.5rem;
+        padding: 1.1rem;
     }
     .numero {
         font-size: 1.5rem;
     }
     .sena-logo {
-        font-size: 1.5rem;
-        width: 2.5rem;
-        height: 2.5rem;
-    }
-}
-@media (max-width: 30rem) {
-    .container {
-        padding: 0.75rem;
-    }
-    .title {
-        font-size: 1.25rem;
-    }
-    .controls {
-        padding: 0.75rem;
-    }
-    .ficha-card {
-        min-height: 15rem;
-        padding: 1rem;
-    }
-    .card-header {
-        margin-bottom: 0.75rem;
-        padding-bottom: 0.75rem;
+        width: 2.6rem;
+        height: 2.6rem;
+        font-size: 1.6rem;
     }
     .btn-ver-ficha,
     .btn-deshabilitar,
     .btn-habilitar {
-        padding: 0.6rem 0.8rem;
+        padding: 0.7rem 0.9rem;
+        font-size: 0.85rem;
+    }
+}
+
+/* Mobile Screens (hasta 767px) */
+@media (max-width: 47.9375rem) {
+    body {
+        margin-left: 0;
+        padding: 0.75rem;
+    }
+    .container {
+        padding: 1rem;
+        margin-top: 0.75rem;
+        max-width: 100%;
+        padding-bottom: 4rem; /* Ajuste para móviles */
+    }
+    .title {
+        font-size: 1.4rem;
+        margin-bottom: 1.2rem;
+    }
+    .title::after {
+        width: 3.5rem;
+        height: 0.15rem;
+        bottom: -0.4rem;
+    }
+    .controls {
+        flex-direction: column; /* Apilar elementos */
+        align-items: stretch;
+        gap: 0.6rem;
+        padding: 0.7rem;
+    }
+    .search-box,
+    .dropdown-container {
+        width: 100%; /* Ocupar todo el ancho */
+        max-width: unset;
+        min-width: unset;
+    }
+    .search-box input,
+    .dropdown {
+        padding: 0.7rem 0.9rem;
+        font-size: 0.85rem;
+    }
+    .search-box input {
+        padding-right: 2.1rem; /* Espacio para el icono */
+    }
+    .search-icon {
+        right: 0.9rem;
+        font-size: 0.9rem;
+    }
+    .dropdown-options {
+        top: calc(100% + 0.5rem);
+    }
+    .option {
+        padding: 0.7rem 0.9rem;
         font-size: 0.8rem;
+    }
+    .fichas-grid {
+        grid-template-columns: 1fr; /* Una columna */
+        gap: 0.7rem;
+        padding: 0.7rem 0;
+    }
+    .ficha-card {
+        min-height: 13.5rem;
+        padding: 0.9rem;
+    }
+    .numero {
+        font-size: 1.3rem;
+    }
+    .sena-logo {
+        width: 2.4rem;
+        height: 2.4rem;
+        font-size: 1.4rem;
+    }
+    .ficha-card p {
+        font-size: 0.8rem;
+        margin-bottom: 0.5rem;
+    }
+    .estado-text {
+        padding: 0.2rem 0.6rem;
+        font-size: 0.7rem;
+    }
+    .btn-ver-ficha,
+    .btn-deshabilitar,
+    .btn-habilitar {
+        padding: 0.5rem 0.7rem;
+        font-size: 0.8rem;
+        margin-bottom: 0.3rem;
+    }
+}
+
+/* Small Mobile (hasta 479px) */
+@media (max-width: 29.9375rem) {
+    body {
+        padding: 0.5rem;
+    }
+    .container {
+        padding: 0.75rem;
+        margin-top: 0.5rem;
+        padding-bottom: 3rem; /* Ajuste para móviles pequeños */
+    }
+    .title {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+    }
+    .title::after {
+        width: 3rem;
+        height: 0.15rem;
+        bottom: -0.4rem;
+    }
+    .controls {
+        padding: 0.5rem;
+        gap: 0.5rem;
+    }
+    .search-box input,
+    .dropdown {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.75rem;
+    }
+    .search-box input {
+        padding-right: 1.8rem;
+    }
+    .search-icon {
+        right: 0.7rem;
+        font-size: 0.8rem;
+    }
+    .option {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.75rem;
+    }
+    .ficha-card {
+        min-height: 12.5rem;
+        padding: 0.8rem;
+    }
+    .numero {
+        font-size: 1.1rem;
+    }
+    .sena-logo {
+        width: 2.2rem;
+        height: 2.2rem;
+        font-size: 1.2rem;
+    }
+    .ficha-card p {
+        font-size: 0.7rem;
         margin-bottom: 0.4rem;
     }
+    .estado-text {
+        padding: 0.15rem 0.5rem;
+        font-size: 0.6rem;
+    }
+    .btn-ver-ficha,
+    .btn-deshabilitar,
+    .btn-habilitar {
+        padding: 0.4rem 0.6rem;
+        font-size: 0.7rem;
+        margin-bottom: 0.2rem;
+    }
+}
+
+/* === MODO OSCURO GENERAL === */
+body.dark {
+    background: linear-gradient(135deg, #121212 0%, #1a1a1a 100%);
+    color: #e0e0e0;
+}
+
+/* Contenedor principal de la página de fichas */
+body.dark .container {
+    background: rgba(30, 30, 30, 0.95);
+    box-shadow: 0 0.75rem 2.5rem rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(68, 68, 68, 0.4);
+}
+
+body.dark .title {
+    color: #ffffff;
+    text-shadow: 0 0.15rem 0.3rem rgba(0, 0, 0, 0.3);
+}
+
+body.dark .title::after {
+    background: linear-gradient(135deg, #2a7f00 0%, #1e5500 100%);
+}
+
+/* Controles superiores: búsqueda y filtro */
+body.dark .controls {
+    background: #1e1e1e;
+    box-shadow: 0 0.3rem 1.2rem rgba(0, 0, 0, 0.25);
+    border: 1px solid #444;
+}
+
+/* Caja de búsqueda */
+body.dark .search-box input {
+    border: 1px solid #444;
+    background: #2c2c2c;
+    color: #ffffff;
+    box-shadow: 0 0.1rem 0.4rem rgba(0, 0, 0, 0.1);
+}
+
+body.dark .search-box input:focus {
+    border-color: #90caf9;
+    box-shadow: 0 0 0 3px rgba(144, 202, 249, 0.2);
+}
+
+body.dark .search-box input::placeholder {
+    color: #999;
+}
+
+body.dark .search-icon {
+    color: #999;
+}
+
+/* Dropdown personalizado para filtrar jornada */
+body.dark .dropdown {
+    border: 1px solid #444;
+    background: #2c2c2c;
+    color: #ffffff;
+    box-shadow: 0 0.1rem 0.4rem rgba(0, 0, 0, 0.1);
+}
+
+body.dark .dropdown:hover {
+    border-color: #666;
+    box-shadow: 0 0.2rem 0.8rem rgba(0, 0, 0, 0.2);
+}
+
+body.dark .dropdown .arrow {
+    color: #999;
+}
+
+body.dark .dropdown-options {
+    background: #1e1e1e;
+    border: 1px solid #444;
+    box-shadow: 0 0.4rem 1.6rem rgba(0, 0, 0, 0.3);
+}
+
+body.dark .option {
+    background: #1e1e1e;
+    border-bottom: 1px solid #333;
+    color: #e0e0e0;
+}
+
+body.dark .option:hover {
+    background: #2c2c2c;
+    color: #ffffff;
+}
+
+/* Tarjeta individual de ficha */
+body.dark .ficha-card {
+    background: #1e1e1e;
+    border: 1px solid #444;
+    box-shadow: 0 0.3rem 1.2rem rgba(0, 0, 0, 0.2);
+}
+
+body.dark .ficha-card:hover {
+    box-shadow: 0 0.8rem 2rem rgba(0, 0, 0, 0.35);
+    border-color: #666;
+}
+
+body.dark .ficha-card.disabled {
+    background: #2c2c2c;
+    border-color: #555;
+    opacity: 0.7;
+}
+
+/* Header de la tarjeta */
+body.dark .card-header {
+    border-bottom: 1px solid #333;
+}
+
+body.dark .numero {
+    color: #ffffff;
+}
+
+body.dark .ficha-card.disabled .numero {
+    color: #999;
+}
+
+body.dark .sena-logo {
+    color: #999;
+    background: #2c2c2c;
+    border: 1px solid #444;
+}
+
+/* Contenido de la tarjeta */
+body.dark .ficha-card p {
+    color: #ccc;
+}
+
+body.dark .ficha-card p strong {
+    color: #ffffff;
+}
+
+body.dark .estado-text {
+    background: #2c2c2c;
+    color: #e0e0e0;
+    border: 1px solid #444;
+}
+
+/* Botones de acción en las tarjetas */
+body.dark .btn-ver-ficha {
+    background: linear-gradient(135deg, #2a7f00 0%, #1e5500 100%);
+    box-shadow: 0 0.3rem 1rem rgba(42, 127, 0, 0.3);
+}
+
+body.dark .btn-ver-ficha:hover {
+    box-shadow: 0 0.4rem 1.2rem rgba(42, 127, 0, 0.4);
+    background: linear-gradient(135deg, #1e5500 0%, #15803d 100%);
+}
+
+body.dark .btn-ver-ficha.disabled {
+    background: linear-gradient(135deg, #555 0%, #333 100%);
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* Botón deshabilitar en gris-rojo */
+body.dark .btn-deshabilitar {
+    background: linear-gradient(135deg, #b91c1c 0%, #991b1b 100%);
+    box-shadow: 0 0.3rem 1rem rgba(185, 28, 28, 0.3);
+}
+
+body.dark .btn-deshabilitar:hover {
+    box-shadow: 0 0.4rem 1.2rem rgba(185, 28, 28, 0.4);
+    background: linear-gradient(135deg, #991b1b 0%, #7f1d1d 100%);
+}
+
+/* Botón habilitar en gris */
+body.dark .btn-habilitar {
+    background: linear-gradient(135deg, #555 0%, #333 100%);
+    box-shadow: 0 0.3rem 1rem rgba(85, 85, 85, 0.3);
+}
+
+body.dark .btn-habilitar:hover {
+    box-shadow: 0 0.4rem 1.2rem rgba(85, 85, 85, 0.4);
+    background: linear-gradient(135deg, #333 0%, #2a7f00 100%);
+}
+
+/* Efecto de brillo en botones */
+body.dark .btn-ver-ficha::before,
+body.dark .btn-deshabilitar::before,
+body.dark .btn-habilitar::before {
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+}
+
+/* Estados de validación */
+body.dark input:invalid {
+    border-color: #ff6b6b;
+}
+
+body.dark input:valid {
+    border-color: #2a7f00;
+}
+
+/* Accesibilidad: reduce motion */
+@media (prefers-reduced-motion: reduce) {
+    body.dark * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    body.dark input:focus {
+        border-width: 3px;
+    }
+}
+
+/* Focus visible for keyboard navigation */
+body.dark .back-arrow:focus-visible,
+body.dark .register-btn:focus-visible {
+    outline: 2px solid #2a7f00;
+    outline-offset: 2px;
+}
+
+body.dark .form-group input:focus-visible,
+body.dark .form-group select:focus-visible {
+    outline: 2px solid #2a7f00;
+    outline-offset: 2px;
+}
+
+/*BARRA DE PUNTAJE*/
+body.dark .progress-bar {
+    background: #444;
+    border-radius: 8px;
+    overflow: hidden;
+    height: 20px;
+    width: 100%;
 }

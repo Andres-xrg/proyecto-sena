@@ -23,3 +23,8 @@
         right: 0;
     }
 }
+body.dark .footer {
+  background-color: #1e1e1e; /* Darker background */
+  color: #e0e0e0;
+  border-top: 0.125rem solid #333; /* Darker border */
+}

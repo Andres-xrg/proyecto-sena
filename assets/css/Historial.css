@@ -391,3 +391,202 @@ body {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
 }
+/* Dark mode styles for the provided CSS */
+body.dark {
+  --primary-color: #1e5500; /* Darker green */
+  --secondary-color: #333333; /* Darker secondary */
+  --success-color: #6ee7b7; /* Lighter success */
+  --warning-color: #fcd34d; /* Lighter warning */
+  --danger-color: #f87171; /* Lighter danger */
+  --info-color: #60a5fa; /* Lighter info */
+  --dark-color: #e0e0e0; /* Lighter dark text */
+  --light-gray: #2d2d2d; /* Darker light gray */
+  --border-color: #444444; /* Darker border */
+  --text-muted: #a0a0a0; /* Lighter muted text */
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3); /* Darker shadow */
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3); /* Darker large shadow */
+
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+}
+
+body.dark .back-arrow {
+  filter: invert(1); /* Invert arrow color for dark mode */
+}
+
+body.dark .header-section {
+  background-color: var(--primary-color);
+}
+
+body.dark .header-section::before {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+body.dark .page-title {
+  color: white;
+}
+
+body.dark .page-subtitle {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+body.dark .controls-section {
+  background: var(--light-gray);
+  border-bottom: 1px solid var(--border-color);
+}
+
+body.dark .search-input {
+  border: 2px solid var(--border-color);
+  background: #3a3a3a;
+  color: #e0e0e0;
+}
+
+body.dark .search-input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(42, 127, 0, 0.1);
+}
+
+body.dark .search-icon {
+  color: var(--text-muted);
+}
+
+body.dark .filter-btn {
+  border: 0.125em solid var(--border-color);
+  background: #3a3a3a;
+  color: var(--text-muted);
+}
+
+body.dark .filter-btn:hover,
+body.dark .filter-btn.active {
+  border-color: var(--primary-color);
+  background: var(--primary-color);
+  color: white;
+}
+
+body.dark .activity-table {
+  background: #1f1f1f;
+  box-shadow: var(--shadow);
+}
+
+body.dark .activity-table thead {
+  background: #0a0a0a;
+  color: white;
+}
+
+body.dark .activity-table th {
+  color: #e0e0e0;
+}
+
+body.dark .activity-table td {
+  border-bottom: 1px solid var(--border-color);
+  color: #e0e0e0;
+}
+
+body.dark .activity-table tbody tr:hover {
+  background: #2d2d2d;
+}
+
+body.dark .user-details h6 {
+  color: var(--dark-color);
+}
+
+body.dark .user-details small {
+  color: var(--text-muted);
+}
+
+body.dark .action-login {
+  background: rgba(110, 231, 183, 0.1);
+  color: var(--success-color);
+}
+
+body.dark .action-logout {
+  background: rgba(248, 113, 113, 0.1);
+  color: var(--danger-color);
+}
+
+body.dark .action-create {
+  background: rgba(96, 165, 250, 0.1);
+  color: var(--info-color);
+}
+
+body.dark .action-update {
+  background: rgba(252, 211, 77, 0.1);
+  color: var(--warning-color);
+}
+
+body.dark .action-delete {
+  background: rgba(248, 113, 113, 0.1);
+  color: var(--danger-color);
+}
+
+body.dark .description-text {
+  color: var(--text-muted);
+}
+
+body.dark .date-info {
+  color: var(--dark-color);
+}
+
+body.dark .date-relative {
+  color: var(--text-muted);
+}
+
+body.dark .ip-address {
+  background: var(--light-gray);
+  color: var(--text-muted);
+}
+
+body.dark .stat-card {
+  background: #1f1f1f;
+  box-shadow: var(--shadow);
+  border-left: 4px solid var(--primary-color);
+}
+
+body.dark .stat-number {
+  color: var(--primary-color);
+}
+
+body.dark .stat-label {
+  color: var(--text-muted);
+}
+
+body.dark .pagination-container {
+  border-top: 1px solid var(--border-color);
+}
+
+body.dark .empty-state {
+  color: var(--text-muted);
+}
+
+body.dark .empty-state i {
+  color: var(--text-muted);
+}
+
+body.dark .main-container {
+  background: #1f1f1f;
+  box-shadow: var(--shadow-lg);
+}
+
+body.dark .user-avatar {
+  background: linear-gradient(135deg, var(--primary-color), #1a1a1a);
+}
+
+body.dark .fade-in {
+  animation: fadeInDark 0.5s ease-in;
+}
+
+@keyframes fadeInDark {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+body.dark .btn:focus-visible,
+body.dark .form-control:focus-visible {
+  outline: 0.125rem solid var(--primary-color);
+  outline-offset: 0.125rem;
+}

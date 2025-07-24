@@ -14,10 +14,12 @@ body {
     margin-left: 12vw;
 }
 
-/* Contenedor principal */
+  /* ===== MAIN CONTENT ===== */
 .main-content {
+  margin-left: 16.75rem; /* 300px */
+  margin-right: auto; /* 300px */
     max-width: 90vw;
-    margin: 0 auto;
+    margin-right: 9.75rem; 
     background: white;
     border-radius: 0.75rem;
     box-shadow: 0 0.125rem 0.625rem rgba(0, 0, 0, 0.1);
@@ -674,117 +676,6 @@ body.dark {
 }
 
 /* Fondos de contenedores */
-body.dark .sidebar,
-body.dark .card,
-body.dark .main-content {
-  background-color: #1e1e1e;
-  color: #ffffff;
-}
-
-/* Cambios en textos dentro del sidebar */
-body.dark .sidebar-nav .nav-item,
-body.dark .sidebar-utilities .utility-item {
-  color: #ffffff;
-}
-
-/* Botones u otros elementos con fondo claro (excepto los verdes) */
-body.dark .btn,
-body.dark input,
-body.dark select,
-body.dark textarea {
-  background-color: #2c2c2c;
-  color: #ffffff;
-  border: 1px solid #444;
-}
-
-/* Enlaces */
-body.dark a {
-  color: #90caf9;
-}
-
-/* Hover en modo oscuro */
-body.dark .nav-item:hover,
-body.dark .utility-item:hover {
-  background-color: #333;
-}
-
-/* === EXCEPCIONES PARA VERDE INSTITUCIONAL === */
-body.dark .btn-green,
-body.dark .nav-item i,
-body.dark .logo-sena,
-body.dark .logo-jke {
-  filter: none;
-  color: inherit;
-}
-
-/* Evitar que los logos se oscurezcan (si son imágenes) */
-body.dark img {
-  filter: none;
-}
-
-/* =============== CUSTOM PARA ESTA VISTA =============== */
-body.dark .welcome-container {
-  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-}
-body.dark .welcome-title {
-  color: #2a7f00; /* Mantenemos el verde institucional */
-}
-body.dark .welcome-subtitle {
-  color: #ccc;
-}
-body.dark .feature-card {
-  background: #333;
-  color: white;
-}
-body.dark .feature-card h3 {
-  color: white;
-}
-body.dark .feature-card p {
-  color: #ccc;
-}
-body.dark .edit-modal-content {
-  background: #2a2a2a;
-}
-body.dark .edit-modal-header {
-  border-bottom: 1px solid #444;
-}
-body.dark .edit-close-btn {
-  color: #ccc;
-}
-body.dark .edit-close-btn:hover {
-  color: white;
-}
-body.dark .edit-form-group label {
-  color: #ddd;
-}
-body.dark .edit-text-input,
-body.dark .edit-file-input,
-body.dark .edit-textarea {
-  background-color: #1f1f1f;
-  color: white;
-  border: 1px solid #555;
-}
-body.dark .edit-form-actions {
-  border-top: 1px solid #444;
-}
-body.dark .edit-cancel-btn {
-  background: #444;
-  color: #ccc;
-}
-body.dark .edit-cancel-btn:hover {
-  background: #555;
-}
-body.dark .edit-exit-btn {
-  background: #b52b3a;
-  color: #fff; /* Added for better visibility */
-}
-body.dark .edit-exit-btn:hover {
-  background: #9e1f2d;
-}
-
-/* Dark mode styles for the provided CSS */
-
-/* Contenedor principal */
 body.dark .main-content {
   background-color: #1e1e1e;
   color: #ffffff;
@@ -800,7 +691,7 @@ body.dark .page-title {
 
 /* Sección de búsqueda y botón de reporte */
 body.dark .search-section {
-  background: #1e1e1e; /* Consistent with containers */
+  background: #1e1e1e;
   border-bottom: 1px solid #444;
 }
 body.dark .btn-generate-report {
@@ -815,7 +706,7 @@ body.dark .btn-generate-report:hover {
 
 /* Modal para reportes */
 body.dark .modal-contenido {
-  background-color: #2a2a2a; /* Similar to edit-modal-content */
+  background-color: #2a2a2a;
   border: 0.0625rem solid #444;
   box-shadow: 0 0 0.9375rem rgba(0, 0, 0, 0.5);
 }
@@ -829,7 +720,7 @@ body.dark .cerrar-modal:focus {
 
 /* Grid de categorías y materias */
 body.dark .content-grid {
-  background: #121212; /* Body background */
+  background: #121212;
 }
 body.dark .category-card {
   background: #1e1e1e;
@@ -837,10 +728,10 @@ body.dark .category-card {
   box-shadow: 0 0.125rem 0.625rem rgba(0, 0, 0, 0.3);
 }
 body.dark .category-card:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); /* Darker hover shadow */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 body.dark .category-header {
-  background: #2a7f00; /* Institutional green, adjusted for dark mode */
+  background: #2a7f00;
   color: white;
 }
 body.dark .category-content {
@@ -852,7 +743,7 @@ body.dark .subject-section {
   border-bottom: 1px solid #333;
 }
 body.dark .subject-header {
-  background: #222; /* Slightly lighter than container for distinction */
+  background: #222;
   border-bottom: 1px solid #444;
   color: #e0e0e0;
 }
@@ -905,6 +796,7 @@ body.dark .competencia-titulo {
 }
 body.dark .result-item {
   border-bottom: 1px solid #333;
+  background-color: #222;
 }
 body.dark .result-item:hover {
   background: #222;
@@ -930,36 +822,36 @@ body.dark .result-instructor i {
 
 /* Estados de los resultados */
 body.dark .status-approved {
-  background: #1f4f2a; /* Darker green */
+  background: #1f4f2a;
   color: #90ee90;
   border: 1px solid #2a6f3a;
 }
 body.dark .status-rejected {
-  background: #5c1f2a; /* Darker red */
+  background: #5c1f2a;
   color: #ff6b6b;
   border: 1px solid #7a2f3a;
 }
 body.dark .status-pending {
-  background: #5c4f1f; /* Darker yellow */
+  background: #5c4f1f;
   color: #ffd700;
   border: 1px solid #7a6f2a;
 }
 
 /* Información del estudiante */
 body.dark .student-info-section {
-  background: #121212; /* Body background */
+  background: #121212;
   border-top: 1px solid #444;
 }
 body.dark .student-info-section .card {
-  background: #1e1e1e; /* Consistent with containers */
+  background: #1e1e1e;
   box-shadow: 0 0.125rem 0.625rem rgba(0, 0, 0, 0.3);
 }
 body.dark .student-info-section .card-header {
-  background: #1976d2; /* Darker blue */
+  background: #1976d2;
   color: white;
 }
 body.dark .student-info-section .card-content {
-  background: #1e1e1e; /* Consistent with containers */
+  background: #1e1e1e;
 }
 body.dark .info-item strong {
   color: #e0e0e0;
