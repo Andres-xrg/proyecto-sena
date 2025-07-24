@@ -1,0 +1,17 @@
+[24-Jul-2025 13:27:41 UTC] PHP Warning:  Undefined array key "jornada" in C:\wamp64\www\proyecto-sena\functions\functions_registros_fichas.php on line 31
+[24-Jul-2025 13:27:41 UTC] PHP Stack trace:
+[24-Jul-2025 13:27:41 UTC] PHP   1. {main}() C:\wamp64\www\proyecto-sena\index.php:0
+[24-Jul-2025 13:27:41 UTC] PHP   2. include() C:\wamp64\www\proyecto-sena\index.php:17
+[24-Jul-2025 13:27:41 UTC] PHP   3. include() C:\wamp64\www\proyecto-sena\includes\main.php:72
+[24-Jul-2025 13:27:41 UTC] PHP Warning:  Undefined array key "jefe" in C:\wamp64\www\proyecto-sena\functions\functions_registros_fichas.php on line 32
+[24-Jul-2025 13:27:41 UTC] PHP Stack trace:
+[24-Jul-2025 13:27:41 UTC] PHP   1. {main}() C:\wamp64\www\proyecto-sena\index.php:0
+[24-Jul-2025 13:27:41 UTC] PHP   2. include() C:\wamp64\www\proyecto-sena\index.php:17
+[24-Jul-2025 13:27:41 UTC] PHP   3. include() C:\wamp64\www\proyecto-sena\includes\main.php:72
+[24-Jul-2025 13:27:41 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'proyecto_formativo.ficha' doesn't exist in C:\wamp64\www\proyecto-sena\functions\functions_registros_fichas.php:37
+Stack trace:
+#0 C:\wamp64\www\proyecto-sena\functions\functions_registros_fichas.php(37): mysqli->prepare('SELECT COUNT(*)...')
+#1 C:\wamp64\www\proyecto-sena\includes\main.php(72): include('C:\\wamp64\\www\\p...')
+#2 C:\wamp64\www\proyecto-sena\index.php(17): include('C:\\wamp64\\www\\p...')
+#3 {main}
+  thrown in C:\wamp64\www\proyecto-sena\functions\functions_registros_fichas.php on line 37

@@ -53,5 +53,18 @@ return [
     'no_students' => 'There are no students registered in this group.',
     'no_valid_ficha' => '⚠️ A valid group ID was not specified.',
     'ficha_not_found' => '❌ Group not found with ID',
+      'register_users' => 'User Registration',
+    'all_fields_required' => 'All fields are required',
+    'users' => 'Users',
+    'user_name' => 'Name',
+    'user_lastname' => 'Last Name',
+    'user_phone' => 'Phone',
+    'document_type' => 'Document Type',
+    'select_doc_type' => 'Select document type',
+    'document_number' => 'Document Number',
+    'email' => 'Email',
+    'access_email' => 'This email will be used to access the system',
+    'confirm_password' => 'Confirm Password',
+    'submit' => 'Register'
 ];
 

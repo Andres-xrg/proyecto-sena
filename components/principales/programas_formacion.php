@@ -187,7 +187,7 @@ $programas = $stmt->get_result();
 <script src="/proyecto-sena/assets/js/registros.js"></script>
 <script src="/proyecto-sena/assets/js/programas_formacion.js"></script>
 
-<!-- 🔍 Buscador -->
+<!-- Buscador -->
 <script>
 document.addEventListener("DOMContentLoaded", () => {
     const searchInput = document.getElementById("searchInput");

@@ -21,7 +21,7 @@ $stmt->execute();
 $ficha = $stmt->get_result()->fetch_assoc();
 
 if (!$ficha) {
-    echo "<p style='color:red;'>❌ No se encontró la ficha con ID $id_ficha.</p>";
+    echo "<p style='color:red;'> No se encontró la ficha con ID $id_ficha.</p>";
     exit;
 }
 

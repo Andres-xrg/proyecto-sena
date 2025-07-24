@@ -111,9 +111,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             }
         }
 
-        // 🔁 Redirigir al formulario con mensaje de éxito
-header("Location: /proyecto-sena/index.php?page=components/fichas/registro_ficha&success=ficha-creada");
+header("Location: /proyecto-sena/index.php?page=components/programas/registro_programa&success=programa-creado");
 exit;
+
 
 
     } else {

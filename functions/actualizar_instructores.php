@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         header("Location: ../index.php?page=components/instructores/instructores&success=editado");
         exit;
     } else {
-        echo "❌ Error al actualizar: " . $stmt->error;
+        echo " Error al actualizar: " . $stmt->error;
     }
 }
 ?>

@@ -3,10 +3,24 @@ if (!defined('ACCESO_PERMITIDO')) {
     header("Location: proyecto-sena/components/principales/login.php");
     exit;
 }
+
 require_once 'db/conexion.php';
 
-$instructores = $conn->query("SELECT Id_instructor, nombre, apellido FROM instructores ORDER BY nombre ASC");
-$programas = $conn->query("SELECT id_programa, nombre_programa FROM programas_formacion ORDER BY nombre_programa ASC");
+// Verificamos la conexión
+if ($conn->connect_error) {
+    die("Error de conexión: " . $conn->connect_error);
+}
+
+try {
+    $instructores = $conn->query("SELECT Id_instructor, nombre, apellido FROM instructores ORDER BY nombre ASC");
+    $programas = $conn->query("SELECT id_programa, nombre_programa FROM programas_formacion ORDER BY nombre_programa ASC");
+
+    if (!$instructores || !$programas) {
+        throw new Exception("Error al obtener datos de la base de datos.");
+    }
+} catch (Exception $e) {
+    die("Ocurrió un error: " . $e->getMessage());
+}
 ?>
 
 <!DOCTYPE html>
@@ -95,14 +109,24 @@ $programas = $conn->query("SELECT id_programa, nombre_programa FROM programas_fo
     </div>
 </main>
 
+<!-- ALERTAS CON SWEETALERT -->
 <?php if (isset($_GET['success']) && $_GET['success'] === 'ficha-creada'): ?>
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-    Swal.fire({
-        icon: 'success',
-        title: '¡Ficha creada correctamente!',
-        confirmButtonText: 'Aceptar'
-    });
+Swal.fire({
+    icon: 'success',
+    title: '¡Ficha creada correctamente!',
+    confirmButtonText: 'Aceptar'
+});
+</script>
+<?php endif; ?>
+
+<?php if (isset($_GET['error']) && $_GET['error'] === 'ficha-repetida'): ?>
+<script>
+Swal.fire({
+    icon: 'error',
+    title: 'Ficha duplicada',
+    text: 'El número de ficha ya existe en el sistema.',
+    confirmButtonText: 'Aceptar'
 });
 </script>
 <?php endif; ?>

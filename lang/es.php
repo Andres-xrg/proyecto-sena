@@ -120,4 +120,18 @@ return [
     'no_students' => 'No hay aprendices registrados en esta ficha.',
     'no_valid_ficha' => '⚠️ No se ha especificado una ficha válida.',
     'ficha_not_found' => '❌ No se encontró la ficha con ID',
+      'register_users' => 'Registro de usuarios',
+    'all_fields_required' => 'Todos los campos son obligatorios',
+    'users' => 'Usuarios',
+    'user_name' => 'Nombre',
+    'user_lastname' => 'Apellido',
+    'user_phone' => 'Teléfono',
+    'document_type' => 'Tipo de documento',
+    'select_doc_type' => 'Seleccione tipo de documento',
+    'document_number' => 'Número de documento',
+    'email' => 'Correo electrónico',
+    'access_email' => 'Este correo será usado para acceder al sistema',
+    'confirm_password' => 'Confirmar contraseña',
+    'submit' => 'Registrar'
+    
 ];
