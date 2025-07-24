@@ -57,7 +57,7 @@
     </div>
 </div>
 
-<!-- ✅ Fondo oscuro que se activa con el menú hamburguesa -->
+<!-- Fondo oscuro que se activa con el menú hamburguesa -->
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
 <script src="/proyecto-sena/assets/js/sidebar-secundario.js"></script>

@@ -19,7 +19,7 @@ function agruparCompetencias($resultado) {
         'COMPETENCIAS TRANSVERSALES' => []
     ];
 
-    $categorias_por_competencia = []; // NUEVO: para memorizar la categoría única por competencia
+    $categorias_por_competencia = []; // memorizar la categoría única por competencia
 
     while ($j = $resultado->fetch_assoc()) {
         $competencia = $j['Competencia'] ?? '';

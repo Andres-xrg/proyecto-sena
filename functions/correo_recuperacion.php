@@ -8,7 +8,7 @@ function enviarCorreoRecuperacion($correoDestino, $token) {
     $mail = new PHPMailer(true);
 
     try {
-        $mail->CharSet = 'UTF-8'; // ✅ Soporte para caracteres especiales
+        $mail->CharSet = 'UTF-8'; // Soporte para caracteres especiales
 
         // Configuración del servidor SMTP
         $mail->isSMTP();

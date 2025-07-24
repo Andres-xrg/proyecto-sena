@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bind_param("si", $nuevo_estado, $id);
 
         if ($stmt->execute()) {
-            // ✅ Registrar en historial
+            // Registrar en historial
             if (isset($_SESSION['usuario']['id'])) {
                 registrar_historial(
                     $conn,

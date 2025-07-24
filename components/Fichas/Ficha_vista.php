@@ -6,7 +6,7 @@ if (session_status() === PHP_SESSION_NONE) session_start();
 $id_ficha = $_GET['id'] ?? null;
 
 if (!$id_ficha || !is_numeric($id_ficha)) {
-    echo "<p style='color:red;'>⚠️ No se ha especificado una ficha válida.</p>";
+    echo "<p style='color:red;'> No se ha especificado una ficha válida.</p>";
     exit;
 }
 

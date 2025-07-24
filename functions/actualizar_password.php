@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $update->bind_param("si", $nueva_clave, $id_usuario);
         $update->execute();
 
-        // ✅ Agregar registro al historial_usuarios
+        // Agregar registro al historial_usuarios
         $accion = "Cambio de contraseña";
         $descripcion = "El usuario recuperó su contraseña mediante el enlace enviado al correo.";
         $ip_usuario = $_SERVER['REMOTE_ADDR'];
