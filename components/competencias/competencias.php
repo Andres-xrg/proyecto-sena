@@ -71,8 +71,6 @@ $estado_formacion = $res_estado->fetch_assoc()['Estado_formacion'] ?? 'No regist
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Juicios de <?= htmlspecialchars($aprendiz['nombre'] ?? '') ?></title>
 </head>
-
-</head>
 <body>
 <main class="main-content">
     <h1 class="page-title">Juicios Evaluativos de <?= htmlspecialchars($aprendiz['nombre'] ?? '') ?> <?= htmlspecialchars($aprendiz['apellido'] ?? '') ?></h1>
@@ -83,8 +81,7 @@ $estado_formacion = $res_estado->fetch_assoc()['Estado_formacion'] ?? 'No regist
                 <i class="fas fa-file-alt"></i>
                 GENERAR REPORTE
             </button>
-            <input type="text" class="form-control observaciones-aprendiz" readonly
-                value="<?= htmlspecialchars($aprendiz['Observaciones'] ?? 'Sin observaciones') ?>">
+           
         </div>
     </div>
 
@@ -232,11 +229,7 @@ $estado_formacion = $res_estado->fetch_assoc()['Estado_formacion'] ?? 'No regist
             <div class="info-item">
                 <strong>Documento:</strong> <?= !empty($aprendiz['N_Documento']) ? htmlspecialchars($aprendiz['N_Documento']) : 'N/A' ?>
             </div>
-            <div class="info-item">
-                <strong>Ficha:</strong>
-                        <?= htmlspecialchars($competencias_agrupadas[array_key_first($competencias_agrupadas)][0]['Numero_ficha'] ?? 'N/A') 
-                    ?>
-            </div>
+            <strong>Ficha:</strong> <?= htmlspecialchars($competencias_agrupadas[array_key_first($competencias_agrupadas)][0]['Numero_ficha'] ?? 'N/A')  ?>
             <div class="info-item">
                 <strong>Última actualización:</strong> 
                 <?= !empty($aprendiz['Fecha_registro']) ? date('d/m/Y H:i', strtotime($aprendiz['Fecha_registro'])) : 'N/A' ?>

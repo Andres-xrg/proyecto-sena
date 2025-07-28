@@ -102,7 +102,7 @@ $aprendices = $stmt2->get_result();
 
                 $badge_color = 'badge-gray';
                 if ($estado === 'en formación') $badge_color = 'badge-green';
-                elseif ($estado === 'trasladado') $badge_color = 'badge-blue';
+                elseif ($estado === 'trasladado' || 'TRASLADADO') $badge_color = 'badge-blue';
                 elseif ($estado === 'desertado') $badge_color = 'badge-red';
 
                 $datos = obtener_porcentaje_aprobadas($a['N_Documento']);

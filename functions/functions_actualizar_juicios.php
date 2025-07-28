@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['juicios'])) {
             if ($res_aprendiz->num_rows === 0) {
                 // Insertar nuevo aprendiz con correo
                 $email = strtolower(str_replace(' ', '', $nombre)) . '@soysena.edu.co';
-                $insert_aprendiz = $conn->prepare("INSERT INTO aprendices (T_documento, N_documento, nombre, apellido, Email, N_Telefono) VALUES (?, ?, ?, ?, ?, '')");
+                $insert_aprendiz = $conn->prepare("INSERT INTO aprendices (T_Documento, N_documento, nombre, apellido, Email, N_Telefono) VALUES (?, ?, ?, ?, ?, '')");
                 if (!$insert_aprendiz) die("❌ Error en prepare (insert_aprendiz): " . $conn->error);
                 $insert_aprendiz->bind_param("sssss", $tipo_documento, $documento, $nombre, $apellido, $email);
                 $insert_aprendiz->execute();
@@ -99,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['juicios'])) {
                     $update->execute();
                 }
             } else {
-                $insert = $conn->prepare("INSERT INTO juicios_evaluativos (T_documento, N_Documento, Nombre_aprendiz, Apellido_aprendiz, Estado_formacion, Competencia, Resultado_aprendizaje, Juicio, Numero_ficha, Programa_formacion, Fecha_registro, Funcionario_registro) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                $insert = $conn->prepare("INSERT INTO juicios_evaluativos (T_Documento, N_Documento, Nombre_aprendiz, Apellido_aprendiz, Estado_formacion, Competencia, Resultado_aprendizaje, Juicio, Numero_ficha, Programa_formacion, Fecha_registro, Funcionario_registro) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
                 if (!$insert) die("❌ Error en prepare (insert): " . $conn->error);
                 $insert->bind_param("ssssssssssss", $tipo_documento, $documento, $nombre, $apellido, $estado_formacion, $competencia, $resultado_aprendizaje, $juicio, $numero_ficha, $programa, $fecha, $funcionario);
                 $insert->execute();
