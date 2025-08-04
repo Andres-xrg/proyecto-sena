@@ -40,8 +40,8 @@ if (!ACCESO_PERMITIDO){
                         <label for="tipoDocumento"><?= $translations['document_type'] ?></label>
                         <select id="tipoDocumento" name="tipoDocumento" required>
                             <option value=""><?= $translations['select_doc_type'] ?></option>
-                            <option value="1">Cédula Extranjera</option>
-                            <option value="2">Cédula</option>
+                            <option value="CC">Cédula</option>
+                            <option value="CE">Cédula Extranjera</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -50,11 +50,22 @@ if (!ACCESO_PERMITIDO){
                     </div>
                     <div class="form-group">
                         <label for="instructor"><?= $translations['instructors'] ?></label>
-                        <select id="instructor" name="instructor" required>
-                            <option value=""><?= $translations['select_doc_type'] ?></option>
-                            <option value="transversal">Instructor Transversal</option>
+                        <select id="instructor" name="instructor" required onchange="toggleFechasContrato()">
+                            <option value="">Seleccione tipo instructor</option>
+                            <option value="contratista">Contratista</option>
                             <option value="planta">Instructor planta</option>
                         </select>
+                    </div>
+                </div>
+
+                <div class="form-row" id="fechas-contrato" style="display:none;">
+                    <div class="form-group">
+                        <label for="fecha_inicio">Fecha de inicio del contrato</label>
+                        <input type="date" id="fecha_inicio" name="fecha_inicio">
+                    </div>
+                    <div class="form-group">
+                        <label for="fecha_fin">Fecha de fin del contrato</label>
+                        <input type="date" id="fecha_fin" name="fecha_fin">
                     </div>
                 </div>
 
@@ -73,5 +84,13 @@ if (!ACCESO_PERMITIDO){
             </form>
         </div>
     </main>
+
+    <script>
+    function toggleFechasContrato() {
+        const tipo = document.getElementById('instructor').value;
+        const fechas = document.getElementById('fechas-contrato');
+        fechas.style.display = tipo === 'contratista' ? 'flex' : 'none';
+    }
+    </script>
 </body>
 </html>

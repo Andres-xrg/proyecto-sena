@@ -15,6 +15,8 @@ $sql = "SELECT
             i.N_Documento, 
             i.N_Telefono, 
             i.Tipo_instructor,
+            i.fecha_inicio_contrato,
+            i.fecha_fin_contrato,
             CASE 
                 WHEN EXISTS (
                     SELECT 1 FROM fichas f WHERE f.Jefe_grupo = i.Id_instructor
@@ -54,6 +56,7 @@ if (!$resultado) die("Error en la consulta SQL: " . $conn->error);
                     $textoBoton = $activo ? 'Deshabilitar' : 'Habilitar';
                     $claseBoton = $activo ? 'btn-deshabilitar' : 'btn-habilitar';
                     $jefeFicha = $instructor['es_jefe_grupo'];
+                    $tipoDoc = $instructor['T_documento'];
                 ?>
                 <div class="instructor-card <?= $claseCard ?>">
                     <div class="instructor-content">
@@ -84,6 +87,13 @@ if (!$resultado) die("Error en la consulta SQL: " . $conn->error);
                                 <div class="detail-item"><label>Num. Documento</label><span><?= htmlspecialchars($instructor['N_Documento']) ?></span></div>
                                 <div class="detail-item"><label>Correo Instructor</label><span><?= htmlspecialchars($instructor['Email']) ?></span></div>
                                 <div class="detail-item"><label>Nº Teléfono</label><span><?= htmlspecialchars($instructor['N_Telefono']) ?></span></div>
+                                <div class="detail-item"><label>Tipo Instructor</label><span><?= ucfirst($instructor['Tipo_instructor']) ?></span></div>
+
+                                <?php if ($instructor['Tipo_instructor'] === 'contratista'): ?>
+                                    <div class="detail-item"><label>Fecha Inicio Contrato</label><span><?= htmlspecialchars($instructor['fecha_inicio_contrato']) ?: 'No aplica' ?></span></div>
+                                    <div class="detail-item"><label>Fecha Fin Contrato</label><span><?= htmlspecialchars($instructor['fecha_fin_contrato']) ?: 'No aplica' ?></span></div>
+                                <?php endif; ?>
+
                                 <div class="detail-item estado-item"><label>Estado</label><span><?= $textoEstado ?></span></div>
                                 <div class="detail-item"><label>Jefe de ficha</label><span><?= $jefeFicha ?></span></div>
                             </div>
@@ -128,40 +138,74 @@ if (!$resultado) die("Error en la consulta SQL: " . $conn->error);
             <label>Teléfono:</label>
             <input type="text" name="telefono" id="editTelefono" required pattern="[0-9]+" title="Solo números">
 
+            <label>Tipo de Instructor:</label>
+            <select name="tipo_instructor" id="editTipoInstructor" required onchange="mostrarFechasContrato()">
+                <option value="">Seleccione tipo</option>
+                <option value="planta">Planta</option>
+                <option value="contratista">Contratista</option>
+            </select>
+
+            <div id="fechasContrato" style="display: none;">
+                <label>Fecha Inicio Contrato:</label>
+                <input type="date" name="fecha_inicio_contrato" id="editFechaInicio">
+
+                <label>Fecha Fin Contrato:</label>
+                <input type="date" name="fecha_fin_contrato" id="editFechaFin">
+            </div>
+
             <button type="submit">Actualizar</button>
         </form>
     </div>
 </div>
 <?php endif; ?>
 
-<!-- ALERTAS SWEETALERT -->
 <?php if (isset($_GET['success'])): ?>
 <script>
     <?php if ($_GET['success'] === 'estado-cambiado'): ?>
-    Swal.fire({
-        icon: 'success',
-        title: '¡Éxito!',
-        text: 'Estado del instructor actualizado correctamente.',
-        confirmButtonColor: '#3085d6'
-    });
+    Swal.fire({ icon: 'success', title: '¡Éxito!', text: 'Estado actualizado.', confirmButtonColor: '#3085d6' });
     <?php elseif ($_GET['success'] === 'editado'): ?>
-    Swal.fire({
-        icon: 'success',
-        title: '¡Instructor actualizado!',
-        text: 'El instructor fue editado correctamente.',
-        confirmButtonColor: '#3085d6'
-    });
+    Swal.fire({ icon: 'success', title: '¡Instructor actualizado!', text: 'Instructor editado correctamente.', confirmButtonColor: '#3085d6' });
     <?php elseif ($_GET['success'] === 'creado'): ?>
-    Swal.fire({
-        icon: 'success',
-        title: '¡Instructor creado!',
-        text: 'El instructor fue registrado correctamente.',
-        confirmButtonColor: '#3085d6'
-    });
+    Swal.fire({ icon: 'success', title: '¡Instructor creado!', text: 'Instructor registrado correctamente.', confirmButtonColor: '#3085d6' });
     <?php endif; ?>
 </script>
 <?php endif; ?>
 
-<script src="/proyecto-sena/assets/js/editar_instructores.js"></script>
+<script>
+function abrirModal(instructor) {
+    document.getElementById('editId').value = instructor.Id_instructor;
+    document.getElementById('editFicha').value = instructor.Ficha ?? '';
+    document.getElementById('editNombre').value = instructor.nombre;
+    document.getElementById('editApellido').value = instructor.apellido;
+    document.getElementById('editEmail').value = instructor.Email;
+    document.getElementById('editTipoDocumento').value = instructor.T_documento;
+    document.getElementById('editNumeroDocumento').value = instructor.N_Documento;
+    document.getElementById('editTelefono').value = instructor.N_Telefono;
+    document.getElementById('editTipoInstructor').value = instructor.Tipo_instructor;
+
+    document.getElementById('editFechaInicio').value = instructor.fecha_inicio_contrato ?? '';
+    document.getElementById('editFechaFin').value = instructor.fecha_fin_contrato ?? '';
+
+    mostrarFechasContrato();
+    document.getElementById('modalEditar').style.display = 'block';
+}
+
+function cerrarModal() {
+    document.getElementById('modalEditar').style.display = 'none';
+}
+
+function mostrarFechasContrato() {
+    const tipo = document.getElementById('editTipoInstructor').value;
+    const fechas = document.getElementById('fechasContrato');
+    if (tipo === 'contratista') {
+        fechas.style.display = 'block';
+    } else {
+        fechas.style.display = 'none';
+        document.getElementById('editFechaInicio').value = '';
+        document.getElementById('editFechaFin').value = '';
+    }
+}
+</script>
+
 </body>
 </html>
