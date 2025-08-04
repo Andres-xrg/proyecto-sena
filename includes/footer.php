@@ -1,5 +1,10 @@
+<?php
+$config = include(__DIR__ . '/../functions/lang.php');
+$translations = $config['translations'] ?? [];
+$year = date('Y');
+?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<?= htmlspecialchars($config['lang_code'] ?? 'es') ?>">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="./assets/css/footer.css">
@@ -8,7 +13,7 @@
 </head>
 <body>
     <footer class="footer">
-    Desarrollado por JKE | SENA CDITI 2025
+        <?= $translations['footer_text'] ?? 'Texto por defecto' ?> <?= $year ?>
     </footer>
 </body>
 </html>

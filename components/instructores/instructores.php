@@ -43,7 +43,7 @@ if (!$resultado) die("Error en la consulta SQL: " . $conn->error);
 
 <div class="container">
     <div class="titulo">
-        <h1 class="title">Instructores</h1>
+        <h1 class="title" lang="es">Instructores</h1>
     </div>
 
     <div class="instructores-list">
@@ -65,7 +65,7 @@ if (!$resultado) die("Error en la consulta SQL: " . $conn->error);
                         </div>
                         <div class="instructor-info">
                             <div class="instructor-header">
-                                <h3 class="instructor-name">
+                                <h3 class="instructor-name" lang="es">
                                     <?= htmlspecialchars($instructor['nombre']) . ' ' . htmlspecialchars($instructor['apellido']) ?>
                                 </h3>
                                 <?php if ($_SESSION['usuario']['rol'] === 'administrador'): ?>
@@ -73,16 +73,17 @@ if (!$resultado) die("Error en la consulta SQL: " . $conn->error);
                                         <form method="POST" action="/proyecto-sena/functions/functions_instructores.php">
                                             <input type="hidden" name="id" value="<?= $instructor['Id_instructor'] ?>">
                                             <input type="hidden" name="accion" value="<?= $textoBoton ?>">
-                                            <button type="submit" class="btn-estado <?= $claseBoton ?>">
+                                            <button type="submit" class="btn-estado <?= $claseBoton ?>" lang="es">
                                                 <?= $textoBoton ?>
                                             </button>
                                         </form>
-                                        <button class="btn-editar" onclick='abrirModal(<?= json_encode($instructor) ?>)'>Editar</button>
+                                        <button class="btn-editar" onclick='abrirModal(<?= json_encode($instructor) ?>)' lang="es">Editar</button>
                                     </div>
                                 <?php endif; ?>
                             </div>
 
                             <div class="instructor-details">
+<<<<<<< Updated upstream
                                 <div class="detail-item"><label>T. Documento</label><span><?= htmlspecialchars($instructor['T_documento']) ?></span></div>
                                 <div class="detail-item"><label>Num. Documento</label><span><?= htmlspecialchars($instructor['N_Documento']) ?></span></div>
                                 <div class="detail-item"><label>Correo Instructor</label><span><?= htmlspecialchars($instructor['Email']) ?></span></div>
@@ -96,13 +97,21 @@ if (!$resultado) die("Error en la consulta SQL: " . $conn->error);
 
                                 <div class="detail-item estado-item"><label>Estado</label><span><?= $textoEstado ?></span></div>
                                 <div class="detail-item"><label>Jefe de ficha</label><span><?= $jefeFicha ?></span></div>
+=======
+                                <div class="detail-item"><label lang="es">T. Documento</label><span><?= htmlspecialchars($instructor['T_documento']) ?></span></div>
+                                <div class="detail-item"><label lang="es">Num. Documento</label><span><?= htmlspecialchars($instructor['N_Documento']) ?></span></div>
+                                <div class="detail-item"><label lang="es">Correo Instructor</label><span><?= htmlspecialchars($instructor['Email']) ?></span></div>
+                                <div class="detail-item"><label lang="es">Nº Teléfono</label><span><?= htmlspecialchars($instructor['N_Telefono']) ?></span></div>
+                                <div class="detail-item estado-item"><label lang="es">Estado</label><span><?= $textoEstado ?></span></div>
+                                <div class="detail-item"><label lang="es">Jefe de ficha</label><span><?= $jefeFicha ?></span></div>
+>>>>>>> Stashed changes
                             </div>
                         </div>
                     </div>
                 </div>
             <?php endwhile; ?>
         <?php else: ?>
-            <p>No hay instructores registrados.</p>
+            <p lang="es">No hay instructores registrados.</p>
         <?php endif; ?>
     </div>
 </div>
@@ -111,33 +120,34 @@ if (!$resultado) die("Error en la consulta SQL: " . $conn->error);
 <!-- Modal edición -->
 <div id="modalEditar" class="modal">
     <div class="modal-contenido">
-        <span class="cerrar-modal" onclick="cerrarModal()">&times;</span>
-        <h2>Editar Instructor</h2>
+        <span class="cerrar-modal" onclick="cerrarModal()" aria-label="Cerrar modal">&times;</span>
+        <h2 lang="es">Editar Instructor</h2>
         <form id="formEditarInstructor" method="POST" action="/proyecto-sena/functions/actualizar_instructores.php" onsubmit="return validarFormulario()">
             <input type="hidden" name="id" id="editId">
             <input type="hidden" name="ficha" id="editFicha">
 
-            <label>Nombre:</label>
+            <label lang="es">Nombre:</label>
             <input type="text" name="nombre" id="editNombre" required pattern="[A-Za-zÁÉÍÓÚñáéíóú\s]+" title="Solo letras y espacios">
 
-            <label>Apellido:</label>
+            <label lang="es">Apellido:</label>
             <input type="text" name="apellido" id="editApellido" required pattern="[A-Za-zÁÉÍÓÚñáéíóú\s]+" title="Solo letras y espacios">
 
-            <label>Email:</label>
+            <label lang="es">Email:</label>
             <input type="email" name="email" id="editEmail" required>
 
-            <label>Tipo Documento:</label>
+            <label lang="es">Tipo Documento:</label>
             <select name="tipo_documento" id="editTipoDocumento" required>
                 <option value="CC">CC</option>
                 <option value="CE">CE</option>
             </select>
 
-            <label>Número Documento:</label>
+            <label lang="es">Número Documento:</label>
             <input type="text" name="numero_documento" id="editNumeroDocumento" required pattern="[0-9]+" title="Solo números">
 
-            <label>Teléfono:</label>
+            <label lang="es">Teléfono:</label>
             <input type="text" name="telefono" id="editTelefono" required pattern="[0-9]+" title="Solo números">
 
+<<<<<<< Updated upstream
             <label>Tipo de Instructor:</label>
             <select name="tipo_instructor" id="editTipoInstructor" required onchange="mostrarFechasContrato()">
                 <option value="">Seleccione tipo</option>
@@ -154,6 +164,9 @@ if (!$resultado) die("Error en la consulta SQL: " . $conn->error);
             </div>
 
             <button type="submit">Actualizar</button>
+=======
+            <button type="submit" lang="es">Actualizar</button>
+>>>>>>> Stashed changes
         </form>
     </div>
 </div>

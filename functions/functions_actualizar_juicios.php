@@ -99,10 +99,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['juicios'])) {
                     $update->execute();
                 }
             } else {
-                $insert = $conn->prepare("INSERT INTO juicios_evaluativos (T_Documento, N_Documento, Nombre_aprendiz, Apellido_aprendiz, Estado_formacion, Competencia, Resultado_aprendizaje, Juicio, Numero_ficha, Programa_formacion, Fecha_registro, Funcionario_registro) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                if (!$insert) die("❌ Error en prepare (insert): " . $conn->error);
-                $insert->bind_param("ssssssssssss", $tipo_documento, $documento, $nombre, $apellido, $estado_formacion, $competencia, $resultado_aprendizaje, $juicio, $numero_ficha, $programa, $fecha, $funcionario);
-                $insert->execute();
+$insert = $conn->prepare("INSERT INTO juicios_evaluativos (
+    N_Documento, Nombre_aprendiz, Apellido_aprendiz, Estado_formacion,
+    Competencia, Resultado_aprendizaje, Juicio,
+    Numero_ficha, Programa_formacion, Fecha_registro, Funcionario_registro
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+$insert->bind_param("sssssssssss", $documento, $nombre, $apellido, $estado_formacion, $competencia, $resultado_aprendizaje, $juicio, $numero_ficha, $programa, $fecha, $funcionario);
             }
         }
 
