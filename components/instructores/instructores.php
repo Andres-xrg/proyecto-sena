@@ -83,28 +83,12 @@ if (!$resultado) die("Error en la consulta SQL: " . $conn->error);
                             </div>
 
                             <div class="instructor-details">
-<<<<<<< Updated upstream
-                                <div class="detail-item"><label>T. Documento</label><span><?= htmlspecialchars($instructor['T_documento']) ?></span></div>
-                                <div class="detail-item"><label>Num. Documento</label><span><?= htmlspecialchars($instructor['N_Documento']) ?></span></div>
-                                <div class="detail-item"><label>Correo Instructor</label><span><?= htmlspecialchars($instructor['Email']) ?></span></div>
-                                <div class="detail-item"><label>Nº Teléfono</label><span><?= htmlspecialchars($instructor['N_Telefono']) ?></span></div>
-                                <div class="detail-item"><label>Tipo Instructor</label><span><?= ucfirst($instructor['Tipo_instructor']) ?></span></div>
-
-                                <?php if ($instructor['Tipo_instructor'] === 'contratista'): ?>
-                                    <div class="detail-item"><label>Fecha Inicio Contrato</label><span><?= htmlspecialchars($instructor['fecha_inicio_contrato']) ?: 'No aplica' ?></span></div>
-                                    <div class="detail-item"><label>Fecha Fin Contrato</label><span><?= htmlspecialchars($instructor['fecha_fin_contrato']) ?: 'No aplica' ?></span></div>
-                                <?php endif; ?>
-
-                                <div class="detail-item estado-item"><label>Estado</label><span><?= $textoEstado ?></span></div>
-                                <div class="detail-item"><label>Jefe de ficha</label><span><?= $jefeFicha ?></span></div>
-=======
                                 <div class="detail-item"><label lang="es">T. Documento</label><span><?= htmlspecialchars($instructor['T_documento']) ?></span></div>
                                 <div class="detail-item"><label lang="es">Num. Documento</label><span><?= htmlspecialchars($instructor['N_Documento']) ?></span></div>
                                 <div class="detail-item"><label lang="es">Correo Instructor</label><span><?= htmlspecialchars($instructor['Email']) ?></span></div>
                                 <div class="detail-item"><label lang="es">Nº Teléfono</label><span><?= htmlspecialchars($instructor['N_Telefono']) ?></span></div>
                                 <div class="detail-item estado-item"><label lang="es">Estado</label><span><?= $textoEstado ?></span></div>
                                 <div class="detail-item"><label lang="es">Jefe de ficha</label><span><?= $jefeFicha ?></span></div>
->>>>>>> Stashed changes
                             </div>
                         </div>
                     </div>
@@ -147,26 +131,7 @@ if (!$resultado) die("Error en la consulta SQL: " . $conn->error);
             <label lang="es">Teléfono:</label>
             <input type="text" name="telefono" id="editTelefono" required pattern="[0-9]+" title="Solo números">
 
-<<<<<<< Updated upstream
-            <label>Tipo de Instructor:</label>
-            <select name="tipo_instructor" id="editTipoInstructor" required onchange="mostrarFechasContrato()">
-                <option value="">Seleccione tipo</option>
-                <option value="planta">Planta</option>
-                <option value="contratista">Contratista</option>
-            </select>
-
-            <div id="fechasContrato" style="display: none;">
-                <label>Fecha Inicio Contrato:</label>
-                <input type="date" name="fecha_inicio_contrato" id="editFechaInicio">
-
-                <label>Fecha Fin Contrato:</label>
-                <input type="date" name="fecha_fin_contrato" id="editFechaFin">
-            </div>
-
-            <button type="submit">Actualizar</button>
-=======
             <button type="submit" lang="es">Actualizar</button>
->>>>>>> Stashed changes
         </form>
     </div>
 </div>
