@@ -9,7 +9,7 @@ if (
 ) {
     $nombre = trim($_POST['nombre']);
     $apellido = trim($_POST['apellido']);
-    $tipoDocumento = strtoupper(trim($_POST['tipoDocumento'] ?? '')); // <- aquí tomamos el valor puro
+    $tipoDocumento = strtoupper(trim($_POST['tipoDocumento'] ?? '')); 
     $numeroDocumento = trim($_POST['numeroDocumento']);
     $tipoInstructor = trim($_POST['instructor']);
     $telefono = trim($_POST['telefono']);
@@ -20,15 +20,18 @@ if (
     $ficha = trim($_POST['ficha']);
     $ficha = ($ficha !== '' && is_numeric($ficha)) ? (int)$ficha : null;
 
-    // 💥 Validación estricta
-    if (!in_array($tipoDocumento, ['CC', 'CE'])) {
+    // ✅ Validación de tipo de documento (más flexible ahora que la BD acepta VARCHAR)
+    $tiposPermitidos = ['CC','CE','TI','PAS'];
+    if (!in_array($tipoDocumento, $tiposPermitidos)) {
         die("Error: Tipo de documento inválido.");
     }
 
+    // ✅ Validación de tipo de instructor
     if (!in_array($tipoInstructor, ['contratista', 'planta'])) {
         die("Error: Tipo de instructor inválido.");
     }
 
+    // Si no es contratista, limpiar fechas
     if ($tipoInstructor !== 'contratista') {
         $fecha_inicio = null;
         $fecha_fin = null;
@@ -44,8 +47,9 @@ if (
         die("Error al preparar la consulta: " . $conn->error);
     }
 
+    // ✅ Corrección: $tipoDocumento ahora se trata como string
     $stmt->bind_param(
-        "sssissssss",
+        "ssisssssss",
         $nombre,
         $apellido,
         $ficha,

@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="/proyecto-sena/assets/css/header.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="/proyecto-sena/assets/css/sidebar-secundario.css">
+    <link rel="stylesheet" href="/proyecto-sena/assets/css/header-secundario.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Proyecto</title>
 </head>
@@ -60,7 +60,6 @@
 <!-- Fondo oscuro que se activa con el menú hamburguesa -->
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-<script src="/proyecto-sena/assets/js/sidebar-secundario.js"></script>
 <script>
   document.addEventListener("DOMContentLoaded", () => {
     const sidebarToggle = document.getElementById("sidebarToggle");
