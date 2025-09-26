@@ -4,6 +4,7 @@ require_once __DIR__ . '/../db/conexion.php';
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     session_start(); // Asegura la sesión activa
 
+    // Capturar campos del formulario
     $id = $_POST["id"];
     $nombre = $_POST["nombre"];
     $apellido = $_POST["apellido"];
@@ -11,15 +12,35 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $tipo_documento = $_POST["tipo_documento"];
     $numero_documento = $_POST["numero_documento"];
     $telefono = $_POST["telefono"];
+    $tipo_instructor = $_POST["tipo_instructor"];
+    $rol_instructor = $_POST["rol_instructor"]; // Nuevo campo
+    $fecha_inicio = !empty($_POST["fecha_inicio_contrato"]) ? $_POST["fecha_inicio_contrato"] : null;
+    $fecha_fin = !empty($_POST["fecha_fin_contrato"]) ? $_POST["fecha_fin_contrato"] : null;
 
     // Validar ficha (puede ser null)
     $ficha = isset($_POST["ficha"]) && is_numeric($_POST["ficha"]) ? (int)$_POST["ficha"] : null;
 
+    // Preparar SQL con todos los campos
     $sql = "UPDATE instructores 
-            SET nombre=?, apellido=?, Email=?, T_documento=?, N_documento=?, N_Telefono=?, Ficha=? 
+            SET nombre=?, apellido=?, Email=?, T_documento=?, N_Documento=?, N_Telefono=?, Tipo_instructor=?, rol_instructor=?, fecha_inicio_contrato=?, fecha_fin_contrato=?, Ficha=? 
             WHERE Id_instructor=?";
+    
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssssssii", $nombre, $apellido, $email, $tipo_documento, $numero_documento, $telefono, $ficha, $id);
+    $stmt->bind_param(
+        "ssssssssssii",
+        $nombre,
+        $apellido,
+        $email,
+        $tipo_documento,
+        $numero_documento,
+        $telefono,
+        $tipo_instructor,
+        $rol_instructor,
+        $fecha_inicio,
+        $fecha_fin,
+        $ficha,
+        $id
+    );
 
     if ($stmt->execute()) {
         // Registrar en historial_usuarios
@@ -36,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         header("Location: ../index.php?page=components/instructores/instructores&success=editado");
         exit;
     } else {
-        echo " Error al actualizar: " . $stmt->error;
+        echo "Error al actualizar: " . $stmt->error;
     }
 }
 ?>

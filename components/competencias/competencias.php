@@ -1,4 +1,8 @@
+
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -81,7 +85,6 @@ $estado_formacion = $res_estado->fetch_assoc()['Estado_formacion'] ?? 'No regist
                 <i class="fas fa-file-alt"></i>
                 GENERAR REPORTE
             </button>
-           
         </div>
     </div>
 
@@ -317,11 +320,14 @@ $estado_formacion = $res_estado->fetch_assoc()['Estado_formacion'] ?? 'No regist
         <?php
         $observaciones = [];
         if (!empty($idAprendiz)) {
-            $stmt = $conn->prepare("SELECT o.observacion, o.fecha, u.Nombre, u.Apellido 
-                                    FROM observaciones_aprendiz o 
-                                    JOIN usuarios u ON o.id_usuario = u.Id_usuario 
-                                    WHERE o.id_aprendiz = ?
-                                    ORDER BY o.fecha DESC");
+            // Traemos también el id de la observación y alias para nombre de usuario
+                $stmt = $conn->prepare("SELECT o.id, o.observacion, o.fecha, 
+                                               u.Nombre AS usuario_nombre, u.Apellido AS usuario_apellido
+                                        FROM observaciones_aprendiz o 
+                                        JOIN usuarios u ON o.id_usuario = u.Id_usuario 
+                                        WHERE o.id_aprendiz = ?
+                                        ORDER BY o.fecha DESC");
+
             $stmt->bind_param("i", $idAprendiz);
             $stmt->execute();
             $result = $stmt->get_result();
@@ -330,12 +336,26 @@ $estado_formacion = $res_estado->fetch_assoc()['Estado_formacion'] ?? 'No regist
         ?>
 
         <?php if (!empty($observaciones)): ?>
-            <ul id="historialObservaciones" style="max-height: 200px; overflow-y: auto;">
+            <ul id="historialObservaciones" style="max-height: 200px; overflow-y: auto; list-style:none; padding:0;">
                 <?php foreach ($observaciones as $obs): ?>
-                    <li>
-                        <strong><?= htmlspecialchars($obs['Nombre'] . ' ' . $obs['Apellido']) ?></strong>
+                    <li style="padding:8px 0;">
+                        <strong><?= htmlspecialchars(($obs['usuario_nombre'] ?? $obs['Nombre'] ?? '') . ' ' . ($obs['usuario_apellido'] ?? $obs['Apellido'] ?? '')) ?></strong>
                         <em>(<?= $obs['fecha'] ?>):</em><br>
-                        <?= nl2br(htmlspecialchars($obs['observacion'])) ?>
+                        <span id="texto-<?= $obs['id'] ?>"><?= nl2br(htmlspecialchars($obs['observacion'])) ?></span>
+                        <br>
+                        <!-- guardamos el texto en base64 para evitar problemas con comillas/newlines en atributos -->
+<?php if (isset($_SESSION['usuario']['rol']) && strtolower($_SESSION['usuario']['rol']) === 'administrador'): ?>
+    <button 
+        class="btn btn-sm btn-warning btn-editar" 
+        data-id="<?= $obs['id'] ?>" 
+        data-texto="<?= base64_encode($obs['observacion']) ?>">
+        ✏ Editar
+    </button>
+<?php endif; ?>
+
+
+                            
+                                    
                     </li>
                     <hr>
                 <?php endforeach; ?>
@@ -389,6 +409,66 @@ document.getElementById('formObservacion').addEventListener('submit', function (
             icon: 'error',
             title: 'Error',
             text: 'Hubo un error inesperado al guardar la observación.',
+        });
+    });
+});
+
+function b64DecodeUnicode(str) {
+    try {
+        return decodeURIComponent(Array.prototype.map.call(atob(str), function(c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+    } catch (e) {
+        // fallback (may break with Unicode chars)
+        try { return atob(str); } catch (e2) { return ''; }
+    }
+}
+
+document.querySelectorAll('.btn-editar').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const id = btn.dataset.id;
+        const textoB64 = btn.dataset.texto || '';
+        const texto = textoB64 ? b64DecodeUnicode(textoB64) : '';
+
+        Swal.fire({
+            title: 'Editar observación',
+            input: 'textarea',
+            inputValue: texto,
+            showCancelButton: true,
+            confirmButtonText: 'Guardar',
+            cancelButtonText: 'Cancelar',
+            preConfirm: (value) => {
+                if (!value || value.trim() === '') {
+                    Swal.showValidationMessage('El texto no puede estar vacío');
+                }
+                return value;
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch('functions/editar_observacion.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: `id=${encodeURIComponent(id)}&texto=${encodeURIComponent(result.value)}`
+                })
+                .then(res => res.json())
+                .then(response => {
+                    if (response.success) {
+                        Swal.fire('Éxito', response.message, 'success').then(() => {
+
+                            const span = document.getElementById('texto-' + id);
+                            if (span) {
+                                span.innerHTML = response.updated_html ?? (result.value.replace(/\n/g, '<br>'));
+                            }
+                        });
+                    } else {
+                        Swal.fire('Error', response.message || 'No se pudo editar la observación', 'error');
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    Swal.fire('Error', 'Hubo un error al editar la observación', 'error');
+                });
+            }
         });
     });
 });

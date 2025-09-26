@@ -1,13 +1,16 @@
 <?php
 require_once __DIR__ . '/../../db/conexion.php';
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+if (session_status() === PHP_SESSION_NONE) session_start();
+
+// Idioma
+$idioma = $_SESSION['lang'] ?? 'es';
+$t = include __DIR__ . '/../../lang/' . $idioma . '.php';
 
 $tipo = $_GET['tipo'] ?? '';
 $estado_programa = $_GET['estado'] ?? '';
 $es_admin = isset($_SESSION['usuario']) && $_SESSION['usuario']['rol'] === 'administrador';
 
+// Construir condiciones SQL
 $condiciones = [];
 $params = [];
 $tipos_param = '';
@@ -27,87 +30,89 @@ if (!$es_admin) {
 }
 
 $sql = "SELECT * FROM programas_formacion";
-if ($condiciones) {
-    $sql .= " WHERE " . implode(" AND ", $condiciones);
-}
+if ($condiciones) $sql .= " WHERE " . implode(" AND ", $condiciones);
 $sql .= " ORDER BY nombre_programa ASC";
 
 $stmt = $conn->prepare($sql);
-if (!empty($params)) {
-    $stmt->bind_param($tipos_param, ...$params);
-}
+if (!empty($params)) $stmt->bind_param($tipos_param, ...$params);
 $stmt->execute();
 $programas = $stmt->get_result();
 ?>
 
 <!DOCTYPE html>
-<html lang="es">
+<html lang="<?= $idioma ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Programas de Formación</title>
+    <title><?= $t['training_programs'] ?? 'Programas de Formación' ?></title>
     <link rel="stylesheet" href="/proyecto-sena/assets/css/header.css">
     <link rel="stylesheet" href="/proyecto-sena/assets/css/footer.css">
     <link rel="stylesheet" href="/proyecto-sena/assets/css/programas_formacion.css">
 </head>
 <body>
 
+<!-- Barra de filtros y buscador -->
 <div class="filtro-barra">
     <form method="GET" action="index.php" style="display: flex; align-items: center;">
         <input type="hidden" name="page" value="components/principales/programas_formacion">
 
+        <!-- Filtro por tipo -->
         <div class="dropdown-container">
             <div class="dropdown" id="dropdownFiltroTipo" onclick="toggleDropdown('tipo')">
                 <span id="selectedOptionTipo">
-                    <?= isset($_GET['tipo']) ? ($_GET['tipo'] === '' || $_GET['tipo'] === 'Todos' ? 'Filtrar por tipo' : ucfirst($_GET['tipo'])) : 'Filtrar por tipo' ?>
+                    <?= isset($_GET['tipo']) ? ($_GET['tipo'] === '' ? $t['filter_by_type'] : ucfirst($_GET['tipo'])) : $t['filter_by_type'] ?>
                 </span>
                 <span class="arrow">&#9662;</span>
             </div>
             <div class="dropdown-options" id="dropdownOptionsTipo">
-                <div onclick="seleccionarFiltro('', 'tipo')">Todos</div>
-                <div onclick="seleccionarFiltro('tecnico', 'tipo')">Técnico</div>
-                <div onclick="seleccionarFiltro('tecnologo', 'tipo')">Tecnólogo</div>
+                <div onclick="seleccionarFiltro('', 'tipo')"><?= $t['all'] ?? 'Todos' ?></div>
+                <div onclick="seleccionarFiltro('tecnico', 'tipo')"><?= $t['technical'] ?? 'Técnico' ?></div>
+                <div onclick="seleccionarFiltro('tecnologo', 'tipo')"><?= $t['technologist'] ?? 'Tecnólogo' ?></div>
             </div>
             <input type="hidden" name="tipo" id="tipoHidden" value="<?= htmlspecialchars($tipo) ?>">
         </div>
 
+        <!-- Filtro por estado (solo admin) -->
         <?php if ($es_admin): ?>
         <div class="dropdown-container">
             <div class="dropdown" id="dropdownFiltroEstado" onclick="toggleDropdown('estado')">
                 <span id="selectedOptionEstado">
-                    <?= isset($_GET['estado']) ? ($_GET['estado'] === '' || $_GET['estado'] === 'Todos' ? 'Estado programa' : ucfirst($_GET['estado'])) : 'Estado programa' ?>
+                    <?= isset($_GET['estado']) ? ($_GET['estado'] === '' ? $t['program_status'] : ucfirst($_GET['estado'])) : $t['program_status'] ?>
                 </span>
                 <span class="arrow">&#9662;</span>
             </div>
             <div class="dropdown-options" id="dropdownOptionsEstado">
-                <div onclick="seleccionarFiltro('', 'estado')">Todos</div>
-                <div onclick="seleccionarFiltro('activo', 'estado')">Activo</div>
-                <div onclick="seleccionarFiltro('inactivo', 'estado')">Inactivo</div>
+                <div onclick="seleccionarFiltro('', 'estado')"><?= $t['all'] ?? 'Todos' ?></div>
+                <div onclick="seleccionarFiltro('activo', 'estado')"><?= $t['active'] ?? 'Activo' ?></div>
+                <div onclick="seleccionarFiltro('inactivo', 'estado')"><?= $t['inactive'] ?? 'Inactivo' ?></div>
             </div>
             <input type="hidden" name="estado" id="estadoHidden" value="<?= htmlspecialchars($estado_programa) ?>">
         </div>
         <?php endif; ?>
     </form>
 
+    <!-- Buscador -->
     <div class="search-box">
-        <input type="text" placeholder="Buscar..." id="searchInput">
+        <input type="text" placeholder="<?= $t['search_placeholder'] ?? 'Buscar...' ?>" id="searchInput">
     </div>
 </div>
 
+<!-- Menú flotante admin -->
 <?php if ($es_admin): ?>
 <div class="menu-fab">
     <button class="menu-toggle" onclick="toggleMenu()">☰</button>
     <div class="menu-options" id="menuOptions">
-        <button onclick="abrirModalPrograma()">Crear Programa</button>
-        <button onclick="registrarFicha()">Registrar Ficha</button>
-        <button onclick="registrarInstructor()">Registrar Instructor</button>
+        <button onclick="abrirModalPrograma()"><?= $t['create_program'] ?? 'Crear Programa' ?></button>
+        <button onclick="registrarFicha()"><?= $t['register_record'] ?? 'Registrar Ficha' ?></button>
+        <button onclick="registrarInstructor()"><?= $t['register_instructor'] ?? 'Registrar Instructor' ?></button>
     </div>
 </div>
 <?php endif; ?>
 
+<!-- Contenido principal -->
 <main class="programs-main-content">
     <?php if (isset($_GET['creado']) && $_GET['creado'] == 1): ?>
-        <div class="alert success">Programa creado exitosamente.</div>
+        <div class="alert success"><?= $t['program_created_success'] ?? 'Programa creado exitosamente.' ?></div>
     <?php endif; ?>
 
     <div class="programs-content-area">
@@ -124,16 +129,15 @@ $programas = $stmt->get_result();
                                     <?= htmlspecialchars($row['nombre_programa']) ?>
                                 </a>
                             </div>
-
                             <?php if ($es_admin): ?>
                             <div class="card-buttons">
                                 <button class="btn editar-btn"
-                                    onclick="abrirModalEditar('<?= $row['Id_programa'] ?>', '<?= htmlspecialchars(addslashes($row['nombre_programa'])) ?>', '<?= $row['tipo_programa'] ?>')">Editar</button>
+                                    onclick="abrirModalEditar('<?= $row['Id_programa'] ?>', '<?= htmlspecialchars(addslashes($row['nombre_programa'])) ?>', '<?= $row['tipo_programa'] ?>')"><?= $t['edit'] ?? 'Editar' ?></button>
                                 <form method="POST" action="functions/functions_estado_programa.php" style="display:inline;">
                                     <input type="hidden" name="id_programa" value="<?= $row['Id_programa'] ?>">
                                     <input type="hidden" name="nuevo_estado" value="<?= $row['estado'] === 'activo' ? 'inactivo' : 'activo' ?>">
                                     <button type="submit" class="btn <?= $row['estado'] === 'activo' ? 'deshabilitar-btn' : 'habilitar-btn' ?>">
-                                        <?= $row['estado'] === 'activo' ? 'Deshabilitar' : 'Habilitar' ?>
+                                        <?= $row['estado'] === 'activo' ? ($t['disable'] ?? 'Deshabilitar') : ($t['enable'] ?? 'Habilitar') ?>
                                     </button>
                                 </form>
                             </div>
@@ -146,40 +150,41 @@ $programas = $stmt->get_result();
     </div>
 </main>
 
-<!-- Modales -->
+<!-- Modal Crear Programa -->
 <div id="modalPrograma" class="modal hidden">
     <div class="modal-content">
         <span class="close-btn" onclick="cerrarModalPrograma()">&times;</span>
-        <h2>Registrar Programa de Formación</h2>
+        <h2><?= $t['register_training_program'] ?? 'Registrar Programa de Formación' ?></h2>
         <form action="/proyecto-sena/functions/functions_crear_programas.php" method="POST">
             <div class="form-group">
-                <label for="programa">Nombre del Programa:</label>
-                <input type="text" id="programa" name="programa" required>
+                <label><?= $t['program_name'] ?? 'Nombre del Programa:' ?></label>
+                <input type="text" name="programa" required>
             </div>
             <div class="form-group">
-                <label for="tipo_programa">Tipo de Programa:</label>
-                <select id="tipo_programa" name="tipo_programa" required>
-                    <option value="">Seleccione tipo</option>
-                    <option value="tecnico">Técnico</option>
-                    <option value="tecnologo">Tecnólogo</option>
+                <label><?= $t['program_type'] ?? 'Tipo de Programa:' ?></label>
+                <select name="tipo_programa" required>
+                    <option value=""><?= $t['select_type'] ?? 'Seleccione tipo' ?></option>
+                    <option value="tecnico"><?= $t['technical'] ?? 'Técnico' ?></option>
+                    <option value="tecnologo"><?= $t['technologist'] ?? 'Tecnólogo' ?></option>
                 </select>
             </div>
-            <button type="submit" class="register-btn">Guardar</button>
+            <button type="submit" class="register-btn"><?= $t['save'] ?? 'Guardar' ?></button>
         </form>
     </div>
 </div>
 
+<!-- Modal Editar Programa -->
 <div id="modalEditarPrograma" class="modal hidden">
     <div class="modal-content">
         <span class="close-btn" onclick="cerrarModalEditar()">&times;</span>
-        <h2>Editar Programa de Formación</h2>
+        <h2><?= $t['edit_training_program'] ?? 'Editar Programa de Formación' ?></h2>
         <form id="formEditarPrograma" method="POST" action="functions/functions_actualizar_programa.php">
             <input type="hidden" name="id_programa" id="editIdPrograma">
-            <label for="editNombrePrograma">Nombre del programa:</label>
+            <label><?= $t['program_name'] ?? 'Nombre del Programa:' ?></label>
             <input type="text" name="programa" id="editNombrePrograma" required>
-            <label for="editTipoPrograma">Tipo de programa:</label>
+            <label><?= $t['program_type'] ?? 'Tipo de Programa:' ?></label>
             <input type="text" name="tipo_programa" id="editTipoPrograma" required>
-            <button type="submit">Guardar cambios</button>
+            <button type="submit"><?= $t['save_changes'] ?? 'Guardar cambios' ?></button>
         </form>
     </div>
 </div>
@@ -187,23 +192,17 @@ $programas = $stmt->get_result();
 <script src="/proyecto-sena/assets/js/registros.js"></script>
 <script src="/proyecto-sena/assets/js/programas_formacion.js"></script>
 
-<!-- Buscador -->
 <script>
+// Buscador
 document.addEventListener("DOMContentLoaded", () => {
     const searchInput = document.getElementById("searchInput");
     const cards = document.querySelectorAll(".program-card");
 
     searchInput.addEventListener("input", () => {
         const searchTerm = searchInput.value.toLowerCase();
-
         cards.forEach(card => {
             const nombrePrograma = card.querySelector(".card-title").textContent.toLowerCase();
-
-            if (nombrePrograma.includes(searchTerm)) {
-                card.style.display = "block";
-            } else {
-                card.style.display = "none";
-            }
+            card.style.display = nombrePrograma.includes(searchTerm) ? "block" : "none";
         });
     });
 });

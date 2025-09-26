@@ -3,10 +3,14 @@ require_once __DIR__ . '/../../db/conexion.php';
 require_once __DIR__ . '/../../functions/functions_porcentaje_competencia.php';
 if (session_status() === PHP_SESSION_NONE) session_start();
 
+// Idioma
+$idioma = $_SESSION['lang'] ?? 'es';
+$lang = include __DIR__ . '/../../lang/' . $idioma . '.php';
+
 $id_ficha = $_GET['id'] ?? null;
 
 if (!$id_ficha || !is_numeric($id_ficha)) {
-    echo "<p style='color:red;'> No se ha especificado una ficha válida.</p>";
+    echo "<p style='color:red;'>".($lang['ficha_no_valida'] ?? "No se ha especificado una ficha válida.")."</p>";
     exit;
 }
 
@@ -21,7 +25,7 @@ $stmt->execute();
 $ficha = $stmt->get_result()->fetch_assoc();
 
 if (!$ficha) {
-    echo "<p style='color:red;'> No se encontró la ficha con ID $id_ficha.</p>";
+    echo "<p style='color:red;'>".($lang['ficha_no_encontrada'] ?? "No se encontró la ficha con ID $id_ficha.")."</p>";
     exit;
 }
 
@@ -40,10 +44,10 @@ $aprendices = $stmt2->get_result();
 ?>
 
 <!DOCTYPE html>
-<html lang="es">
+<html lang="<?= $idioma ?>">
 <head>
     <meta charset="UTF-8">
-    <title>Ficha <?= htmlspecialchars($ficha['numero_ficha']) ?></title>
+    <title><?= htmlspecialchars($lang['ficha_numero'] ?? 'Ficha') ?> <?= htmlspecialchars($ficha['numero_ficha']) ?></title>
     <link rel="stylesheet" href="assets/css/fichas.css">
     <link rel="stylesheet" href="assets/css/header.css">
     <link rel="stylesheet" href="assets/css/footer.css">
@@ -52,20 +56,20 @@ $aprendices = $stmt2->get_result();
 <body>
 <div class="container">
     <div class="main-card">
-        <h1 class="header-title">Ficha N° <?= htmlspecialchars($ficha['numero_ficha']) ?></h1>
+        <h1 class="header-title"><?= ($lang['ficha_numero'] ?? 'Ficha N°') ?> <?= htmlspecialchars($ficha['numero_ficha']) ?></h1>
 
         <div class="form-controls">
             <div class="form-group">
-                <label>Programa:</label>
+                <label><?= $lang['programa'] ?? 'Programa:' ?></label>
                 <p><?= htmlspecialchars($ficha['nombre_programa']) ?></p>
             </div>
             <div class="form-group">
-                <label>Jornada:</label>
+                <label><?= $lang['jornada'] ?? 'Jornada:' ?></label>
                 <p><?= htmlspecialchars($ficha['Jornada']) ?></p>
             </div>
             <div class="form-group">
                 <div class="search-box">
-                    <input type="text" placeholder="Buscar..." id="searchInput">
+                    <input type="text" placeholder="<?= $lang['buscar'] ?? 'Buscar...' ?>" id="searchInput">
                 </div>
             </div>
             
@@ -77,14 +81,14 @@ $aprendices = $stmt2->get_result();
                         <input type="hidden" name="programa" value="<?= htmlspecialchars($ficha['nombre_programa']) ?>">
                         <input type="file" name="juicios" accept=".xlsx, .xls">
                         <button type="submit" class="btn-actualizar-juicios">
-                            <i class="fas fa-upload"></i> Actualizar Juicios
+                            <i class="fas fa-upload"></i> <?= $lang['actualizar_juicios'] ?? 'Actualizar Juicios' ?>
                         </button>
                     </form>
                 <?php endif; ?>
             </div>
         </div>
 
-        <h2 class="header-title">Aprendices</h2>
+        <h2 class="header-title"><?= $lang['aprendices'] ?? 'Aprendices' ?></h2>
 
         <div class="students-list">
             <?php 
@@ -98,11 +102,11 @@ $aprendices = $stmt2->get_result();
                 $estado_stmt->bind_param("s", $a['N_Documento']);
                 $estado_stmt->execute();
                 $estado_data = $estado_stmt->get_result()->fetch_assoc();
-                $estado = strtolower($estado_data['Estado_formacion'] ?? 'sin estado');
+                $estado = strtolower($estado_data['Estado_formacion'] ?? 'sin_estado');
 
                 $badge_color = 'badge-gray';
                 if ($estado === 'en formación') $badge_color = 'badge-green';
-                elseif ($estado === 'trasladado' || 'TRASLADADO') $badge_color = 'badge-blue';
+                elseif ($estado === 'trasladado') $badge_color = 'badge-blue';
                 elseif ($estado === 'desertado') $badge_color = 'badge-red';
 
                 $datos = obtener_porcentaje_aprobadas($a['N_Documento']);
@@ -121,25 +125,25 @@ $aprendices = $stmt2->get_result();
                             <div class="student-header">
                                 <span class="student-name"><?= htmlspecialchars($a['nombre']) ?> <?= htmlspecialchars($a['apellido']) ?></span>
                                 <div class="badges">
-                                    <span class="badge <?= $badge_color ?>"><?= ucfirst($estado) ?></span>
+                                    <span class="badge <?= $badge_color ?>"><?= htmlspecialchars($lang[$estado] ?? ucfirst($estado)) ?></span>
                                 </div>
                             </div>
                             <div class="student-details">
                                 <div class="detail-item">
-                                    <label>Documento</label>
+                                    <label><?= $lang['documento'] ?? 'Documento' ?></label>
                                     <p><?= htmlspecialchars($tipo_doc) ?> - <?= htmlspecialchars($a['N_Documento']) ?></p>
                                 </div>
                                 <div class="detail-item">
-                                    <label>Correo</label>
+                                    <label><?= $lang['correo'] ?? 'Correo' ?></label>
                                     <p class="email"><?= htmlspecialchars($a['Email']) ?></p>
                                 </div>
                                 <div class="detail-item">
-                                    <a class="percentage-btn" href="index.php?page=components/competencias/competencias&doc=<?= urlencode($a['N_Documento']) ?>">Ver Competencias</a>
+                                    <a class="percentage-btn" href="index.php?page=components/competencias/competencias&doc=<?= urlencode($a['N_Documento']) ?>"><?= $lang['ver_competencias'] ?? 'Ver Competencias' ?></a>
                                 </div>
                             </div>
 
                             <div class="detail-item" style="margin-top: 1rem;">
-                                <label>Progreso de competencias aprobadas</label>
+                                <label><?= $lang['progreso_competencias'] ?? 'Progreso de competencias aprobadas' ?></label>
                                 <div class="progress-bar" style="background: #eee; border-radius: 8px; overflow: hidden; height: 20px; width: 100%;">
                                     <div style="width: <?= $porcentaje ?>%; background: <?= $color_barra ?>; height: 100%; text-align: center; color: white; font-size: 0.8rem;">
                                         <?= $porcentaje ?>%
@@ -153,7 +157,7 @@ $aprendices = $stmt2->get_result();
             <?php endwhile; ?>
 
             <?php if ($aprendices->num_rows === 0): ?>
-                <div class="empty-content">No hay aprendices registrados en esta ficha.</div>
+                <div class="empty-content"><?= $lang['no_aprendices'] ?? 'No hay aprendices registrados en esta ficha.' ?></div>
             <?php endif; ?>
         </div>
     </div>

@@ -39,51 +39,57 @@ if (!$datos) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="<?= htmlspecialchars($lang) ?>">
+<html lang="<?= htmlspecialchars($lang_code) ?>">
 <head>
     <meta charset="UTF-8">
-    <title><?= $translations['edit_profile'] ?></title>
+    <title><?= $t['edit_profile'] ?? 'Editar Perfil' ?></title>
     <link rel="stylesheet" href="assets/css/editar_perfil.css">
     <link rel="stylesheet" href="assets/bootstrap.min.css">
 </head>
 <body class="container mt-5">
-    <h2 class="mb-4"><?= $translations['edit_profile'] ?></h2>
+    <h2 class="mb-4"><?= $t['edit_profile'] ?? 'Editar Perfil' ?></h2>
 
-        <form class="form-edit" action="/proyecto-sena/functions/procesar_editar_perfil_usuario.php" method="POST">
+    <form class="form-edit" action="/proyecto-sena/functions/procesar_editar_perfil_usuario.php" method="POST">
 
         <input type="hidden" name="id_usuario" value="<?= htmlspecialchars($id_usuario) ?>">
 
         <div class="mb-3">
-            <label for="nombre"><?= $translations['name'] ?>:</label>
+            <label for="nombre"><?= $t['name'] ?? 'Nombre' ?>:</label>
             <input type="text" id="nombre" class="form-control" name="nombre" value="<?= htmlspecialchars($datos['nombre']) ?>" required>
         </div>
 
         <div class="mb-3">
-            <label for="apellido"><?= $translations['lastname'] ?>:</label>
+            <label for="apellido"><?= $t['lastname'] ?? 'Apellido' ?>:</label>
             <input type="text" id="apellido" class="form-control" name="apellido" value="<?= htmlspecialchars($datos['apellido'] ?? '') ?>" required>
         </div>
 
         <div class="mb-3">
-            <label for="N_telefono"><?= $translations['phone'] ?>:</label>
+            <label for="N_telefono"><?= $t['phone'] ?? 'Teléfono' ?>:</label>
             <input type="text" id="N_telefono" class="form-control" name="N_telefono" value="<?= htmlspecialchars($datos['N_telefono'] ?? '') ?>" required>
         </div>
 
         <div class="mb-3">
-            <label for="Email"><?= $translations['email'] ?>:</label>
+            <label for="Email"><?= $t['email'] ?? 'Correo' ?>:</label>
             <input type="email" id="Email" class="form-control" name="Email" value="<?= htmlspecialchars($datos['Email']) ?>" required>
         </div>
 
         <div class="mb-3">
-            <label for="nueva_contrasena"><?= $translations['new_password'] ?>:</label>
+            <label for="nueva_contrasena"><?= $t['new_password'] ?? 'Nueva Contraseña' ?>:</label>
             <input type="password" id="nueva_contrasena" class="form-control" name="nueva_contrasena">
         </div>
 
         <div class="mb-3">
-            <label for="confirmar_contrasena"><?= $translations['confirm_password'] ?>:</label>
+            <label for="confirmar_contrasena"><?= $t['confirm_password'] ?? 'Confirmar Contraseña' ?>:</label>
             <input type="password" id="confirmar_contrasena" class="form-control" name="confirmar_contrasena">
         </div>
 
-        <button type="submit" class="btn btn-primary"><?= $translations['save_changes'] ?></button>
+        <button type="submit" class="btn btn-primary"><?= $t['save_changes'] ?? 'Guardar Cambios' ?></button>
     </form>
+
+    <?php if (isset($_GET['success']) && $_GET['success'] == 1): ?>
+        <script>
+            alert("✅ Perfil actualizado correctamente");
+        </script>
+    <?php endif; ?>
 </body>
 </html>

@@ -28,11 +28,6 @@ if (!ACCESO_PERMITIDO){
                         <label for="apellido"><?= $translations['lastname'] ?></label>
                         <input type="text" id="apellido" name="apellido" required placeholder="<?= $translations['user_lastname'] ?>">
                     </div>
-                    <div class="form-group">
-                        <label for="ficha"><?= $translations['ficha_technologist'] ?></label>
-                        <input type="text" id="ficha" name="ficha" placeholder="<?= $translations['ficha_number'] ?>">
-                        <div class="optional-note">(<?= $translations['all_fields_required'] ?>)</div>
-                    </div>
                 </div>
 
                 <div class="form-row">
@@ -58,6 +53,19 @@ if (!ACCESO_PERMITIDO){
                     </div>
                 </div>
 
+                <!-- 📌 Nuevo campo: Rol del instructor -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="rol_instructor">Rol del Instructor</label>
+                        <select id="rol_instructor" name="rol_instructor" required>
+                            <option value="">Seleccione un rol</option>
+                            <option value="clave">Clave</option>
+                            <option value="transversal">Transversal</option>
+                            <option value="tecnico">Técnico</option>
+                        </select>
+                    </div>
+                </div>
+
                 <div class="form-row" id="fechas-contrato" style="display:none;">
                     <div class="form-group">
                         <label for="fecha_inicio">Fecha de inicio del contrato</label>
@@ -77,6 +85,10 @@ if (!ACCESO_PERMITIDO){
                     <div class="form-group">
                         <label for="correo"><?= $translations['email'] ?></label>
                         <input type="email" id="correo" name="Email" required placeholder="<?= $translations['access_email'] ?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="contraseña"><?= $translations['password'] ?? 'Contraseña' ?></label>
+                        <input type="password" id="contraseña" name="contraseña" required placeholder="<?= $translations['password'] ?? 'Ingrese su contraseña' ?>">
                     </div>
                 </div>
 
