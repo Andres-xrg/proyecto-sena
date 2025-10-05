@@ -23,6 +23,12 @@ require_once __DIR__ . '/../functions/lang.php';
             <?= $translations['welcome'] ?>
             <?= isset($_SESSION['usuario']['nombre']) ? ', ' . htmlspecialchars($_SESSION['usuario']['nombre']) : '' ?>
         </h1>
+        <!-- Mostrar rol debajo del nombre -->
+        <?php if (isset($_SESSION['usuario']['rol'])): ?>
+            <p class="user-role" style="margin: 5px 0 0 0; font-size: 14px; color: #ccc;">
+                <?= ucfirst(strtolower($_SESSION['usuario']['rol'])) ?>
+            </p>
+        <?php endif; ?>
     </div>
 
     <nav class="sidebar-nav">
@@ -35,13 +41,17 @@ require_once __DIR__ . '/../functions/lang.php';
         <a href="index.php?page=components/instructores/instructores" class="nav-item">
             <i class="fas fa-chalkboard-teacher"></i><span><?= $translations['instructors'] ?></span>
         </a>
+
         <?php if (strtolower($_SESSION['usuario']['rol']) === 'administrador'): ?>
-        <a href="index.php?page=components/registros/registro_user" class="nav-item">
-            <i class="fas fa-user-plus"></i><span><?= $translations['register_users'] ?></span>
-        </a>
-        <a href="./components/principales/ver_historial.php" class="nav-item">
-            <i class="fas fa-history"></i><span><?= $translations['history'] ?? 'Historial' ?></span>
-        </a>
+            <a href="index.php?page=components/usuarios/usuarios" class="nav-item">
+                <i class="fas fa-users"></i><span><?= $translations['users'] ?></span>
+            </a>
+            <a href="index.php?page=components/registros/registro_user" class="nav-item">
+                <i class="fas fa-user-plus"></i><span><?= $translations['register_users'] ?></span>
+            </a>
+            <a href="./components/principales/ver_historial.php" class="nav-item">
+                <i class="fas fa-history"></i><span><?= $translations['history'] ?? 'Historial' ?></span>
+            </a>
         <?php endif; ?>
     </nav>
 
@@ -51,14 +61,17 @@ require_once __DIR__ . '/../functions/lang.php';
         </a>
 
         <!-- BOTÓN DE CAMBIO DE IDIOMA -->
+        <?php
+            $currentUrl = $_SERVER['REQUEST_URI'];
+            $currentUrl = preg_replace('/([&?])lang=[^&]*/', '', $currentUrl);
+            $separator = (strpos($currentUrl, '?') !== false) ? '&' : '?';
+            $targetUrl = $currentUrl . $separator . "lang=" . (($_SESSION['lang'] ?? 'es') === 'es' ? 'en' : 'es');
+        ?>
         <div class="utility-item global">
-            <form id="langForm" method="GET" action="" style="display: flex; align-items: center; width: 100%;">
-                <input type="hidden" name="lang" value="<?= ($_SESSION['lang'] ?? 'es') === 'es' ? 'en' : 'es' ?>">
-                <button type="submit" style="background: none; border: none; color: white; cursor: pointer; display: flex; align-items: center; width: 100%;">
-                    <i class="fas fa-globe" style="width: 20px; margin-right: 15px; font-size: 16px;"></i>
-                    <span style="font-size: 14px;"><?= ($_SESSION['lang'] ?? 'es') === 'es' ? 'English' : 'Español' ?></span>
-                </button>
-            </form>
+            <a href="<?= htmlspecialchars($targetUrl) ?>" style="display: flex; align-items: center; width: 100%; color: white; text-decoration: none; cursor: pointer;">
+                <i class="fas fa-globe" style="width: 20px; margin-right: 15px; font-size: 16px;"></i>
+                <span style="font-size: 14px;"><?= ($_SESSION['lang'] ?? 'es') === 'es' ? 'English' : 'Español' ?></span>
+            </a>
         </div>
 
         <div class="utility-item" id="modoOscuroBtn">
