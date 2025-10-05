@@ -1,6 +1,7 @@
 <?php
 if (!ACCESO_PERMITIDO){
     header("Location: /proyecto-sena/components/principales/login.php");
+    exit;
 }
 ?>
 <!DOCTYPE html>
@@ -12,6 +13,8 @@ if (!ACCESO_PERMITIDO){
     <link rel="stylesheet" href="assets/css/header.css">
     <link rel="stylesheet" href="assets/css/footer.css">
     <title><?= $translations['register_instructor'] ?> - SENA</title>
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <main class="main-content">
@@ -22,11 +25,16 @@ if (!ACCESO_PERMITIDO){
                 <div class="form-row">
                     <div class="form-group">
                         <label for="nombre"><?= $translations['name'] ?></label>
-                        <input type="text" id="nombre" name="nombre" required placeholder="<?= $translations['user_name'] ?>">
+                        <input type="text" id="nombre" name="nombre" required placeholder="<?= $translations['user_name'] ?>"
+                               pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+" title="Solo se permiten letras y espacios"
+                               oninput="this.value = this.value.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñ\s]/g, '')">
                     </div>
+                    
                     <div class="form-group">
                         <label for="apellido"><?= $translations['lastname'] ?></label>
-                        <input type="text" id="apellido" name="apellido" required placeholder="<?= $translations['user_lastname'] ?>">
+                        <input type="text" id="apellido" name="apellido" required placeholder="<?= $translations['user_lastname'] ?>"
+                               pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+" title="Solo se permiten letras y espacios"
+                               oninput="this.value = this.value.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñ\s]/g, '')">
                     </div>
                 </div>
 
@@ -41,7 +49,9 @@ if (!ACCESO_PERMITIDO){
                     </div>
                     <div class="form-group">
                         <label for="numeroDocumento"><?= $translations['document_number'] ?></label>
-                        <input type="text" id="numeroDocumento" name="numeroDocumento" required placeholder="<?= $translations['document_number'] ?>">
+                        <input type="number" id="numeroDocumento" name="numeroDocumento" required 
+                               placeholder="<?= $translations['document_number'] ?>" min="1" 
+                               oninput="validarNoNegativos(this)">
                     </div>
                     <div class="form-group">
                         <label for="instructor"><?= $translations['instructors'] ?></label>
@@ -53,7 +63,7 @@ if (!ACCESO_PERMITIDO){
                     </div>
                 </div>
 
-                <!-- 📌 Nuevo campo: Rol del instructor -->
+                <!-- 📌 Campo: Rol del instructor -->
                 <div class="form-row">
                     <div class="form-group">
                         <label for="rol_instructor">Rol del Instructor</label>
@@ -80,7 +90,9 @@ if (!ACCESO_PERMITIDO){
                 <div class="form-row">
                     <div class="form-group">
                         <label for="telefono"><?= $translations['phone'] ?></label>
-                        <input type="tel" id="telefono" name="telefono" required placeholder="<?= $translations['user_phone'] ?>">
+                        <input type="number" id="telefono" name="telefono" required 
+                               placeholder="<?= $translations['user_phone'] ?>" min="1"
+                               oninput="validarNoNegativos(this)">
                     </div>
                     <div class="form-group">
                         <label for="correo"><?= $translations['email'] ?></label>
@@ -92,7 +104,7 @@ if (!ACCESO_PERMITIDO){
                     </div>
                 </div>
 
-                <button type="submit" class="register-btn"><?= $translations['submit'] ?></button>
+                <button type="submit" class="register-btn"><?= $translations['register'] ?></button>
             </form>
         </div>
     </main>
@@ -102,6 +114,54 @@ if (!ACCESO_PERMITIDO){
         const tipo = document.getElementById('instructor').value;
         const fechas = document.getElementById('fechas-contrato');
         fechas.style.display = tipo === 'contratista' ? 'flex' : 'none';
+    }
+
+    // 🔴 Validar que no se ingresen negativos
+    function validarNoNegativos(input) {
+        if (input.value < 0) {
+            input.value = "";
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'No se permiten valores negativos en este campo.',
+                confirmButtonText: 'OK',
+                confirmButtonColor: '#d33'
+            });
+        }
+    }
+
+    // 📌 Mostrar alertas de errores desde PHP
+    <?php if (isset($_GET['estado']) && $_GET['estado'] === "error" && isset($_GET['mensajes'])): 
+        $mensajes = explode('|', $_GET['mensajes']); ?>
+        const errores = <?= json_encode($mensajes) ?>;
+        errores.forEach(msg => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: msg,
+                confirmButtonText: 'OK',
+                confirmButtonColor: '#d33'
+            });
+        });
+    <?php endif; ?>
+
+    // 📌 Mostrar alerta de éxito
+    <?php if (isset($_GET['estado']) && $_GET['estado'] === "success" && isset($_GET['mensaje'])): ?>
+        Swal.fire({
+            icon: 'success',
+            title: 'Éxito',
+            text: '<?= htmlspecialchars($_GET['mensaje']) ?>',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#28a745'
+        });
+    <?php endif; ?>
+
+    if (window.history.replaceState) {
+        const url = new URL(window.location.href);
+        url.searchParams.delete("estado");
+        url.searchParams.delete("mensajes");
+        url.searchParams.delete("mensaje");
+        window.history.replaceState({}, document.title, url.toString());
     }
     </script>
 </body>
