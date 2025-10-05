@@ -20,6 +20,7 @@ if (!empty($tipo) && in_array($tipo, ['tecnico', 'tecnologo'])) {
     $params[] = $tipo;
     $tipos_param .= 's';
 }
+require_once __DIR__ . '/../../functions/autenticacion_login.php';
 
 if (!$es_admin) {
     $condiciones[] = "estado = 'activo'";
@@ -48,6 +49,27 @@ $programas = $stmt->get_result();
     <link rel="stylesheet" href="/proyecto-sena/assets/css/header.css">
     <link rel="stylesheet" href="/proyecto-sena/assets/css/footer.css">
     <link rel="stylesheet" href="/proyecto-sena/assets/css/programas_formacion.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        /* Clase para inputs y selects uniformes */
+        .input-style {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            border: 1px solid #e2e8f0;
+            background-color: #f8fafc;
+            color: #1f2937;
+            font-size: 0.95rem;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
+        }
+        .input-style:focus {
+            outline: none;
+            border-color: #94a3b8;
+            box-shadow: 0 0 0 3px rgba(148, 163, 184, 0.1);
+            transform: translateY(-1px);
+        }
+    </style>
 </head>
 <body>
 
@@ -111,8 +133,93 @@ $programas = $stmt->get_result();
 
 <!-- Contenido principal -->
 <main class="programs-main-content">
+
+    <!-- SweetAlerts -->
     <?php if (isset($_GET['creado']) && $_GET['creado'] == 1): ?>
-        <div class="alert success"><?= $t['program_created_success'] ?? 'Programa creado exitosamente.' ?></div>
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        Swal.fire({
+            icon: "success",
+            title: "<?= $t['program_created_success'] ?? 'Programa creado exitosamente.' ?>",
+            showConfirmButton: false,
+            timer: 2000
+        });
+        const url = new URL(window.location.href);
+        url.searchParams.delete("creado");
+        window.history.replaceState({}, document.title, url.toString());
+    });
+    </script>
+    <?php endif; ?>
+
+    <?php if (isset($_GET['actualizado'])): ?>
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        <?php if ($_GET['actualizado'] == 1): ?>
+            Swal.fire({
+                icon: "success",
+                title: "<?= $t['program_updated_success'] ?? 'Programa actualizado exitosamente.' ?>",
+                showConfirmButton: false,
+                timer: 2000
+            });
+        <?php else: ?>
+            Swal.fire({
+                icon: "error",
+                title: "<?= $t['program_updated_error'] ?? 'Error al actualizar el programa.' ?>",
+                showConfirmButton: true
+            });
+        <?php endif; ?>
+        const url = new URL(window.location.href);
+        url.searchParams.delete("actualizado");
+        window.history.replaceState({}, document.title, url.toString());
+    });
+    </script>
+    <?php endif; ?>
+
+    <?php if (isset($_GET['habilitado']) && $_GET['habilitado'] == 1): ?>
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        Swal.fire({
+            icon: "success",
+            title: "<?= $t['program_enabled_success'] ?? 'Programa habilitado exitosamente.' ?>",
+            showConfirmButton: false,
+            timer: 2000
+        });
+        const url = new URL(window.location.href);
+        url.searchParams.delete("habilitado");
+        window.history.replaceState({}, document.title, url.toString());
+    });
+    </script>
+    <?php endif; ?>
+
+    <?php if (isset($_GET['deshabilitado']) && $_GET['deshabilitado'] == 1): ?>
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        Swal.fire({
+            icon: "success",
+            title: "<?= $t['program_disabled_success'] ?? 'Programa deshabilitado exitosamente.' ?>",
+            showConfirmButton: false,
+            timer: 2000
+        });
+        const url = new URL(window.location.href);
+        url.searchParams.delete("deshabilitado");
+        window.history.replaceState({}, document.title, url.toString());
+    });
+    </script>
+    <?php endif; ?>
+
+    <?php if (isset($_GET['error']) && $_GET['error'] == 1): ?>
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        Swal.fire({
+            icon: "error",
+            title: "<?= $t['error_occurred'] ?? 'Ocurrió un error al procesar la solicitud.' ?>",
+            showConfirmButton: true
+        });
+        const url = new URL(window.location.href);
+        url.searchParams.delete("error");
+        window.history.replaceState({}, document.title, url.toString());
+    });
+    </script>
     <?php endif; ?>
 
     <div class="programs-content-area">
@@ -158,11 +265,11 @@ $programas = $stmt->get_result();
         <form action="/proyecto-sena/functions/functions_crear_programas.php" method="POST">
             <div class="form-group">
                 <label><?= $t['program_name'] ?? 'Nombre del Programa:' ?></label>
-                <input type="text" name="programa" required>
+                <input type="text" name="programa" class="input-style" required>
             </div>
             <div class="form-group">
                 <label><?= $t['program_type'] ?? 'Tipo de Programa:' ?></label>
-                <select name="tipo_programa" required>
+                <select name="tipo_programa" class="input-style" required>
                     <option value=""><?= $t['select_type'] ?? 'Seleccione tipo' ?></option>
                     <option value="tecnico"><?= $t['technical'] ?? 'Técnico' ?></option>
                     <option value="tecnologo"><?= $t['technologist'] ?? 'Tecnólogo' ?></option>
@@ -181,9 +288,13 @@ $programas = $stmt->get_result();
         <form id="formEditarPrograma" method="POST" action="functions/functions_actualizar_programa.php">
             <input type="hidden" name="id_programa" id="editIdPrograma">
             <label><?= $t['program_name'] ?? 'Nombre del Programa:' ?></label>
-            <input type="text" name="programa" id="editNombrePrograma" required>
+            <input type="text" name="programa" id="editNombrePrograma" class="input-style" required>
             <label><?= $t['program_type'] ?? 'Tipo de Programa:' ?></label>
-            <input type="text" name="tipo_programa" id="editTipoPrograma" required>
+            <select name="tipo_programa" id="editTipoPrograma" class="input-style" required>
+                <option value=""><?= $t['select_type'] ?? 'Seleccione tipo' ?></option>
+                <option value="tecnico"><?= $t['technical'] ?? 'Técnico' ?></option>
+                <option value="tecnologo"><?= $t['technologist'] ?? 'Tecnólogo' ?></option>
+            </select>
             <button type="submit"><?= $t['save_changes'] ?? 'Guardar cambios' ?></button>
         </form>
     </div>
@@ -203,6 +314,22 @@ document.addEventListener("DOMContentLoaded", () => {
         cards.forEach(card => {
             const nombrePrograma = card.querySelector(".card-title").textContent.toLowerCase();
             card.style.display = nombrePrograma.includes(searchTerm) ? "block" : "none";
+        });
+    });
+
+    // Validación: nombre del programa solo letras
+    const nombreInputs = document.querySelectorAll("input[name='programa']");
+    nombreInputs.forEach(input => {
+        input.addEventListener("input", () => {
+            let val = input.value;
+            if (/[^A-Za-zÁÉÍÓÚáéíóúÑñ\s]/.test(val)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Formato inválido',
+                    text: 'El nombre del programa solo puede contener letras.'
+                });
+                input.value = val.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñ\s]/g, "");
+            }
         });
     });
 });
