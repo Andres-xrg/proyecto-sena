@@ -52,29 +52,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['juicios'])) {
 
             if (!$nombre || !$apellido || !$competencia || !$resultado_aprendizaje || !$documento || !$tipo_documento) continue;
 
-            // Verificar si el aprendiz ya existe
-            $verificar_aprendiz = $conn->prepare("SELECT Id_aprendiz FROM aprendices WHERE T_documento = ? AND N_documento = ?");
+            // Verificar si el aprendiz ya existe (buscar solo por número de documento)
+            $verificar_aprendiz = $conn->prepare("SELECT Id_aprendiz, T_documento, nombre, apellido, Email FROM aprendices WHERE N_documento = ?");
             if (!$verificar_aprendiz) die("❌ Error en prepare (verificar_aprendiz): " . $conn->error);
-            $verificar_aprendiz->bind_param("ss", $tipo_documento, $documento);
+            $verificar_aprendiz->bind_param("s", $documento);
             $verificar_aprendiz->execute();
             $res_aprendiz = $verificar_aprendiz->get_result();
 
+            $email = strtolower(str_replace(' ', '', $nombre)) . '@soysena.edu.co';
+
             if ($res_aprendiz->num_rows === 0) {
-                // Insertar nuevo aprendiz con correo
-                $email = strtolower(str_replace(' ', '', $nombre)) . '@soysena.edu.co';
+                // Insertar nuevo aprendiz
                 $insert_aprendiz = $conn->prepare("INSERT INTO aprendices (T_Documento, N_documento, nombre, apellido, Email, N_Telefono) VALUES (?, ?, ?, ?, ?, '')");
                 if (!$insert_aprendiz) die("❌ Error en prepare (insert_aprendiz): " . $conn->error);
                 $insert_aprendiz->bind_param("sssss", $tipo_documento, $documento, $nombre, $apellido, $email);
                 $insert_aprendiz->execute();
                 $id_aprendiz = $insert_aprendiz->insert_id;
             } else {
-                // Actualizar nombre, apellido y correo si han cambiado
-                $email = strtolower(str_replace(' ', '', $nombre)) . '@soysena.edu.co';
-                $id_aprendiz = $res_aprendiz->fetch_assoc()['Id_aprendiz'];
-                $update_aprendiz = $conn->prepare("UPDATE aprendices SET nombre = ?, apellido = ?, Email = ? WHERE Id_aprendiz = ?");
-                if (!$update_aprendiz) die("❌ Error en prepare (update_aprendiz): " . $conn->error);
-                $update_aprendiz->bind_param("sssi", $nombre, $apellido, $email, $id_aprendiz);
-                $update_aprendiz->execute();
+                // Actualizar aprendiz si hay cambios
+                $row = $res_aprendiz->fetch_assoc();
+                $id_aprendiz = $row['Id_aprendiz'];
+                $tipo_actual = $row['T_documento'];
+
+                if ($tipo_actual !== $tipo_documento || $row['nombre'] !== $nombre || $row['apellido'] !== $apellido || $row['Email'] !== $email) {
+                    $update_aprendiz = $conn->prepare("UPDATE aprendices SET T_documento = ?, nombre = ?, apellido = ?, Email = ? WHERE Id_aprendiz = ?");
+                    if (!$update_aprendiz) die("❌ Error en prepare (update_aprendiz): " . $conn->error);
+                    $update_aprendiz->bind_param("ssssi", $tipo_documento, $nombre, $apellido, $email, $id_aprendiz);
+                    $update_aprendiz->execute();
+                }
             }
 
             // Asociar aprendiz a la ficha
@@ -99,16 +104,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['juicios'])) {
                     $update->execute();
                 }
             } else {
-$insert = $conn->prepare("INSERT INTO juicios_evaluativos (
-    N_Documento, Nombre_aprendiz, Apellido_aprendiz, Estado_formacion,
-    Competencia, Resultado_aprendizaje, Juicio,
-    Numero_ficha, Programa_formacion, Fecha_registro, Funcionario_registro
-) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-$insert->bind_param("sssssssssss", $documento, $nombre, $apellido, $estado_formacion, $competencia, $resultado_aprendizaje, $juicio, $numero_ficha, $programa, $fecha, $funcionario);
+                $insert = $conn->prepare("INSERT INTO juicios_evaluativos (
+                    N_Documento, Nombre_aprendiz, Apellido_aprendiz, Estado_formacion,
+                    Competencia, Resultado_aprendizaje, Juicio,
+                    Numero_ficha, Programa_formacion, Fecha_registro, Funcionario_registro
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                $insert->bind_param("sssssssssss", $documento, $nombre, $apellido, $estado_formacion, $competencia, $resultado_aprendizaje, $juicio, $numero_ficha, $programa, $fecha, $funcionario);
+                $insert->execute();
             }
         }
 
-        header("Location: ../index.php?page=components/fichas/ficha_vista&id=$id_ficha");
+        header("Location: ../index.php?page=components/Fichas/Ficha_vista&id_ficha=$id_ficha&success=1");
         exit;
 
     } catch (Exception $e) {
