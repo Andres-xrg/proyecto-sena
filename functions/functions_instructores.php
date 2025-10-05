@@ -3,54 +3,48 @@ session_start();
 require_once('../db/conexion.php');
 require_once('../functions/historial.php');
 
-// Verificar conexión
-if (!$conn) {
-    die("Error de conexión: " . mysqli_connect_error());
-}
-
-// Verificar si se hizo POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id = $_POST['id'] ?? null;
+    $idInstructor = $_POST['id'] ?? null;
     $accion = $_POST['accion'] ?? null;
 
-    if ($id && in_array($accion, ['Habilitar', 'Deshabilitar'])) {
-        // Determinar nuevo estado
-        $estado = $accion === 'Habilitar' ? 'Activo' : 'Inactivo';
+    if ($idInstructor && in_array($accion, ['Habilitar', 'Deshabilitar'])) {
+        $estado = $accion === 'Habilitar' ? 1 : 0;
 
-        // Actualizar en la base de datos
-        $stmt = $conn->prepare("UPDATE instructores SET Tipo_instructor = ? WHERE Id_instructor = ?");
-        if ($stmt) {
-            $stmt->bind_param("si", $estado, $id);
-            if ($stmt->execute()) {
-                // Obtener nombre del instructor para registrar en el historial
-                $res = $conn->query("SELECT nombre, apellido FROM instructores WHERE Id_instructor = $id");
-                $instructor = $res->fetch_assoc();
-                $nombreInstructor = $instructor ? $instructor['nombre'] . ' ' . $instructor['apellido'] : 'Desconocido';
+        // Obtener Email del instructor
+        $res = $conn->query("SELECT nombre, apellido, Email FROM instructores WHERE Id_instructor = $idInstructor");
+        if ($res && $res->num_rows > 0) {
+            $instructor = $res->fetch_assoc();
+            $email = $instructor['Email'];
+            $nombreInstructor = $instructor['nombre'] . ' ' . $instructor['apellido'];
 
-                // Verificar sesión activa antes de registrar
-                if (isset($_SESSION['usuario']['id'])) {
-                    $usuario_id = $_SESSION['usuario']['id'];
-                    $accion_historial = $accion === 'Habilitar' ? 'Habilitó instructor' : 'Deshabilitó instructor';
-                    $descripcion = "$accion_historial: $nombreInstructor (ID $id)";
-                    registrar_historial($conn, $usuario_id, $accion_historial, $descripcion);
+            // Actualizar estado en usuarios usando Email
+            $stmt = $conn->prepare("UPDATE usuarios SET estado = ? WHERE Email = ?");
+            if ($stmt) {
+                $stmt->bind_param("is", $estado, $email);
+                if ($stmt->execute()) {
+                    // Registrar historial
+                    if (isset($_SESSION['usuario']['id'])) {
+                        $usuario_id = $_SESSION['usuario']['id'];
+                        $accion_historial = $accion === 'Habilitar' ? 'Habilitó instructor' : 'Deshabilitó instructor';
+                        $descripcion = "$accion_historial: $nombreInstructor (ID $idInstructor)";
+                        registrar_historial($conn, $usuario_id, $accion_historial, $descripcion);
+                    }
+
+                    header("Location: ../index.php?page=components/instructores/instructores&success=estado-cambiado");
+                    exit;
+                } else {
+                    echo "❌ Error al ejecutar la consulta: " . $stmt->error;
                 }
-
-                // Redirigir de vuelta con mensaje
-                header("Location: ../index.php?page=components/instructores/instructores&success=estado-cambiado");
-                exit;
             } else {
-                echo "❌ Error al ejecutar la consulta: " . $stmt->error;
-                exit;
+                echo "❌ Error al preparar la consulta: " . $conn->error;
             }
         } else {
-            echo "❌ Error al preparar la consulta: " . $conn->error;
-            exit;
+            echo "❌ Instructor no encontrado.";
         }
     } else {
         echo "❌ Datos inválidos enviados.";
-        exit;
     }
 } else {
     echo "❌ Método no permitido.";
-    exit;
 }
+?>
