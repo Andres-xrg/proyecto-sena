@@ -10,6 +10,7 @@ $idioma = $_SESSION['lang'] ?? 'es';
 $lang = include __DIR__ . '/../../lang/' . $idioma . '.php';
 
 require_once __DIR__ . '/../../db/conexion.php';
+require_once __DIR__ . '/../../functions/autenticacion_login.php';
 
 // Mensaje de ficha creada
 if (isset($_GET['mensaje']) && $_GET['mensaje'] === 'creada') {
@@ -18,11 +19,27 @@ if (isset($_GET['mensaje']) && $_GET['mensaje'] === 'creada') {
     <script>
       Swal.fire({
         icon: 'success',
-        title: '" . htmlspecialchars($lang['ficha_creada'] ?? 'Ficha creada', ENT_QUOTES, 'UTF-8') . "',
+        title: '" . htmlspecialchars($lang['ficha_creada'] ?? 'Ficha creada') . "',
         showConfirmButton: false,
         timer: 2000
       });
     </script>";
+}
+
+// ⚡ Mostrar alerta de cambio de estado (una sola vez)
+if (isset($_SESSION['alert_ficha'])) {
+    echo "
+    <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+    <script>
+      Swal.fire({
+        icon: 'success',
+        title: '" . addslashes($_SESSION['alert_ficha']) . "',
+        showConfirmButton: false,
+        timer: 2000
+      });
+    </script>
+    ";
+    unset($_SESSION['alert_ficha']); // Se elimina para que no vuelva a salir al refrescar
 }
 
 $id_programa = $_GET['id_programa'] ?? null;
@@ -45,10 +62,10 @@ $is_admin = isset($_SESSION['usuario']) && strtolower($_SESSION['usuario']['rol'
 ?>
 
 <!DOCTYPE html>
-<html lang="<?= htmlspecialchars($idioma) ?>">
+<html lang="<?= $idioma ?>">
 <head>
   <meta charset="UTF-8">
-  <title><?= htmlspecialchars($lang['files_tecnologo_tecnico'] ?? 'Fichas', ENT_QUOTES, 'UTF-8') ?></title>
+  <title><?= htmlspecialchars($lang['files_tecnologo_tecnico'] ?? 'Fichas') ?></title>
   <link rel="stylesheet" href="assets/css/listar_fichas.css">
   <link rel="stylesheet" href="assets/css/header.css">
   <link rel="stylesheet" href="assets/css/footer.css">
@@ -57,14 +74,14 @@ $is_admin = isset($_SESSION['usuario']) && strtolower($_SESSION['usuario']['rol'
 <body>
 <div class="container">
   <div class="titulo">
-    <h1 class="title"><?= htmlspecialchars($titulo ?? '', ENT_QUOTES, 'UTF-8') ?></h1>
+    <h1 class="title"><?= htmlspecialchars($titulo) ?></h1>
   </div>
 </div>
 
 <div class="controls">
   <form method="GET" action="index.php" style="display: flex; gap: 1rem; align-items: center;">
     <input type="hidden" name="page" value="components/Fichas/listar_fichas">
-    <input type="hidden" name="id_programa" value="<?= htmlspecialchars($id_programa ?? '', ENT_QUOTES, 'UTF-8') ?>">
+    <input type="hidden" name="id_programa" value="<?= htmlspecialchars($id_programa) ?>">
 
     <!-- Buscador -->
     <div class="search-box">
@@ -75,7 +92,7 @@ $is_admin = isset($_SESSION['usuario']) && strtolower($_SESSION['usuario']['rol'
     <div class="dropdown-container">
       <div class="dropdown-wrapper">
         <div class="dropdown" onclick="toggleDropdown()">
-          <span id="selectedJornada"><?= htmlspecialchars($jornada_filtro ?: ($lang['seleccionar_jornada'] ?? 'Jornada'), ENT_QUOTES, 'UTF-8') ?></span>
+          <span id="selectedJornada"><?= htmlspecialchars($jornada_filtro ?: ($lang['seleccionar_jornada'] ?? 'Jornada')) ?></span>
           <span class="arrow">▼</span>
         </div>
         <div class="dropdown-options" id="dropdownOptions">
@@ -85,14 +102,14 @@ $is_admin = isset($_SESSION['usuario']) && strtolower($_SESSION['usuario']['rol'
           <div class="option" onclick="seleccionarJornada('Nocturna')"><?= $lang['nocturna'] ?? 'Nocturna' ?></div>
         </div>
       </div>
-      <input type="hidden" name="jornada" id="jornadaHidden" value="<?= htmlspecialchars($jornada_filtro ?? '', ENT_QUOTES, 'UTF-8') ?>">
+      <input type="hidden" name="jornada" id="jornadaHidden" value="<?= htmlspecialchars($jornada_filtro) ?>">
     </div>
 
     <!-- Filtro tipo de oferta -->
     <div class="dropdown-container">
       <div class="dropdown-wrapper">
         <div class="dropdown" onclick="toggleDropdownTipoOferta()">
-          <span id="selectedTipoOferta"><?= htmlspecialchars($tipo_oferta_filtro ?: ($lang['tipo_oferta'] ?? 'Tipo de oferta'), ENT_QUOTES, 'UTF-8') ?></span>
+          <span id="selectedTipoOferta"><?= htmlspecialchars($tipo_oferta_filtro ?: ($lang['tipo_oferta'] ?? 'Tipo de oferta')) ?></span>
           <span class="arrow">▼</span>
         </div>
         <div class="dropdown-options" id="dropdownTipoOfertaOptions">
@@ -101,7 +118,7 @@ $is_admin = isset($_SESSION['usuario']) && strtolower($_SESSION['usuario']['rol'
           <div class="option" onclick="seleccionarTipoOferta('Cerrada')"><?= $lang['cerrada'] ?? 'Cerrada' ?></div>
         </div>
       </div>
-      <input type="hidden" name="tipo_oferta" id="tipoOfertaHidden" value="<?= htmlspecialchars($tipo_oferta_filtro ?? '', ENT_QUOTES, 'UTF-8') ?>">
+      <input type="hidden" name="tipo_oferta" id="tipoOfertaHidden" value="<?= htmlspecialchars($tipo_oferta_filtro) ?>">
     </div>
 
     <!-- Filtro estado (solo admin) -->
@@ -118,7 +135,7 @@ $is_admin = isset($_SESSION['usuario']) && strtolower($_SESSION['usuario']['rol'
             <div class="option" onclick="seleccionarEstado('inactivo')"><?= $lang['inactivo'] ?? 'Inactivo' ?></div>
           </div>
         </div>
-        <input type="hidden" name="estado" id="estadoHidden" value="<?= htmlspecialchars($estado_filtro ?? '', ENT_QUOTES, 'UTF-8') ?>">
+        <input type="hidden" name="estado" id="estadoHidden" value="<?= htmlspecialchars($estado_filtro) ?>">
       </div>
     <?php endif; ?>
   </form>
@@ -131,6 +148,7 @@ $sql = "SELECT f.*, i.nombre AS jefe_nombre, i.apellido AS jefe_apellido, p.nomb
         LEFT JOIN instructores i ON f.Jefe_grupo = i.Id_instructor
         LEFT JOIN programas_formacion p ON f.Id_programa = p.Id_programa
         WHERE f.Id_programa = ?";
+
 $params = [$id_programa];
 $types = "i";
 
@@ -166,22 +184,22 @@ $result = $stmt->get_result();
 <?php while ($row = $result->fetch_assoc()):
   $estado = $row['Estado_ficha'] ?? 'Activo';
 ?>
-  <div class="ficha-card" data-jornada="<?= htmlspecialchars(strtolower($row['Jornada'] ?? ''), ENT_QUOTES, 'UTF-8') ?>">
+  <div class="ficha-card" data-jornada="<?= strtolower($row['Jornada']) ?>">
       <div class="card-header">
-          <span class="numero"><?= htmlspecialchars($row['numero_ficha'] ?? '', ENT_QUOTES, 'UTF-8') ?></span>
+          <span class="numero"><?= $row['numero_ficha'] ?></span>
           <div class="sena-logo">
               <img src="/proyecto-sena/assets/img/logo-sena.png" alt="Logo SENA" style="height:28px;">
           </div>
       </div>
-      <p><strong><?= $lang['jefe_grupo'] ?? 'Jefe de grupo' ?>:</strong> <?= htmlspecialchars(($row['jefe_nombre'] ?? '') . ' ' . ($row['jefe_apellido'] ?? ''), ENT_QUOTES, 'UTF-8') ?></p>
-      <p><strong><?= $lang['programa'] ?? 'Programa' ?>:</strong> <?= htmlspecialchars($row['nombre_programa'] ?? '', ENT_QUOTES, 'UTF-8') ?></p>
-      <p><strong><?= $lang['tipo_oferta'] ?? 'Tipo de oferta' ?>:</strong> <?= htmlspecialchars($row['tipo_oferta'] ?? '', ENT_QUOTES, 'UTF-8') ?></p>
-      <p><strong><?= $lang['estado'] ?? 'Estado' ?>:</strong> <span class="estado-text"><?= htmlspecialchars($lang[strtolower($estado)] ?? $estado, ENT_QUOTES, 'UTF-8') ?></span></p>
+      <p><strong><?= $lang['jefe_grupo'] ?? 'Jefe de grupo' ?>:</strong> <?= htmlspecialchars($row['jefe_nombre'] . ' ' . $row['jefe_apellido']) ?></p>
+      <p><strong><?= $lang['programa'] ?? 'Programa' ?>:</strong> <?= htmlspecialchars($row['nombre_programa']) ?></p>
+      <p><strong><?= $lang['tipo_oferta'] ?? 'Tipo de oferta' ?>:</strong> <?= htmlspecialchars($row['tipo_oferta']) ?></p>
+      <p><strong><?= $lang['estado'] ?? 'Estado' ?>:</strong> <span class="estado-text"><?= htmlspecialchars($lang[strtolower($estado)] ?? $estado) ?></span></p>
 
-      <button class="btn-ver-ficha" onclick="verFicha(<?= (int) $row['Id_ficha'] ?>)"><?= $lang['ver_ficha'] ?? 'Ver Ficha' ?></button>
+      <button class="btn-ver-ficha" onclick="verFicha(<?= $row['Id_ficha'] ?>)"><?= $lang['ver_ficha'] ?? 'Ver Ficha' ?></button>
 
       <?php if ($is_admin): ?>
-          <button class="btn-deshabilitar" onclick="cambiarEstadoFicha(this, <?= (int) $row['Id_ficha'] ?>, '<?= htmlspecialchars($estado, ENT_QUOTES, 'UTF-8') ?>')">
+          <button class="btn-deshabilitar" onclick="cambiarEstadoFicha(this, <?= $row['Id_ficha'] ?>, '<?= $estado ?>')">
               <?= $estado === 'Activo' ? ($lang['deshabilitar'] ?? 'Deshabilitar') : ($lang['habilitar'] ?? 'Habilitar') ?>
           </button>
       <?php endif; ?>
