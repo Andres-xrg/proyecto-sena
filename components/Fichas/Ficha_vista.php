@@ -1,20 +1,22 @@
 <?php
 require_once __DIR__ . '/../../db/conexion.php';
 require_once __DIR__ . '/../../functions/functions_porcentaje_competencia.php';
+require_once __DIR__ . '/../../functions/autenticacion_login.php';
 if (session_status() === PHP_SESSION_NONE) session_start();
 
-// Idioma
-$idioma = $_SESSION['lang'] ?? 'es';
-$lang = include __DIR__ . '/../../lang/' . $idioma . '.php';
+// Habilitar mostrar errores para depuración
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-$id_ficha = $_GET['id'] ?? null;
+// Leer el parámetro id_ficha (aceptar “id” o “id_ficha”)
+$id_ficha = $_GET['id_ficha'] ?? ($_GET['id'] ?? null);
 
 if (!$id_ficha || !is_numeric($id_ficha)) {
-    echo "<p style='color:red;'>".($lang['ficha_no_valida'] ?? "No se ha especificado una ficha válida.")."</p>";
+    echo "<p style='color:red; font-weight:bold;'>⚠️ La ficha seleccionada no es válida.</p>";
     exit;
 }
 
-// Obtener ficha con nombre del programa
+// Obtener datos de la ficha
 $sql = "SELECT f.*, p.nombre_programa 
         FROM fichas f
         JOIN programas_formacion p ON f.Id_programa = p.Id_programa
@@ -25,11 +27,11 @@ $stmt->execute();
 $ficha = $stmt->get_result()->fetch_assoc();
 
 if (!$ficha) {
-    echo "<p style='color:red;'>".($lang['ficha_no_encontrada'] ?? "No se encontró la ficha con ID $id_ficha.")."</p>";
+    echo "<p style='color:red; font-weight:bold;'>❌ No se encontró ninguna ficha registrada con el ID <b>$id_ficha</b>.</p>";
     exit;
 }
 
-// Obtener aprendices
+// Obtener aprendices de esa ficha
 $sql_aprendices = "
     SELECT a.*
     FROM ficha_aprendiz fa
@@ -44,35 +46,35 @@ $aprendices = $stmt2->get_result();
 ?>
 
 <!DOCTYPE html>
-<html lang="<?= $idioma ?>">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title><?= htmlspecialchars($lang['ficha_numero'] ?? 'Ficha') ?> <?= htmlspecialchars($ficha['numero_ficha']) ?></title>
+    <title>Ficha <?= htmlspecialchars($ficha['numero_ficha']) ?></title>
     <link rel="stylesheet" href="assets/css/fichas.css">
     <link rel="stylesheet" href="assets/css/header.css">
     <link rel="stylesheet" href="assets/css/footer.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://kit.fontawesome.com/your-kit-code.js" crossorigin="anonymous"></script>
 </head>
 <body>
 <div class="container">
     <div class="main-card">
-        <h1 class="header-title"><?= ($lang['ficha_numero'] ?? 'Ficha N°') ?> <?= htmlspecialchars($ficha['numero_ficha']) ?></h1>
-
+        <h1 class="header-title">Ficha N° <?= htmlspecialchars($ficha['numero_ficha']) ?></h1>
         <div class="form-controls">
             <div class="form-group">
-                <label><?= $lang['programa'] ?? 'Programa:' ?></label>
+                <label>Programa:</label>
                 <p><?= htmlspecialchars($ficha['nombre_programa']) ?></p>
             </div>
             <div class="form-group">
-                <label><?= $lang['jornada'] ?? 'Jornada:' ?></label>
+                <label>Jornada:</label>
                 <p><?= htmlspecialchars($ficha['Jornada']) ?></p>
             </div>
             <div class="form-group">
                 <div class="search-box">
-                    <input type="text" placeholder="<?= $lang['buscar'] ?? 'Buscar...' ?>" id="searchInput">
+                    <input type="text" placeholder="Buscar..." id="searchInput">
                 </div>
             </div>
-            
+
             <div class="form-group">
                 <?php if (isset($_SESSION['usuario']) && strtolower($_SESSION['usuario']['rol']) === 'administrador'): ?>
                     <form class="update-form" action="functions/functions_actualizar_juicios.php" method="POST" enctype="multipart/form-data">
@@ -81,15 +83,14 @@ $aprendices = $stmt2->get_result();
                         <input type="hidden" name="programa" value="<?= htmlspecialchars($ficha['nombre_programa']) ?>">
                         <input type="file" name="juicios" accept=".xlsx, .xls">
                         <button type="submit" class="btn-actualizar-juicios">
-                            <i class="fas fa-upload"></i> <?= $lang['actualizar_juicios'] ?? 'Actualizar Juicios' ?>
+                            <i class="fas fa-upload"></i> Actualizar Juicios
                         </button>
                     </form>
                 <?php endif; ?>
             </div>
         </div>
 
-        <h2 class="header-title"><?= $lang['aprendices'] ?? 'Aprendices' ?></h2>
-
+        <h2 class="header-title">Aprendices</h2>
         <div class="students-list">
             <?php 
             $documentos_vistos = [];
@@ -102,11 +103,11 @@ $aprendices = $stmt2->get_result();
                 $estado_stmt->bind_param("s", $a['N_Documento']);
                 $estado_stmt->execute();
                 $estado_data = $estado_stmt->get_result()->fetch_assoc();
-                $estado = strtolower($estado_data['Estado_formacion'] ?? 'sin_estado');
+                $estado = strtolower($estado_data['Estado_formacion'] ?? 'sin estado');
 
                 $badge_color = 'badge-gray';
                 if ($estado === 'en formación') $badge_color = 'badge-green';
-                elseif ($estado === 'trasladado') $badge_color = 'badge-blue';
+                elseif ($estado === 'trasladado' || $estado === 'TRASLADADO') $badge_color = 'badge-blue';
                 elseif ($estado === 'desertado') $badge_color = 'badge-red';
 
                 $datos = obtener_porcentaje_aprobadas($a['N_Documento']);
@@ -125,25 +126,25 @@ $aprendices = $stmt2->get_result();
                             <div class="student-header">
                                 <span class="student-name"><?= htmlspecialchars($a['nombre']) ?> <?= htmlspecialchars($a['apellido']) ?></span>
                                 <div class="badges">
-                                    <span class="badge <?= $badge_color ?>"><?= htmlspecialchars($lang[$estado] ?? ucfirst($estado)) ?></span>
+                                    <span class="badge <?= $badge_color ?>"><?= ucfirst($estado) ?></span>
                                 </div>
                             </div>
                             <div class="student-details">
                                 <div class="detail-item">
-                                    <label><?= $lang['documento'] ?? 'Documento' ?></label>
+                                    <label>Documento</label>
                                     <p><?= htmlspecialchars($tipo_doc) ?> - <?= htmlspecialchars($a['N_Documento']) ?></p>
                                 </div>
                                 <div class="detail-item">
-                                    <label><?= $lang['correo'] ?? 'Correo' ?></label>
+                                    <label>Correo</label>
                                     <p class="email"><?= htmlspecialchars($a['Email']) ?></p>
                                 </div>
                                 <div class="detail-item">
-                                    <a class="percentage-btn" href="index.php?page=components/competencias/competencias&doc=<?= urlencode($a['N_Documento']) ?>"><?= $lang['ver_competencias'] ?? 'Ver Competencias' ?></a>
+                                    <a class="percentage-btn" href="index.php?page=components/competencias/competencias&doc=<?= urlencode($a['N_Documento']) ?>">Ver Competencias</a>
                                 </div>
                             </div>
 
                             <div class="detail-item" style="margin-top: 1rem;">
-                                <label><?= $lang['progreso_competencias'] ?? 'Progreso de competencias aprobadas' ?></label>
+                                <label>Progreso de competencias aprobadas</label>
                                 <div class="progress-bar" style="background: #eee; border-radius: 8px; overflow: hidden; height: 20px; width: 100%;">
                                     <div style="width: <?= $porcentaje ?>%; background: <?= $color_barra ?>; height: 100%; text-align: center; color: white; font-size: 0.8rem;">
                                         <?= $porcentaje ?>%
@@ -157,11 +158,65 @@ $aprendices = $stmt2->get_result();
             <?php endwhile; ?>
 
             <?php if ($aprendices->num_rows === 0): ?>
-                <div class="empty-content"><?= $lang['no_aprendices'] ?? 'No hay aprendices registrados en esta ficha.' ?></div>
+                <div class="empty-content">No hay aprendices registrados en esta ficha.</div>
             <?php endif; ?>
         </div>
     </div>
 </div>
-</body>
+
+<?php if (isset($_GET['success'])): ?>
+    <?php 
+    $succ = $_GET['success'];
+    if ($succ == '1' || $succ === 'ficha-creada' || $succ === 'juicios-actualizados'):
+        if ($succ === 'ficha-creada'):
+            $title = "¡Ficha creada correctamente!";
+            $text  = "La ficha y sus aprendices se han registrado con éxito.";
+        else:
+            $title = "¡Juicios actualizados!";
+            $text  = "Los juicios se han actualizado correctamente.";
+        endif;
+    ?>
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                icon: 'success',
+                title: <?= json_encode($title) ?>,
+                text: <?= json_encode($text) ?>,
+                timer: 1500,              //  Dura 1 segundo y medio
+                showConfirmButton: false,  
+                timerProgressBar: true    
+            }).then(() => {
+                if (window.history.replaceState) {
+                    const url = new URL(window.location.href);
+                    url.searchParams.delete('success');
+                    window.history.replaceState({}, document.title, url.toString());
+                }
+            });
+        });
+        </script>
+    <?php endif; ?>
+<?php endif; ?>
+
 <script src="/proyecto-sena/assets/js/fichas.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const forms = document.querySelectorAll(".update-form");
+    forms.forEach(function(form) {
+        form.addEventListener("submit", function(e) {
+            Swal.fire({
+                title: 'Actualizando juicios...',
+                text: 'Por favor espera mientras procesamos la información.',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+        });
+    });
+});
+</script>
+
+</body>
 </html>
