@@ -5,13 +5,16 @@ if (session_status() === PHP_SESSION_NONE) session_start();
 // Acceso permitido
 if (!ACCESO_PERMITIDO) {
     header("Location: /proyecto-sena/components/principales/login.php");
+    exit;
 }
+
+require_once __DIR__ . '/../../functions/autenticacion_login.php';
 
 // Idioma
 $idioma = $_SESSION['lang'] ?? 'es';
 $t = include __DIR__ . '/../../lang/' . $idioma . '.php';
 
-// Consulta **todos** los instructores sin paginación
+// Consulta todos los instructores con estado desde usuarios
 $sql = "SELECT 
             i.Id_instructor, 
             i.nombre, 
@@ -24,14 +27,16 @@ $sql = "SELECT
             i.rol_instructor,
             i.fecha_inicio_contrato,
             i.fecha_fin_contrato,
+            u.estado AS estado_usuario,
             CASE 
                 WHEN EXISTS (
                     SELECT 1 FROM fichas f WHERE f.Jefe_grupo = i.Id_instructor
                 ) THEN 'Sí'
                 ELSE 'No'
             END AS es_jefe_grupo
-        FROM instructores i";
-        
+        FROM instructores i
+        LEFT JOIN usuarios u ON u.Email = i.Email";
+
 $resultado = $conn->query($sql);
 if (!$resultado) die($t['sql_error'] ?? "Error en la consulta SQL: " . $conn->error);
 
@@ -47,6 +52,10 @@ $es_admin = isset($_SESSION['usuario']['rol']) && $_SESSION['usuario']['rol'] ==
     <link rel="stylesheet" href="/proyecto-sena/assets/css/header.css">
     <link rel="stylesheet" href="/proyecto-sena/assets/css/footer.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        /* Clase para ocultar elementos sin tocar display flex del CSS */
+        .hidden { display: none !important; }
+    </style>
 </head>
 <body>
 
@@ -55,54 +64,58 @@ $es_admin = isset($_SESSION['usuario']['rol']) && $_SESSION['usuario']['rol'] ==
         <h1 class="title"><?= $t['instructors'] ?? 'Instructores' ?></h1>
     </div>
 
-<!-- 🔎 Buscador y filtros integrados -->
-<div class="filtro-barra">
-  <form>
-    <!-- Buscador -->
-    <div class="search-box">
-      <input 
-        type="text" 
-        id="buscador" 
-        placeholder="<?= $t['search_instructor'] ?? 'Buscar instructor...' ?>" 
-        onkeyup="filtrarInstructores()"
-      >
+    <div class="filtro-barra">
+        <form>
+            <div class="search-box">
+                <input type="text" id="buscador" placeholder="<?= $t['search_instructor'] ?? 'Buscar instructor...' ?>" onkeyup="filtrarInstructores()">
+            </div>
+            <div class="dropdown-container">
+                <select id="filtroTipo" class="dropdown" onchange="filtrarInstructores()">
+                    <option value=""><?= $t['all_types'] ?? 'Todos los tipos' ?></option>
+                    <option value="planta"><?= $t['permanent'] ?? 'Planta' ?></option>
+                    <option value="contratista"><?= $t['contractor'] ?? 'Contratista' ?></option>
+                    <option value="inactivo"><?= $t['inactive'] ?? 'Inactivo' ?></option>
+                </select>
+            </div>
+            <div class="dropdown-container">
+                <select id="filtroRol" class="dropdown" onchange="filtrarInstructores()">
+                    <option value=""><?= $t['all_roles'] ?? 'Todos los roles' ?></option>
+                    <option value="clave"><?= $t['key_role'] ?? 'Clave' ?></option>
+                    <option value="transversal"><?= $t['transversal'] ?? 'Transversal' ?></option>
+                    <option value="tecnico"><?= $t['technical'] ?? 'Técnico' ?></option>
+                </select>
+            </div>
+        </form>
     </div>
-
-    <!-- Filtro por Tipo -->
-    <div class="dropdown-container">
-      <select id="filtroTipo" class="dropdown" onchange="filtrarInstructores()">
-        <option value=""><?= $t['all_types'] ?? 'Todos los tipos' ?></option>
-        <option value="planta"><?= $t['permanent'] ?? 'Planta' ?></option>
-        <option value="contratista"><?= $t['contractor'] ?? 'Contratista' ?></option>
-        <option value="inactivo"><?= $t['inactive'] ?? 'Inactivo' ?></option>
-      </select>
-    </div>
-
-    <!-- Filtro por Rol -->
-    <div class="dropdown-container">
-      <select id="filtroRol" class="dropdown" onchange="filtrarInstructores()">
-        <option value=""><?= $t['all_roles'] ?? 'Todos los roles' ?></option>
-        <option value="clave"><?= $t['key_role'] ?? 'Clave' ?></option>
-        <option value="transversal"><?= $t['transversal'] ?? 'Transversal' ?></option>
-        <option value="tecnico"><?= $t['technical'] ?? 'Técnico' ?></option>
-      </select>
-    </div>
-  </form>
-</div>
-
 
     <div class="instructores-list" id="lista-instructores">
         <?php if ($resultado->num_rows > 0): ?>
-            <?php while ($instructor = $resultado->fetch_assoc()): 
-                $activo = $instructor['Tipo_instructor'] !== 'Inactivo';
+            <?php while ($instructor = $resultado->fetch_assoc()):
+
+                $activo = $instructor['estado_usuario'] == 1;
+
+                // Deshabilitar automáticamente si es contratista y la fecha_fin_contrato pasó
+                if ($instructor['Tipo_instructor'] === 'contratista' && !empty($instructor['fecha_fin_contrato'])) {
+                    $fechaFin = strtotime($instructor['fecha_fin_contrato']);
+                    $hoy = strtotime(date('Y-m-d'));
+                    if ($fechaFin < $hoy && $activo) {
+                        $updateSQL = "UPDATE usuarios SET estado = 0 WHERE Email = ?";
+                        $stmt = $conn->prepare($updateSQL);
+                        $stmt->bind_param("s", $instructor['Email']);
+                        $stmt->execute();
+                        $stmt->close();
+                        $activo = false; 
+                    }
+                }
+
                 $claseCard = $activo ? 'instructor-item' : 'instructor-item disabled';
                 $textoEstado = $activo ? ($t['active'] ?? 'Activo') : ($t['inactive'] ?? 'Inactivo');
                 $textoBoton = $activo ? ($t['disable'] ?? 'Deshabilitar') : ($t['enable'] ?? 'Habilitar');
                 $claseBoton = $activo ? 'btn-deshabilitar' : 'btn-habilitar';
                 $jefeFicha = $instructor['es_jefe_grupo'];
             ?>
-            <div class="instructor-card <?= $claseCard ?> instructor-item"
-                 data-tipo="<?= strtolower($instructor['Tipo_instructor']) ?>"
+            <div class="instructor-card <?= $claseCard ?>"
+                 data-tipo="<?= strtolower($activo ? $instructor['Tipo_instructor'] : 'inactivo') ?>"
                  data-rol="<?= strtolower($instructor['rol_instructor'] ?? '') ?>">
                 <div class="instructor-content">
                     <div class="avatar">
@@ -110,16 +123,17 @@ $es_admin = isset($_SESSION['usuario']['rol']) && $_SESSION['usuario']['rol'] ==
                     </div>
                     <div class="instructor-info">
                         <div class="instructor-header">
-                            <h3 class="instructor-name">
-                                <?= htmlspecialchars($instructor['nombre'] . ' ' . $instructor['apellido']) ?>
-                            </h3>
+                            <h3 class="instructor-name"><?= htmlspecialchars($instructor['nombre'] . ' ' . $instructor['apellido']) ?></h3>
                             <?php if ($es_admin): ?>
                             <div class="botones-acciones">
-                                <form method="POST" action="/proyecto-sena/functions/functions_instructores.php">
+                                <?php if (empty($instructor['fecha_fin_contrato'])): ?>
+                                <form method="POST" action="/proyecto-sena/functions/functions_instructores.php" class="form-estado">
                                     <input type="hidden" name="id" value="<?= $instructor['Id_instructor'] ?>">
                                     <input type="hidden" name="accion" value="<?= $textoBoton ?>">
+                                    <input type="hidden" name="tipo_instructor" value="<?= $instructor['Tipo_instructor'] ?>">
                                     <button type="submit" class="btn-estado <?= $claseBoton ?>"><?= $textoBoton ?></button>
                                 </form>
+                                <?php endif; ?>
                                 <button class="btn-editar" onclick='abrirModal(<?= json_encode($instructor) ?>)'><?= $t['edit'] ?? 'Editar' ?></button>
                             </div>
                             <?php endif; ?>
@@ -152,6 +166,7 @@ $es_admin = isset($_SESSION['usuario']['rol']) && $_SESSION['usuario']['rol'] ==
 </div>
 
 <?php if ($es_admin): ?>
+<!-- Modal Editar Instructor -->
 <div id="modalEditar" class="modal">
     <div class="modal-contenido">
         <span class="cerrar-modal" onclick="cerrarModal()">&times;</span>
@@ -159,27 +174,34 @@ $es_admin = isset($_SESSION['usuario']['rol']) && $_SESSION['usuario']['rol'] ==
         <form id="formEditarInstructor" method="POST" action="/proyecto-sena/functions/actualizar_instructores.php" onsubmit="return validarFormulario()">
             <input type="hidden" name="id" id="editId">
             <input type="hidden" name="ficha" id="editFicha">
+
             <label><?= $t['first_name'] ?? 'Nombre' ?>:</label>
             <input type="text" name="nombre" id="editNombre" required pattern="[A-Za-zÁÉÍÓÚñáéíóú\s]+" title="<?= $t['letters_only'] ?? 'Solo letras y espacios' ?>">
+
             <label><?= $t['last_name'] ?? 'Apellido' ?>:</label>
             <input type="text" name="apellido" id="editApellido" required pattern="[A-Za-zÁÉÍÓÚñáéíóú\s]+" title="<?= $t['letters_only'] ?? 'Solo letras y espacios' ?>">
+
             <label><?= $t['email'] ?? 'Email' ?>:</label>
             <input type="email" name="email" id="editEmail" required>
+
             <label><?= $t['doc_type'] ?? 'Tipo Documento' ?>:</label>
             <select name="tipo_documento" id="editTipoDocumento" required>
                 <option value="CC">CC</option>
                 <option value="CE">CE</option>
             </select>
-            <label><?= $t['doc_number'] ?? 'Número Documento' ?>:</label>
-            <input type="text" name="numero_documento" id="editNumeroDocumento" required pattern="[0-9]+" title="<?= $t['numbers_only'] ?? 'Solo números' ?>">
-            <label><?= $t['phone'] ?? 'Teléfono' ?>:</label>
-            <input type="text" name="telefono" id="editTelefono" required pattern="[0-9]+" title="<?= $t['numbers_only'] ?? 'Solo números' ?>">
+
+            <label><?= $t['doc_number'] ?? 'Número de Documento' ?></label>
+            <input type="text" name="numero_documento" id="editNumeroDocumento" required pattern="\d+" title="<?= $t['numbers_only'] ?? 'Solo números' ?>" oninput="this.value=this.value.replace(/\D/g,'')">
+            <label><?= $t['phone'] ?? 'Teléfono' ?></label>
+            <input type="text" name="telefono" id="editTelefono" required pattern="\d+" title="<?= $t['numbers_only'] ?? 'Solo números' ?>" oninput="this.value=this.value.replace(/\D/g,'')">
+
             <label><?= $t['instructor_type'] ?? 'Tipo de Instructor' ?>:</label>
-            <select name="tipo_instructor" id="editTipoInstructor" required onchange="mostrarFechasContrato()">
+            <select name="tipo_instructor" id="editTipoInstructor" onchange="mostrarFechasContrato()">
                 <option value=""><?= $t['select_type'] ?? 'Seleccione tipo' ?></option>
                 <option value="planta"><?= $t['permanent'] ?? 'Planta' ?></option>
                 <option value="contratista"><?= $t['contractor'] ?? 'Contratista' ?></option>
             </select>
+
             <label><?= $t['instructor_role'] ?? 'Rol Instructor' ?>:</label>
             <select name="rol_instructor" id="editRolInstructor" required>
                 <option value=""><?= $t['select_role'] ?? 'Seleccione rol' ?></option>
@@ -187,12 +209,14 @@ $es_admin = isset($_SESSION['usuario']['rol']) && $_SESSION['usuario']['rol'] ==
                 <option value="transversal"><?= $t['transversal'] ?? 'Transversal' ?></option>
                 <option value="tecnico"><?= $t['technical'] ?? 'Técnico' ?></option>
             </select>
+
             <div id="fechasContrato" style="display: none;">
                 <label><?= $t['contract_start'] ?? 'Fecha Inicio Contrato' ?>:</label>
                 <input type="date" name="fecha_inicio_contrato" id="editFechaInicio">
-                <label><?= $t['contract_end'] ?? 'Fecha Fin Contrato' ?>:</label>
+                <label><?= $t['contract_end'] ?? 'Fecha Fin Contrato' ?></label>
                 <input type="date" name="fecha_fin_contrato" id="editFechaFin">
             </div>
+
             <button type="submit"><?= $t['update'] ?? 'Actualizar' ?></button>
         </form>
     </div>
@@ -201,17 +225,34 @@ $es_admin = isset($_SESSION['usuario']['rol']) && $_SESSION['usuario']['rol'] ==
 
 <?php if (isset($_GET['success'])): ?>
 <script>
+document.addEventListener("DOMContentLoaded", () => {
     <?php if ($_GET['success'] === 'estado-cambiado'): ?>
-    Swal.fire({ icon: 'success', title: '<?= $t['success'] ?? '¡Éxito!' ?>', text: '<?= $t['status_updated'] ?? 'Estado actualizado.' ?>', confirmButtonColor: '#3085d6' });
+    Swal.fire({icon:'success', title:'<?= $t['success'] ?>', text:'<?= $t['status_updated'] ?>', confirmButtonColor:'#3085d6'});
     <?php elseif ($_GET['success'] === 'editado'): ?>
-    Swal.fire({ icon: 'success', title: '<?= $t['success'] ?? '¡Éxito!' ?>', text: '<?= $t['instructor_edited'] ?? 'Instructor editado correctamente.' ?>', confirmButtonColor: '#3085d6' });
+    Swal.fire({icon:'success', title:'<?= $t['success'] ?>', text:'<?= $t['instructor_edited'] ?>', confirmButtonColor:'#3085d6'});
     <?php elseif ($_GET['success'] === 'creado'): ?>
-    Swal.fire({ icon: 'success', title: '<?= $t['success'] ?? '¡Éxito!' ?>', text: '<?= $t['instructor_created'] ?? 'Instructor registrado correctamente.' ?>', confirmButtonColor: '#3085d6' });
+    Swal.fire({icon:'success', title:'<?= $t['success'] ?>', text:'<?= $t['instructor_created'] ?>', confirmButtonColor:'#3085d6'});
     <?php endif; ?>
+
+    if (window.history.replaceState) {
+        const url = new URL(window.location.href);
+        url.searchParams.delete("success");
+        window.history.replaceState({}, document.title, url.toString());
+    }
+});
 </script>
 <?php endif; ?>
 
 <script>
+const correosExistentes = [
+    <?php
+    $resultado->data_seek(0);
+    while ($row = $resultado->fetch_assoc()) {
+        echo "{id: {$row['Id_instructor']}, email: '" . addslashes($row['Email']) . "'},";
+    }
+    ?>
+];
+
 function abrirModal(instructor) {
     document.getElementById('editId').value = instructor.Id_instructor;
     document.getElementById('editFicha').value = instructor.Ficha ?? '';
@@ -242,6 +283,40 @@ function mostrarFechasContrato() {
     }
 }
 
+function validarFormulario() {
+    const inicio = document.getElementById('editFechaInicio').value;
+    const fin = document.getElementById('editFechaFin').value;
+    if (inicio && fin && inicio > fin) {
+        Swal.fire({icon:'error', title:'Error', text:'<?= $t['date_error'] ?? 'Fecha de inicio no puede ser mayor a fecha fin' ?>'});
+        return false;
+    }
+
+    const numDoc = parseInt(document.getElementById('editNumeroDocumento').value, 10);
+    const telefono = parseInt(document.getElementById('editTelefono').value, 10);
+
+    if (isNaN(numDoc) || isNaN(telefono)) {
+        Swal.fire({icon:'error', title:'Error', text:'<?= $t['numbers_only'] ?? 'Número de documento y teléfono deben ser válidos' ?>'});
+        return false;
+    }
+
+    if (numDoc <= 0 || telefono <= 0) {
+        Swal.fire({icon:'error', title:'Error', text:'<?= $t['positive_numbers_only'] ?? 'Número de documento y teléfono deben ser positivos' ?>'});
+        return false;
+    }
+
+    const email = document.getElementById('editEmail').value.trim().toLowerCase();
+    const idActual = parseInt(document.getElementById('editId').value, 10);
+
+    const emailDuplicado = correosExistentes.some(c => c.email.toLowerCase() === email && c.id !== idActual);
+    if (emailDuplicado) {
+        Swal.fire({icon:'error', title:'Error', text:'<?= $t['email_exists'] ?? 'Este correo ya está registrado' ?>'});
+        return false;
+    }
+
+    return true;
+}
+
+// --- FILTRO SIN MODIFICAR DISPLAY FLEX --- 
 function filtrarInstructores() {
     const texto = document.getElementById("buscador").value.toLowerCase().trim();
     const tipoFiltro = document.getElementById("filtroTipo").value.toLowerCase();
@@ -252,13 +327,15 @@ function filtrarInstructores() {
         const tipo = item.getAttribute("data-tipo") || "";
         const rol = item.getAttribute("data-rol") || "";
 
-        const coincideTexto = nombre.includes(texto);
-        const coincideTipo = tipoFiltro === "" || tipo === tipoFiltro;
-        const coincideRol = rolFiltro === "" || rol === rolFiltro;
+        const mostrar = 
+            (nombre.includes(texto) || texto === "") &&
+            (tipoFiltro === "" || tipo === tipoFiltro) &&
+            (rolFiltro === "" || rol === rolFiltro);
 
-        item.style.display = (coincideTexto && coincideTipo && coincideRol) ? "block" : "none";
+        item.classList.toggle('hidden', !mostrar);
     });
 }
+
 </script>
 
 </body>
