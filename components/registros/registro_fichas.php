@@ -40,7 +40,7 @@ try {
     <div class="contenedor-formulario">
         <h1 class="titulo-formulario"><?= $translations['register_ficha'] ?? 'Registrar Ficha' ?></h1>
 
-        <form action="index.php?page=functions/functions_registros_fichas" method="POST" enctype="multipart/form-data">
+        <form id="formFicha" action="index.php?page=functions/functions_registros_fichas" method="POST" enctype="multipart/form-data">
             <!-- Primera Fila -->
             <div class="fila-formulario">
                 <div class="grupo-formulario">
@@ -109,27 +109,84 @@ try {
     </div>
 </main>
 
-<!-- ALERTAS CON SWEETALERT -->
+<!-- FUNCION GLOBAL PARA ALERTAS -->
+<script>
+function showAlert(icon, title, text) {
+    Swal.fire({
+        icon: icon,
+        title: title,
+        text: text,
+        showConfirmButton: false,   
+        timer: 1500,                // Se cierra en 1.5s
+        timerProgressBar: true
+    }).then(() => {
+        const url = new URL(window.location.href);
+        url.searchParams.delete('success');
+        url.searchParams.delete('error');
+
+        // Si ya no quedan parámetros, limpia todo el query string
+        const newUrl = url.searchParams.toString() ? url.pathname + '?' + url.searchParams.toString() : url.pathname;
+        window.history.replaceState({}, document.title, newUrl);
+    });
+}
+</script>
+
+<!-- ALERTAS SWEETALERT -->
 <?php if (isset($_GET['success']) && $_GET['success'] === 'ficha-creada'): ?>
 <script>
-Swal.fire({
-    icon: 'success',
-    title: '¡Ficha creada correctamente!',
-    confirmButtonText: 'Aceptar'
-});
+showAlert('success', '¡Ficha creada correctamente!', 'La ficha se ha registrado exitosamente.');
 </script>
 <?php endif; ?>
 
 <?php if (isset($_GET['error']) && $_GET['error'] === 'ficha-repetida'): ?>
 <script>
-Swal.fire({
-    icon: 'error',
-    title: 'Ficha duplicada',
-    text: 'El número de ficha ya existe en el sistema.',
-    confirmButtonText: 'Aceptar'
-});
+showAlert('error', 'Ficha duplicada', 'El número de ficha ya existe en el sistema.');
 </script>
 <?php endif; ?>
+
+<?php if (isset($_GET['error']) && $_GET['error'] === 'excel'): ?>
+<script>
+showAlert('error', 'Error con el archivo Excel', 'No se pudo procesar el archivo. Verifique el formato.');
+</script>
+<?php endif; ?>
+
+<?php if (isset($_GET['error']) && $_GET['error'] === 'insertar-ficha'): ?>
+<script>
+showAlert('error', 'Error al registrar ficha', 'Ocurrió un problema al guardar la ficha en la base de datos.');
+</script>
+<?php endif; ?>
+
+<!-- VALIDACIÓN Y LOADER -->
+<script>
+document.getElementById("formFicha").addEventListener("submit", function(e) {
+    const numeroFicha = document.getElementById("numero_ficha").value;
+
+    // Validar número negativo o cero
+    if (numeroFicha <= 0) {
+        e.preventDefault();
+        Swal.fire({
+            icon: 'warning',
+            title: 'Número inválido',
+            text: 'El número de ficha no puede ser negativo ni cero.',
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: true
+        });
+        return;
+    }
+
+    // Loader mientras procesa
+    Swal.fire({
+        title: 'Registrando ficha...',
+        text: 'Por favor espera mientras procesamos la información.',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+});
+</script>
 
 </body>
 </html>
