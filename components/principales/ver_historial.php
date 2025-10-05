@@ -1,5 +1,8 @@
 <?php
 session_start();
+
+require_once __DIR__ . '/../../functions/autenticacion_login.php';
+
 if (!isset($_SESSION['usuario'])) {
     header("Location: /proyecto-sena/components/principales/login.php");
     exit();
