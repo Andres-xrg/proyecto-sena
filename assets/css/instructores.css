@@ -23,6 +23,7 @@ body {
     margin: 0 auto;
     background: rgba(255, 255, 255, 0.95);
     margin-top: 1.25rem;
+    margin-bottom: 5.25rem;
     border-radius: 1rem;
     box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.08);
     backdrop-filter: blur(10px);
@@ -255,7 +256,6 @@ body {
 }
 /* Barra de búsqueda y filtros adaptada */
 .filtro-barra {
-
   top: 20px;
   left: 300px; 
   right: 20px;
@@ -271,21 +271,20 @@ body {
   border: 1px solid rgba(226, 232, 240, 0.5);
   transition: all 0.3s ease;
   max-width: calc(100% - 300px - 40px);
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto 2rem auto;
   justify-content: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap; /* evita que se rompa la fila */
+  overflow-x: auto;  /* scroll horizontal si no caben todos los elementos */
 }
 
 .filtro-barra .search-box {
   position: relative;
-  flex-grow: 1;
+  flex: 0 1 250px; /* crece pero no más de 250px */
   min-width: 200px;
-  max-width: 300px;
 }
 
 .filtro-barra .search-box input {
-  width: 100%;
+  width: 100%; /* ocupa todo el ancho de su contenedor */
   padding: 0.75rem 2.5rem 0.75rem 1rem;
   border: 1px solid #e2e8f0;
   border-radius: 0.75rem;
@@ -294,6 +293,7 @@ body {
   color: #1f2937;
   box-shadow: 0 1px 3px rgba(0,0,0,0.05);
   transition: all 0.3s ease;
+  margin: 0; /* elimina margin para que no se baje */
 }
 
 .filtro-barra .search-box input:focus {
@@ -305,9 +305,8 @@ body {
 
 .filtro-barra .dropdown-container {
   position: relative;
-  flex-grow: 1;
+  flex: 0 1 200px; /* crece pero no más de 200px */
   min-width: 180px;
-  max-width: 250px;
 }
 
 .filtro-barra .dropdown-container select {
@@ -321,6 +320,7 @@ body {
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  margin: 0; /* elimina margin para que no se baje */
 }
 
 .filtro-barra .dropdown-container select:hover {
@@ -381,212 +381,303 @@ body {
     letter-spacing: 0.5px;
 }
 
-/* Modal de edición */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 9999;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(4px);
-    padding: 2rem;
-}
-.modal[style*="block"] {
-    display: flex !important;
-    justify-content: center;
-    align-items: center;
-}
-.modal-contenido {
-    background: #ffffff;
-    padding: 2rem;
-    border-radius: 1rem;
-    box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.08);
-    border: 1px solid #e2e8f0;
-    width: 100%;
-    max-width: 30rem;
-    transition: all 0.3s ease;
-    position: relative;
-    animation: fadeInUp 0.6s ease-out;
-}
-.modal-contenido:hover {
-    box-shadow: 0 0.75rem 2.5rem rgba(0, 0, 0, 0.12);
-    transform: translateY(-0.125rem);
-}
-.modal-contenido h2 {
-    text-align: center;
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 2rem;
-    color: #1f2937;
-    position: relative;
-}
-.modal-contenido h2::after {
-    content: '';
-    position: absolute;
-    bottom: -0.625rem;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 3.75rem;
-    height: 0.1875rem;
-    background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
-    border-radius: 0.125rem;
+/* Quitar flechas y normalizar el estilo de number */
+input.input-text[type="number"] {
+    -moz-appearance: textfield; /* Firefox */
+    -webkit-appearance: none;   /* Chrome, Safari, Edge */
+    appearance: none;
+    padding: 8px; /* igual que tus otros inputs */
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    box-sizing: border-box;
 }
 
-/* Formulario en el modal */
+/* Chrome/Edge/Safari: quitar flechas internas */
+input.input-text[type="number"]::-webkit-inner-spin-button,
+input.input-text[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
+/* Modal de edición */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 0;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  padding: 2rem;
+}
+
+.modal[style*="block"] {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-contenido {
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.08);
+  border: 1px solid #e2e8f0;
+  width: 100%;
+  max-width: 45rem; /* Aumentado para acomodar 2 columnas */
+  max-height: 90vh; /* Altura máxima para evitar scroll excesivo */
+  overflow-y: auto; /* Scroll interno si es necesario */
+  transition: all 0.3s ease;
+  position: relative;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.modal-contenido:hover {
+  box-shadow: 0 0.75rem 2.5rem rgba(0, 0, 0, 0.12);
+  transform: translateY(-0.125rem);
+}
+
+.modal-contenido h2 {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem; /* Reducido el margen inferior */
+  color: #1f2937;
+  position: relative;
+}
+
+.modal-contenido h2::after {
+  content: "";
+  position: absolute;
+  bottom: -0.625rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 3.75rem;
+  height: 0.1875rem;
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+  border-radius: 0.125rem;
+}
+
+/* Formulario con CSS Grid para 2 columnas */
 .modal-contenido form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem 1.5rem;
+  margin-top: 1.5rem;
 }
-.form-row {
-    display: flex;
-    gap: 1rem;
+
+/* Campos que ocupan el ancho completo */
+.modal-contenido form > label:nth-of-type(3) /* Email label */,
+.modal-contenido form > input[type="email"] /* Email input */,
+.modal-contenido form > label:last-of-type /* Último label antes del div de fechas */,
+.modal-contenido form > select:last-of-type /* Tipo de instructor select */,
+.modal-contenido form > div#fechasContrato /* Div de fechas de contrato */,
+.modal-contenido form > button[type="submit"] {
+  /* Botón submit */
+  grid-column: 1 / -1;
 }
-.form-group {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
+
+/* Agrupación de label + input en el grid */
+.modal-contenido form > label {
+  grid-column: span 1;
+  margin-bottom: -0.75rem; /* Acerca el label al input */
 }
-.form-group.full-width {
-    flex: 100%;
+
+.modal-contenido form > input,
+.modal-contenido form > select {
+  grid-column: span 1;
+}
+
+/* Fechas de contrato en 2 columnas cuando se muestran */
+.modal-contenido form > div#fechasContrato {
+  display: none;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem 1.5rem;
+}
+
+.modal-contenido form > div#fechasContrato[style*="block"] {
+  display: grid !important;
+}
+
+.modal-contenido form > div#fechasContrato > label {
+  margin-bottom: -0.75rem;
 }
 
 /* Inputs y selects en el modal */
 .modal-contenido label {
-    font-weight: 600;
-    margin-bottom: 0.5em;
-    color: #374151;
-    font-size: 0.95em;
-    text-align: left;
-    display: block;
+  font-weight: 600;
+  margin-bottom: 0.5em;
+  color: #374151;
+  font-size: 0.95em;
+  text-align: left;
+  display: block;
 }
+
 .modal-contenido input[type="text"],
 .modal-contenido input[type="email"],
+.modal-contenido input[type="date"] /* Agregado para fechas */,
 .modal-contenido select {
-    padding: 0.75em 1em;
-    border: 0.125em solid #e2e8f0;
-    border-radius: 0.5em;
-    font-size: 0.95em;
-    background: #ffffff;
-    color: #1f2937;
-    transition: all 0.3s ease;
-    width: 100%;
+  padding: 0.75em 1em;
+  border: 0.125em solid #e2e8f0;
+  border-radius: 0.5em;
+  font-size: 0.95em;
+  background: #ffffff;
+  color: #1f2937;
+  transition: all 0.3s ease;
+  width: 100%;
 }
+
 .modal-contenido input[type="text"]:focus,
 .modal-contenido input[type="email"]:focus,
+.modal-contenido input[type="date"]:focus /* Agregado para fechas */,
 .modal-contenido select:focus {
-    outline: none;
-    border-color: #22c55e;
-    box-shadow: 0 0 0 0.1875rem rgba(34, 197, 94, 0.1);
-    transform: translateY(-0.0625rem);
+  outline: none;
+  border-color: #22c55e;
+  box-shadow: 0 0 0 0.1875rem rgba(34, 197, 94, 0.1);
+  transform: translateY(-0.0625rem);
 }
+
 .modal-contenido input[type="text"]:hover,
 .modal-contenido input[type="email"]:hover,
+.modal-contenido input[type="date"]:hover /* Agregado para fechas */,
 .modal-contenido select:hover {
-    border-color: #cbd5e1;
+  border-color: #cbd5e1;
 }
+
 .modal-contenido select {
-    cursor: pointer;
-    appearance: none;
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
-    background-repeat: no-repeat;
-    background-position: right 1em center;
-    background-size: 1em;
-    padding-right: 2.5em;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1em center;
+  background-size: 1em;
+  padding-right: 2.5em;
 }
+
 .modal-contenido select:focus {
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2322c55e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2322c55e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
 }
+
 .modal-contenido input::placeholder {
-    color: #9ca3af;
-    font-style: italic;
+  color: #9ca3af;
+  font-style: italic;
 }
 
 /* Botón de actualizar en el modal */
 .modal-contenido button[type="submit"] {
-    background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
-    color: white;
-    padding: 1em 2em;
-    border: none;
-    border-radius: 0.75em;
-    font-size: 1em;
-    font-weight: 600;
-    cursor: pointer;
-    display: block;
-    margin: 2em auto 0;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    min-width: 12.5em;
-    transition: all 0.3s ease;
-    box-shadow: 0 0.25rem 1rem rgba(34, 197, 94, 0.3);
-    position: relative;
-    overflow: hidden;
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+  color: white;
+  padding: 1em 2em;
+  border: none;
+  border-radius: 0.75em;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  display: block;
+  margin: 1.5rem auto 0; /* Reducido margen superior */
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  min-width: 12.5em;
+  transition: all 0.3s ease;
+  box-shadow: 0 0.25rem 1rem rgba(34, 197, 94, 0.3);
+  position: relative;
+  overflow: hidden;
 }
+
 .modal-contenido button[type="submit"]::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-    transition: left 0.5s ease;
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
 }
+
 .modal-contenido button[type="submit"]:hover::before {
-    left: 100%;
+  left: 100%;
 }
+
 .modal-contenido button[type="submit"]:hover {
-    background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
-    transform: translateY(-0.1875rem);
-    box-shadow: 0 0.5rem 1.56rem rgba(34, 197, 94, 0.4);
+  background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+  transform: translateY(-0.1875rem);
+  box-shadow: 0 0.5rem 1.56rem rgba(34, 197, 94, 0.4);
 }
+
 .modal-contenido button[type="submit"]:active {
-    transform: translateY(-0.0625rem);
+  transform: translateY(-0.0625rem);
 }
+
 .modal-contenido button[type="submit"]:focus {
-    outline: none;
-    box-shadow: 0 0 0 0.1875rem rgba(34, 197, 94, 0.2);
+  outline: none;
+  box-shadow: 0 0 0 0.1875rem rgba(34, 197, 94, 0.2);
 }
 
 /* Botón para cerrar el modal */
 .cerrar-modal {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    font-size: 1.5rem;
-    font-weight: bold;
-    cursor: pointer;
-    color: #6b7280;
-    transition: color 0.3s ease;
-    width: 2rem;
-    height: 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-}
-.cerrar-modal:hover {
-    color: #ef4444;
-    background: #fef2f2;
-    border-color: #fecaca;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  color: #6b7280;
+  transition: color 0.3s ease;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
 }
 
-/* Animación modal */
+.cerrar-modal:hover {
+  color: #ef4444;
+  background: #fef2f2;
+  border-color: #fecaca;
+}
+
+/* Responsive: volver a 1 columna en pantallas pequeñas */
+@media (max-width: 768px) {
+  .modal-contenido {
+    max-width: 95%;
+    padding: 1.5rem;
+  }
+
+  .modal-contenido form {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .modal-contenido form > label,
+  .modal-contenido form > input,
+  .modal-contenido form > select {
+    grid-column: 1 / -1;
+  }
+
+  .modal-contenido form > div#fechasContrato[style*="block"] {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Animación de entrada del modal */
 @keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(1.25rem) scale(0.95);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
+  from {
+    opacity: 0;
+    transform: translateY(2rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Estado vacío */
@@ -892,6 +983,42 @@ body.dark .container {
 }
 body.dark .main-card {
   background: transparent;
+}
+
+/* ===  Barra de búsqueda y filtros === */
+body.dark .filtro-barra {
+  background-color: rgba(30, 30, 30, 0.95);
+  border: 1px solid rgba(68, 68, 68, 0.6);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+body.dark .filtro-barra .search-box input {
+  background: #2c2c2c;
+  border: 1px solid #555;
+  color: #f5f5f5;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+body.dark .filtro-barra .search-box input:focus {
+  border-color: #2a7f00; /* Verde institucional */
+  box-shadow: 0 0 0 3px rgba(42, 127, 0, 0.3);
+}
+
+body.dark .filtro-barra .search-box input::placeholder {
+  color: #aaa;
+}
+
+body.dark .filtro-barra .dropdown-container select {
+  background: #2c2c2c;
+  border: 1px solid #555;
+  color: #f5f5f5;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+body.dark .filtro-barra .dropdown-container select:hover {
+  border-color: #2a7f00; /* Verde institucional */
+  background: #333;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
 }
 
 /* Header de la sección */
