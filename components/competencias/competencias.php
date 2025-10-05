@@ -1,4 +1,7 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -56,6 +59,22 @@ $stmt_estado->bind_param("s", $documento);
 $stmt_estado->execute();
 $res_estado = $stmt_estado->get_result();
 $estado_formacion = $res_estado->fetch_assoc()['Estado_formacion'] ?? 'No registrado';
+
+// 5. Obtener número de ficha desde ficha_aprendiz
+$ficha_numero = 'No asignada';
+if ($idAprendiz) {
+    $stmt_ficha = $conn->prepare("
+        SELECT f.numero_ficha 
+        FROM ficha_aprendiz fa
+        INNER JOIN fichas f ON fa.Id_ficha = f.Id_ficha
+        WHERE fa.Id_aprendiz = ?
+        LIMIT 1
+    ");
+    $stmt_ficha->bind_param("i", $idAprendiz);
+    $stmt_ficha->execute();
+    $res_ficha = $stmt_ficha->get_result();
+    $ficha_numero = $res_ficha->fetch_assoc()['numero_ficha'] ?? 'No asignada';
+}
 ?>
 
 
@@ -81,7 +100,6 @@ $estado_formacion = $res_estado->fetch_assoc()['Estado_formacion'] ?? 'No regist
                 <i class="fas fa-file-alt"></i>
                 GENERAR REPORTE
             </button>
-           
         </div>
     </div>
 
@@ -129,7 +147,7 @@ $estado_formacion = $res_estado->fetch_assoc()['Estado_formacion'] ?? 'No regist
                                                             if ($estado === 'no aprobado') {
                                                                 $tiene_no_aprobado = true;
                                                                 $todos_aprobados = false;
-                                                                break; // no puede ser aprobado ni por evaluar
+                                                                break;
                                                             } elseif ($estado === 'por evaluar' || $estado === '') {
                                                                 $tiene_por_evaluar = true;
                                                                 $todos_aprobados = false;
@@ -229,13 +247,12 @@ $estado_formacion = $res_estado->fetch_assoc()['Estado_formacion'] ?? 'No regist
             <div class="info-item">
                 <strong>Documento:</strong> <?= !empty($aprendiz['N_Documento']) ? htmlspecialchars($aprendiz['N_Documento']) : 'N/A' ?>
             </div>
-            <strong>Ficha:</strong> <?= htmlspecialchars($competencias_agrupadas[array_key_first($competencias_agrupadas)][0]['Numero_ficha'] ?? 'N/A')  ?>
+            <strong>Ficha:</strong> <?= htmlspecialchars($ficha_numero) ?>
             <div class="info-item">
                 <strong>Última actualización:</strong> 
                 <?= !empty($aprendiz['Fecha_registro']) ? date('d/m/Y H:i', strtotime($aprendiz['Fecha_registro'])) : 'N/A' ?>
             </div>
         </div>
-
                 <?php
                 $total_competencias = is_array($competencias_agrupadas) ? count($competencias_agrupadas) : 0;
                 $total_resultados = 0;
@@ -298,12 +315,11 @@ $estado_formacion = $res_estado->fetch_assoc()['Estado_formacion'] ?? 'No regist
         <span class="cerrar-modal" onclick="cerrarModal()">&times;</span>
         <h2>Reporte de Aprendiz</h2>
 
-        <p><strong>Nombre:</strong> <?= htmlspecialchars($aprendiz['Nombre_aprendiz'] ?? '') ?> <?= htmlspecialchars($aprendiz['Apellido_aprendiz'] ?? '') ?></p>
+        <p><strong>Nombre:</strong> <?= htmlspecialchars($aprendiz['nombre'] ?? '') ?> <?= htmlspecialchars($aprendiz['apellido'] ?? '') ?></p>
         <p><strong>Documento:</strong> <?= htmlspecialchars($aprendiz['N_Documento'] ?? '') ?></p>
-        <p><strong>Ficha:</strong> <?= htmlspecialchars($aprendiz['Numero_ficha'] ?? '') ?></p>
-        <p><strong>Estado:</strong> <?= htmlspecialchars($aprendiz['Estado_formacion'] ?? '') ?></p>
+        <p><strong>Ficha:</strong> <?= htmlspecialchars($ficha_numero) ?></p>
 
-        <!-- Formulario para nueva observación (PRIMER CUADRO) -->
+        <!-- Formulario para nueva observación -->
         <form id="formObservacion" style="margin-bottom: 20px;">
             <input type="hidden" name="id_aprendiz" value="<?= $idAprendiz ?>">
             <textarea name="observacion" placeholder="Escribe una nueva observación..." rows="4" style="width:100%; resize:none;" maxlength="500" required></textarea>
@@ -312,16 +328,17 @@ $estado_formacion = $res_estado->fetch_assoc()['Estado_formacion'] ?? 'No regist
             </div>
         </form>
 
-        <!-- Historial de observaciones (SEGUNDO CUADRO) -->
+        <!-- Historial de observaciones -->
         <h4>Historial de Observaciones</h4>
         <?php
         $observaciones = [];
         if (!empty($idAprendiz)) {
-            $stmt = $conn->prepare("SELECT o.observacion, o.fecha, u.Nombre, u.Apellido 
-                                    FROM observaciones_aprendiz o 
-                                    JOIN usuarios u ON o.id_usuario = u.Id_usuario 
-                                    WHERE o.id_aprendiz = ?
-                                    ORDER BY o.fecha DESC");
+            $stmt = $conn->prepare("SELECT o.id, o.observacion, o.fecha, 
+                                               u.Nombre AS usuario_nombre, u.Apellido AS usuario_apellido
+                                        FROM observaciones_aprendiz o 
+                                        JOIN usuarios u ON o.id_usuario = u.Id_usuario 
+                                        WHERE o.id_aprendiz = ?
+                                        ORDER BY o.fecha DESC");
             $stmt->bind_param("i", $idAprendiz);
             $stmt->execute();
             $result = $stmt->get_result();
@@ -330,12 +347,21 @@ $estado_formacion = $res_estado->fetch_assoc()['Estado_formacion'] ?? 'No regist
         ?>
 
         <?php if (!empty($observaciones)): ?>
-            <ul id="historialObservaciones" style="max-height: 200px; overflow-y: auto;">
+            <ul id="historialObservaciones" style="max-height: 200px; overflow-y: auto; list-style:none; padding:0;">
                 <?php foreach ($observaciones as $obs): ?>
-                    <li>
-                        <strong><?= htmlspecialchars($obs['Nombre'] . ' ' . $obs['Apellido']) ?></strong>
+                    <li style="padding:8px 0;">
+                        <strong><?= htmlspecialchars(($obs['usuario_nombre'] ?? '') . ' ' . ($obs['usuario_apellido'] ?? '')) ?></strong>
                         <em>(<?= $obs['fecha'] ?>):</em><br>
-                        <?= nl2br(htmlspecialchars($obs['observacion'])) ?>
+                        <span id="texto-<?= $obs['id'] ?>"><?= nl2br(htmlspecialchars($obs['observacion'])) ?></span>
+                        <br>
+                        <?php if (isset($_SESSION['usuario']['rol']) && strtolower($_SESSION['usuario']['rol']) === 'administrador'): ?>
+                            <button 
+                                class="btn btn-sm btn-warning btn-editar" 
+                                data-id="<?= $obs['id'] ?>" 
+                                data-texto="<?= base64_encode($obs['observacion']) ?>">
+                                ✏ Editar
+                            </button>
+                        <?php endif; ?>
                     </li>
                     <hr>
                 <?php endforeach; ?>
@@ -346,7 +372,6 @@ $estado_formacion = $res_estado->fetch_assoc()['Estado_formacion'] ?? 'No regist
 
     </div>
 </div>
-
 
 </main>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -389,6 +414,64 @@ document.getElementById('formObservacion').addEventListener('submit', function (
             icon: 'error',
             title: 'Error',
             text: 'Hubo un error inesperado al guardar la observación.',
+        });
+    });
+});
+
+function b64DecodeUnicode(str) {
+    try {
+        return decodeURIComponent(Array.prototype.map.call(atob(str), function(c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+    } catch (e) {
+        try { return atob(str); } catch (e2) { return ''; }
+    }
+}
+
+document.querySelectorAll('.btn-editar').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const id = btn.dataset.id;
+        const textoB64 = btn.dataset.texto || '';
+        const texto = textoB64 ? b64DecodeUnicode(textoB64) : '';
+
+        Swal.fire({
+            title: 'Editar observación',
+            input: 'textarea',
+            inputValue: texto,
+            showCancelButton: true,
+            confirmButtonText: 'Guardar',
+            cancelButtonText: 'Cancelar',
+            preConfirm: (value) => {
+                if (!value || value.trim() === '') {
+                    Swal.showValidationMessage('El texto no puede estar vacío');
+                }
+                return value;
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch('functions/editar_observacion.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: `id=${encodeURIComponent(id)}&texto=${encodeURIComponent(result.value)}`
+                })
+                .then(res => res.json())
+                .then(response => {
+                    if (response.success) {
+                        Swal.fire('Éxito', response.message, 'success').then(() => {
+                            const span = document.getElementById('texto-' + id);
+                            if (span) {
+                                span.innerHTML = response.updated_html ?? (result.value.replace(/\n/g, '<br>'));
+                            }
+                        });
+                    } else {
+                        Swal.fire('Error', response.message || 'No se pudo editar la observación', 'error');
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    Swal.fire('Error', 'Hubo un error al editar la observación', 'error');
+                });
+            }
         });
     });
 });
