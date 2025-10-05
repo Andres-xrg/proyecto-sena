@@ -1,88 +1,106 @@
 <?php
-session_start();
-require_once '../db/conexion.php';
-require_once '../functions/historial.php';
+require_once __DIR__ . '/../db/conexion.php';
+require_once __DIR__ . '/historial.php';
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $nombre       = trim($_POST['nombre'] ?? '');
-    $apellidos    = trim($_POST['apellidos'] ?? '');
-    $telefono     = trim($_POST['telefono'] ?? '');
-    $tipo_doc     = trim($_POST['tipo_documento'] ?? '');
-    $documento    = trim($_POST['documento'] ?? '');
-    $email        = trim($_POST['email'] ?? '');
-    $contrasena   = $_POST['contrasena'] ?? '';
-    $confirmar    = $_POST['confirmar_contrasena'] ?? '';
+function registrar_usuario($conn, $data, $usuario_id = 0) {
+    $nombre       = trim($data['nombre'] ?? '');
+    $apellidos    = trim($data['apellidos'] ?? '');
+    $telefono     = trim($data['telefono'] ?? '');
+    $tipo_doc     = trim($data['tipo_documento'] ?? '');
+    $documento    = trim($data['documento'] ?? '');
+    $email        = trim($data['email'] ?? '');
+    $contrasena   = $data['contrasena'] ?? '';
+    $confirmar    = $data['confirmar_contrasena'] ?? '';
+
+    $errores = [];
 
     // Validar contraseñas
     if ($contrasena !== $confirmar) {
-        $mensaje = "Las contraseñas no coinciden.";
-        $estado = "error";
-    } else {
-        $contrasena_hash = password_hash($contrasena, PASSWORD_BCRYPT);
-        $rol = 'Usuario';
-
-        $stmt = $conn->prepare("
-            INSERT INTO usuarios (
-                nombre, apellido, N_Telefono, T_Documento, N_Documento, Email, Contraseña, Rol
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-        ");
-
-        if ($stmt) {
-            $stmt->bind_param("ssssssss", $nombre, $apellidos, $telefono, $tipo_doc, $documento, $email, $contrasena_hash, $rol);
-
-            if ($stmt->execute()) {
-                $id_usuario_nuevo = $conn->insert_id;
-
-                $stmt_ap = $conn->prepare("
-                    INSERT INTO aprendices (Id_usuario, nombre, apellido, T_documento, N_Documento, N_Telefono, Email)
-                    VALUES (?, ?, ?, ?, ?, ?, ?)
-                ");
-                $stmt_ap->bind_param("issssss", $id_usuario_nuevo, $nombre, $apellidos, $tipo_doc, $documento, $telefono, $email);
-                $stmt_ap->execute();
-
-                if (isset($_SESSION['usuario']['id'])) {
-                    $usuario_id = $_SESSION['usuario']['id'];
-                    $descripcion = "Se registró el usuario $nombre $apellidos con documento $documento.";
-                    registrar_historial($conn, $usuario_id, 'Registro de usuario', $descripcion);
-                }
-
-                $mensaje = "Usuario registrado correctamente.";
-                $estado = "success";
-            } else {
-                $mensaje = "Error al registrar usuario: " . $stmt->error;
-                $estado = "error";
-            }
-        } else {
-            $mensaje = "Error al preparar consulta: " . $conn->error;
-            $estado = "error";
-        }
+        $errores[] = "Las contraseñas no coinciden.";
     }
-} else {
-    $mensaje = "Acceso no permitido.";
-    $estado = "error";
+
+    // 🚨 Validar documento y teléfono que no sean negativos ni letras
+    if (!ctype_digit($documento) || intval($documento) < 0) {
+        $errores[] = "El número de documento no puede ser negativo ni contener letras.";
+    }
+    if (!ctype_digit($telefono) || intval($telefono) < 0) {
+        $errores[] = "El número de teléfono no puede ser negativo ni contener letras.";
+    }
+
+    // Validar correo duplicado
+    $stmt = $conn->prepare("SELECT 1 FROM usuarios WHERE Email = ?");
+    if ($stmt) {
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        if ($res && $res->num_rows > 0) {
+            $errores[] = "El correo ya está registrado.";
+        }
+        $stmt->close();
+    }
+
+    // Validar documento duplicado
+    $stmt = $conn->prepare("SELECT 1 FROM usuarios WHERE N_Documento = ?");
+    if ($stmt) {
+        $stmt->bind_param("s", $documento);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        if ($res && $res->num_rows > 0) {
+            $errores[] = "El número de documento ya está registrado.";
+        }
+        $stmt->close();
+    }
+
+    // Si hay errores, devolverlos
+    if (!empty($errores)) {
+        return [
+            "estado" => "error",
+            "mensaje" => implode("<br>", $errores)
+        ];
+    }
+
+    // Hash de contraseña
+    $contrasena_hash = password_hash($contrasena, PASSWORD_BCRYPT);
+    $rol = 'Usuario';
+
+    // Insertar usuario
+    $stmt = $conn->prepare("
+        INSERT INTO usuarios (
+            nombre, apellido, N_Telefono, T_Documento, N_Documento, Email, Contraseña, Rol
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    ");
+
+    if (!$stmt) {
+        return [
+            "estado" => "error",
+            "mensaje" => "Error al preparar consulta: " . $conn->error
+        ];
+    }
+
+    $stmt->bind_param("ssssssss", 
+        $nombre, $apellidos, $telefono, $tipo_doc, $documento, $email, $contrasena_hash, $rol
+    );
+
+    if ($stmt->execute()) {
+        $id_usuario_nuevo = $conn->insert_id;
+        $stmt->close();
+
+        // Registrar historial si hay usuario en sesión
+        if ($usuario_id > 0) {
+            $descripcion = "Se registró el usuario $nombre $apellidos con documento $documento.";
+            registrar_historial($conn, $usuario_id, 'Registro de usuario', $descripcion);
+        }
+
+        return [
+            "estado" => "success",
+            "mensaje" => "Usuario registrado correctamente."
+        ];
+    } else {
+        $error = $stmt->error;
+        $stmt->close();
+        return [
+            "estado" => "error",
+            "mensaje" => "Error al registrar usuario: " . $error
+        ];
+    }
 }
-?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Registro Usuario</title>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-</head>
-<body>
-<script>
-    Swal.fire({
-        icon: '<?= $estado ?>',
-        title: '<?= ($estado === "success") ? "Éxito" : "Error" ?>',
-        text: '<?= $mensaje ?>',
-        confirmButtonText: 'OK'
-    }).then(() => {
-        <?php if ($estado === "success") : ?>
-            window.location.href = "../index.php?page=components/principales/welcome";
-        <?php else : ?>
-            window.history.back();
-        <?php endif; ?>
-    });
-</script>
-</body>
-</html>
