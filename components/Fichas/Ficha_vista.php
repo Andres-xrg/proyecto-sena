@@ -1,16 +1,22 @@
 <?php
 require_once __DIR__ . '/../../db/conexion.php';
 require_once __DIR__ . '/../../functions/functions_porcentaje_competencia.php';
+require_once __DIR__ . '/../../functions/autenticacion_login.php';
 if (session_status() === PHP_SESSION_NONE) session_start();
 
-$id_ficha = $_GET['id'] ?? null;
+// Habilitar mostrar errores para depuración
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Leer el parámetro id_ficha (aceptar “id” o “id_ficha”)
+$id_ficha = $_GET['id_ficha'] ?? ($_GET['id'] ?? null);
 
 if (!$id_ficha || !is_numeric($id_ficha)) {
-    echo "<p style='color:red;'> No se ha especificado una ficha válida.</p>";
+    echo "<p style='color:red; font-weight:bold;'>⚠️ La ficha seleccionada no es válida.</p>";
     exit;
 }
 
-// Obtener ficha con nombre del programa
+// Obtener datos de la ficha
 $sql = "SELECT f.*, p.nombre_programa 
         FROM fichas f
         JOIN programas_formacion p ON f.Id_programa = p.Id_programa
@@ -21,11 +27,11 @@ $stmt->execute();
 $ficha = $stmt->get_result()->fetch_assoc();
 
 if (!$ficha) {
-    echo "<p style='color:red;'> No se encontró la ficha con ID $id_ficha.</p>";
+    echo "<p style='color:red; font-weight:bold;'>❌ No se encontró ninguna ficha registrada con el ID <b>$id_ficha</b>.</p>";
     exit;
 }
 
-// Obtener aprendices
+// Obtener aprendices de esa ficha
 $sql_aprendices = "
     SELECT a.*
     FROM ficha_aprendiz fa
@@ -47,13 +53,13 @@ $aprendices = $stmt2->get_result();
     <link rel="stylesheet" href="assets/css/fichas.css">
     <link rel="stylesheet" href="assets/css/header.css">
     <link rel="stylesheet" href="assets/css/footer.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://kit.fontawesome.com/your-kit-code.js" crossorigin="anonymous"></script>
 </head>
 <body>
 <div class="container">
     <div class="main-card">
         <h1 class="header-title">Ficha N° <?= htmlspecialchars($ficha['numero_ficha']) ?></h1>
-
         <div class="form-controls">
             <div class="form-group">
                 <label>Programa:</label>
@@ -68,7 +74,7 @@ $aprendices = $stmt2->get_result();
                     <input type="text" placeholder="Buscar..." id="searchInput">
                 </div>
             </div>
-            
+
             <div class="form-group">
                 <?php if (isset($_SESSION['usuario']) && strtolower($_SESSION['usuario']['rol']) === 'administrador'): ?>
                     <form class="update-form" action="functions/functions_actualizar_juicios.php" method="POST" enctype="multipart/form-data">
@@ -85,7 +91,6 @@ $aprendices = $stmt2->get_result();
         </div>
 
         <h2 class="header-title">Aprendices</h2>
-
         <div class="students-list">
             <?php 
             $documentos_vistos = [];
@@ -102,7 +107,7 @@ $aprendices = $stmt2->get_result();
 
                 $badge_color = 'badge-gray';
                 if ($estado === 'en formación') $badge_color = 'badge-green';
-                elseif ($estado === 'trasladado' || 'TRASLADADO') $badge_color = 'badge-blue';
+                elseif ($estado === 'trasladado' || $estado === 'TRASLADADO') $badge_color = 'badge-blue';
                 elseif ($estado === 'desertado') $badge_color = 'badge-red';
 
                 $datos = obtener_porcentaje_aprobadas($a['N_Documento']);
@@ -158,6 +163,60 @@ $aprendices = $stmt2->get_result();
         </div>
     </div>
 </div>
-</body>
+
+<?php if (isset($_GET['success'])): ?>
+    <?php 
+    $succ = $_GET['success'];
+    if ($succ == '1' || $succ === 'ficha-creada' || $succ === 'juicios-actualizados'):
+        if ($succ === 'ficha-creada'):
+            $title = "¡Ficha creada correctamente!";
+            $text  = "La ficha y sus aprendices se han registrado con éxito.";
+        else:
+            $title = "¡Juicios actualizados!";
+            $text  = "Los juicios se han actualizado correctamente.";
+        endif;
+    ?>
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                icon: 'success',
+                title: <?= json_encode($title) ?>,
+                text: <?= json_encode($text) ?>,
+                timer: 1500,              //  Dura 1 segundo y medio
+                showConfirmButton: false,  
+                timerProgressBar: true    
+            }).then(() => {
+                if (window.history.replaceState) {
+                    const url = new URL(window.location.href);
+                    url.searchParams.delete('success');
+                    window.history.replaceState({}, document.title, url.toString());
+                }
+            });
+        });
+        </script>
+    <?php endif; ?>
+<?php endif; ?>
+
 <script src="/proyecto-sena/assets/js/fichas.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const forms = document.querySelectorAll(".update-form");
+    forms.forEach(function(form) {
+        form.addEventListener("submit", function(e) {
+            Swal.fire({
+                title: 'Actualizando juicios...',
+                text: 'Por favor espera mientras procesamos la información.',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+        });
+    });
+});
+</script>
+
+</body>
 </html>
