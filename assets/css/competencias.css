@@ -80,6 +80,7 @@ body {
   background-color: rgba(0, 0, 0, 0.5);
 }
 .modal-contenido {
+  position: relative;
   background-color: #fefefe;
   margin: 5% auto;
   padding: 2rem;
@@ -89,12 +90,16 @@ body {
   box-shadow: 0 0 0.9375rem rgba(0, 0, 0, 0.3);
 }
 .cerrar-modal {
-  color: #aaa;
+  position: sticky;
+  top: 10px;   /* siempre 10px desde el top visible */
   float: right;
+  right: 15px;
+  color: #aaa;
   font-size: 28px;
   font-weight: bold;
   cursor: pointer;
   transition: color 0.2s ease;
+  z-index: 50; /* por encima de los demás elementos */
 }
 .cerrar-modal:hover,
 .cerrar-modal:focus {
@@ -478,6 +483,20 @@ body {
   font-weight: 500;
   color: #333; /* Cambiado de #ffffff a #333 */
 }
+/* ---- Limitar modal y evitar desbordamiento interno ---- */
+.modal-contenido {
+  max-height: calc(100vh - 80px); /* no dejar que el modal crezca fuera de la ventana */
+  overflow-y: auto;               /* si el modal tiene mucho contenido, que aparezca scroll en el modal */
+  -webkit-overflow-scrolling: touch;
+  box-sizing: border-box;
+  padding: 1rem; /* si ya tienes padding diferente, ajusta */
+}
+
+/* Wrapper del historial */
+.historial-wrapper {
+  margin-top: 0.5rem;
+}
+
 /* === MODO OSCURO GENERAL === */
 body.dark {
   background-color: #121212;
