@@ -23,10 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $resultado = $verificar->get_result();
 
     if ($resultado->num_rows > 0) {
-        echo "<script>
-            alert('❌ El número de ficha $numero_ficha ya está registrado.');
-            window.history.back();
-        </script>";
+        header("Location: /proyecto-sena/index.php?page=components/registros/registro_fichas&error=ficha-repetida");
         exit;
     }
 
@@ -109,23 +106,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     }
                 }
             } catch (Exception $e) {
-                echo "<script>
-                    alert('❌ Error al procesar el archivo Excel: " . $e->getMessage() . "');
-                    window.history.back();
-                </script>";
+                header("Location: /proyecto-sena/index.php?page=components/registros/registro_fichas&error=excel");
                 exit;
             }
         }
 
-        // ✅ Mostrar alerta y redirigir (sin header)
-        echo "<script>
-            alert('✅ Ficha $numero_ficha creada correctamente');
-            window.location.href = '/proyecto-sena/index.php?page=components/programas/registro_programa&success=programa-creado';
-        </script>";
-        exit;
+        // Redirigir a la vista de la ficha
+        header("Location: /proyecto-sena/index.php?page=components/Fichas/Ficha_vista&id_ficha=$id_ficha_insertada&success=ficha-creada");
+        exit();
 
     } else {
-        echo "<p style='color:red;'>❌ Error al registrar ficha: " . $stmt->error . "</p>";
+        header("Location: /proyecto-sena/index.php?page=components/registros/registro_fichas&error=insertar-ficha");
+        exit;
     }
 
     $stmt->close();
