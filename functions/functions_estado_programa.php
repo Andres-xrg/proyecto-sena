@@ -10,13 +10,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bind_param("si", $nuevo_estado, $id);
 
         if ($stmt->execute()) {
-            header("Location: ../index.php?page=components/principales/programas_formacion&creado=1");
+            if ($nuevo_estado === 'activo') {
+                header("Location: ../index.php?page=components/principales/programas_formacion&habilitado=1");
+            } else {
+                header("Location: ../index.php?page=components/principales/programas_formacion&deshabilitado=1");
+            }
         } else {
-            header("Location: ../index.php?page=components/principales/programas_formacion&creado=0");
+            header("Location: ../index.php?page=components/principales/programas_formacion&error=1");
         }
         $stmt->close();
     } else {
-        header("Location: ../index.php?page=components/principales/programas_formacion&creado=0");
+        header("Location: ../index.php?page=components/principales/programas_formacion&error=1");
     }
     $conn->close();
 }
